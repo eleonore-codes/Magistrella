@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Magistrella · L03 · Die Pläne der Verbrecher</title>
 <style>
 :root{
@@ -22,13 +22,15 @@
 html,body{margin:0;padding:0;}
 body{
   min-height:100vh;
-  font-family:Georgia,'Times New Roman',serif;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;
   background:
     radial-gradient(circle at 20% 10%, rgba(201,168,76,0.08), transparent 40%),
     radial-gradient(circle at 85% 80%, rgba(192,82,43,0.08), transparent 45%),
     repeating-linear-gradient(135deg, rgba(255,255,255,0.015) 0 2px, transparent 2px 40px),
     linear-gradient(160deg, var(--ink), var(--parchment) 60%, var(--parchment-2));
   color:var(--text);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
 }
 #app{max-width:560px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;padding:14px 14px 30px;}
@@ -70,7 +72,7 @@ header{padding:6px 2px 14px;}
 button.btn{
   display:block;width:100%;padding:14px;border:none;border-radius:12px;
   background:linear-gradient(160deg,var(--gold-light),var(--gold-dark));
-  color:#1A1208;font-family:Georgia,serif;font-size:1rem;font-weight:bold;
+  color:#1A1208;font-family:inherit;font-size:1rem;font-weight:bold;
   letter-spacing:0.5px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.35);
   margin-top:10px;
 }
@@ -87,12 +89,12 @@ button.btn.secondary{
 .q-sentence .blank{
   display:inline-block;min-width:60px;border-bottom:2px solid var(--terra);color:var(--terra);padding:0 4px;
 }
-.q-sentence .word-token{cursor:pointer;padding:2px 4px;border-radius:6px;}
+.q-sentence .word-token{cursor:pointer;padding:3px 5px;border-radius:6px;border:0;background:transparent;color:inherit;font:inherit;}
 .q-sentence .word-token:hover{background:rgba(201,168,76,0.15);}
 .opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px;}
 .opt-btn{
   padding:13px 8px;border-radius:12px;border:1px solid rgba(201,168,76,0.35);
-  background:rgba(0,0,0,0.25);color:var(--text);font-family:Georgia,serif;font-size:0.92rem;
+  background:rgba(0,0,0,0.25);color:var(--text);font-family:inherit;font-size:1rem;
   cursor:pointer;text-align:center;
 }
 .opt-btn:active{background:rgba(201,168,76,0.15);}
@@ -100,7 +102,7 @@ button.btn.secondary{
 .opt-btn.wrong{background:rgba(161,60,46,0.35);border-color:var(--bad);color:#f3cfc7;}
 
 .tf-row{display:flex;gap:10px;margin-top:6px;}
-.tf-btn{flex:1;padding:14px;border-radius:12px;border:1px solid rgba(201,168,76,0.35);background:rgba(0,0,0,0.25);color:var(--text);font-family:Georgia,serif;font-size:1rem;cursor:pointer;}
+.tf-btn{flex:1;padding:14px;border-radius:12px;border:1px solid rgba(201,168,76,0.35);background:rgba(0,0,0,0.25);color:var(--text);font-family:inherit;font-size:1rem;cursor:pointer;}
 .tf-btn.true{border-color:var(--ok);}
 .tf-btn.false{border-color:var(--bad);}
 
@@ -156,6 +158,13 @@ button.btn.secondary{
 .confetti{position:fixed;top:-10px;width:8px;height:14px;z-index:999;pointer-events:none;border-radius:2px;}
 
 footer.nav{margin-top:auto;padding-top:10px;text-align:center;color:var(--text-dim);font-size:0.68rem;letter-spacing:1px;}
+
+button:focus-visible,a:focus-visible,.word-token:focus-visible{
+  outline:3px solid #FFF1A8;outline-offset:3px;
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important;}
+}
 </style>
 </head>
 <body>
@@ -176,7 +185,7 @@ const LEKTION = {
       {lat:"rēctē", info:"Adv.", de:"richtig, zu Recht"},
       {lat:"verbum", info:"verbum n", de:"das Wort, die Äußerung"},
       {lat:"certē", info:"Adv.", de:"gewiss, sicherlich"}
-    ], newRules:[] },
+    ], newRules:["PARARE_INF"] },
     { name:"Block 2", vocab:[
       {lat:"monēre", info:"moneō", de:"mahnen, ermahnen"},
       {lat:"quīn?", info:"im Hauptsatz", de:"warum nicht?"},
@@ -206,8 +215,8 @@ const LEKTION = {
     ], newRules:["PROPTER"] }
   ],
   rules:{
-    APUD:{title:"apud + Akkusativ", text:"apud regiert den Akkusativ und bedeutet „bei“ (bei einer Person). Beispiel: apud amīcōs = bei den Freunden."},
-    IN_AKK:{title:"in + Akkusativ", text:"Steht nach in ein Akkusativ, heißt es „in … hinein“ (Richtung) oder „gegen“ (feindlich). Beispiel: in tabernam = in den Laden hinein; in senātōrem = gegen den Senator."},
+    APUD:{title:"apud + Akkusativ", text:"apud verlangt den Akkusativ und bedeutet hier „bei“. Beispiel: apud amīcōs = bei den Freunden."},
+    IN_AKK:{title:"in + Akkusativ", text:"in + Akkusativ kann hier eine Richtung („in … hinein“) oder „gegen“ ausdrücken. Beispiele: in tabernam = in den Laden hinein; in senātōrem = gegen den Senator."},
     PROPTER:{title:"propter + Akkusativ", text:"propter regiert den Akkusativ und bedeutet „wegen“. Beispiel: propter audāciam = wegen der Frechheit."},
     PARARE_INF:{title:"parāre + Infinitiv", text:"parāre kann mit einem Infinitiv stehen: „vorhaben, zu …“ / „sich bereit machen, zu …“. Beispiel: Equōs spectāre parō. = Ich habe vor, die Pferde anzuschauen."}
   },
@@ -232,7 +241,7 @@ const LEKTION = {
 <script>
 /* ================= ENGINE ================= */
 (function(){
-const AFFIRM = ["Ita!","Optime!","Magnifice!","Brava!","Perfectum!"];
+const AFFIRM = ["Ita!","Optime!","Magnifice!","Recte!","Perfectum!"];
 const app = document.getElementById('app');
 
 const state = {
@@ -270,6 +279,7 @@ function sentencesUpTo(blockIdx){
 
 /* ---------- Confetti ---------- */
 function confetti(big){
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const colors = ['#C9A84C','#E8C96A','#C0522B','#8B6914'];
   const n = big ? 60 : 22;
   for(let i=0;i<n;i++){
@@ -345,6 +355,13 @@ function genSpotlight(sentPool, ruleId){
   const idx = tokens.findIndex(t => t.toLowerCase()===s.gapWord.toLowerCase());
   return {type:'spotlight', tokens, targetIdx:idx, prompt:'Tippe auf die Präposition.', sentenceDe:s.de, showRule:s.rule||null};
 }
+
+function genRuleExample(sentPool, ruleId){
+  const candidates = sentPool.filter(s=>s.rule===ruleId);
+  if(!candidates.length) return null;
+  const s=pickOne(candidates);
+  return {type:'ruleExample', sentence:s.lat, sentenceDe:s.de, showRule:ruleId};
+}
 function genPuzzle(sentPool){
   const candidates = sentPool.filter(s=>s.puzzle);
   if(!candidates.length) return null;
@@ -362,7 +379,9 @@ function buildBlockQueue(blockIdx){
   let q = [];
 
   (blockDef.newRules||[]).forEach((ruleId, i)=>{
-    const item = (i%2===0) ? genGapFromRule(sentPool, pool, ruleId) : genSpotlight(sentPool, ruleId);
+    let item;
+    if(ruleId==='PARARE_INF') item=genRuleExample(sentPool, ruleId);
+    else item=(i%2===0) ? genGapFromRule(sentPool, pool, ruleId) : genSpotlight(sentPool, ruleId);
     if(item) q.push(item);
   });
 
@@ -389,7 +408,10 @@ function buildFinalQueue(){
   const p1 = genPuzzle(sentPool); if(p1) q.push(p1);
   const p2 = genPuzzle(sentPool); if(p2) q.push(p2);
   Object.keys(LEKTION.rules).forEach((rid,i)=>{
-    if(i%2===0){ const g = genGapFromRule(sentPool, pool, rid); if(g) q.push(g); }
+    let item;
+    if(rid==='PARARE_INF') item=genRuleExample(sentPool,rid);
+    else item=(i%2===0)?genGapFromRule(sentPool,pool,rid):genSpotlight(sentPool,rid);
+    if(item) q.push(item);
   });
   return shuffle(q);
 }
@@ -412,7 +434,7 @@ function headerHtml(){
   }
   return '<header>'+
     '<div class="h-top"><div class="h-title">'+LEKTION.title+'<small>'+LEKTION.subtitle+'</small></div>'+
-    '<a class="h-home" href="../index.html">🏛️</a></div>'+
+    '<a class="h-home" href="../index.html" aria-label="Zurück zur Übersicht">🏛️</a></div>'+
     '<div class="dots">'+dots+'</div>'+
     '<div class="progress-track"><div class="progress-fill" style="width:'+pct+'%"></div></div>'+
     '</header>';
@@ -467,9 +489,9 @@ function renderQuiz(){
     const des = shuffle(q.items.map((it,i)=>({i,txt:it.de})));
     inner = '<div class="q-label">Finde die Paare</div>'+
       '<div class="match-grid"><div class="match-col" id="matchLat">'+
-      lats.map(x=>'<div class="match-item" data-i="'+x.i+'" data-side="lat">'+x.txt+'</div>').join('')+
+      lats.map(x=>'<button type="button" class="match-item" data-i="'+x.i+'" data-side="lat">'+x.txt+'</button>').join('')+
       '</div><div class="match-col" id="matchDe">'+
-      des.map(x=>'<div class="match-item" data-i="'+x.i+'" data-side="de">'+x.txt+'</div>').join('')+
+      des.map(x=>'<button type="button" class="match-item" data-i="'+x.i+'" data-side="de">'+x.txt+'</button>').join('')+
       '</div></div>';
   } else if(q.type==='gap'){
     inner = '<div class="q-label">Ergänze den Satz</div>'+
@@ -478,10 +500,15 @@ function renderQuiz(){
       '<div class="opt-grid">'+q.options.map((o,i)=>'<button class="opt-btn" data-i="'+i+'">'+o+'</button>').join('')+'</div>';
   } else if(q.type==='spotlight'){
     inner = '<div class="q-label">'+q.prompt+'</div>'+
-      '<div class="q-sentence">'+q.tokens.map((t,i)=>'<span class="word-token" data-i="'+i+'">'+t+'</span>').join(' ')+'</div>'+
+      '<div class="q-sentence">'+q.tokens.map((t,i)=>'<button type="button" class="word-token" data-i="'+i+'">'+t+'</button>').join(' ')+'</div>'+
       '<div class="q-info">„'+q.sentenceDe+'"</div>';
+  } else if(q.type==='ruleExample'){
+    inner = '<div class="q-label">Neue Konstruktion</div>'+
+      '<div class="q-sentence">'+q.sentence+'</div>'+
+      '<div class="q-info">„'+q.sentenceDe+'“</div>'+
+      '<button class="btn" id="ruleUnderstoodBtn">Regel anzeigen</button>';
   } else if(q.type==='puzzle'){
-    inner = '<div class="q-label">Baue den Satz (Subjekt zuerst) — tippe ein gelegtes Wort an, um es zurückzunehmen</div>'+
+    inner = '<div class="q-label">Baue den vollständigen Satz in der richtigen Reihenfolge — tippe ein gelegtes Wort an, um es zurückzunehmen</div>'+
       '<div class="puzzle-target" id="puzTarget"></div>'+
       '<div class="puzzle-bank" id="puzBank"></div>'+
       '<div style="display:flex;gap:10px;margin-top:12px;">'+
@@ -517,7 +544,7 @@ function showFeedback(isCorrect){
   const q = state.queue[state.qIdx];
   const fb = document.getElementById('fb');
   fb.className = 'feedback ' + (isCorrect?'ok':'bad');
-  fb.textContent = isCorrect ? affirm() : 'Nochmal anschauen — '+affirm().replace('!','')+' klappt gleich.';
+  fb.textContent = isCorrect ? affirm() : 'Noch nicht richtig. Schau dir die Lösung und die Regel noch einmal an.';
   if(q.showRule){
     const rc = document.getElementById('ruleContainer');
     if(rc){
@@ -597,6 +624,19 @@ function attachHandlers(){
 
   if(state.phase!=='quiz') return;
   const q = state.queue[state.qIdx];
+
+  if(q.type==='ruleExample'){
+    const rb=document.getElementById('ruleUnderstoodBtn');
+    if(rb){
+      rb.onclick=()=>{
+        if(state.answered)return;
+        state.answered=true;
+        markStreak(true);
+        showFeedback(true);
+        rb.style.display='none';
+      };
+    }
+  }
 
   if(q.type==='quickQuiz' || q.type==='gap'){
     document.querySelectorAll('.opt-btn').forEach(btn=>{
@@ -694,8 +734,8 @@ function attachHandlers(){
     const order = shuffle(q.full.map((w,i)=>i));
     let placed = [];
     function draw(){
-      bank.innerHTML = order.filter(i=>!placed.includes(i)).map(i=>'<span class="tok" data-i="'+i+'">'+q.full[i]+'</span>').join('');
-      target.innerHTML = placed.map((i,pos)=>'<span class="tok" data-pos="'+pos+'">'+q.full[i]+'</span>').join('');
+      bank.innerHTML = order.filter(i=>!placed.includes(i)).map(i=>'<button type="button" class="tok" data-i="'+i+'">'+q.full[i]+'</button>').join('');
+      target.innerHTML = placed.map((i,pos)=>'<button type="button" class="tok" data-pos="'+pos+'">'+q.full[i]+'</button>').join('');
       checkBtn.style.display = (!state.answered && placed.length===q.full.length) ? 'block' : 'none';
       if(state.answered) return;
       bank.querySelectorAll('.tok').forEach(el=>{
@@ -717,7 +757,7 @@ function attachHandlers(){
     checkBtn.onclick = ()=>{
       if(state.answered || placed.length!==q.full.length) return;
       state.answered = true;
-      const isCorrect = q.full[placed[0]] === q.subject;
+      const isCorrect = placed.length===q.full.length && placed.every((tokenIndex,pos)=>tokenIndex===pos);
       markStreak(isCorrect);
       showFeedback(isCorrect);
       checkBtn.style.display = 'none';
