@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Magistrella · L07 · Äneas flieht aus Troja</title>
+<style>
+:root{
+  --gold:#C9A84C;
+  --gold-light:#E8C96A;
+  --gold-dark:#8B6914;
+  --terra:#C0522B;
+  --ink:#1A1208;
+  --parchment:#241a0f;
+  --parchment-2:#2e2113;
+  --text:#EFE3C4;
+  --text-dim:#c9b98f;
+  --ok:#5c8a4a;
+  --bad:#a13c2e;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;}
+body{
+  min-height:100vh;
+  font-family:Georgia,'Times New Roman',serif;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(201,168,76,0.08), transparent 40%),
+    radial-gradient(circle at 85% 80%, rgba(192,82,43,0.08), transparent 45%),
+    repeating-linear-gradient(135deg, rgba(255,255,255,0.015) 0 2px, transparent 2px 40px),
+    linear-gradient(160deg, var(--ink), var(--parchment) 60%, var(--parchment-2));
+  color:var(--text);
+  overflow-x:hidden;
+}
+#app{max-width:560px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;padding:14px 14px 30px;}
+
+header{padding:6px 2px 14px;}
+.h-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.h-title{font-size:1.05rem;color:var(--gold-light);letter-spacing:0.5px;}
+.h-title small{display:block;font-size:0.7rem;color:var(--text-dim);font-weight:normal;letter-spacing:1px;text-transform:uppercase;}
+.h-home{color:var(--text-dim);text-decoration:none;font-size:1.3rem;border:1px solid var(--gold-dark);border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;}
+.dots{display:flex;gap:6px;justify-content:center;margin-bottom:10px;}
+.dot{width:9px;height:9px;border-radius:50%;background:rgba(201,168,76,0.25);border:1px solid var(--gold-dark);transition:.3s;}
+.dot.active{background:var(--gold);box-shadow:0 0 8px var(--gold);}
+.dot.done{background:var(--terra);border-color:var(--terra);}
+.progress-track{height:6px;border-radius:4px;background:rgba(0,0,0,0.4);overflow:hidden;border:1px solid rgba(201,168,76,0.2);}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--terra),var(--gold));width:0%;transition:width .4s ease;}
+
+.card{
+  background:linear-gradient(160deg, rgba(255,255,255,0.04), rgba(0,0,0,0.15));
+  border:1px solid rgba(201,168,76,0.35);
+  border-radius:16px;
+  padding:18px 16px;
+  margin-bottom:14px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.35), inset 0 0 30px rgba(201,168,76,0.03);
+}
+.vocab-intro{text-align:center;margin-bottom:16px;}
+.vocab-intro h2{color:var(--gold-light);font-size:1.2rem;margin:0 0 4px;}
+.vocab-intro p{color:var(--text-dim);font-size:0.85rem;margin:0;}
+.vocab-card{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:12px 14px;margin-bottom:8px;
+  background:rgba(0,0,0,0.22);border:1px solid rgba(201,168,76,0.25);border-radius:12px;
+}
+.vocab-lat{color:var(--gold-light);font-size:1.05rem;}
+.vocab-info{display:block;color:var(--text-dim);font-size:0.72rem;font-style:italic;margin-top:2px;}
+.vocab-de{color:var(--text);font-size:0.92rem;text-align:right;max-width:55%;}
+
+button.btn{
+  display:block;width:100%;padding:14px;border:none;border-radius:12px;
+  background:linear-gradient(160deg,var(--gold-light),var(--gold-dark));
+  color:#1A1208;font-family:Georgia,serif;font-size:1rem;font-weight:bold;
+  letter-spacing:0.5px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.35);
+  margin-top:10px;
+}
+button.btn:active{transform:translateY(1px);}
+button.btn.secondary{
+  background:transparent;border:1px solid var(--gold-dark);color:var(--gold-light);
+}
+
+.q-label{color:var(--text-dim);font-size:0.78rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;text-align:center;}
+.q-main{text-align:center;color:var(--gold-light);font-size:1.35rem;margin:6px 0 4px;}
+.q-info{text-align:center;color:var(--text-dim);font-size:0.78rem;font-style:italic;margin-bottom:14px;}
+.q-sentence{text-align:center;color:var(--gold-light);font-size:1.15rem;line-height:1.7;margin:8px 0 16px;}
+.q-sentence .blank{
+  display:inline-block;min-width:60px;border-bottom:2px solid var(--terra);color:var(--terra);padding:0 4px;
+}
+.q-sentence .word-token{cursor:pointer;padding:2px 4px;border-radius:6px;}
+.q-sentence .word-token:hover{background:rgba(201,168,76,0.15);}
+.opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px;}
+.opt-btn{
+  padding:13px 8px;border-radius:12px;border:1px solid rgba(201,168,76,0.35);
+  background:rgba(0,0,0,0.25);color:var(--text);font-family:Georgia,serif;font-size:0.92rem;
+  cursor:pointer;text-align:center;
+}
+.opt-btn:active{background:rgba(201,168,76,0.15);}
+.opt-btn.correct{background:rgba(92,138,74,0.35);border-color:var(--ok);color:#d7ecc9;}
+.opt-btn.wrong{background:rgba(161,60,46,0.35);border-color:var(--bad);color:#f3cfc7;}
+
+.tf-row{display:flex;gap:10px;margin-top:6px;}
+.tf-btn{flex:1;padding:14px;border-radius:12px;border:1px solid rgba(201,168,76,0.35);background:rgba(0,0,0,0.25);color:var(--text);font-family:Georgia,serif;font-size:1rem;cursor:pointer;}
+.tf-btn.true{border-color:var(--ok);}
+.tf-btn.false{border-color:var(--bad);}
+
+.swipe-wrap{position:relative;height:150px;margin:10px 0 4px;display:flex;align-items:center;justify-content:center;}
+.swipe-card{
+  position:absolute;width:88%;max-width:340px;padding:22px 16px;border-radius:16px;text-align:center;
+  background:linear-gradient(160deg, rgba(255,255,255,0.06), rgba(0,0,0,0.2));
+  border:1px solid rgba(201,168,76,0.4);box-shadow:0 8px 20px rgba(0,0,0,0.4);
+  touch-action:none;cursor:grab;user-select:none;
+}
+.swipe-card .sw-lat{color:var(--gold-light);font-size:1.25rem;display:block;margin-bottom:6px;}
+.swipe-card .sw-de{color:var(--text);font-size:0.95rem;}
+.swipe-hint{display:flex;justify-content:space-between;font-size:0.72rem;color:var(--text-dim);margin-top:6px;padding:0 6px;}
+
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:6px;}
+.match-col{display:flex;flex-direction:column;gap:8px;}
+.match-item{
+  padding:12px 8px;border-radius:10px;border:1px solid rgba(201,168,76,0.3);
+  background:rgba(0,0,0,0.22);color:var(--text);text-align:center;cursor:pointer;font-size:0.9rem;
+}
+.match-item.sel{border-color:var(--gold-light);background:rgba(201,168,76,0.22);}
+.match-item.matched{border-color:var(--ok);background:rgba(92,138,74,0.28);opacity:0.7;cursor:default;}
+.match-item.wrongflash{border-color:var(--bad);background:rgba(161,60,46,0.28);}
+
+.rule-card{
+  margin-top:14px;padding:14px;border-radius:12px;background:rgba(192,82,43,0.12);
+  border:1px solid var(--terra);
+}
+.rule-card .rt{color:var(--terra);font-weight:bold;font-size:0.9rem;margin-bottom:4px;}
+.rule-card .rx{color:var(--text);font-size:0.85rem;line-height:1.5;}
+
+.feedback{
+  text-align:center;font-size:1.1rem;margin-top:14px;padding:12px;border-radius:12px;min-height:1.2em;
+}
+.feedback.ok{color:#d7ecc9;background:rgba(92,138,74,0.2);border:1px solid var(--ok);}
+.feedback.bad{color:#f3cfc7;background:rgba(161,60,46,0.2);border:1px solid var(--bad);}
+
+.puzzle-target{min-height:56px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:10px;border:2px dashed rgba(201,168,76,0.3);border-radius:12px;margin-bottom:14px;}
+.puzzle-target .tok{background:rgba(201,168,76,0.18);border:1px solid var(--gold);color:var(--gold-light);padding:8px 10px;border-radius:8px;font-size:1rem;cursor:pointer;}
+.puzzle-target .tok:after{content:' \2715';font-size:0.7em;opacity:0.6;margin-left:4px;}
+.puzzle-target .tok:active{background:rgba(161,60,46,0.28);border-color:var(--bad);}
+.puzzle-bank{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
+.puzzle-bank .tok{background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.35);color:var(--text);padding:8px 10px;border-radius:8px;font-size:1rem;cursor:pointer;}
+.puzzle-bank .tok:active{background:rgba(201,168,76,0.15);}
+
+.end-wrap{text-align:center;padding:30px 10px;}
+.end-wrap h2{color:var(--gold-light);font-size:1.4rem;}
+.end-score{font-size:2.2rem;color:var(--gold);margin:10px 0;}
+.affirm{font-size:1.15rem;color:var(--terra);margin:14px 0;font-style:italic;}
+
+.confetti{position:fixed;top:-10px;width:8px;height:14px;z-index:999;pointer-events:none;border-radius:2px;}
+
+footer.nav{margin-top:auto;padding-top:10px;text-align:center;color:var(--text-dim);font-size:0.68rem;letter-spacing:1px;}
+</style></head>
+<body>
+<div id="app"></div>
+<script>
+/* ================= DATA ================= */
+const LEKTION = {
+  id:"L07", title:"Äneas flieht aus Troja", subtitle:"Lektion 7",
+  blocks:[
+    { name:"Block 1", vocab:[
+      {lat:"surgere", info:"surgō", de:"aufstehen, sich erheben"},
+      {lat:"capere", info:"capiō", de:"nehmen, ergreifen, fangen, fassen"},
+      {lat:"aedēs", info:"aedium f Pl.", de:"das Haus, das Gebäude"},
+      {lat:"aspicere", info:"aspiciō", de:"erblicken, ansehen"},
+      {lat:"māter", info:"mātris f", de:"die Mutter"},
+      {lat:"ōrāre", info:"ōrō", de:"bitten, beten"},
+      {lat:"dea", info:"deae f", de:"die Göttin"},
+      {lat:"currere", info:"currō", de:"laufen, eilen"}
+    ], newRules:[] },
+    { name:"Block 2", vocab:[
+      {lat:"agere", info:"agō", de:"handeln, treiben, verhandeln"},
+      {lat:"familia", info:"familiae f", de:"die Familie, die Hausgemeinschaft"},
+      {lat:"cōnsulere", info:"cōnsulō", de:"sorgen für"},
+      {lat:"senex", info:"senis m, m. Dat.", de:"der Greis, der alte Mann"},
+      {lat:"cupere", info:"cupiō", de:"wollen, wünschen, verlangen"},
+      {lat:"facere", info:"faciō", de:"machen, tun, handeln"},
+      {lat:"igitur", info:"Adv.", de:"also, folglich"},
+      {lat:"mēcum", info:"~ cum mē", de:"mit mir"},
+      {lat:"placēre", info:"placeō", de:"gefallen"},
+      {lat:"vōbīs", info:"Dat.", de:"euch"},
+      {lat:"mittere", info:"mittō", de:"schicken, werfen"},
+      {lat:"vīvere", info:"vīvō", de:"leben"}
+    ], newRules:["DATIV"] },
+    { name:"Block 3", vocab:[
+      {lat:"patēre", info:"pateō", de:"offen stehen, sich erstrecken"},
+      {lat:"dare", info:"dō", de:"geben"},
+      {lat:"gens", info:"gentis f, Gen. Pl. -ium", de:"der Stamm, die Familie, das Volk"},
+      {lat:"prīmō", info:"Adv.", de:"zuerst"},
+      {lat:"lībēre", info:"libeō (m. Akk.)", de:"befehlen, anordnen"},
+      {lat:"grātia", info:"grātiae f", de:"das Ansehen, die Beliebtheit, der Dank"},
+      {lat:"signum", info:"signī n", de:"das Zeichen, das Merkmal"},
+      {lat:"prō", info:"Präp. m. Abl.", de:"vor, anstelle von, für"},
+      {lat:"grātiās agere", info:"grātiās agō", de:"danken"},
+      {lat:"prō amīcō dīcere", info:"", de:"für den Freund sprechen"},
+      {lat:"prō aedificiō stāre", info:"", de:"vor dem Gebäude stehen"},
+      {lat:"Aenēas", info:"Aenēae m", de:"Äneas (trojanischer Held, Stammvater der Römer)"},
+      {lat:"Anchīsēs", info:"Anchīsae m", de:"Anchises (der Vater des Äneas)"},
+      {lat:"Creūsa", info:"Creūsae f", de:"Kreusa (die Frau des Äneas)"},
+      {lat:"Graecī", info:"Graecōrum m Pl.", de:"die Griechen"},
+      {lat:"Iūlus", info:"Iūlī m", de:"Julius (der Sohn des Äneas)"},
+      {lat:"Troia", info:"Troiae f", de:"Troja (Stadt in Kleinasien)"},
+      {lat:"Troiānī", info:"Troiānōrum m Pl.", de:"die Trojaner"},
+      {lat:"Venus", info:"Veneris f", de:"Venus (die Göttin der Liebe)"}
+    ], newRules:["PRO_ABL"] }
+  ],
+  rules:{
+    DATIV:{title:"Der Dativ", text:"Der Dativ steht oft bei Verben wie placēre (gefallen) oder cōnsulere (sorgen für) und bedeutet „jemandem/für jemanden“. Beispiele: Cōnsilium patrī nōn placet. = Der Plan gefällt dem Vater nicht. familiae cōnsulere = für die Familie sorgen. Via vōbīs patet. = Der Weg steht euch offen."},
+    PRO_ABL:{title:"prō + Ablativ", text:"prō regiert den Ablativ und bedeutet „für, anstelle von, vor“. Beispiele: prō amīcō dīcere = für den Freund sprechen; prō aedificiō stāre = vor dem Gebäude stehen."}
+  },
+  // aus prima. Foto
+  sentences:[
+    {lat:"Quid agere dēbeō?", de:"Was muss ich tun?", block:2, puzzle:false},
+    {lat:"Bēstiās dē forō agō.", de:"Ich treibe die Tiere vom Forum.", block:2, puzzle:false},
+    {lat:"Familiae cōnsulere.", de:"Für die Familie sorgen.", block:2, puzzle:false, gapWord:"Familiae", rule:"DATIV", distractorTag:null},
+    {lat:"Uxōrem servāre cupiō.", de:"Ich will meine Frau retten.", block:2, puzzle:false},
+    {lat:"Templum facere.", de:"Ich baue einen Tempel.", block:2, puzzle:false},
+    {lat:"Iniūriam faciō.", de:"Ich begehe ein Unrecht.", block:2, puzzle:false},
+    {lat:"Cōnsilium patrī nōn placet.", de:"Der Plan gefällt dem Vater nicht.", block:2, puzzle:true, gapWord:"patrī", rule:"DATIV", distractorTag:null},
+    {lat:"Līberōs gerere.", de:"Die Kinder tragen.", block:1, puzzle:false},
+    {lat:"Via vōbīs patet.", de:"Der Weg steht euch offen.", block:3, puzzle:true, gapWord:"vōbīs", rule:"DATIV", distractorTag:null},
+    {lat:"Grātiās agere.", de:"Danken.", block:3, puzzle:false},
+    {lat:"Prō amīcō dīcere.", de:"Für den Freund sprechen.", block:3, puzzle:false, gapWord:"Prō", rule:"PRO_ABL"},
+    {lat:"Prō aedificiō stāre.", de:"Vor dem Gebäude stehen.", block:3, puzzle:false, gapWord:"Prō", rule:"PRO_ABL"},
+    {lat:"Aenēas uxōrem servāre nōn potest.", de:"Äneas kann seine Frau nicht retten.", block:3, puzzle:true}
+  ]
+};
+</script>
+<script>
+/* ================= ENGINE ================= */
+(function(){
+const AFFIRM = ["Ita!","Optime!","Magnifice!","Brava!","Perfectum!"];
+const app = document.getElementById('app');
+
+const state = {
+  blockIdx: 0,
+  phase: 'vocab',        // vocab | quiz | end
+  queue: [],
+  qIdx: 0,
+  correct: 0,
+  total: 0,
+  streak: 0,
+  answered: false
+};
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+function pick(arr, n){ return shuffle(arr).slice(0, n); }
+function pickOne(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function affirm(){ return AFFIRM[Math.floor(Math.random()*AFFIRM.length)]; }
+function stripPunct(s){ return s.replace(/[.,!?]/g,''); }
+
+function cumulativePool(blockIdx){
+  let pool = [];
+  for(let i=0;i<=blockIdx;i++){ pool = pool.concat(LEKTION.blocks[i].vocab); }
+  return pool;
+}
+function sentencesUpTo(blockIdx){
+  return LEKTION.sentences.filter(s => s.block <= blockIdx+1);
+}
+
+/* ---------- Confetti ---------- */
+function confetti(big){
+  const colors = ['#C9A84C','#E8C96A','#C0522B','#8B6914'];
+  const n = big ? 60 : 22;
+  for(let i=0;i<n;i++){
+    const el = document.createElement('div');
+    el.className = 'confetti';
+    el.style.left = Math.random()*100+'vw';
+    el.style.background = colors[Math.floor(Math.random()*colors.length)];
+    el.style.transform = 'rotate('+(Math.random()*360)+'deg)';
+    const dur = 1.6 + Math.random()*1.4;
+    el.style.transition = 'transform '+dur+'s linear, top '+dur+'s cubic-bezier(.2,.6,.8,1)';
+    document.body.appendChild(el);
+    requestAnimationFrame(()=>{
+      el.style.top = (100+Math.random()*10)+'vh';
+      el.style.transform += ' rotate('+(360+Math.random()*360)+'deg)';
+    });
+    setTimeout(()=>el.remove(), dur*1000+200);
+  }
+}
+
+/* ---------- Question generators ---------- */
+function genQuickQuiz(pool){
+  const word = pickOne(pool);
+  const distractors = pick(pool.filter(w=>w.de!==word.de), Math.min(3,pool.length-1)).map(w=>w.de);
+  while(distractors.length<3 && pool.length>1){ distractors.push(pickOne(pool).de); }
+  const options = shuffle([word.de, ...distractors.slice(0,3)]);
+  return {type:'quickQuiz', lat:word.lat, info:word.info, correct:word.de, options, showRule:null};
+}
+function genTrueFalse(pool, asSwipe){
+  const word = pickOne(pool);
+  const isTrue = Math.random()<0.5;
+  let shown = word.de;
+  if(!isTrue){
+    const other = pickOne(pool.filter(w=>w.de!==word.de));
+    if(other) shown = other.de;
+  }
+  return {type: asSwipe?'swipe':'trueFalse', lat:word.lat, shownDe:shown, answer:isTrue, showRule:null};
+}
+function genMatch(pool){
+  const items = pick(pool, Math.min(4, pool.length));
+  return {type:'match', items, showRule:null};
+}
+function genGapFromRule(sentPool, pool, ruleId){
+  let candidates = sentPool.filter(s => s.gapWord && s.rule===ruleId);
+  if(!candidates.length) candidates = sentPool.filter(s=>s.gapWord);
+  if(!candidates.length) return null;
+  const s = pickOne(candidates);
+  const target = s.gapWord;
+  const tokens = stripPunct(s.lat).split(' ');
+  const idx = tokens.findIndex(t => t.toLowerCase()===target.toLowerCase());
+  const normLat = (l) => l.split('/')[0].trim();
+  const tag = s.distractorTag===undefined ? 'Präp' : s.distractorTag;
+  const tagPool = tag ? pool.filter(w => w.info && w.info.indexOf(tag)>=0 && w.lat.indexOf('/')<0 && normLat(w.lat).toLowerCase()!==target.toLowerCase()) : [];
+  let distractors = pick(tagPool, 3).map(w=>normLat(w.lat));
+  if(distractors.length<3){
+    const rest = pick(pool.filter(w=>w.lat.toLowerCase()!==target.toLowerCase()), 3-distractors.length).map(w=>w.lat);
+    distractors = distractors.concat(rest);
+  }
+  distractors = [...new Set(distractors)].filter(d=>d.toLowerCase()!==target.toLowerCase()).slice(0,3);
+  while(distractors.length<3){
+    const filler = pickOne(pool.filter(w=>w.lat.toLowerCase()!==target.toLowerCase() && !distractors.includes(w.lat)));
+    if(!filler) break;
+    distractors.push(filler.lat);
+  }
+  const options = shuffle([target, ...distractors]);
+  const display = tokens.map((t,i)=> i===idx ? '___' : t).join(' ');
+  return {type:'gap', sentenceDisplay:display, sentenceDe:s.de, correct:target, options, showRule:s.rule||null};
+}
+function genSpotlight(sentPool, ruleId){
+  let candidates = sentPool.filter(s => s.gapWord && (!ruleId || s.rule===ruleId));
+  if(!candidates.length) candidates = sentPool.filter(s=>s.gapWord);
+  if(!candidates.length) return null;
+  const s = pickOne(candidates);
+  const tokens = stripPunct(s.lat).split(' ');
+  const idx = tokens.findIndex(t => t.toLowerCase()===s.gapWord.toLowerCase());
+  return {type:'spotlight', tokens, targetIdx:idx, prompt:'Tippe auf die Präposition.', sentenceDe:s.de, showRule:s.rule||null};
+}
+function genPuzzle(sentPool){
+  const candidates = sentPool.filter(s=>s.puzzle);
+  if(!candidates.length) return null;
+  const s = pickOne(candidates);
+  const tokens = stripPunct(s.lat).split(' ');
+  const subject = tokens[0];
+  const rest = tokens.slice(1);
+  return {type:'puzzle', subject, rest, full:tokens, de:s.de, showRule:null};
+}
+
+function buildBlockQueue(blockIdx){
+  const pool = cumulativePool(blockIdx);
+  const sentPool = sentencesUpTo(blockIdx);
+  const blockDef = LEKTION.blocks[blockIdx];
+  let q = [];
+
+  (blockDef.newRules||[]).forEach((ruleId, i)=>{
+    const item = (i%2===0) ? genGapFromRule(sentPool, pool, ruleId) : genSpotlight(sentPool, ruleId);
+    if(item) q.push(item);
+  });
+
+  q.push(genMatch(pool));
+  q.push(genQuickQuiz(pool));
+  q.push(genQuickQuiz(pool));
+  q.push(genTrueFalse(pool, blockIdx%2===0));
+  const puzzle = genPuzzle(sentPool);
+  if(puzzle) q.push(puzzle);
+  q.push(genTrueFalse(pool, blockIdx%2!==0));
+
+  return shuffle(q);
+}
+function buildFinalQueue(){
+  const blockIdx = LEKTION.blocks.length-1;
+  const pool = cumulativePool(blockIdx);
+  const sentPool = sentencesUpTo(blockIdx);
+  let q = [];
+  q.push(genMatch(pool));
+  q.push(genQuickQuiz(pool));
+  q.push(genQuickQuiz(pool));
+  q.push(genTrueFalse(pool,false));
+  q.push(genTrueFalse(pool,true));
+  const p1 = genPuzzle(sentPool); if(p1) q.push(p1);
+  const p2 = genPuzzle(sentPool); if(p2) q.push(p2);
+  Object.keys(LEKTION.rules).forEach((rid,i)=>{
+    if(i%2===0){ const g = genGapFromRule(sentPool, pool, rid); if(g) q.push(g); }
+  });
+  return shuffle(q);
+}
+
+/* ---------- Rendering ---------- */
+function headerHtml(){
+  const totalBlocks = LEKTION.blocks.length;
+  const dots = LEKTION.blocks.map((b,i)=>{
+    let cls='dot';
+    if(i<state.blockIdx || state.phase==='end') cls+=' done';
+    else if(i===state.blockIdx) cls+=' active';
+    return '<div class="'+cls+'"></div>';
+  }).join('');
+  let pct = 0;
+  if(state.phase==='end') pct=100;
+  else {
+    const blockShare = 100/totalBlocks;
+    const withinBlock = state.phase==='quiz' && state.queue.length ? (state.qIdx/state.queue.length) : 0;
+    pct = state.blockIdx*blockShare + withinBlock*blockShare;
+  }
+  return '<header>'+
+    '<div class="h-top"><div class="h-title">'+LEKTION.title+'<small>'+LEKTION.subtitle+'</small></div>'+
+    '<a class="h-home" href="../index.html">🏛️</a></div>'+
+    '<div class="dots">'+dots+'</div>'+
+    '<div class="progress-track"><div class="progress-fill" style="width:'+pct+'%"></div></div>'+
+    '</header>';
+}
+
+function render(){
+  let body = '';
+  if(state.phase==='vocab') body = renderVocab();
+  else if(state.phase==='quiz') body = renderQuiz();
+  else body = renderEnd();
+  app.innerHTML = headerHtml() + body + '<footer class="nav">Magistrella · '+LEKTION.id+'</footer>';
+  attachHandlers();
+}
+
+function renderVocab(){
+  const b = LEKTION.blocks[state.blockIdx];
+  const cards = b.vocab.map(v=>
+    '<div class="vocab-card"><div><span class="vocab-lat">'+v.lat+'</span>'+
+    (v.info?('<span class="vocab-info">'+v.info+'</span>'):'')+'</div>'+
+    '<div class="vocab-de">'+v.de+'</div></div>'
+  ).join('');
+  return '<div class="card">'+
+    '<div class="vocab-intro"><h2>'+b.name+'</h2><p>Präg dir diese Wörter ein, dann geht’s zu den Übungen.</p></div>'+
+    cards+
+    '<button class="btn" id="startQuizBtn">Weiter zu den Übungen</button>'+
+    '</div>';
+}
+
+function renderQuiz(){
+  const q = state.queue[state.qIdx];
+  let inner = '';
+  if(q.type==='quickQuiz'){
+    inner = '<div class="q-label">Was bedeutet …?</div>'+
+      '<div class="q-main">'+q.lat+'</div>'+
+      (q.info?('<div class="q-info">'+q.info+'</div>'):'')+
+      '<div class="opt-grid">'+q.options.map((o,i)=>'<button class="opt-btn" data-i="'+i+'">'+o+'</button>').join('')+'</div>';
+  } else if(q.type==='trueFalse'){
+    inner = '<div class="q-label">Stimmt das?</div>'+
+      '<div class="q-main">'+q.lat+'</div>'+
+      '<div class="q-info">bedeutet: „'+q.shownDe+'"</div>'+
+      '<div class="tf-row"><button class="tf-btn true" data-v="true">Richtig</button>'+
+      '<button class="tf-btn false" data-v="false">Falsch</button></div>';
+  } else if(q.type==='swipe'){
+    inner = '<div class="q-label">Wische oder tippe</div>'+
+      '<div class="swipe-wrap"><div class="swipe-card" id="swCard">'+
+      '<span class="sw-lat">'+q.lat+'</span><span class="sw-de">„'+q.shownDe+'"</span></div></div>'+
+      '<div class="swipe-hint"><span>⟵ Falsch</span><span>Richtig ⟶</span></div>'+
+      '<div class="tf-row"><button class="tf-btn false" data-v="false">Falsch</button>'+
+      '<button class="tf-btn true" data-v="true">Richtig</button></div>';
+  } else if(q.type==='match'){
+    const lats = shuffle(q.items.map((it,i)=>({i,txt:it.lat})));
+    const des = shuffle(q.items.map((it,i)=>({i,txt:it.de})));
+    inner = '<div class="q-label">Finde die Paare</div>'+
+      '<div class="match-grid"><div class="match-col" id="matchLat">'+
+      lats.map(x=>'<div class="match-item" data-i="'+x.i+'" data-side="lat">'+x.txt+'</div>').join('')+
+      '</div><div class="match-col" id="matchDe">'+
+      des.map(x=>'<div class="match-item" data-i="'+x.i+'" data-side="de">'+x.txt+'</div>').join('')+
+      '</div></div>';
+  } else if(q.type==='gap'){
+    inner = '<div class="q-label">Ergänze den Satz</div>'+
+      '<div class="q-sentence">'+q.sentenceDisplay+'</div>'+
+      '<div class="q-info">„'+q.sentenceDe+'"</div>'+
+      '<div class="opt-grid">'+q.options.map((o,i)=>'<button class="opt-btn" data-i="'+i+'">'+o+'</button>').join('')+'</div>';
+  } else if(q.type==='spotlight'){
+    inner = '<div class="q-label">'+q.prompt+'</div>'+
+      '<div class="q-sentence">'+q.tokens.map((t,i)=>'<span class="word-token" data-i="'+i+'">'+t+'</span>').join(' ')+'</div>'+
+      '<div class="q-info">„'+q.sentenceDe+'"</div>';
+  } else if(q.type==='puzzle'){
+    inner = '<div class="q-label">Baue den Satz (Subjekt zuerst) — tippe ein gelegtes Wort an, um es zurückzunehmen</div>'+
+      '<div class="puzzle-target" id="puzTarget"></div>'+
+      '<div class="puzzle-bank" id="puzBank"></div>'+
+      '<div style="display:flex;gap:10px;margin-top:12px;">'+
+      '<button class="btn secondary" id="puzReset" style="margin-top:0;flex:1;">Zurücksetzen</button>'+
+      '<button class="btn" id="puzCheck" style="margin-top:0;flex:1;display:none;">Prüfen</button>'+
+      '</div>'+
+      '<div class="q-info" style="margin-top:10px;">„'+q.de+'"</div>';
+  }
+  return '<div class="card">'+inner+'<div class="feedback" id="fb"></div><div id="ruleContainer"></div>'+
+    '<button class="btn secondary" id="nextBtn" style="display:none;">Weiter</button></div>';
+}
+
+function renderEnd(){
+  const pct = state.total ? Math.round(100*state.correct/state.total) : 100;
+  const isLast = state.blockIdx >= LEKTION.blocks.length-1;
+  return '<div class="card end-wrap">'+
+    '<h2>'+LEKTION.title+' geschafft!</h2>'+
+    '<div class="end-score">'+state.correct+' / '+state.total+'</div>'+
+    '<div class="affirm">'+affirm()+'</div>'+
+    '<p style="color:var(--text-dim);font-size:0.85rem;">Du hast '+pct+'% richtig beantwortet.</p>'+
+    '<button class="btn" id="restartBtn">Nochmal üben</button>'+
+    '<a class="btn secondary" href="../index.html" style="text-decoration:none;display:block;">Zurück zur Übersicht</a>'+
+    '</div>';
+}
+
+/* ---------- Interaction ---------- */
+function markStreak(isCorrect){
+  state.total++;
+  if(isCorrect){ state.correct++; state.streak++; if(state.streak%3===0) confetti(false); }
+  else { state.streak = 0; }
+}
+function showFeedback(isCorrect){
+  const q = state.queue[state.qIdx];
+  const fb = document.getElementById('fb');
+  fb.className = 'feedback ' + (isCorrect?'ok':'bad');
+  fb.textContent = isCorrect ? affirm() : 'Nochmal anschauen — '+affirm().replace('!','')+' klappt gleich.';
+  if(q.showRule){
+    const rc = document.getElementById('ruleContainer');
+    if(rc){
+      rc.innerHTML = '<div class="rule-card"><div class="rt">'+LEKTION.rules[q.showRule].title+'</div><div class="rx">'+LEKTION.rules[q.showRule].text+'</div></div>';
+    }
+  }
+  const nb = document.getElementById('nextBtn');
+  if(nb) nb.style.display = 'block';
+}
+function nextQuestion(){
+  state.qIdx++;
+  state.answered = false;
+  if(state.qIdx >= state.queue.length){
+    if(state.blockIdx < LEKTION.blocks.length-1){
+      state.blockIdx++;
+      state.phase = 'vocab';
+    } else if(state.queue.__final){
+      state.phase = 'end';
+      confetti(true);
+    } else {
+      const fq = buildFinalQueue();
+      fq.__final = true;
+      state.queue = fq;
+      state.qIdx = 0;
+      state.phase = 'quiz';
+    }
+  }
+  render();
+}
+
+function attachSwipeDrag(card, onResolve){
+  let startX=0, dx=0, dragging=false;
+  const onDown = (e)=>{ if(state.answered) return; dragging=true; startX=(e.touches?e.touches[0].clientX:e.clientX); card.style.transition='none'; };
+  const onMove = (e)=>{ if(!dragging) return; const x=(e.touches?e.touches[0].clientX:e.clientX); dx=x-startX; card.style.transform='translateX('+dx+'px) rotate('+(dx/15)+'deg)'; };
+  const onUp = ()=>{
+    if(!dragging) return; dragging=false; card.style.transition='transform .3s';
+    if(Math.abs(dx)>70 && !state.answered){
+      const guess = dx>0;
+      card.style.transform='translateX('+(dx>0?400:-400)+'px) rotate('+(dx/8)+'deg)';
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+      onResolve(guess);
+    } else {
+      card.style.transform='translateX(0) rotate(0)';
+    }
+    dx=0;
+  };
+  card.addEventListener('mousedown', onDown);
+  card.addEventListener('touchstart', onDown, {passive:true});
+  card.addEventListener('touchmove', onMove, {passive:true});
+  card.addEventListener('touchend', onUp);
+  document.addEventListener('mousemove', onMove);
+  document.addEventListener('mouseup', onUp);
+}
+
+function attachHandlers(){
+  const startBtn = document.getElementById('startQuizBtn');
+  if(startBtn){
+    startBtn.onclick = ()=>{
+      state.queue = buildBlockQueue(state.blockIdx);
+      state.qIdx = 0;
+      state.answered = false;
+      state.phase = 'quiz';
+      render();
+    };
+  }
+  const restartBtn = document.getElementById('restartBtn');
+  if(restartBtn){
+    restartBtn.onclick = ()=>{
+      state.blockIdx=0; state.phase='vocab'; state.queue=[]; state.qIdx=0;
+      state.correct=0; state.total=0; state.streak=0; state.answered=false;
+      render();
+    };
+  }
+  const nextBtn = document.getElementById('nextBtn');
+  if(nextBtn){ nextBtn.onclick = nextQuestion; }
+
+  if(state.phase!=='quiz') return;
+  const q = state.queue[state.qIdx];
+
+  if(q.type==='quickQuiz' || q.type==='gap'){
+    document.querySelectorAll('.opt-btn').forEach(btn=>{
+      btn.onclick = ()=>{
+        if(state.answered) return; state.answered = true;
+        const val = btn.textContent;
+        const isCorrect = val === q.correct;
+        document.querySelectorAll('.opt-btn').forEach(b=>{
+          if(b.textContent===q.correct) b.classList.add('correct');
+          else if(b===btn) b.classList.add('wrong');
+        });
+        markStreak(isCorrect);
+        showFeedback(isCorrect);
+      };
+    });
+  }
+  if(q.type==='trueFalse' || q.type==='swipe'){
+    document.querySelectorAll('.tf-btn').forEach(btn=>{
+      btn.onclick = ()=>{
+        if(state.answered) return; state.answered = true;
+        const val = btn.getAttribute('data-v')==='true';
+        const isCorrect = val === q.answer;
+        markStreak(isCorrect);
+        showFeedback(isCorrect);
+      };
+    });
+    if(q.type==='swipe'){
+      const card = document.getElementById('swCard');
+      attachSwipeDrag(card, (guess)=>{
+        state.answered = true;
+        const isCorrect = guess === q.answer;
+        markStreak(isCorrect);
+        showFeedback(isCorrect);
+      });
+    }
+  }
+  if(q.type==='match'){
+    let selLat=null, selDe=null, matchedCount=0;
+    const total = q.items.length;
+    document.querySelectorAll('.match-item').forEach(el=>{
+      el.onclick = ()=>{
+        if(el.classList.contains('matched')) return;
+        const side = el.getAttribute('data-side');
+        const idx = el.getAttribute('data-i');
+        if(side==='lat'){
+          document.querySelectorAll('[data-side="lat"]').forEach(e=>e.classList.remove('sel'));
+          el.classList.add('sel'); selLat = {idx, el};
+        } else {
+          document.querySelectorAll('[data-side="de"]').forEach(e=>e.classList.remove('sel'));
+          el.classList.add('sel'); selDe = {idx, el};
+        }
+        if(selLat && selDe){
+          if(selLat.idx === selDe.idx){
+            selLat.el.classList.remove('sel'); selDe.el.classList.remove('sel');
+            selLat.el.classList.add('matched'); selDe.el.classList.add('matched');
+            matchedCount++;
+            selLat=null; selDe=null;
+            if(matchedCount===total){
+              markStreak(true);
+              showFeedback(true);
+            }
+          } else {
+            selLat.el.classList.add('wrongflash'); selDe.el.classList.add('wrongflash');
+            setTimeout(()=>{
+              selLat.el.classList.remove('sel','wrongflash');
+              selDe.el.classList.remove('sel','wrongflash');
+              selLat=null; selDe=null;
+            }, 500);
+          }
+        }
+      };
+    });
+  }
+  if(q.type==='spotlight'){
+    document.querySelectorAll('.word-token').forEach(el=>{
+      el.onclick = ()=>{
+        if(state.answered) return; state.answered = true;
+        const i = parseInt(el.getAttribute('data-i'));
+        const isCorrect = i === q.targetIdx;
+        document.querySelectorAll('.word-token').forEach(t=>{
+          const ti = parseInt(t.getAttribute('data-i'));
+          if(ti===q.targetIdx) t.style.color='var(--ok)';
+          else if(t===el) t.style.color='var(--bad)';
+        });
+        markStreak(isCorrect);
+        showFeedback(isCorrect);
+      };
+    });
+  }
+  if(q.type==='puzzle'){
+    const bank = document.getElementById('puzBank');
+    const target = document.getElementById('puzTarget');
+    const checkBtn = document.getElementById('puzCheck');
+    const resetBtn = document.getElementById('puzReset');
+    const order = shuffle(q.full.map((w,i)=>i));
+    let placed = [];
+    function draw(){
+      bank.innerHTML = order.filter(i=>!placed.includes(i)).map(i=>'<span class="tok" data-i="'+i+'">'+q.full[i]+'</span>').join('');
+      target.innerHTML = placed.map((i,pos)=>'<span class="tok" data-pos="'+pos+'">'+q.full[i]+'</span>').join('');
+      checkBtn.style.display = (!state.answered && placed.length===q.full.length) ? 'block' : 'none';
+      if(state.answered) return;
+      bank.querySelectorAll('.tok').forEach(el=>{
+        el.onclick = ()=>{
+          if(state.answered) return;
+          placed.push(parseInt(el.getAttribute('data-i')));
+          draw();
+        };
+      });
+      target.querySelectorAll('.tok').forEach(el=>{
+        el.onclick = ()=>{
+          if(state.answered) return;
+          const pos = parseInt(el.getAttribute('data-pos'));
+          placed.splice(pos,1);
+          draw();
+        };
+      });
+    }
+    checkBtn.onclick = ()=>{
+      if(state.answered || placed.length!==q.full.length) return;
+      state.answered = true;
+      const isCorrect = q.full[placed[0]] === q.subject;
+      markStreak(isCorrect);
+      showFeedback(isCorrect);
+      checkBtn.style.display = 'none';
+      resetBtn.style.display = 'none';
+    };
+    resetBtn.onclick = ()=>{
+      if(state.answered) return;
+      placed = [];
+      draw();
+    };
+    draw();
+  }
+}
+
+/* init */
+render();
+})();
+
+</script>
+</body>
+</html>
