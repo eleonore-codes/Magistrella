@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>L02 · Möhren weisen den Weg · Magistrella</title>
+<style>
+  :root{--gold:#C9A84C;--gold-light:#E8C96A;--gold-dark:#8B6914;--terracotta:#C0522B;--ink:#1A1208;--ink-mid:#2A1F0E;--parchment:#F5EDD6;--parchment-dark:#E8D9B5;--stone:#7A6E5A;--green-ok:#4CAF7D;--red-wrong:#E05050;--white:#FDFAF3;}
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  body{font-family:'Georgia',serif;background:var(--ink);color:var(--parchment);min-height:100vh;}
+  .topbar{position:sticky;top:0;z-index:100;background:rgba(26,18,8,0.95);backdrop-filter:blur(8px);border-bottom:1px solid rgba(201,168,76,0.2);padding:10px 16px;display:flex;align-items:center;gap:12px;}
+  .back-btn{color:var(--gold);text-decoration:none;font-size:20px;padding:4px 8px 4px 0;}
+  .topbar-info{flex:1;}.topbar-title{font-size:14px;font-style:italic;color:var(--gold-light);}.topbar-sub{font-size:11px;color:var(--stone);letter-spacing:1px;}.topbar-progress{font-size:13px;color:var(--gold);font-weight:700;min-width:48px;text-align:right;}
+  .rule-card{margin:16px;background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(201,168,76,0.04));border:1px solid rgba(201,168,76,0.3);border-radius:16px;padding:16px;position:relative;overflow:hidden;}
+  .rule-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold-dark),var(--gold-light),var(--gold-dark));}
+  .rule-title{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+  .rule-body{font-size:13px;color:var(--parchment-dark);line-height:1.7;}
+  .rule-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:12px;}
+  .rule-table th{background:rgba(201,168,76,0.15);color:var(--gold-light);padding:5px 8px;text-align:left;font-size:11px;font-weight:700;}
+  .rule-table td{padding:5px 8px;border-bottom:1px solid rgba(201,168,76,0.1);color:var(--parchment);}
+  .rule-table tr:last-child td{border-bottom:none;}
+  .rule-highlight{color:var(--gold-light);font-weight:700;}
+  .vocab-block{margin:12px 16px;background:rgba(0,0,0,0.2);border:1px solid rgba(201,168,76,0.15);border-radius:12px;overflow:hidden;}
+  .vocab-block-title{background:rgba(201,168,76,0.1);padding:8px 12px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);}
+  .vocab-row{display:flex;padding:7px 12px;border-bottom:1px solid rgba(201,168,76,0.08);align-items:baseline;gap:8px;}
+  .vocab-row:last-child{border-bottom:none;}
+  .vocab-lat{font-size:14px;font-style:italic;color:var(--white);min-width:120px;flex-shrink:0;}
+  .vocab-gen{font-size:11px;color:var(--gold);min-width:70px;flex-shrink:0;}
+  .vocab-de{font-size:13px;color:var(--parchment-dark);flex:1;}
+  .question-card{margin:0 16px 16px;background:var(--ink-mid);border:1px solid rgba(201,168,76,0.15);border-radius:20px;padding:20px;animation:slideUp 0.3s ease;}
+  @keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  .q-theme{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+  .q-type-badge{display:inline-block;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:99px;padding:3px 10px;font-size:11px;color:var(--gold-light);margin-bottom:12px;}
+  .q-prompt{font-size:15px;color:var(--parchment);line-height:1.5;margin-bottom:14px;font-style:italic;}
+  .q-sentence{font-size:17px;color:var(--white);text-align:center;margin-bottom:16px;line-height:1.5;padding:12px;background:rgba(0,0,0,0.2);border-radius:12px;font-style:italic;}
+  .gap-options{display:flex;flex-direction:column;gap:10px;}
+  .gap-btn{background:rgba(255,255,255,0.04);border:1.5px solid rgba(201,168,76,0.25);border-radius:14px;padding:13px 15px;font-size:16px;font-family:'Georgia',serif;color:var(--parchment);cursor:pointer;text-align:left;transition:all 0.18s;display:flex;align-items:center;gap:10px;}
+  .gap-btn:active{transform:scale(0.97);}
+  .gap-btn.correct{background:rgba(76,175,125,0.15);border-color:var(--green-ok);color:var(--green-ok);}
+  .gap-btn.wrong{background:rgba(224,80,80,0.12);border-color:var(--red-wrong);color:var(--red-wrong);}
+  .gap-btn-letter{width:26px;height:26px;background:rgba(201,168,76,0.15);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--gold);flex-shrink:0;}
+  .tf-options{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .tf-btn{padding:16px;border-radius:16px;font-size:24px;text-align:center;border:2px solid rgba(201,168,76,0.2);background:rgba(255,255,255,0.03);cursor:pointer;transition:all 0.18s;}
+  .tf-btn:active{transform:scale(0.95);}
+  .tf-btn.correct{background:rgba(76,175,125,0.15);border-color:var(--green-ok);}
+  .tf-btn.wrong{background:rgba(224,80,80,0.12);border-color:var(--red-wrong);}
+  .match-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .match-col-labels{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px;}
+  .match-col-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-align:center;}
+  .match-item{background:rgba(255,255,255,0.04);border:1.5px solid rgba(201,168,76,0.2);border-radius:12px;padding:9px;font-size:13px;font-family:'Georgia',serif;color:var(--parchment);cursor:pointer;text-align:center;transition:all 0.18s;font-style:italic;min-height:42px;display:flex;align-items:center;justify-content:center;}
+  .match-item.selected{background:rgba(201,168,76,0.2);border-color:var(--gold);color:var(--gold-light);}
+  .match-item.matched{background:rgba(76,175,125,0.15);border-color:var(--green-ok);color:var(--green-ok);pointer-events:none;}
+  .match-item.wrong{background:rgba(224,80,80,0.12);border-color:var(--red-wrong);}
+  .match-item:active{transform:scale(0.96);}
+  .puzzle-target{min-height:50px;background:rgba(201,168,76,0.06);border:1.5px dashed rgba(201,168,76,0.35);border-radius:12px;padding:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:8px;}
+  .puzzle-source{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:12px;}
+  .tile{background:rgba(201,168,76,0.12);border:1.5px solid rgba(201,168,76,0.4);border-radius:10px;padding:7px 12px;font-size:14px;font-family:'Georgia',serif;color:var(--parchment);cursor:pointer;transition:all 0.15s;font-style:italic;}
+  .tile:active{transform:scale(0.93);}
+  .tile.used{opacity:0.25;pointer-events:none;}
+  .tile.placed{background:rgba(201,168,76,0.18);border-color:var(--gold);}
+  .swipe-card{background:linear-gradient(135deg,rgba(201,168,76,0.1),rgba(201,168,76,0.03));border:1.5px solid rgba(201,168,76,0.25);border-radius:20px;padding:22px 18px;text-align:center;margin-bottom:14px;font-size:17px;font-style:italic;color:var(--white);line-height:1.6;}
+  .swipe-buttons{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .swipe-btn{padding:14px;border-radius:16px;font-size:22px;border:2px solid;cursor:pointer;transition:all 0.18s;}
+  .swipe-btn.left{border-color:var(--red-wrong);background:rgba(224,80,80,0.08);}
+  .swipe-btn.right{border-color:var(--green-ok);background:rgba(76,175,125,0.08);}
+  .swipe-btn:active{transform:scale(0.95);}
+  .spotlight-sentence{font-size:18px;text-align:center;font-style:italic;color:var(--white);margin-bottom:16px;padding:14px;background:rgba(0,0,0,0.2);border-radius:12px;line-height:1.7;}
+  .spotlight-word{background:rgba(201,168,76,0.25);border:1.5px solid var(--gold);border-radius:6px;padding:2px 7px;color:var(--gold-light);font-style:normal;font-weight:700;}
+  .quiz-timer{text-align:center;margin-bottom:12px;}
+  .quiz-timer-bar-wrap{background:rgba(255,255,255,0.08);border-radius:99px;height:6px;overflow:hidden;margin-top:5px;}
+  .quiz-timer-bar{height:100%;background:linear-gradient(90deg,var(--gold-dark),var(--gold-light));border-radius:99px;transition:width 1s linear;}
+  .quiz-timer-num{font-size:13px;color:var(--gold);}
+  .feedback{margin-top:14px;padding:14px;border-radius:14px;font-size:14px;line-height:1.5;display:none;}
+  .feedback.correct{display:block;background:rgba(76,175,125,0.12);border:1px solid rgba(76,175,125,0.3);color:#7FD8A8;}
+  .feedback.wrong{display:block;background:rgba(224,80,80,0.08);border:1px solid rgba(224,80,80,0.25);color:#F0A0A0;}
+  .feedback-affirmation{font-size:15px;font-weight:700;margin-bottom:6px;}
+  .next-btn{width:100%;background:linear-gradient(135deg,var(--gold-dark),var(--gold));border:none;border-radius:14px;padding:15px;font-size:15px;font-family:'Georgia',serif;color:var(--ink);font-weight:700;cursor:pointer;margin-top:12px;letter-spacing:1px;display:none;transition:all 0.2s;}
+  .next-btn:active{transform:scale(0.98);}
+  .next-btn.visible{display:block;}
+  .check-btn{width:100%;background:rgba(201,168,76,0.15);border:1.5px solid rgba(201,168,76,0.4);border-radius:14px;padding:13px;font-size:15px;font-family:'Georgia',serif;color:var(--gold-light);cursor:pointer;margin-top:8px;transition:all 0.18s;}
+  .check-btn:active{background:rgba(201,168,76,0.25);}
+  .section-header{margin:16px 16px 0;padding:12px 14px;background:rgba(201,168,76,0.08);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;}
+  .section-header h2{font-size:16px;color:var(--gold-light);font-style:italic;}
+  .section-header p{font-size:11px;color:var(--stone);margin-top:2px;}
+  .completion{display:none;text-align:center;padding:40px 24px;}
+  .completion.visible{display:block;}
+  .completion-emoji{font-size:68px;margin-bottom:16px;animation:bounce 0.6s ease infinite alternate;}
+  @keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-12px)}}
+  .completion-title{font-size:26px;color:var(--gold-light);font-style:italic;margin-bottom:8px;}
+  .completion-score{font-size:44px;font-weight:700;color:var(--gold);margin:14px 0;}
+  .completion-stars{font-size:34px;margin-bottom:20px;letter-spacing:8px;}
+  .completion-msg{font-size:15px;color:var(--parchment-dark);line-height:1.6;font-style:italic;margin-bottom:28px;}
+  .home-btn{display:inline-block;background:linear-gradient(135deg,var(--gold-dark),var(--gold));border-radius:14px;padding:14px 28px;font-size:15px;font-family:'Georgia',serif;color:var(--ink);font-weight:700;text-decoration:none;}
+  .confetti-container{position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden;}
+  .confetti-piece{position:absolute;border-radius:2px;animation:confettiFall linear forwards;}
+  @keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a class="back-btn" href="../index.html">&#8592;</a>
+  <div class="topbar-info">
+    <div class="topbar-title">L02 &middot; M&ouml;hren weisen den Weg</div>
+    <div class="topbar-sub">&#127963; Magistrella &middot; prima.</div>
+  </div>
+  <div class="topbar-progress" id="progressLabel">1/15</div>
+</div>
+<div id="mainContent"></div>
+<div class="completion" id="completionScreen">
+  <div class="completion-emoji">&#129365;</div>
+  <div class="completion-title">Lektion abgeschlossen!</div>
+  <div class="completion-score" id="finalScore">--</div>
+  <div class="completion-stars" id="finalStars">&#11088;&#11088;&#11088;</div>
+  <div class="completion-msg" id="finalMsg"></div>
+  <a class="home-btn" href="../index.html">&#8592; Zur&uuml;ck zur &Uuml;bersicht</a>
+</div>
+<div class="confetti-container" id="confettiContainer"></div>
+<script>
+"use strict";
+
+// ═══════════════════════════════════════════════════
+// VOKABELPOOL — prima. L02, direkt aus Fotos
+// ═══════════════════════════════════════════════════
+var POOL = [
+  // Block 1
+  { lat: "ad",                gen: "Pr\u00e4p. m. Akk.", de: "zu, bei, nach",              type: "praep" },
+  { lat: "proper\u0101re",    gen: "properat",           de: "eilen, sich beeilen",         type: "verb" },
+  { lat: "forum",             gen: "forum n",            de: "das Forum, der Marktplatz",   type: "nomen" },
+  { lat: "circus",            gen: "circum m",           de: "der Zirkus, die Rennbahn",    type: "nomen" },
+  { lat: "di\u016B",          gen: "Adv.",               de: "lange, lange Zeit",           type: "adv" },
+  // Block 2
+  { lat: "am\u012Bcus",       gen: "am\u012Bcum m",      de: "der Freund",                  type: "nomen" },
+  { lat: "am\u012Bca",        gen: "am\u012Bcam f",      de: "die Freundin",                type: "nomen" },
+  { lat: "per",               gen: "Pr\u00e4p. m. Akk.", de: "durch",                      type: "praep" },
+  { lat: "via",               gen: "viam f",             de: "der Weg, die Stra\u00dfe",    type: "nomen" },
+  { lat: "reperire",          gen: "reperit",            de: "finden, wiederfinden",        type: "verb" },
+  { lat: "aud\u012Bre",       gen: "audit",              de: "h\u00f6ren",                  type: "verb" },
+  { lat: "itaque",            gen: "",                   de: "deshalb",                     type: "adv" },
+  { lat: "iterum",            gen: "Adv.",               de: "wieder(um), zum zweiten Mal", type: "adv" },
+  { lat: "iam",               gen: "Adv.",               de: "schon, bereits, nun",         type: "adv" },
+  { lat: "exspect\u0101re",   gen: "exspectat",          de: "warten, erwarten",            type: "verb" },
+  { lat: "narr\u0101re",      gen: "narrat",             de: "erz\u00e4hlen",               type: "verb" },
+  { lat: "subito",            gen: "Adv.",               de: "pl\u00f6tzlich",              type: "adv" },
+  { lat: "n\u014Dn iam",      gen: "",                   de: "nicht mehr",                  type: "adv" },
+  { lat: "i\u014D!",          gen: "",                   de: "Hurra! Ha! Ach!",             type: "adv" },
+  { lat: "n\u014Ds",          gen: "Akk.",               de: "uns",                         type: "pron" },
+  { lat: "adiuv\u0101re",     gen: "adiuvat",            de: "helfen, unterst\u00fctzen",   type: "verb" },
+  { lat: "voc\u0101re",       gen: "vocat",              de: "rufen, nennen",               type: "verb" },
+  { lat: "statim",            gen: "Adv.",               de: "sofort, auf der Stelle",      type: "adv" },
+  // Block 3
+  { lat: "aedificium",        gen: "aedificium n",       de: "das Geb\u00e4ude, das Haus",  type: "nomen" },
+  { lat: "bene",              gen: "Adv.",               de: "gut",                         type: "adv" },
+  { lat: "taberna",           gen: "tabernam f",         de: "das Gasthaus, der Laden",     type: "nomen" },
+  { lat: "sen\u0101tor",      gen: "sen\u0101t\u014Drem m", de: "der Senator",              type: "nomen" },
+  { lat: "ecce!",             gen: "",                   de: "Schau! Sieh da! Seht da!",    type: "adv" },
+  { lat: "ante",              gen: "Pr\u00e4p. m. Akk.", de: "vor",                        type: "praep" },
+  { lat: "semper",            gen: "Adv.",               de: "immer",                       type: "adv" },
+  { lat: "b\u0113stia",       gen: "b\u0113stiam f",     de: "das Tier",                    type: "nomen" },
+  { lat: "Capit\u014Dlium",   gen: "n",                  de: "das Kapitol",                 type: "eigen" },
+  { lat: "Circus Maximus",    gen: "m",                  de: "Circus Maximus (Rennbahn)",   type: "eigen" },
+  { lat: "Colos\u015D\u0113um", gen: "n",                de: "das Kolosseum",               type: "eigen" },
+  { lat: "Iuppiter",          gen: "Iovem m",            de: "Jupiter (h\u00f6chster Gott)", type: "eigen" }
+];
+
+// ═══════════════════════════════════════════════════
+// GESICHERTE MUSTERSÄTZE AUS prima. (nur aus Fotos!)
+// ═══════════════════════════════════════════════════
+var MUSTERSAETZE = [
+  { lat: "Am\u012Bc\u012B per forum properant.",
+    de: "Die Freunde eilen durch das Forum.",
+    subj: "Am\u012Bc\u012B", verb: "properant",
+    praep: "per", praep_de: "durch" },
+  { lat: "D\u0101vus ad dominum venit.",
+    de: "Davus kommt zum Herrn.",
+    subj: "D\u0101vus", verb: "venit",
+    praep: "ad", praep_de: "zu" },
+  { lat: "D\u0101vus ad Colosso\u0113um stat.",
+    de: "Davus steht beim Kolosseum.",
+    subj: "D\u0101vus", verb: "stat",
+    praep: "ad", praep_de: "bei/zum" },
+  { lat: "C\u016Br servus n\u014Dn properat?",
+    de: "Warum beeilt sich der Sklave nicht?",
+    subj: "servus", verb: "properat",
+    praep: null },
+  { lat: "Serva ad Colosso\u0113um properat.",
+    de: "Die Sklavin eilt zum Kolosseum.",
+    subj: "Serva", verb: "properat",
+    praep: "ad", praep_de: "zum" },
+  { lat: "D\u0101vus ibi di\u016B exspectat.",
+    de: "Davus wartet dort lange.",
+    subj: "D\u0101vus", verb: "exspectat",
+    praep: null },
+  { lat: "Serva am\u012Bcam adiuvat.",
+    de: "Die Sklavin hilft der Freundin.",
+    subj: "Serva", verb: "adiuvat",
+    praep: null }
+];
+
+// Spotlight: Subjekte aus echten Mustersätzen
+var SPOTLIGHT_SAETZE = [
+  { sentence: "Am\u012Bc\u012B per forum properant.", spotWord: "Am\u012Bc\u012B", correct: true,
+    affirmation: "Ita! Am\u012Bc\u012B = Nominativ Plural (Endung -\u012B) = Subjekt! \ud83c\udfaf",
+    wrongMsg: "Am\u012Bc\u012B ist Nominativ Plural \u2014 die Freunde eilen." },
+  { sentence: "D\u0101vus ad Colosso\u0113um stat.", spotWord: "D\u0101vus", correct: true,
+    affirmation: "Ita! D\u0101vus = Nominativ (Endung -us) = Subjekt! \ud83c\udfaf",
+    wrongMsg: "D\u0101vus ist Nominativ Singular \u2014 er steht beim Kolosseum." },
+  { sentence: "Serva am\u012Bcam adiuvat.", spotWord: "Serva", correct: true,
+    affirmation: "Ita! Serva = Nominativ (Endung -a) = Subjekt! \ud83c\udfaf",
+    wrongMsg: "Serva ist Nominativ Singular (a-Deklination, Endung -a) = Subjekt." },
+  { sentence: "Serva am\u012Bcam adiuvat.", spotWord: "am\u012Bcam", correct: false,
+    affirmation: "Richtig erkannt! am\u012Bcam ist NICHT der Nominativ \u2014 Endung -am zeigt Akkusativ! \ud83c\udfaf",
+    wrongMsg: "am\u012Bcam endet auf -am = Akkusativ (Objekt), nicht Nominativ (Subjekt)." }
+];
+
+// Pr\u00e4positions-Fragen: nur aus echten Mustersätzen
+var PRAEP_FRAGEN = [
+  { sentence: "Am\u012Bc\u012B _____ forum properant.", blank: "_____",
+    correct: "per", opts: ["per","ad","ante"],
+    hint: "per forum = durch das Forum (aus prima.)" },
+  { sentence: "D\u0101vus _____ dominum venit.", blank: "_____",
+    correct: "ad", opts: ["ad","per","ante"],
+    hint: "ad dominum = zum Herrn (aus prima.)" },
+  { sentence: "Serva _____ Colosso\u0113um properat.", blank: "_____",
+    correct: "ad", opts: ["ad","ante","per"],
+    hint: "ad Colosso\u0113um = zum Kolosseum (aus prima.)" }
+];
+
+// Puzzle: nur Subjekt + Verb aus echten Mustersätzen (2 Wörter!)
+var PUZZLE_SAETZE = [
+  { subj: "D\u0101vus", verb: "exspectat", de: "Davus wartet." },
+  { subj: "Serva",    verb: "properat",  de: "Die Sklavin eilt." },
+  { subj: "Serva",    verb: "adiuvat",   de: "Die Sklavin hilft." },
+  { subj: "D\u0101vus", verb: "properat", de: "Davus eilt." }
+];
+
+// ═══════════════════════════════════════════════════
+// REGELKARTEN
+// ═══════════════════════════════════════════════════
+var RULE_PRAEP = "<div class=\"rule-title\">\ud83d\udccb Regelkarte \u00b7 Pr\u00e4positionen + Akkusativ</div><div class=\"rule-body\">Diese Pr\u00e4positionen verlangen den <strong style=\"color:var(--gold-light)\">Akkusativ</strong>:<table class=\"rule-table\"><tr><th>Pr\u00e4p.</th><th>Bedeutung</th><th>Beispiel (aus prima.)</th></tr><tr><td class=\"rule-highlight\">ad</td><td>zu, bei</td><td>ad dominum</td></tr><tr><td class=\"rule-highlight\">per</td><td>durch</td><td>per forum</td></tr><tr><td class=\"rule-highlight\">ante</td><td>vor</td><td>ante aedificium</td></tr></table><br><em style=\"color:var(--parchment-dark)\">Am\u012Bc\u012B per forum properant.</em><br>\u2192 Die Freunde eilen durch das Forum.<br><br><em style=\"color:var(--parchment-dark)\">D\u0101vus ad dominum venit.</em><br>\u2192 Davus kommt zum Herrn.</div>";
+
+var RULE_NOM_AKK = "<div class=\"rule-title\">\ud83d\udccb Regelkarte \u00b7 Nominativ & Akkusativ</div><div class=\"rule-body\"><strong style=\"color:var(--gold)\">Nominativ</strong> = Subjekt (wer handelt?)<br><strong style=\"color:var(--gold)\">Akkusativ</strong> = Objekt (wen/was?)<br><br><table class=\"rule-table\"><tr><th></th><th>a-Dek. (f)</th><th>o-Dek. (m)</th></tr><tr><td>Nom. Sg.</td><td>am\u012Bca</td><td>am\u012Bcus</td></tr><tr><td class=\"rule-highlight\">Akk. Sg.</td><td class=\"rule-highlight\">am\u012Bc<u>am</u></td><td class=\"rule-highlight\">am\u012Bc<u>um</u></td></tr></table><br><em style=\"color:var(--parchment-dark)\">Serva am\u012Bcam adiuvat.</em><br>\u2192 Serva (Nom.) hilft am\u012Bcam (Akk.).</div>";
+
+// ═══════════════════════════════════════════════════
+// HILFSFUNKTIONEN
+// ═══════════════════════════════════════════════════
+function shuffle(arr) {
+  var a = arr.slice();
+  for (var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}
+  return a;
+}
+
+// ═══════════════════════════════════════════════════
+// DYNAMISCHE FRAGENGENERATOREN
+// ═══════════════════════════════════════════════════
+function genMatchVocab(items) {
+  var picked = shuffle(items).slice(0,4);
+  return { type:"match", showRule:null, theme:"\ud83d\udd17 Vokabeln zuordnen", prompt:"Verbinde Latein mit Deutsch!", leftTitle:"Latein", rightTitle:"Deutsch",
+    pairs:picked.map(function(v){return[v.lat,v.de];}),
+    affirmation:"Magnifice! Alle richtig! \ud83c\udfc6", wrongMsg:"Schau nochmal in die Vokabelliste oben." };
+}
+
+function genSwipeVocab(pool) {
+  var v=shuffle(pool)[0];
+  var ok=Math.random()>0.5;
+  var disp=ok?v.de:shuffle(pool.filter(function(x){return x.lat!==v.lat;}))[0].de;
+  return { type:"swipe", showRule:null, theme:"\ud83d\udc4b Bedeutung pr\u00fcfen", prompt:"Stimmt die \u00dcbersetzung?",
+    sentence:v.lat+"\n= "+disp, correct:ok,
+    affirmation:"Ita! "+v.lat+" = "+v.de+" \u2705",
+    wrongMsg:v.lat+" = "+v.de+". Merke dir die Vokabel!" };
+}
+
+function genQuickQuiz(pool) {
+  var s=shuffle(pool); var t=s[0];
+  var d=s.slice(1,4).map(function(v){return v.de;});
+  var opts=shuffle([t.de].concat(d));
+  return { type:"quickQuiz", showRule:null, theme:"\u26a1 Quick Quiz",
+    prompt:"Was bedeutet \u201e"+t.lat+"\u201c?", options:opts, correct:opts.indexOf(t.de),
+    affirmation:"Ita! "+t.lat+" = "+t.de+" \ud83c\udfaf",
+    wrongMsg:t.lat+" = "+t.de+". Merke dir diese Vokabel!" };
+}
+
+function genTrueFalseVocab(pool) {
+  var v=shuffle(pool)[0]; var ok=Math.random()>0.5;
+  var claim=ok?v.de:shuffle(pool.filter(function(x){return x.lat!==v.lat;}))[0].de;
+  return { type:"trueFalse", showRule:null, theme:"\u2705\u274c Wahr oder Falsch?", prompt:"Richtig oder falsch?",
+    sentence:"\u201e"+v.lat+"\u201c bedeutet: "+claim, correct:ok,
+    affirmation:"Ita! "+v.lat+" = "+v.de+" \u2705",
+    wrongMsg:v.lat+" = "+v.de+". Merke dir diese Vokabel!" };
+}
+
+function genPraepGap() {
+  var f=shuffle(PRAEP_FRAGEN)[0];
+  var opts=shuffle(f.opts);
+  return { type:"gap", showRule:RULE_PRAEP, theme:"\ud83c\udfd9 Pr\u00e4position w\u00e4hlen",
+    prompt:"Welche Pr\u00e4position passt? (aus prima.)", sentence:f.sentence, blank:f.blank,
+    options:opts, correct:opts.indexOf(f.correct),
+    affirmation:"Ita! "+f.correct+" \u2014 "+f.hint+"! \ud83c\udfd9",
+    wrongMsg:f.hint+". Alle drei (ad, per, ante) verlangen den Akkusativ." };
+}
+
+function genSpotlight() {
+  var s=shuffle(SPOTLIGHT_SAETZE)[0];
+  return { type:"spotlight", showRule:RULE_NOM_AKK, theme:"\ud83c\udfaf Subjekt erkennen",
+    prompt:"Ist das markierte Wort das Subjekt (Nominativ)?",
+    sentence:s.sentence, spotWord:s.spotWord, correct:s.correct,
+    affirmation:s.affirmation, wrongMsg:s.wrongMsg };
+}
+
+function genPuzzle() {
+  var p=shuffle(PUZZLE_SAETZE)[0];
+  return { type:"puzzle", showRule:null, theme:"\ud83e\udde9 Satz bauen",
+    prompt:"Baue den Satz! Subjekt zuerst, dann Verb.",
+    subject:p.subj, tiles:[p.subj,p.verb], translation:p.de,
+    affirmation:"Perfectum! "+p.subj+" "+p.verb+"! \ud83c\udfaf",
+    wrongMsg:p.subj+" (Subjekt) kommt zuerst, dann "+p.verb+" (Verb)." };
+}
+
+// ═══════════════════════════════════════════════════
+// VOKABELBLOECKE
+// ═══════════════════════════════════════════════════
+var vocabBlocks = [
+  { title:"Block 1 \u2014 5 Vokabeln",                    items:POOL.slice(0,5) },
+  { title:"Block 2 \u2014 18 Vokabeln",                   items:POOL.slice(5,23) },
+  { title:"Block 3 \u2014 11 Vokabeln + Eigennamen",      items:POOL.slice(23) }
+];
+
+// ═══════════════════════════════════════════════════
+// SESSION AUFBAUEN
+// ═══════════════════════════════════════════════════
+function buildSession() {
+  var b1=POOL.slice(0,5), b2=POOL.slice(5,23), b3=POOL.slice(23);
+  var items=[];
+
+  items.push({_vocabBlock:true,blockIndex:0});
+  [genMatchVocab(b1.concat(shuffle(b2).slice(0,3))),
+   genSwipeVocab(b1.concat(b2.slice(0,5))),
+   genPraepGap(),
+   genTrueFalseVocab(b1.concat(b2.slice(0,8))),
+   genSwipeVocab(b1.concat(b2.slice(0,5)))
+  ].forEach(function(q){items.push({_question:true,q:q});});
+
+  items.push({_vocabBlock:true,blockIndex:1});
+  [genMatchVocab(b2),
+   genQuickQuiz(b1.concat(b2)),
+   genSpotlight(),
+   genPuzzle(),
+   genTrueFalseVocab(b2)
+  ].forEach(function(q){items.push({_question:true,q:q});});
+
+  items.push({_vocabBlock:true,blockIndex:2});
+  [genMatchVocab(b3),
+   genQuickQuiz(POOL),
+   genPraepGap(),
+   genSwipeVocab(POOL),
+   genQuickQuiz(POOL)
+  ].forEach(function(q){items.push({_question:true,q:q});});
+
+  return items;
+}
+
+var allItems=buildSession();
+var currentIndex=0,score=0,totalAnswered=0;
+var totalQuestions=allItems.filter(function(i){return i._question;}).length;
+
+// ═══════════════════════════════════════════════════
+// ENGINE
+// ═══════════════════════════════════════════════════
+function updateProgress(){
+  var ans=allItems.slice(0,currentIndex+1).filter(function(i){return i._question;}).length;
+  document.getElementById("progressLabel").textContent=Math.min(ans,totalQuestions)+"/"+totalQuestions;
+}
+
+function renderCurrent(){
+  var item=allItems[currentIndex];
+  if(!item){showCompletion();return;}
+  var main=document.getElementById("mainContent"); main.innerHTML="";
+  if(item._vocabBlock){renderVocabBlock(item.blockIndex,main);setTimeout(function(){currentIndex++;renderCurrent();},0);return;}
+  updateProgress();
+  var q=item.q;
+  if(q.showRule){var rc=document.createElement("div");rc.className="rule-card";rc.innerHTML=q.showRule;main.appendChild(rc);}
+  if(q.type==="gap")renderGap(q,main);
+  else if(q.type==="trueFalse")renderTrueFalse(q,main);
+  else if(q.type==="match")renderMatch(q,main);
+  else if(q.type==="puzzle")renderPuzzle(q,main);
+  else if(q.type==="quickQuiz")renderQuickQuiz(q,main);
+  else if(q.type==="spotlight")renderSpotlight(q,main);
+  else if(q.type==="swipe")renderSwipe(q,main);
+}
+
+function renderVocabBlock(idx,parent){
+  var block=vocabBlocks[idx];
+  var hdr=document.createElement("div");hdr.className="section-header";
+  hdr.innerHTML="<h2>\ud83d\udcd6 "+block.title+"</h2><p>Lerne diese Vokabeln \u2014 dann kommen die \u00dcbungen!</p>";
+  parent.appendChild(hdr);
+  var vb=document.createElement("div");vb.className="vocab-block";
+  block.items.forEach(function(v){
+    var row=document.createElement("div");row.className="vocab-row";
+    row.innerHTML="<span class=\"vocab-lat\">"+v.lat+"</span><span class=\"vocab-gen\">"+(v.gen||"")+"</span><span class=\"vocab-de\">"+v.de+"</span>";
+    vb.appendChild(row);
+  });
+  parent.appendChild(vb);
+}
+
+function makeQCard(q){var c=document.createElement("div");c.className="question-card";c.innerHTML="<div class=\"q-theme\">"+q.theme+"</div>";return c;}
+function makeFB(p){var fb=document.createElement("div");fb.className="feedback";fb.id="feedback";p.appendChild(fb);}
+function makeNext(p){var btn=document.createElement("button");btn.className="next-btn";btn.id="nextBtn";btn.textContent=currentIndex>=allItems.length-1?"Lektion abschlie\u00dfen \u2713":"Weiter \u2192";btn.addEventListener("click",function(){currentIndex++;renderCurrent();});p.appendChild(btn);}
+function showFB(ok,q){var fb=document.getElementById("feedback"),nb=document.getElementById("nextBtn");totalAnswered++;if(ok){score++;fb.className="feedback correct";fb.innerHTML="<div class=\"feedback-affirmation\">"+q.affirmation+"</div>";if(score%3===0)confetti();}else{fb.className="feedback wrong";fb.innerHTML="<div class=\"feedback-affirmation\">\ud83d\udc9b Fast!</div>"+q.wrongMsg;}if(nb)nb.classList.add("visible");}
+
+function renderGap(q,parent){
+  var card=makeQCard(q);
+  card.innerHTML+="<div class=\"q-type-badge\">\ud83d\udd22 Richtige Form w\u00e4hlen</div><div class=\"q-prompt\">"+q.prompt+"</div>";
+  card.innerHTML+="<div class=\"q-sentence\">"+q.sentence.replace(q.blank,"<span style=\"border-bottom:2px solid var(--gold);min-width:80px;display:inline-block;text-align:center;padding:0 6px;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>")+"</div>";
+  var opts=document.createElement("div");opts.className="gap-options";var letters=["A","B","C"],answered=false;
+  q.options.forEach(function(opt,i){var btn=document.createElement("button");btn.className="gap-btn";btn.innerHTML="<span class=\"gap-btn-letter\">"+letters[i]+"</span><em>"+opt+"</em>";btn.addEventListener("click",function(){if(answered)return;answered=true;var ok=(i===q.correct);btn.classList.add(ok?"correct":"wrong");if(!ok)opts.querySelectorAll(".gap-btn")[q.correct].classList.add("correct");showFB(ok,q);});opts.appendChild(btn);});
+  card.appendChild(opts);makeFB(card);makeNext(card);parent.appendChild(card);
+}
+
+function renderTrueFalse(q,parent){
+  var card=makeQCard(q);
+  card.innerHTML+="<div class=\"q-type-badge\">\u2705\u274c Wahr oder Falsch?</div><div class=\"q-prompt\">"+q.prompt+"</div><div class=\"q-sentence\">"+q.sentence+"</div>";
+  var opts=document.createElement("div");opts.className="tf-options";var answered=false;
+  ["\u2705 Richtig","\u274c Falsch"].forEach(function(label,i){var isTrue=(i===0),btn=document.createElement("button");btn.className="tf-btn";btn.textContent=label;btn.addEventListener("click",function(){if(answered)return;answered=true;var ok=(isTrue===q.correct);btn.classList.add(ok?"correct":"wrong");showFB(ok,q);});opts.appendChild(btn);});
+  card.appendChild(opts);makeFB(card);makeNext(card);parent.appendChild(card);
+}
+
+function renderMatch(q,parent){
+  var card=makeQCard(q);
+  card.innerHTML+="<div class=\"q-type-badge\">\ud83d\udd17 Match Pairs</div><div class=\"q-prompt\">"+q.prompt+"</div>";
+  var lr=document.createElement("div");lr.className="match-col-labels";lr.innerHTML="<div class=\"match-col-label\">"+q.leftTitle+"</div><div class=\"match-col-label\">"+q.rightTitle+"</div>";card.appendChild(lr);
+  var pairs=q.pairs.slice(),right=pairs.map(function(p){return p[1];}).sort(function(){return Math.random()-0.5;});
+  var grid=document.createElement("div");grid.className="match-grid";
+  var selL=null,selR=null,matched=0,lEls=[],rEls=[];
+  pairs.forEach(function(pair,i){
+    var lEl=document.createElement("div");lEl.className="match-item";lEl.textContent=pair[0];
+    var rEl=document.createElement("div");rEl.className="match-item";rEl.textContent=right[i];
+    lEl.addEventListener("click",function(){if(lEl.classList.contains("matched"))return;lEls.forEach(function(e){if(!e.classList.contains("matched"))e.classList.remove("selected");});lEl.classList.add("selected");selL=lEl;tryMatch();});
+    rEl.addEventListener("click",function(){if(rEl.classList.contains("matched"))return;rEls.forEach(function(e){if(!e.classList.contains("matched"))e.classList.remove("selected");});rEl.classList.add("selected");selR=rEl;tryMatch();});
+    lEls.push(lEl);rEls.push(rEl);grid.appendChild(lEl);grid.appendChild(rEl);
+  });
+  function tryMatch(){if(!selL||!selR)return;var ok=pairs.some(function(p){return p[0]===selL.textContent&&p[1]===selR.textContent;});if(ok){selL.classList.add("matched");selR.classList.add("matched");matched++;if(matched===pairs.length){showFB(true,q);document.getElementById("nextBtn").classList.add("visible");}}else{selL.classList.add("wrong");selR.classList.add("wrong");var sl=selL,sr=selR;setTimeout(function(){sl.classList.remove("wrong","selected");sr.classList.remove("wrong","selected");selL=null;selR=null;},600);return;}selL=null;selR=null;}
+  card.appendChild(grid);makeFB(card);makeNext(card);parent.appendChild(card);
+}
+
+function renderPuzzle(q,parent){
+  var card=makeQCard(q);
+  card.innerHTML+="<div class=\"q-type-badge\">\ud83e\udde9 Satz bauen</div><div class=\"q-prompt\">"+q.prompt+"</div>";
+  card.innerHTML+="<div style=\"font-size:12px;color:var(--stone);margin-bottom:10px;font-style:italic;\">\ud83d\udca1 "+q.translation+"</div>";
+  var target=document.createElement("div");target.className="puzzle-target";
+  var source=document.createElement("div");source.className="puzzle-source";
+  var placed=[],shuffled=shuffle(q.tiles),tileEls={};
+  shuffled.forEach(function(word){var tile=document.createElement("div");tile.className="tile";tile.textContent=word;tile.addEventListener("click",function(){if(tile.classList.contains("used")){placed=placed.filter(function(w){return w!==word;});tile.classList.remove("used");rebuild();}else{placed.push(word);tile.classList.add("used");rebuild();}});tileEls[word]=tile;source.appendChild(tile);});
+  function rebuild(){target.innerHTML="";placed.forEach(function(word){var t=document.createElement("div");t.className="tile placed";t.textContent=word;t.addEventListener("click",function(){placed=placed.filter(function(w){return w!==word;});tileEls[word].classList.remove("used");rebuild();});target.appendChild(t);});}
+  card.appendChild(target);card.appendChild(source);
+  var cb=document.createElement("button");cb.className="check-btn";cb.textContent="Pr\u00fcfen \u2713";
+  cb.addEventListener("click",function(){var ok=placed.length===q.tiles.length&&placed[0]===q.subject&&q.tiles.every(function(w){return placed.indexOf(w)!==-1;});showFB(ok,q);if(ok)confetti();});
+  card.appendChild(cb);makeFB(card);makeNext(card);parent.appendChild(card);
+}
+
+function renderQuickQuiz(q,parent){
+  var card=makeQCard(q);card.innerHTML+="<div class=\"q-type-badge\">\u26a1 Quick Quiz</div>";
+  var tn=document.createElement("div");tn.className="quiz-timer-num";tn.textContent="\u23f1 60";
+  var tw=document.createElement("div");tw.className="quiz-timer-bar-wrap";
+  var tb=document.createElement("div");tb.className="quiz-timer-bar";tb.style.width="100%";
+  tw.appendChild(tb);var td=document.createElement("div");td.className="quiz-timer";td.appendChild(tn);td.appendChild(tw);card.appendChild(td);
+  card.innerHTML+="<div class=\"q-prompt\">"+q.prompt+"</div>";
+  var opts=document.createElement("div");opts.className="gap-options";var letters=["A","B","C","D"],answered=false,timeLeft=60;
+  var timer=setInterval(function(){timeLeft--;tn.textContent="\u23f1 "+timeLeft;tb.style.width=(timeLeft/60*100)+"%";if(timeLeft<=0){clearInterval(timer);if(!answered){answered=true;showFB(false,q);}}},1000);
+  q.options.forEach(function(opt,i){var btn=document.createElement("button");btn.className="gap-btn";btn.innerHTML="<span class=\"gap-btn-letter\">"+letters[i]+"</span> "+opt;btn.addEventListener("click",function(){if(answered)return;answered=true;clearInterval(timer);var ok=(i===q.correct);btn.classList.add(ok?"correct":"wrong");if(!ok)opts.querySelectorAll(".gap-btn")[q.correct].classList.add("correct");showFB(ok,q);});opts.appendChild(btn);});
+  card.appendChild(opts);makeFB(card);makeNext(card);parent.appendChild(card);
+}
+
+function renderSpotlight(q,parent){
+  var card=makeQCard(q);card.innerHTML+="<div class=\"q-type-badge\">\ud83c\udfaf Spotlight</div><div class=\"q-prompt\">"+q.prompt+"</div>";
+  var sd=document.createElement("div");sd.className="spotlight-sentence";sd.innerHTML=q.sentence.replace(q.spotWord,"<span class=\"spotlight-word\">"+q.spotWord+"</span>");card.appendChild(sd);
+  var opts=document.createElement("div");opts.className="tf-options";var answered=false;
+  ["\u2705 Ja, Nominativ","\u274c Nein"].forEach(function(label,i){var isTrue=(i===0),btn=document.createElement("button");btn.className="tf-btn";btn.textContent=label;btn.addEventListener("click",function(){if(answered)return;answered=true;var ok=(isTrue===q.correct);btn.classList.add(ok?"correct":"wrong");showFB(ok,q);});opts.appendChild(btn);});
+  card.appendChild(opts);makeFB(card);makeNext(card);parent.appendChild(card);
+}
+
+function renderSwipe(q,parent){
+  var card=makeQCard(q);card.innerHTML+="<div class=\"q-type-badge\">\ud83d\udc4b Richtig oder Falsch?</div><div class=\"q-prompt\">"+q.prompt+"</div>";
+  var sc=document.createElement("div");sc.className="swipe-card";sc.textContent=q.sentence;card.appendChild(sc);
+  var btns=document.createElement("div");btns.className="swipe-buttons";var answered=false;
+  [["\u274c Falsch",false,"left"],["\u2705 Richtig",true,"right"]].forEach(function(arr){var btn=document.createElement("button");btn.className="swipe-btn "+arr[2];btn.textContent=arr[0];btn.addEventListener("click",function(){if(answered)return;answered=true;showFB((arr[1]===q.correct),q);});btns.appendChild(btn);});
+  card.appendChild(btns);makeFB(card);makeNext(card);parent.appendChild(card);
+}
+
+function showCompletion(){
+  document.getElementById("mainContent").style.display="none";
+  var screen=document.getElementById("completionScreen");screen.classList.add("visible");
+  var pct=Math.round(score/totalQuestions*100);
+  document.getElementById("finalScore").textContent=score+"/"+totalQuestions+" ("+pct+"%)";
+  document.getElementById("finalStars").textContent=pct>=90?"\u2b50\u2b50\u2b50":pct>=70?"\u2b50\u2b50":"\u2b50";
+  var msgs=["Optime! Am\u012Bc\u012B per forum properant \u2014 und du auch! \ud83c\udfc6","Magnifice! Du kennst den Weg durch Rom! \ud83c\udfd9","Brava! Weiter zu L03! \ud83d\udcd6"];
+  document.getElementById("finalMsg").textContent=msgs[Math.floor(Math.random()*msgs.length)];
+  confetti();setTimeout(confetti,700);
+}
+
+function confetti(){
+  var container=document.getElementById("confettiContainer");
+  var colors=["#C9A84C","#E8C96A","#C0522B","#4CAF7D","#FDFAF3","#8B6914"];
+  for(var i=0;i<30;i++){(function(i){setTimeout(function(){var el=document.createElement("div");el.className="confetti-piece";el.style.left=Math.random()*100+"vw";el.style.background=colors[Math.floor(Math.random()*colors.length)];el.style.animationDuration=(1.5+Math.random()*2)+"s";el.style.width=el.style.height=(6+Math.random()*10)+"px";container.appendChild(el);setTimeout(function(){el.remove();},3500);},i*40);})(i);}
+}
+
+renderCurrent();
+</script>
+</body>
+</html>
