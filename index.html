@@ -2,1342 +2,563 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-
-  <!--
-    WICHTIG FÜR ACCESSIBILITY:
-    Kein maximum-scale=1.0.
-    Schülerinnen und Schüler müssen auf mobilen Geräten hineinzoomen können.
-  -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <meta
-    name="description"
-    content="Magistrella – dein personalisierter Latein-Grammatiktrainer für das Gymnasium."
-  >
-
+  <meta name="description" content="Magistrella – dein personalisierter Latein-Grammatiktrainer für das Gymnasium.">
   <meta name="theme-color" content="#1A1208">
-
   <title>Magistrella – Latein Grammatik Trainer</title>
 
   <style>
-    :root {
-      --gold: #C9A84C;
-      --gold-light: #E8C96A;
-      --gold-dark: #8B6914;
-
-      --terracotta: #C0522B;
-      --terracotta-light: #E07050;
-
-      --ink: #1A1208;
-      --ink-soft: #241A0E;
-
-      --parchment: #F5EDD6;
-      --parchment-dark: #E8D9B5;
-
-      --stone: #B4A58D;
-      --white: #FDFAF3;
-
-      --focus: #FFF1A8;
-
-      --radius-lg: 16px;
-      --radius-md: 12px;
-
-      --touch-target: 48px;
+    :root{
+      --gold:#C9A84C;
+      --gold-light:#E8C96A;
+      --gold-dark:#8B6914;
+      --terracotta:#C0522B;
+      --ink:#1A1208;
+      --parchment:#F5EDD6;
+      --parchment-dark:#E8D9B5;
+      --stone:#B4A58D;
+      --focus:#FFF1A8;
+      --radius-lg:16px;
+      --radius-md:12px;
     }
 
+    *,*::before,*::after{box-sizing:border-box}
+    *{margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+    html{scroll-behavior:smooth}
 
-    /* ─────────────────────────────
-       RESET
-    ───────────────────────────── */
-
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
+    body{
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,Helvetica,sans-serif;
+      background:var(--ink);
+      color:var(--parchment);
+      min-height:100vh;
+      min-height:100dvh;
+      overflow-x:hidden;
+      font-size:16px;
+      line-height:1.6;
+      -webkit-font-smoothing:antialiased;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      /*
-        LRS-FREUNDLICHER:
-        klare System-Sans-Serif statt durchgehender Serifenschrift.
-        Keine externe Schriftart = vollständig offline nutzbar.
-      */
-      font-family:
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Arial,
-        Helvetica,
-        sans-serif;
-
-      background: var(--ink);
-      color: var(--parchment);
-
-      min-height: 100vh;
-      min-height: 100dvh;
-
-      overflow-x: hidden;
-
-      font-size: 16px;
-      line-height: 1.6;
-
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-    }
-
-
-    /* ─────────────────────────────
-       MOSAIC BACKGROUND
-    ───────────────────────────── */
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
       background-image:
-        repeating-linear-gradient(
-          45deg,
-          transparent,
-          transparent 20px,
-          rgba(201, 168, 76, 0.03) 20px,
-          rgba(201, 168, 76, 0.03) 21px
-        ),
-        repeating-linear-gradient(
-          -45deg,
-          transparent,
-          transparent 20px,
-          rgba(201, 168, 76, 0.03) 20px,
-          rgba(201, 168, 76, 0.03) 21px
-        );
-
-      pointer-events: none;
-      z-index: 0;
+        repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(201,168,76,.03) 20px,rgba(201,168,76,.03) 21px),
+        repeating-linear-gradient(-45deg,transparent,transparent 20px,rgba(201,168,76,.03) 20px,rgba(201,168,76,.03) 21px);
+      pointer-events:none;
+      z-index:0;
     }
 
+    .skip-link{
+      position:absolute;
+      left:12px;
+      top:-100px;
+      padding:10px 14px;
+      background:var(--focus);
+      color:var(--ink);
+      border-radius:8px;
+      font-weight:700;
+      text-decoration:none;
+      z-index:1000;
+    }
+    .skip-link:focus{top:12px}
 
-    /* ─────────────────────────────
-       ACCESSIBILITY
-    ───────────────────────────── */
-
-    .skip-link {
-      position: absolute;
-      left: 12px;
-      top: -100px;
-
-      padding: 10px 14px;
-
-      background: var(--focus);
-      color: var(--ink);
-
-      border-radius: 8px;
-
-      font-weight: 700;
-      text-decoration: none;
-
-      z-index: 1000;
+    a:focus-visible{
+      outline:3px solid var(--focus);
+      outline-offset:4px;
     }
 
-    .skip-link:focus {
-      top: 12px;
-    }
-
-    a:focus-visible,
-    button:focus-visible {
-      outline: 3px solid var(--focus);
-      outline-offset: 4px;
-    }
-
-
-    /* ─────────────────────────────
-       CONTAINER
-    ───────────────────────────── */
-
-    .container {
-      position: relative;
-      z-index: 1;
-
-      width: 100%;
-      max-width: 520px;
-
-      margin: 0 auto;
+    .container{
+      position:relative;
+      z-index:1;
+      width:100%;
+      max-width:520px;
+      margin:0 auto;
       padding:
-        0
-        max(16px, env(safe-area-inset-right))
+        0 max(16px,env(safe-area-inset-right))
         calc(48px + env(safe-area-inset-bottom))
-        max(16px, env(safe-area-inset-left));
+        max(16px,env(safe-area-inset-left));
     }
 
+    .hero{text-align:center;padding:42px 0 28px}
 
-    /* ─────────────────────────────
-       HERO
-    ───────────────────────────── */
-
-    .hero {
-      text-align: center;
-      padding: 42px 0 28px;
-    }
-
-    .hero-emblem {
-      width: 88px;
-      height: 88px;
-
-      margin: 0 auto 20px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      border-radius: 50%;
-
-      background:
-        radial-gradient(
-          circle at 35% 35%,
-          var(--gold-light),
-          var(--gold-dark)
-        );
-
-      font-size: 44px;
-
+    .hero-emblem{
+      width:88px;
+      height:88px;
+      margin:0 auto 20px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:50%;
+      background:radial-gradient(circle at 35% 35%,var(--gold-light),var(--gold-dark));
+      font-size:44px;
       box-shadow:
         0 0 0 4px var(--gold-dark),
-        0 0 0 8px rgba(201, 168, 76, 0.2),
-        0 8px 32px rgba(0, 0, 0, 0.5);
-
-      animation: glow 3s ease-in-out infinite alternate;
+        0 0 0 8px rgba(201,168,76,.2),
+        0 8px 32px rgba(0,0,0,.5);
+      animation:glow 3s ease-in-out infinite alternate;
     }
 
-    @keyframes glow {
-      from {
+    @keyframes glow{
+      from{
         box-shadow:
           0 0 0 4px var(--gold-dark),
-          0 0 0 8px rgba(201, 168, 76, 0.2),
-          0 8px 32px rgba(0, 0, 0, 0.5);
+          0 0 0 8px rgba(201,168,76,.2),
+          0 8px 32px rgba(0,0,0,.5);
       }
-
-      to {
+      to{
         box-shadow:
           0 0 0 4px var(--gold-dark),
-          0 0 0 12px rgba(201, 168, 76, 0.4),
-          0 12px 40px rgba(0, 0, 0, 0.6);
+          0 0 0 12px rgba(201,168,76,.4),
+          0 12px 40px rgba(0,0,0,.6);
       }
     }
 
-    .hero-title {
-      font-family: Georgia, "Times New Roman", serif;
-
-      font-size: clamp(36px, 10vw, 44px);
-      font-weight: 700;
-
-      letter-spacing: 2px;
-
-      color: var(--gold-light);
-
-      text-shadow:
-        0 2px 8px rgba(0, 0, 0, 0.6);
+    .hero-title{
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:clamp(36px,10vw,44px);
+      font-weight:700;
+      letter-spacing:2px;
+      color:var(--gold-light);
+      text-shadow:0 2px 8px rgba(0,0,0,.6);
     }
 
-    .hero-subtitle {
-      margin-top: 7px;
-
-      font-size: 13px;
-      font-weight: 700;
-
-      letter-spacing: 2px;
-      text-transform: uppercase;
-
-      color: var(--stone);
+    .hero-subtitle{
+      margin-top:7px;
+      font-size:13px;
+      font-weight:700;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      color:var(--stone);
     }
 
-    .hero-tagline {
-      max-width: 330px;
-
-      margin: 15px auto 0;
-
-      font-size: 16px;
-      line-height: 1.55;
-
-      color: var(--parchment-dark);
+    .hero-tagline{
+      max-width:330px;
+      margin:15px auto 0;
+      font-size:16px;
+      line-height:1.55;
+      color:var(--parchment-dark);
     }
 
-
-    /* ─────────────────────────────
-       DIVIDER
-    ───────────────────────────── */
-
-    .divider {
-      display: flex;
-      align-items: center;
-
-      gap: 12px;
-      margin: 28px 0;
+    .divider{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin:28px 0;
+    }
+    .divider-line{
+      flex:1;
+      height:1px;
+      background:linear-gradient(90deg,transparent,var(--gold-dark),transparent);
+    }
+    .divider-gem{
+      width:8px;
+      height:8px;
+      background:var(--gold);
+      transform:rotate(45deg);
+      box-shadow:0 0 8px var(--gold);
     }
 
-    .divider-line {
-      flex: 1;
-
-      height: 1px;
-
-      background:
-        linear-gradient(
-          90deg,
-          transparent,
-          var(--gold-dark),
-          transparent
-        );
+    .section-label{
+      margin-bottom:18px;
+      text-align:center;
+      font-size:13px;
+      font-weight:700;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      color:var(--gold-light);
     }
 
-    .divider-gem {
-      width: 8px;
-      height: 8px;
-
-      background: var(--gold);
-
-      transform: rotate(45deg);
-
-      box-shadow:
-        0 0 8px var(--gold);
+    .year-card{
+      position:relative;
+      overflow:hidden;
+      margin-bottom:16px;
+      padding:20px;
+      border:1px solid rgba(201,168,76,.28);
+      border-radius:var(--radius-lg);
+      background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.03));
     }
 
-
-    /* ─────────────────────────────
-       SECTION
-    ───────────────────────────── */
-
-    .section-label {
-      margin-bottom: 18px;
-
-      text-align: center;
-
-      font-size: 13px;
-      font-weight: 700;
-
-      letter-spacing: 2px;
-      text-transform: uppercase;
-
-      color: var(--gold-light);
+    .year-card::before{
+      content:"";
+      position:absolute;
+      top:0;left:0;right:0;
+      height:3px;
+      background:linear-gradient(90deg,var(--gold-dark),var(--gold-light),var(--gold-dark));
     }
 
-
-    /* ─────────────────────────────
-       YEAR CARD
-    ───────────────────────────── */
-
-    .year-card {
-      position: relative;
-      overflow: hidden;
-
-      margin-bottom: 16px;
-      padding: 20px;
-
-      border:
-        1px solid rgba(201, 168, 76, 0.28);
-
-      border-radius: var(--radius-lg);
-
-      background:
-        linear-gradient(
-          135deg,
-          rgba(201, 168, 76, 0.08),
-          rgba(201, 168, 76, 0.03)
-        );
+    .year-card.active{
+      border-color:rgba(201,168,76,.5);
+      background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(201,168,76,.05));
     }
 
-    .year-card::before {
-      content: "";
+    .year-card.locked{opacity:.58}
 
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-
-      height: 3px;
-
-      background:
-        linear-gradient(
-          90deg,
-          var(--gold-dark),
-          var(--gold-light),
-          var(--gold-dark)
-        );
+    .year-header{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin-bottom:16px;
     }
 
-    .year-card.active {
-      border-color:
-        rgba(201, 168, 76, 0.5);
-
-      background:
-        linear-gradient(
-          135deg,
-          rgba(201, 168, 76, 0.15),
-          rgba(201, 168, 76, 0.05)
-        );
+    .year-badge{
+      width:56px;
+      height:56px;
+      flex-shrink:0;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(135deg,var(--gold-dark),var(--gold));
+      border-radius:var(--radius-md);
+      box-shadow:0 4px 12px rgba(0,0,0,.3);
     }
 
-    .year-card.locked {
-      opacity: 0.58;
+    .year-badge-num{
+      font-size:21px;
+      font-weight:800;
+      line-height:1;
+      color:var(--ink);
     }
 
-
-    /* ─────────────────────────────
-       YEAR HEADER
-    ───────────────────────────── */
-
-    .year-header {
-      display: flex;
-      align-items: center;
-
-      gap: 14px;
-
-      margin-bottom: 16px;
+    .year-badge-label{
+      margin-top:3px;
+      font-size:10px;
+      font-weight:700;
+      color:var(--ink);
+      letter-spacing:.6px;
+      text-transform:uppercase;
     }
 
-    .year-badge {
-      width: 56px;
-      height: 56px;
-
-      flex-shrink: 0;
-
-      display: flex;
-      flex-direction: column;
-
-      align-items: center;
-      justify-content: center;
-
-      background:
-        linear-gradient(
-          135deg,
-          var(--gold-dark),
-          var(--gold)
-        );
-
-      border-radius: var(--radius-md);
-
-      box-shadow:
-        0 4px 12px rgba(0, 0, 0, 0.3);
+    .year-info{min-width:0;flex:1}
+    .year-info h2{
+      color:var(--gold-light);
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:19px;
+      line-height:1.25;
+    }
+    .year-info p{
+      margin-top:4px;
+      color:var(--stone);
+      font-size:14px;
+      line-height:1.45;
     }
 
-    .year-badge-num {
-      font-size: 21px;
-      font-weight: 800;
+    .lock-badge{margin-left:auto;font-size:20px;opacity:.75}
 
-      line-height: 1;
-
-      color: var(--ink);
+    .lektion-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:12px;
+      margin-top:5px;
     }
 
-    .year-badge-label {
-      margin-top: 3px;
-
-      font-size: 10px;
-      font-weight: 700;
-
-      color: var(--ink);
-
-      letter-spacing: 0.6px;
-      text-transform: uppercase;
+    .lektion-btn{
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      min-height:132px;
+      padding:14px;
+      border:1px solid rgba(201,168,76,.25);
+      border-radius:var(--radius-md);
+      background:rgba(26,18,8,.65);
+      color:inherit;
+      text-align:left;
+      text-decoration:none;
+      cursor:pointer;
+      transition:transform .15s ease,background .15s ease,border-color .15s ease;
     }
 
-    .year-info {
-      min-width: 0;
-      flex: 1;
+    .lektion-btn:hover{
+      border-color:rgba(201,168,76,.55);
+      background:rgba(201,168,76,.09);
     }
 
-    .year-info h2 {
-      color: var(--gold-light);
+    .lektion-btn:active{transform:scale(.98)}
 
-      font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-
-      font-size: 19px;
-      line-height: 1.25;
+    .lektion-btn.available{
+      border-color:rgba(201,168,76,.5);
+      background:rgba(201,168,76,.08);
     }
 
-    .year-info p {
-      margin-top: 4px;
-
-      color: var(--stone);
-
-      font-size: 14px;
-      line-height: 1.45;
+    .lektion-btn.locked{
+      cursor:not-allowed;
+      opacity:.5;
+      border-color:rgba(201,168,76,.16);
+      background:rgba(26,18,8,.35);
     }
 
-    .lock-badge {
-      margin-left: auto;
-
-      font-size: 20px;
-
-      opacity: 0.75;
+    .lektion-num{
+      padding-right:28px;
+      font-size:13px;
+      font-weight:800;
+      letter-spacing:1.4px;
+      color:var(--gold-light);
     }
 
-
-    /* ─────────────────────────────
-       LEKTION GRID
-    ───────────────────────────── */
-
-    .lektion-grid {
-      display: grid;
-      grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
-      gap: 12px;
-
-      margin-top: 5px;
+    .lektion-name{
+      margin-top:6px;
+      font-size:15px;
+      font-weight:700;
+      line-height:1.4;
+      color:var(--parchment);
     }
 
-    .lektion-btn {
-      position: relative;
-
-      display: flex;
-      flex-direction: column;
-
-      min-height: 132px;
-      padding: 14px;
-
-      border:
-        1px solid rgba(201, 168, 76, 0.25);
-
-      border-radius: var(--radius-md);
-
-      background:
-        rgba(26, 18, 8, 0.65);
-
-      color: inherit;
-
-      text-align: left;
-      text-decoration: none;
-
-      cursor: pointer;
-
-      transition:
-        transform 0.15s ease,
-        background 0.15s ease,
-        border-color 0.15s ease;
+    .lektion-topics{
+      margin-top:8px;
+      font-size:13px;
+      line-height:1.5;
+      color:var(--stone);
     }
 
-    .lektion-btn:hover {
-      border-color:
-        rgba(201, 168, 76, 0.55);
-
-      background:
-        rgba(201, 168, 76, 0.09);
+    .lektion-status{
+      position:absolute;
+      top:10px;
+      right:10px;
+      font-size:16px;
     }
 
-    .lektion-btn:active {
-      transform: scale(0.98);
+    .progress-section{margin-top:18px}
+
+    .progress-bar-wrap{
+      height:8px;
+      overflow:hidden;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
     }
 
-    .lektion-btn.done {
-      border-color:
-        rgba(201, 168, 76, 0.5);
-
-      background:
-        rgba(201, 168, 76, 0.08);
+    .progress-bar-fill{
+      height:100%;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--gold-dark),var(--gold-light));
     }
 
-    /*
-      Gesperrte Lektionen sind DIVs statt Links.
-      Dadurch existieren keine toten href="#"-Links.
-    */
-    .lektion-btn.locked {
-      cursor: not-allowed;
-
-      opacity: 0.5;
-
-      border-color:
-        rgba(201, 168, 76, 0.16);
-
-      background:
-        rgba(26, 18, 8, 0.35);
+    .progress-label{
+      margin-top:7px;
+      text-align:right;
+      font-size:13px;
+      font-weight:600;
+      color:var(--stone);
     }
 
-    .lektion-num {
-      padding-right: 28px;
-
-      font-size: 13px;
-      font-weight: 800;
-
-      letter-spacing: 1.4px;
-
-      color: var(--gold-light);
+    .latin-quote{
+      margin-top:28px;
+      padding:24px 18px;
+      text-align:center;
+      border:1px solid rgba(201,168,76,.18);
+      border-radius:var(--radius-lg);
+      background:rgba(201,168,76,.04);
     }
 
-    .lektion-name {
-      margin-top: 6px;
-
-      font-size: 15px;
-      font-weight: 700;
-
-      line-height: 1.4;
-
-      color: var(--parchment);
+    .latin-quote blockquote{
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:19px;
+      line-height:1.5;
+      color:var(--gold-light);
     }
 
-    .lektion-topics {
-      margin-top: 8px;
-
-      font-size: 13px;
-      line-height: 1.5;
-
-      color: var(--stone);
+    .latin-translation{
+      display:block;
+      margin-top:10px;
+      font-size:14px;
+      line-height:1.5;
+      color:var(--stone);
     }
 
-    .lektion-status {
-      position: absolute;
-
-      top: 10px;
-      right: 10px;
-
-      font-size: 16px;
+    .footer{
+      margin-top:40px;
+      text-align:center;
+      font-size:12px;
+      font-weight:600;
+      color:var(--stone);
+      letter-spacing:1.4px;
+      opacity:.8;
     }
 
-
-    /* ─────────────────────────────
-       PROGRESS
-    ───────────────────────────── */
-
-    .progress-section {
-      margin-top: 18px;
+    @media(max-width:370px){
+      .lektion-grid{grid-template-columns:1fr}
+      .lektion-btn{min-height:auto}
+      .hero-title{letter-spacing:1px}
     }
 
-    .progress-bar-wrap {
-      height: 8px;
-
-      overflow: hidden;
-
-      border-radius: 999px;
-
-      background:
-        rgba(255, 255, 255, 0.08);
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-
-      border-radius: 999px;
-
-      background:
-        linear-gradient(
-          90deg,
-          var(--gold-dark),
-          var(--gold-light)
-        );
-    }
-
-    .progress-label {
-      margin-top: 7px;
-
-      text-align: right;
-
-      font-size: 13px;
-      font-weight: 600;
-
-      color: var(--stone);
-    }
-
-
-    /* ─────────────────────────────
-       QUOTE
-    ───────────────────────────── */
-
-    .latin-quote {
-      margin-top: 28px;
-      padding: 24px 18px;
-
-      text-align: center;
-
-      border:
-        1px solid rgba(201, 168, 76, 0.18);
-
-      border-radius: var(--radius-lg);
-
-      background:
-        rgba(201, 168, 76, 0.04);
-    }
-
-    .latin-quote blockquote {
-      font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-
-      font-size: 19px;
-      line-height: 1.5;
-
-      color: var(--gold-light);
-    }
-
-    .latin-translation {
-      display: block;
-
-      margin-top: 10px;
-
-      font-size: 14px;
-      line-height: 1.5;
-
-      color: var(--stone);
-    }
-
-
-    /* ─────────────────────────────
-       FOOTER
-    ───────────────────────────── */
-
-    .footer {
-      margin-top: 40px;
-
-      text-align: center;
-
-      font-size: 12px;
-      font-weight: 600;
-
-      color: var(--stone);
-
-      letter-spacing: 1.4px;
-
-      opacity: 0.8;
-    }
-
-
-    /* ─────────────────────────────
-       SMALL SCREENS
-    ───────────────────────────── */
-
-    @media (max-width: 370px) {
-      .lektion-grid {
-        grid-template-columns: 1fr;
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{
+        scroll-behavior:auto!important;
+        animation-duration:.01ms!important;
+        animation-iteration-count:1!important;
+        transition-duration:.01ms!important;
       }
-
-      .lektion-btn {
-        min-height: auto;
-      }
-
-      .hero-title {
-        letter-spacing: 1px;
-      }
+      .hero-emblem{animation:none}
     }
 
-
-    /* ─────────────────────────────
-       REDUCED MOTION
-    ───────────────────────────── */
-
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        scroll-behavior: auto !important;
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-
-      .hero-emblem {
-        animation: none;
-      }
-    }
-
-
-    /* ─────────────────────────────
-       HIGH CONTRAST
-    ───────────────────────────── */
-
-    @media (prefers-contrast: more) {
-      :root {
-        --stone: #D8CCB5;
-      }
-
-      .lektion-btn,
-      .year-card {
-        border-width: 2px;
-      }
+    @media(prefers-contrast:more){
+      :root{--stone:#D8CCB5}
+      .lektion-btn,.year-card{border-width:2px}
     }
   </style>
 </head>
 
-
 <body>
+  <a class="skip-link" href="#main-content">Direkt zu den Lektionen</a>
 
-  <a class="skip-link" href="#main-content">
-    Direkt zu den Lektionen
-  </a>
-
-
-  <main
-    class="container"
-    id="main-content"
-  >
-
-    <!-- ─────────────────────────
-         HERO
-    ────────────────────────── -->
-
+  <main class="container" id="main-content">
     <header class="hero">
-
-      <div
-        class="hero-emblem"
-        aria-hidden="true"
-      >
-        🏛️
-      </div>
-
-      <h1 class="hero-title">
-        Magistrella
-      </h1>
-
-      <p class="hero-subtitle">
-        Latein · Grammatik · Trainer
-      </p>
-
-      <p class="hero-tagline">
-        Deine Latein-Begleiterin – immer in der Tasche
-      </p>
-
+      <div class="hero-emblem" aria-hidden="true">🏛️</div>
+      <h1 class="hero-title">Magistrella</h1>
+      <p class="hero-subtitle">Latein · Grammatik · Trainer</p>
+      <p class="hero-tagline">Deine Latein-Begleiterin – immer in der Tasche</p>
     </header>
 
-
-    <div
-      class="divider"
-      aria-hidden="true"
-    >
+    <div class="divider" aria-hidden="true">
       <div class="divider-line"></div>
       <div class="divider-gem"></div>
       <div class="divider-line"></div>
     </div>
 
+    <p class="section-label">Wähle deine Klassenstufe</p>
 
-    <p class="section-label">
-      Wähle deine Klassenstufe
-    </p>
-
-
-    <!-- ─────────────────────────
-         KLASSE 7
-    ────────────────────────── -->
-
-    <section
-      class="year-card active"
-      aria-labelledby="klasse7-title"
-    >
-
+    <section class="year-card active" aria-labelledby="klasse7-title">
       <div class="year-header">
-
-        <div
-          class="year-badge"
-          aria-hidden="true"
-        >
-          <span class="year-badge-num">
-            7
-          </span>
-
-          <span class="year-badge-label">
-            Klasse
-          </span>
+        <div class="year-badge" aria-hidden="true">
+          <span class="year-badge-num">7</span>
+          <span class="year-badge-label">Klasse</span>
         </div>
-
 
         <div class="year-info">
-
-          <h2 id="klasse7-title">
-            Einstieg in Latein
-          </h2>
-
-          <p>
-            16 Lektionen · derzeit verfügbar: L01–02
-          </p>
-
+          <h2 id="klasse7-title">Einstieg in Latein</h2>
+          <p>16 Lektionen · derzeit verfügbar: L01–L07</p>
         </div>
-
       </div>
 
+      <nav class="lektion-grid" aria-label="Latein-Lektionen Klasse 7">
 
-      <nav
-        class="lektion-grid"
-        aria-label="Latein-Lektionen Klasse 7"
-      >
-
-        <!-- L01 -->
-
-        <a
-          class="lektion-btn done"
-          href="l7/l01.html"
-          aria-label="Lektion 1: Sieg im Circus Maximus. Nominativ, dritte Person und Infinitiv."
-        >
-
-          <span
-            class="lektion-status"
-            aria-hidden="true"
-          >
-            ⚡
-          </span>
-
-          <div class="lektion-num">
-            L 01
-          </div>
-
-          <div class="lektion-name">
-            Sieg im Circus Maximus
-          </div>
-
-          <div class="lektion-topics">
-            Nominativ · 3. Person · Infinitiv
-          </div>
-
+        <a class="lektion-btn available" href="l7/l01.html"
+           aria-label="Lektion 1: Sieg im Circus Maximus. Nominativ, dritte Person und Infinitiv.">
+          <span class="lektion-status" aria-hidden="true">⚡</span>
+          <div class="lektion-num">L 01</div>
+          <div class="lektion-name">Sieg im Circus Maximus</div>
+          <div class="lektion-topics">Nominativ · 3. Person · Infinitiv</div>
         </a>
 
-
-        <!-- L02 -->
-
-        <a
-          class="lektion-btn done"
-          href="l7/l02.html"
-          aria-label="Lektion 2: Möhren weisen den Weg. Akkusativ sowie Subjekt und Prädikat."
-        >
-
-          <span
-            class="lektion-status"
-            aria-hidden="true"
-          >
-            ⚡
-          </span>
-
-          <div class="lektion-num">
-            L 02
-          </div>
-
-          <div class="lektion-name">
-            Möhren weisen den Weg
-          </div>
-
-          <div class="lektion-topics">
-            Akkusativ · Subjekt und Prädikat
-          </div>
-
+        <a class="lektion-btn available" href="l7/l02.html"
+           aria-label="Lektion 2: Möhren weisen den Weg. Akkusativ sowie Subjekt und Prädikat.">
+          <span class="lektion-status" aria-hidden="true">⚡</span>
+          <div class="lektion-num">L 02</div>
+          <div class="lektion-name">Möhren weisen den Weg</div>
+          <div class="lektion-topics">Akkusativ · Subjekt und Prädikat</div>
         </a>
 
+        <a class="lektion-btn available" href="l7/l03.html"
+           aria-label="Lektion 3: Die Pläne der Verbrecher. Präpositionen mit Akkusativ und Infinitiv-Konstruktionen.">
+          <span class="lektion-status" aria-hidden="true">⚡</span>
+          <div class="lektion-num">L 03</div>
+          <div class="lektion-name">Die Pläne der Verbrecher</div>
+          <div class="lektion-topics">Präpositionen + Akkusativ · Infinitiv</div>
+        </a>
 
-        <!-- L03 -->
+        <a class="lektion-btn available" href="l7/l04.html"
+           aria-label="Lektion 4: Incitatus ist der Größte. Ablativ und Präpositionen.">
+          <span class="lektion-status" aria-hidden="true">⚡</span>
+          <div class="lektion-num">L 04</div>
+          <div class="lektion-name">Incitatus ist der Größte!</div>
+          <div class="lektion-topics">Ablativ · Präpositionen</div>
+        </a>
 
-        <div
-          class="lektion-btn locked"
-          aria-disabled="true"
-          aria-label="Lektion 3: Die Pläne der Verbrecher. Noch nicht verfügbar."
-        >
+        <a class="lektion-btn available" href="l7/l05.html"
+           aria-label="Lektion 5: Orpheus und Eurydike. Verben und Infinitiv-Konstruktionen.">
+          <span class="lektion-status" aria-hidden="true">⚡</span>
+          <div class="lektion-num">L 05</div>
+          <div class="lektion-name">Orpheus und Eurydike</div>
+          <div class="lektion-topics">Verben · nōn dēbēre + Infinitiv</div>
+        </a>
 
-          <span
-            class="lektion-status"
-            aria-hidden="true"
-          >
-            🔒
-          </span>
+        <a class="lektion-btn available" href="l7/l06.html"
+           aria-label="Lektion 6: Ikarus und der Traum vom Fliegen. Genitiv.">
+          <span class="lektion-status" aria-hidden="true">⚡</span>
+          <div class="lektion-num">L 06</div>
+          <div class="lektion-name">Ikarus und der Traum vom Fliegen</div>
+          <div class="lektion-topics">Genitiv</div>
+        </a>
 
-          <div class="lektion-num">
-            L 03
-          </div>
+        <a class="lektion-btn available" href="l7/l07.html"
+           aria-label="Lektion 7: Äneas flieht aus Troja. Dativ und prō mit Ablativ.">
+          <span class="lektion-status" aria-hidden="true">⚡</span>
+          <div class="lektion-num">L 07</div>
+          <div class="lektion-name">Äneas flieht aus Troja</div>
+          <div class="lektion-topics">Dativ · prō + Ablativ</div>
+        </a>
 
-          <div class="lektion-name">
-            Die Pläne der Verbrecher
-          </div>
-
-          <div class="lektion-topics">
-            1. und 2. Person · Imperativ · Vokativ
-          </div>
-
+        <div class="lektion-btn locked"
+             aria-disabled="true"
+             aria-label="Lektion 8: Ein Anfang mit Schrecken. Noch nicht verfügbar.">
+          <span class="lektion-status" aria-hidden="true">🔒</span>
+          <div class="lektion-num">L 08</div>
+          <div class="lektion-name">Ein Anfang mit Schrecken</div>
+          <div class="lektion-topics">Perfekt · posse</div>
         </div>
-
-
-        <!-- L04 -->
-
-        <div
-          class="lektion-btn locked"
-          aria-disabled="true"
-          aria-label="Lektion 4: Incitatus ist der Größte. Noch nicht verfügbar."
-        >
-
-          <span
-            class="lektion-status"
-            aria-hidden="true"
-          >
-            🔒
-          </span>
-
-          <div class="lektion-num">
-            L 04
-          </div>
-
-          <div class="lektion-name">
-            Incitatus ist der Größte!
-          </div>
-
-          <div class="lektion-topics">
-            Ablativ · Präpositionen
-          </div>
-
-        </div>
-
-
-        <!-- L05 -->
-
-        <div
-          class="lektion-btn locked"
-          aria-disabled="true"
-          aria-label="Lektion 5: Orpheus und Eurydike. Noch nicht verfügbar."
-        >
-
-          <span
-            class="lektion-status"
-            aria-hidden="true"
-          >
-            🔒
-          </span>
-
-          <div class="lektion-num">
-            L 05
-          </div>
-
-          <div class="lektion-name">
-            Orpheus und Eurydike
-          </div>
-
-          <div class="lektion-topics">
-            Konsonantische Konjugation
-          </div>
-
-        </div>
-
-
-        <!-- L06 -->
-
-        <div
-          class="lektion-btn locked"
-          aria-disabled="true"
-          aria-label="Lektion 6: Ikarus und das Fliegen. Noch nicht verfügbar."
-        >
-
-          <span
-            class="lektion-status"
-            aria-hidden="true"
-          >
-            🔒
-          </span>
-
-          <div class="lektion-num">
-            L 06
-          </div>
-
-          <div class="lektion-name">
-            Ikarus und das Fliegen
-          </div>
-
-          <div class="lektion-topics">
-            Genitiv
-          </div>
-
-        </div>
-
-
-        <!-- L07 -->
-
-        <div
-          class="lektion-btn locked"
-          aria-disabled="true"
-          aria-label="Lektion 7: Äneas flieht aus Troja. Noch nicht verfügbar."
-        >
-
-          <span
-            class="lektion-status"
-            aria-hidden="true"
-          >
-            🔒
-          </span>
-
-          <div class="lektion-num">
-            L 07
-          </div>
-
-          <div class="lektion-name">
-            Äneas flieht aus Troja
-          </div>
-
-          <div class="lektion-topics">
-            Dativ · 3. Deklination
-          </div>
-
-        </div>
-
-
-        <!-- L08 -->
-
-        <div
-          class="lektion-btn locked"
-          aria-disabled="true"
-          aria-label="Lektion 8: Ein Anfang mit Schrecken. Noch nicht verfügbar."
-        >
-
-          <span
-            class="lektion-status"
-            aria-hidden="true"
-          >
-            🔒
-          </span>
-
-          <div class="lektion-num">
-            L 08
-          </div>
-
-          <div class="lektion-name">
-            Ein Anfang mit Schrecken
-          </div>
-
-          <div class="lektion-topics">
-            Perfekt · posse
-          </div>
-
-        </div>
-
       </nav>
 
-
-      <!-- PROGRESS -->
-
-      <div
-        class="progress-section"
-        aria-label="Lernfortschritt"
-      >
-
-        <div
-          class="progress-bar-wrap"
-          role="progressbar"
-          aria-valuemin="0"
-          aria-valuemax="16"
-          aria-valuenow="2"
-          aria-label="2 von 16 Lektionen verfügbar"
-        >
-
-          <div
-            class="progress-bar-fill"
-            style="width: 12.5%;"
-          ></div>
-
+      <div class="progress-section" aria-label="Verfügbare Lektionen">
+        <div class="progress-bar-wrap"
+             role="progressbar"
+             aria-valuemin="0"
+             aria-valuemax="16"
+             aria-valuenow="7"
+             aria-label="7 von 16 Lektionen verfügbar">
+          <div class="progress-bar-fill" style="width:43.75%"></div>
         </div>
-
-        <div class="progress-label">
-          2 von 16 Lektionen · 12,5 %
-        </div>
-
+        <div class="progress-label">7 von 16 Lektionen · 43,75 % verfügbar</div>
       </div>
-
     </section>
 
-
-    <!-- ─────────────────────────
-         KLASSE 8
-    ────────────────────────── -->
-
-    <section
-      class="year-card locked"
-      aria-labelledby="klasse8-title"
-      aria-disabled="true"
-    >
-
+    <section class="year-card locked" aria-labelledby="klasse8-title" aria-disabled="true">
       <div class="year-header">
-
-        <div
-          class="year-badge"
-          aria-hidden="true"
-        >
-
-          <span class="year-badge-num">
-            8
-          </span>
-
-          <span class="year-badge-label">
-            Klasse
-          </span>
-
+        <div class="year-badge" aria-hidden="true">
+          <span class="year-badge-num">8</span>
+          <span class="year-badge-label">Klasse</span>
         </div>
-
-
         <div class="year-info">
-
-          <h2 id="klasse8-title">
-            Latein II
-          </h2>
-
-          <p>
-            Weitere Grammatik · demnächst
-          </p>
-
+          <h2 id="klasse8-title">Latein II</h2>
+          <p>Weitere Grammatik · demnächst</p>
         </div>
-
-
-        <div
-          class="lock-badge"
-          aria-label="Noch nicht verfügbar"
-        >
-          🔒
-        </div>
-
+        <div class="lock-badge" aria-label="Noch nicht verfügbar">🔒</div>
       </div>
-
     </section>
 
-
-    <!-- ─────────────────────────
-         KLASSE 9
-    ────────────────────────── -->
-
-    <section
-      class="year-card locked"
-      aria-labelledby="klasse9-title"
-      aria-disabled="true"
-    >
-
+    <section class="year-card locked" aria-labelledby="klasse9-title" aria-disabled="true">
       <div class="year-header">
-
-        <div
-          class="year-badge"
-          aria-hidden="true"
-        >
-
-          <span class="year-badge-num">
-            9
-          </span>
-
-          <span class="year-badge-label">
-            Klasse
-          </span>
-
+        <div class="year-badge" aria-hidden="true">
+          <span class="year-badge-num">9</span>
+          <span class="year-badge-label">Klasse</span>
         </div>
-
-
         <div class="year-info">
-
-          <h2 id="klasse9-title">
-            Latein III
-          </h2>
-
-          <p>
-            Fortgeschrittene Grammatik und Texte · demnächst
-          </p>
-
+          <h2 id="klasse9-title">Latein III</h2>
+          <p>Vertiefung · Übersetzung · demnächst</p>
         </div>
-
-
-        <div
-          class="lock-badge"
-          aria-label="Noch nicht verfügbar"
-        >
-          🔒
-        </div>
-
+        <div class="lock-badge" aria-label="Noch nicht verfügbar">🔒</div>
       </div>
-
     </section>
 
-
-    <!-- ─────────────────────────
-         KLASSE 10
-    ────────────────────────── -->
-
-    <section
-      class="year-card locked"
-      aria-labelledby="klasse10-title"
-      aria-disabled="true"
-    >
-
+    <section class="year-card locked" aria-labelledby="klasse10-title" aria-disabled="true">
       <div class="year-header">
-
-        <div
-          class="year-badge"
-          aria-hidden="true"
-        >
-
-          <span class="year-badge-num">
-            10
-          </span>
-
-          <span class="year-badge-label">
-            Klasse
-          </span>
-
+        <div class="year-badge" aria-hidden="true">
+          <span class="year-badge-num">10</span>
+          <span class="year-badge-label">Klasse</span>
         </div>
-
-
         <div class="year-info">
-
-          <h2 id="klasse10-title">
-            Latein IV
-          </h2>
-
-          <p>
-            Originaltexte · Übersetzung · Grammatik · demnächst
-          </p>
-
+          <h2 id="klasse10-title">Latein IV</h2>
+          <p>Originaltexte · Übersetzung · Grammatik · demnächst</p>
         </div>
-
-
-        <div
-          class="lock-badge"
-          aria-label="Noch nicht verfügbar"
-        >
-          🔒
-        </div>
-
+        <div class="lock-badge" aria-label="Noch nicht verfügbar">🔒</div>
       </div>
-
     </section>
 
+    <section class="latin-quote" aria-label="Lateinisches Zitat">
+      <blockquote>Per aspera ad astra.</blockquote>
+      <span class="latin-translation">Durch Schwierigkeiten zu den Sternen.</span>
+    </section>
 
-    <!-- ─────────────────────────
-         LATIN QUOTE
-    ────────────────────────── -->
-
-    <div
-      class="divider"
-      aria-hidden="true"
-    >
-      <div class="divider-line"></div>
-      <div class="divider-gem"></div>
-      <div class="divider-line"></div>
-    </div>
-
-
-    <figure class="latin-quote">
-
-      <blockquote lang="la">
-        Per aspera ad astra
-      </blockquote>
-
-      <figcaption class="latin-translation">
-        Durch Schwierigkeiten zu den Sternen.
-      </figcaption>
-
-    </figure>
-
-
-    <!-- ─────────────────────────
-         FOOTER
-    ────────────────────────── -->
-
-    <footer class="footer">
-      MAGISTRELLA · MMXXVI · 🏛️
-    </footer>
-
+    <footer class="footer">Magistrella · MMXXVI</footer>
   </main>
-
 </body>
 </html>
