@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>L01 · Sieg im Circus Maximus · Magistrella</title>
+<style>
+  :root{--gold:#C9A84C;--gold-light:#E8C96A;--gold-dark:#8B6914;--terracotta:#C0522B;--ink:#1A1208;--ink-mid:#2A1F0E;--parchment:#F5EDD6;--parchment-dark:#E8D9B5;--stone:#7A6E5A;--green-ok:#4CAF7D;--red-wrong:#E05050;--white:#FDFAF3;}
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  body{font-family:'Georgia',serif;background:var(--ink);color:var(--parchment);min-height:100vh;}
+  .topbar{position:sticky;top:0;z-index:100;background:rgba(26,18,8,0.95);backdrop-filter:blur(8px);border-bottom:1px solid rgba(201,168,76,0.2);padding:10px 16px;display:flex;align-items:center;gap:12px;}
+  .back-btn{color:var(--gold);text-decoration:none;font-size:20px;padding:4px 8px 4px 0;}
+  .topbar-info{flex:1;}.topbar-title{font-size:14px;font-style:italic;color:var(--gold-light);}.topbar-sub{font-size:11px;color:var(--stone);letter-spacing:1px;}.topbar-progress{font-size:13px;color:var(--gold);font-weight:700;min-width:48px;text-align:right;}
+  .rule-card{margin:16px;background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(201,168,76,0.04));border:1px solid rgba(201,168,76,0.3);border-radius:16px;padding:16px;position:relative;overflow:hidden;}
+  .rule-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold-dark),var(--gold-light),var(--gold-dark));}
+  .rule-title{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+  .rule-body{font-size:13px;color:var(--parchment-dark);line-height:1.7;}
+  .rule-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:12px;}
+  .rule-table th{background:rgba(201,168,76,0.15);color:var(--gold-light);padding:5px 8px;text-align:left;font-size:11px;font-weight:700;}
+  .rule-table td{padding:5px 8px;border-bottom:1px solid rgba(201,168,76,0.1);color:var(--parchment);}
+  .rule-table tr:last-child td{border-bottom:none;}
+  .rule-highlight{color:var(--gold-light);font-weight:700;}
+  .vocab-block{margin:12px 16px;background:rgba(0,0,0,0.2);border:1px solid rgba(201,168,76,0.15);border-radius:12px;overflow:hidden;}
+  .vocab-block-title{background:rgba(201,168,76,0.1);padding:8px 12px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);}
+  .vocab-row{display:flex;padding:7px 12px;border-bottom:1px solid rgba(201,168,76,0.08);align-items:baseline;gap:8px;}
+  .vocab-row:last-child{border-bottom:none;}
+  .vocab-lat{font-size:14px;font-style:italic;color:var(--white);min-width:110px;flex-shrink:0;}
+  .vocab-gen{font-size:11px;color:var(--gold);min-width:55px;flex-shrink:0;}
+  .vocab-de{font-size:13px;color:var(--parchment-dark);flex:1;}
+  .question-card{margin:0 16px 16px;background:var(--ink-mid);border:1px solid rgba(201,168,76,0.15);border-radius:20px;padding:20px;animation:slideUp 0.3s ease;}
+  @keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  .q-theme{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+  .q-type-badge{display:inline-block;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:99px;padding:3px 10px;font-size:11px;color:var(--gold-light);margin-bottom:12px;}
+  .q-prompt{font-size:15px;color:var(--parchment);line-height:1.5;margin-bottom:14px;font-style:italic;}
+  .q-sentence{font-size:17px;color:var(--white);text-align:center;margin-bottom:16px;line-height:1.5;padding:12px;background:rgba(0,0,0,0.2);border-radius:12px;font-style:italic;}
+  .gap-options{display:flex;flex-direction:column;gap:10px;}
+  .gap-btn{background:rgba(255,255,255,0.04);border:1.5px solid rgba(201,168,76,0.25);border-radius:14px;padding:13px 15px;font-size:16px;font-family:'Georgia',serif;color:var(--parchment);cursor:pointer;text-align:left;transition:all 0.18s;display:flex;align-items:center;gap:10px;}
+  .gap-btn:active{transform:scale(0.97);}
+  .gap-btn.correct{background:rgba(76,175,125,0.15);border-color:var(--green-ok);color:var(--green-ok);}
+  .gap-btn.wrong{background:rgba(224,80,80,0.12);border-color:var(--red-wrong);color:var(--red-wrong);}
+  .gap-btn-letter{width:26px;height:26px;background:rgba(201,168,76,0.15);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--gold);flex-shrink:0;}
+  .tf-options{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .tf-btn{padding:16px;border-radius:16px;font-size:24px;text-align:center;border:2px solid rgba(201,168,76,0.2);background:rgba(255,255,255,0.03);cursor:pointer;transition:all 0.18s;}
+  .tf-btn:active{transform:scale(0.95);}
+  .tf-btn.correct{background:rgba(76,175,125,0.15);border-color:var(--green-ok);}
+  .tf-btn.wrong{background:rgba(224,80,80,0.12);border-color:var(--red-wrong);}
+  .match-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .match-col-labels{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px;}
+  .match-col-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-align:center;}
+  .match-item{background:rgba(255,255,255,0.04);border:1.5px solid rgba(201,168,76,0.2);border-radius:12px;padding:9px;font-size:13px;font-family:'Georgia',serif;color:var(--parchment);cursor:pointer;text-align:center;transition:all 0.18s;font-style:italic;min-height:42px;display:flex;align-items:center;justify-content:center;}
+  .match-item.selected{background:rgba(201,168,76,0.2);border-color:var(--gold);color:var(--gold-light);}
+  .match-item.matched{background:rgba(76,175,125,0.15);border-color:var(--green-ok);color:var(--green-ok);pointer-events:none;}
+  .match-item.wrong{background:rgba(224,80,80,0.12);border-color:var(--red-wrong);}
+  .match-item:active{transform:scale(0.96);}
+  .puzzle-target{min-height:50px;background:rgba(201,168,76,0.06);border:1.5px dashed rgba(201,168,76,0.35);border-radius:12px;padding:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:8px;}
+  .puzzle-source{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:12px;}
+  .tile{background:rgba(201,168,76,0.12);border:1.5px solid rgba(201,168,76,0.4);border-radius:10px;padding:7px 12px;font-size:14px;font-family:'Georgia',serif;color:var(--parchment);cursor:pointer;transition:all 0.15s;font-style:italic;}
+  .tile:active{transform:scale(0.93);}
+  .tile.used{opacity:0.25;pointer-events:none;}
+  .tile.placed{background:rgba(201,168,76,0.18);border-color:var(--gold);}
+  .swipe-card{background:linear-gradient(135deg,rgba(201,168,76,0.1),rgba(201,168,76,0.03));border:1.5px solid rgba(201,168,76,0.25);border-radius:20px;padding:22px 18px;text-align:center;margin-bottom:14px;font-size:17px;font-style:italic;color:var(--white);line-height:1.6;}
+  .swipe-buttons{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .swipe-btn{padding:14px;border-radius:16px;font-size:22px;border:2px solid;cursor:pointer;transition:all 0.18s;}
+  .swipe-btn.left{border-color:var(--red-wrong);background:rgba(224,80,80,0.08);}
+  .swipe-btn.right{border-color:var(--green-ok);background:rgba(76,175,125,0.08);}
+  .swipe-btn:active{transform:scale(0.95);}
+  .spotlight-sentence{font-size:18px;text-align:center;font-style:italic;color:var(--white);margin-bottom:16px;padding:14px;background:rgba(0,0,0,0.2);border-radius:12px;line-height:1.7;}
+  .spotlight-word{background:rgba(201,168,76,0.25);border:1.5px solid var(--gold);border-radius:6px;padding:2px 7px;color:var(--gold-light);font-style:normal;font-weight:700;}
+  .quiz-timer{text-align:center;margin-bottom:12px;}
+  .quiz-timer-bar-wrap{background:rgba(255,255,255,0.08);border-radius:99px;height:6px;overflow:hidden;margin-top:5px;}
+  .quiz-timer-bar{height:100%;background:linear-gradient(90deg,var(--gold-dark),var(--gold-light));border-radius:99px;transition:width 1s linear;}
+  .quiz-timer-num{font-size:13px;color:var(--gold);}
+  .feedback{margin-top:14px;padding:14px;border-radius:14px;font-size:14px;line-height:1.5;display:none;}
+  .feedback.correct{display:block;background:rgba(76,175,125,0.12);border:1px solid rgba(76,175,125,0.3);color:#7FD8A8;}
+  .feedback.wrong{display:block;background:rgba(224,80,80,0.08);border:1px solid rgba(224,80,80,0.25);color:#F0A0A0;}
+  .feedback-affirmation{font-size:15px;font-weight:700;margin-bottom:6px;}
+  .next-btn{width:100%;background:linear-gradient(135deg,var(--gold-dark),var(--gold));border:none;border-radius:14px;padding:15px;font-size:15px;font-family:'Georgia',serif;color:var(--ink);font-weight:700;cursor:pointer;margin-top:12px;letter-spacing:1px;display:none;transition:all 0.2s;}
+  .next-btn:active{transform:scale(0.98);}
+  .next-btn.visible{display:block;}
+  .check-btn{width:100%;background:rgba(201,168,76,0.15);border:1.5px solid rgba(201,168,76,0.4);border-radius:14px;padding:13px;font-size:15px;font-family:'Georgia',serif;color:var(--gold-light);cursor:pointer;margin-top:8px;transition:all 0.18s;}
+  .check-btn:active{background:rgba(201,168,76,0.25);}
+  .section-header{margin:16px 16px 0;padding:12px 14px;background:rgba(201,168,76,0.08);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;}
+  .section-header h2{font-size:16px;color:var(--gold-light);font-style:italic;}
+  .section-header p{font-size:11px;color:var(--stone);margin-top:2px;}
+  .mustersatz{font-size:11px;color:var(--stone);text-align:right;margin-top:4px;font-style:italic;}
+  .completion{display:none;text-align:center;padding:40px 24px;}
+  .completion.visible{display:block;}
+  .completion-emoji{font-size:68px;margin-bottom:16px;animation:bounce 0.6s ease infinite alternate;}
+  @keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-12px)}}
+  .completion-title{font-size:26px;color:var(--gold-light);font-style:italic;margin-bottom:8px;}
+  .completion-score{font-size:44px;font-weight:700;color:var(--gold);margin:14px 0;}
+  .completion-stars{font-size:34px;margin-bottom:20px;letter-spacing:8px;}
+  .completion-msg{font-size:15px;color:var(--parchment-dark);line-height:1.6;font-style:italic;margin-bottom:28px;}
+  .home-btn{display:inline-block;background:linear-gradient(135deg,var(--gold-dark),var(--gold));border-radius:14px;padding:14px 28px;font-size:15px;font-family:'Georgia',serif;color:var(--ink);font-weight:700;text-decoration:none;}
+  .confetti-container{position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden;}
+  .confetti-piece{position:absolute;border-radius:2px;animation:confettiFall linear forwards;}
+  @keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a class="back-btn" href="../index.html">&#8592;</a>
+  <div class="topbar-info">
+    <div class="topbar-title">L01 &middot; Sieg im Circus Maximus</div>
+    <div class="topbar-sub">&#127963; Magistrella &middot; prima.</div>
+  </div>
+  <div class="topbar-progress" id="progressLabel">1/15</div>
+</div>
+<div id="mainContent"></div>
+<div class="completion" id="completionScreen">
+  <div class="completion-emoji">&#127942;</div>
+  <div class="completion-title">Lektion abgeschlossen!</div>
+  <div class="completion-score" id="finalScore">--</div>
+  <div class="completion-stars" id="finalStars">&#11088;&#11088;&#11088;</div>
+  <div class="completion-msg" id="finalMsg"></div>
+  <a class="home-btn" href="../index.html">&#8592; Zur&uuml;ck zur &Uuml;bersicht</a>
+</div>
+<div class="confetti-container" id="confettiContainer"></div>
+<script>
+"use strict";
+
+// ═══════════════════════════════════════════════════
+// VOKABELPOOL — prima. L01, alle 37 Vokabeln mit Makra
+// ═══════════════════════════════════════════════════
+var POOL = [
+  // Block 1
+  { lat: "c\u014Dgit\u0101re", sg3: "c\u014Dgitat", de: "denken, nachdenken, beabsichtigen", type: "verb" },
+  { lat: "ub\u012B?",          sg3: "",             de: "wo?",                               type: "fragewort" },
+  { lat: "esse",             sg3: "est",           de: "sein, sich befinden",               type: "verb" },
+  { lat: "n\u014Dn",          sg3: "",             de: "nicht",                             type: "adv" },
+  { lat: "ven\u012Bre",       sg3: "venit",         de: "kommen",                            type: "verb" },
+  { lat: "dominus",          sg3: "",             de: "der Herr",                          type: "nomen" },
+  { lat: "et",              sg3: "",             de: "und, auch",                         type: "konj" },
+  { lat: "domina",           sg3: "",             de: "die Herrin, die Dame",              type: "nomen" },
+  { lat: "servus",           sg3: "",             de: "der Sklave, der Diener",            type: "nomen" },
+  { lat: "serva",            sg3: "",             de: "die Sklavin, die Dienerin",         type: "nomen" },
+  { lat: "st\u0101re",        sg3: "stat",          de: "stehen, dastehen",                  type: "verb" },
+  { lat: "spect\u0101re",     sg3: "spectat",       de: "anschauen, betrachten, zuschauen",  type: "verb" },
+  { lat: "cl\u0101m\u0101re", sg3: "cl\u0101mat",   de: "laut rufen, schreien",              type: "verb" },
+  { lat: "sed",             sg3: "",             de: "aber, sondern",                     type: "konj" },
+  { lat: "tac\u0113re",       sg3: "tacet",         de: "schweigen",                         type: "verb" },
+  // Block 2
+  { lat: "nunc",            sg3: "",             de: "jetzt, nun",                        type: "adv" },
+  { lat: "equus",           sg3: "",             de: "das Pferd",                         type: "nomen" },
+  { lat: "etiam",           sg3: "",             de: "auch, sogar",                       type: "adv" },
+  { lat: "vid\u0113re",       sg3: "videt",         de: "sehen",                             type: "verb" },
+  { lat: "victor",          sg3: "",             de: "der Sieger",                        type: "nomen" },
+  { lat: "gaud\u0113re",      sg3: "gaudet",        de: "sich freuen",                       type: "verb" },
+  { lat: "populus",         sg3: "",             de: "das Volk",                          type: "nomen" },
+  { lat: "undique",         sg3: "",             de: "von allen Seiten, von \u00fcberallher", type: "adv" },
+  { lat: "cl\u0101mor",       sg3: "",             de: "der L\u00e4rm, das Geschrei",          type: "nomen" },
+  { lat: "vict\u014Dria",     sg3: "",             de: "der Sieg",                          type: "nomen" },
+  { lat: "merc\u0101tor",     sg3: "",             de: "der Kaufmann, der H\u00e4ndler",       type: "nomen" },
+  // Block 3
+  { lat: "rog\u0101re",       sg3: "rogat",         de: "fragen, bitten (um)",               type: "verb" },
+  { lat: "ib\u012B",           sg3: "",             de: "dort",                              type: "adv" },
+  { lat: "fr\u016Bmentum",     sg3: "",             de: "das Getreide",                      type: "nomen" },
+  { lat: "r\u012Bd\u0113re",   sg3: "r\u012Bdet",    de: "lachen, auslachen",                 type: "verb" },
+  { lat: "am\u0101re",        sg3: "amat",          de: "lieben, gernhaben",                 type: "verb" },
+  { lat: "quis?",           sg3: "",             de: "wer?",                              type: "fragewort" },
+  { lat: "h\u012Bc",          sg3: "",             de: "hier",                              type: "adv" },
+  { lat: "adesse",          sg3: "adest",         de: "da sein, helfen",                   type: "verb" },
+  { lat: "d\u0113b\u0113re",  sg3: "d\u0113bet",    de: "m\u00fcssen, sollen, schulden",       type: "verb" },
+  { lat: "f\u016Brtum",        sg3: "",             de: "der Diebstahl",                     type: "nomen" },
+  { lat: "c\u016Br?",         sg3: "",             de: "warum?",                            type: "fragewort" }
+];
+
+// ═══════════════════════════════════════════════════
+// GESICHERTE MUSTERSÄTZE AUS prima. (nur Fotos!)
+// ═══════════════════════════════════════════════════
+// Quelle: Vokabelheft-Fotos, Beispielsätze im Heft
+var MUSTERSAETZE = [
+  { lat: "D\u0101vus c\u014Dgitat.",           de: "Davus denkt nach.",                     subj: "D\u0101vus",  verb: "c\u014Dgitat" },
+  { lat: "Nunc etiam Incit\u0101tus adest.",  de: "Jetzt ist auch Incitatus da.",           subj: "Incit\u0101tus", verb: "adest" },
+  { lat: "Victor gaudet.",                    de: "Der Sieger freut sich.",                 subj: "Victor",      verb: "gaudet" },
+  { lat: "Serv\u012B stant et spectant.",     de: "Die Sklaven stehen und schauen zu.",     subj: "Serv\u012B",  verb: "stant" },
+  { lat: "Servus ven\u012Bre d\u0113bet.",    de: "Der Sklave muss kommen.",                subj: "Servus",      verb: "ven\u012Bre" }
+];
+
+// Spotlight-Sätze: Subjekt markiert, aus Mustersätzen
+var SPOTLIGHT_SAETZE = [
+  { sentence: "D\u0101vus c\u014Dgitat.", spotWord: "D\u0101vus", correct: true,
+    affirmation: "Ita! D\u0101vus = Nominativ = Subjekt! \ud83c\udfaf",
+    wrongMsg: "D\u0101vus ist das Subjekt (Nominativ) \u2014 er denkt nach." },
+  { sentence: "Victor gaudet.", spotWord: "Victor", correct: true,
+    affirmation: "Ita! Victor = Nominativ = Subjekt \u2014 der Sieger! \ud83c\udfc6",
+    wrongMsg: "Victor ist das Subjekt (Nominativ) \u2014 der Sieger freut sich." },
+  { sentence: "Nunc etiam Incit\u0101tus adest.", spotWord: "Incit\u0101tus", correct: true,
+    affirmation: "Ita! Incit\u0101tus = Nominativ (Endung -us) = Subjekt! \ud83d\udc0e",
+    wrongMsg: "Incit\u0101tus ist Nominativ Singular (Endung -us) = Subjekt." },
+  { sentence: "Serv\u012B stant et spectant.", spotWord: "Serv\u012B", correct: true,
+    affirmation: "Ita! Serv\u012B = Nominativ Plural (Endung -\u012B) = Subjekt! \ud83c\udfaf",
+    wrongMsg: "Serv\u012B ist Nominativ Plural \u2014 die Sklaven stehen." }
+];
+
+// esse-Fragen: nur mit Formen die im Heft sichtbar sind
+// est/adest klar im Heft (Incitatus adest, Ubi est Incitatus)
+var ESSE_FRAGEN = [
+  { sentence: "Ub\u012B _____ Incit\u0101tus?", blank: "_____",
+    correct: "est", opts: ["est", "sunt", "sum"],
+    hint: "3. Sg. von esse \u2014 er/sie/es ist" },
+  { sentence: "Nunc etiam Incit\u0101tus _____.", blank: "_____",
+    correct: "adest", opts: ["adest", "adsunt", "adsum"],
+    hint: "3. Sg. von adesse \u2014 da sein" }
+];
+
+// debere-Fragen: nur d\u0113bet (3.Sg.) klar im Heft
+var DEBERE_FRAGEN = [
+  { sentence: "Servus ven\u012Bre _____.", blank: "_____",
+    correct: "d\u0113bet", opts: ["d\u0113bet", "d\u0113bent", "d\u0113b\u0113mus"],
+    hint: "d\u0113bet = er/sie muss (3. Sg.)" }
+];
+
+// ═══════════════════════════════════════════════════
+// HILFSFUNKTIONEN
+// ═══════════════════════════════════════════════════
+function shuffle(arr) {
+  var a = arr.slice();
+  for (var i = a.length-1; i > 0; i--) {
+    var j = Math.floor(Math.random()*(i+1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+
+// ═══════════════════════════════════════════════════
+// REGELKARTEN
+// ═══════════════════════════════════════════════════
+var RULE_ESSE = "<div class=\"rule-title\">\ud83d\udccb Regelkarte \u00b7 esse</div><div class=\"rule-body\"><strong style=\"color:var(--gold)\">esse</strong> = sein (unregelm\u00e4\u00dfig!)<table class=\"rule-table\"><tr><th>Person</th><th>Sg.</th><th>Pl.</th></tr><tr><td>1.</td><td>sum</td><td>sumus</td></tr><tr><td>2.</td><td>es</td><td>estis</td></tr><tr><td class=\"rule-highlight\">3.</td><td class=\"rule-highlight\">est</td><td class=\"rule-highlight\">sunt</td></tr></table><br><strong style=\"color:var(--gold)\">adesse</strong> = da sein:<br>3. Sg.: <strong style=\"color:var(--gold-light)\">adest</strong> &nbsp; 3. Pl.: <strong style=\"color:var(--gold-light)\">adsunt</strong><br><br><em style=\"color:var(--parchment-dark)\">Ub\u012B est Incit\u0101tus? \u2014 Wo ist Incitatus?<br>Nunc etiam Incit\u0101tus adest. \u2014 Jetzt ist auch Incitatus da.</em></div>";
+
+var RULE_NOM = "<div class=\"rule-title\">\ud83d\udccb Regelkarte \u00b7 Nominativ</div><div class=\"rule-body\">Der <strong style=\"color:var(--gold-light)\">Nominativ</strong> = Subjekt \u2014 wer oder was handelt.<table class=\"rule-table\"><tr><th></th><th>a-Dek. (f)</th><th>o-Dek. (m)</th></tr><tr><td>Nom. Sg.</td><td class=\"rule-highlight\">-a</td><td class=\"rule-highlight\">-us</td></tr><tr><td>Nom. Pl.</td><td class=\"rule-highlight\">-ae</td><td class=\"rule-highlight\">-\u012B</td></tr></table><br><em style=\"color:var(--parchment-dark)\">Victor gaudet. \u2014 Der Sieger freut sich.<br>Serv\u012B stant. \u2014 Die Sklaven stehen.</em></div>";
+
+var RULE_INF = "<div class=\"rule-title\">\ud83d\udccb Regelkarte \u00b7 Infinitiv & d\u0113b\u0113re</div><div class=\"rule-body\">Infinitiv endet auf <strong style=\"color:var(--gold)\">-re</strong>: <em>ven\u012Bre, st\u0101re, spect\u0101re</em><br><br><strong style=\"color:var(--gold)\">d\u0113b\u0113re + Infinitiv</strong> = m\u00fcssen / sollen:<br><br><em style=\"color:var(--parchment-dark)\">Servus ven\u012Bre d\u0113bet.</em><br>\u2192 Der Sklave muss kommen.<br><br>d\u0113bet = 3. Sg. (er/sie muss)</div>";
+
+// ═══════════════════════════════════════════════════
+// DYNAMISCHE FRAGENGENERATOREN
+// ═══════════════════════════════════════════════════
+
+function genMatchVocab(items) {
+  var picked = shuffle(items).slice(0, 4);
+  return {
+    type: "match", showRule: null,
+    theme: "\ud83d\udd17 Vokabeln zuordnen",
+    prompt: "Verbinde Latein mit Deutsch!",
+    leftTitle: "Latein", rightTitle: "Deutsch",
+    pairs: picked.map(function(v){ return [v.lat, v.de]; }),
+    affirmation: "Magnifice! Alle richtig! \ud83c\udfc6",
+    wrongMsg: "Schau nochmal in die Vokabelliste oben."
+  };
+}
+
+function genSwipeVocab(pool) {
+  var v = shuffle(pool)[0];
+  var useCorrect = Math.random() > 0.5;
+  var displayed = useCorrect ? v.de : shuffle(pool.filter(function(x){ return x.lat !== v.lat; }))[0].de;
+  return {
+    type: "swipe", showRule: null,
+    theme: "\ud83d\udc4b Bedeutung pr\u00fcfen",
+    prompt: "Stimmt die \u00dcbersetzung?",
+    sentence: v.lat + "\n= " + displayed,
+    correct: useCorrect,
+    affirmation: "Ita! " + v.lat + " = " + v.de + " \u2705",
+    wrongMsg: v.lat + " = " + v.de + ". Merke dir die Vokabel!"
+  };
+}
+
+function genQuickQuiz(pool) {
+  var shuffled = shuffle(pool);
+  var target = shuffled[0];
+  var distractors = shuffled.slice(1, 4).map(function(v){ return v.de; });
+  var allOpts = shuffle([target.de].concat(distractors));
+  return {
+    type: "quickQuiz", showRule: null,
+    theme: "\u26a1 Quick Quiz",
+    prompt: "Was bedeutet \u201e" + target.lat + "\u201c?",
+    options: allOpts,
+    correct: allOpts.indexOf(target.de),
+    affirmation: "Ita! " + target.lat + " = " + target.de + " \ud83c\udfaf",
+    wrongMsg: target.lat + " = " + target.de + ". Merke dir diese Vokabel!"
+  };
+}
+
+function genTrueFalseVocab(pool) {
+  var v = shuffle(pool)[0];
+  var useCorrect = Math.random() > 0.5;
+  var claim = useCorrect ? v.de : shuffle(pool.filter(function(x){ return x.lat !== v.lat; }))[0].de;
+  return {
+    type: "trueFalse", showRule: null,
+    theme: "\u2705\u274c Wahr oder Falsch?",
+    prompt: "Richtig oder falsch?",
+    sentence: "\u201e" + v.lat + "\u201c bedeutet: " + claim,
+    correct: useCorrect,
+    affirmation: "Ita! " + v.lat + " = " + v.de + " \u2705",
+    wrongMsg: v.lat + " = " + v.de + ". Merke dir diese Vokabel!"
+  };
+}
+
+function genEsse() {
+  // Nur Formen die klar im Heft sichtbar sind
+  var f = shuffle(ESSE_FRAGEN)[0];
+  var opts = shuffle(f.opts);
+  return {
+    type: "gap", showRule: RULE_ESSE,
+    theme: "\ud83c\udfd9 esse erkennen",
+    prompt: "Welche Form passt?",
+    sentence: f.sentence, blank: f.blank,
+    options: opts, correct: opts.indexOf(f.correct),
+    affirmation: "Ita! " + f.correct + " \u2014 " + f.hint + "! \ud83c\udfd9",
+    wrongMsg: f.hint + ". Schau auf die Regelkarte!"
+  };
+}
+
+function genDebere() {
+  var f = shuffle(DEBERE_FRAGEN)[0];
+  var opts = shuffle(f.opts);
+  return {
+    type: "gap", showRule: RULE_INF,
+    theme: "\ud83c\udfce\ufe0f d\u0113b\u0113re + Infinitiv",
+    prompt: "Welche Form von d\u0113b\u0113re passt?",
+    sentence: f.sentence, blank: f.blank,
+    options: opts, correct: opts.indexOf(f.correct),
+    affirmation: "Ita! " + f.correct + " \u2014 " + f.hint + "! \ud83c\udfce\ufe0f",
+    wrongMsg: f.hint + ". d\u0113bet = 3. Sg., d\u0113bent = 3. Pl., d\u0113b\u0113mus = 1. Pl."
+  };
+}
+
+function genSpotlight() {
+  // Nur echte Prima-Mustersätze
+  var s = shuffle(SPOTLIGHT_SAETZE)[0];
+  return {
+    type: "spotlight", showRule: RULE_NOM,
+    theme: "\ud83c\udfaf Subjekt erkennen",
+    prompt: "Ist das markierte Wort das Subjekt (Nominativ)?",
+    sentence: s.sentence, spotWord: s.spotWord, correct: s.correct,
+    affirmation: s.affirmation,
+    wrongMsg: s.wrongMsg
+  };
+}
+
+function genPuzzle() {
+  // Nur echte Prima-Mustersätze, nur Subjekt + 1 Verb
+  var simple = MUSTERSAETZE.filter(function(s){ return s.subj && s.verb; });
+  var p = shuffle(simple)[0];
+  return {
+    type: "puzzle", showRule: RULE_NOM,
+    theme: "\ud83e\udde9 Satz bauen",
+    prompt: "Baue den Satz! Subjekt zuerst, dann Verb.",
+    subject: p.subj,
+    tiles: [p.subj, p.verb],
+    translation: p.de,
+    affirmation: "Perfectum! " + p.subj + " " + p.verb + "! \ud83c\udfaf",
+    wrongMsg: p.subj + " (Subjekt, Nominativ) kommt zuerst, dann " + p.verb + " (Verb)."
+  };
+}
+
+// ═══════════════════════════════════════════════════
+// VOKABELBLOECKE
+// ═══════════════════════════════════════════════════
+var vocabBlocks = [
+  { title: "Block 1 \u2014 15 Vokabeln", items: POOL.slice(0,15) },
+  { title: "Block 2 \u2014 11 Vokabeln", items: POOL.slice(15,26) },
+  { title: "Block 3 \u2014 11 Vokabeln", items: POOL.slice(26) }
+];
+
+// ═══════════════════════════════════════════════════
+// SESSION — dynamisch, jedes Mal neu
+// ═══════════════════════════════════════════════════
+function buildSession() {
+  var b1 = POOL.slice(0,15), b2 = POOL.slice(15,26), b3 = POOL.slice(26);
+  var items = [];
+
+  items.push({ _vocabBlock: true, blockIndex: 0 });
+  [genMatchVocab(b1), genSwipeVocab(b1), genEsse(),
+   genTrueFalseVocab(b1), genSwipeVocab(b1)
+  ].forEach(function(q){ items.push({ _question: true, q: q }); });
+
+  items.push({ _vocabBlock: true, blockIndex: 1 });
+  [genMatchVocab(b2), genQuickQuiz(b1.concat(b2)),
+   genSpotlight(), genPuzzle(), genTrueFalseVocab(b2)
+  ].forEach(function(q){ items.push({ _question: true, q: q }); });
+
+  items.push({ _vocabBlock: true, blockIndex: 2 });
+  [genMatchVocab(b3), genQuickQuiz(POOL),
+   genDebere(), genSwipeVocab(POOL), genQuickQuiz(POOL)
+  ].forEach(function(q){ items.push({ _question: true, q: q }); });
+
+  return items;
+}
+
+var allItems = buildSession();
+var currentIndex = 0, score = 0, totalAnswered = 0;
+var totalQuestions = allItems.filter(function(i){ return i._question; }).length;
+
+// ═══════════════════════════════════════════════════
+// ENGINE
+// ═══════════════════════════════════════════════════
+function updateProgress() {
+  var ans = allItems.slice(0,currentIndex+1).filter(function(i){ return i._question; }).length;
+  document.getElementById("progressLabel").textContent = Math.min(ans,totalQuestions)+"/"+totalQuestions;
+}
+
+function renderCurrent() {
+  var item = allItems[currentIndex];
+  if (!item) { showCompletion(); return; }
+  var main = document.getElementById("mainContent");
+  main.innerHTML = "";
+  if (item._vocabBlock) {
+    renderVocabBlock(item.blockIndex, main);
+    setTimeout(function(){ currentIndex++; renderCurrent(); }, 0);
+    return;
+  }
+  updateProgress();
+  var q = item.q;
+  if (q.showRule) { var rc=document.createElement("div"); rc.className="rule-card"; rc.innerHTML=q.showRule; main.appendChild(rc); }
+  if (q.type==="gap") renderGap(q,main);
+  else if (q.type==="trueFalse") renderTrueFalse(q,main);
+  else if (q.type==="match") renderMatch(q,main);
+  else if (q.type==="puzzle") renderPuzzle(q,main);
+  else if (q.type==="quickQuiz") renderQuickQuiz(q,main);
+  else if (q.type==="spotlight") renderSpotlight(q,main);
+  else if (q.type==="swipe") renderSwipe(q,main);
+}
+
+function renderVocabBlock(idx, parent) {
+  var block = vocabBlocks[idx];
+  var hdr=document.createElement("div"); hdr.className="section-header";
+  hdr.innerHTML="<h2>\ud83d\udcd6 "+block.title+"</h2><p>Lerne diese Vokabeln \u2014 dann kommen die \u00dcbungen!</p>";
+  parent.appendChild(hdr);
+  var vb=document.createElement("div"); vb.className="vocab-block";
+  block.items.forEach(function(v){
+    var row=document.createElement("div"); row.className="vocab-row";
+    row.innerHTML="<span class=\"vocab-lat\">"+v.lat+"</span><span class=\"vocab-gen\">"+(v.sg3||"")+"</span><span class=\"vocab-de\">"+v.de+"</span>";
+    vb.appendChild(row);
+  });
+  parent.appendChild(vb);
+}
+
+function makeQCard(q){ var c=document.createElement("div"); c.className="question-card"; c.innerHTML="<div class=\"q-theme\">"+q.theme+"</div>"; return c; }
+function makeFB(p){ var fb=document.createElement("div"); fb.className="feedback"; fb.id="feedback"; p.appendChild(fb); }
+function makeNext(p){ var btn=document.createElement("button"); btn.className="next-btn"; btn.id="nextBtn"; btn.textContent=currentIndex>=allItems.length-1?"Lektion abschlie\u00dfen \u2713":"Weiter \u2192"; btn.addEventListener("click",function(){ currentIndex++; renderCurrent(); }); p.appendChild(btn); }
+function showFB(ok,q){ var fb=document.getElementById("feedback"),nb=document.getElementById("nextBtn"); totalAnswered++; if(ok){score++;fb.className="feedback correct";fb.innerHTML="<div class=\"feedback-affirmation\">"+q.affirmation+"</div>";if(score%3===0)confetti();}else{fb.className="feedback wrong";fb.innerHTML="<div class=\"feedback-affirmation\">\ud83d\udc9b Fast!</div>"+q.wrongMsg;} if(nb)nb.classList.add("visible"); }
+
+function renderGap(q,parent){
+  var card=makeQCard(q);
+  card.innerHTML+="<div class=\"q-type-badge\">\ud83d\udd22 Richtige Form w\u00e4hlen</div><div class=\"q-prompt\">"+q.prompt+"</div>";
+  card.innerHTML+="<div class=\"q-sentence\">"+q.sentence.replace(q.blank,"<span style=\"border-bottom:2px solid var(--gold);min-width:80px;display:inline-block;text-align:center;padding:0 6px;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>")+"</div>";
+  var opts=document.createElement("div"); opts.className="gap-options";
+  var letters=["A","B","C"], answered=false;
+  q.options.forEach(function(opt,i){
+    var btn=document.createElement("button"); btn.className="gap-btn";
+    btn.innerHTML="<span class=\"gap-btn-letter\">"+letters[i]+"</span><em>"+opt+"</em>";
+    btn.addEventListener("click",function(){ if(answered)return; answered=true; var ok=(i===q.correct); btn.classList.add(ok?"correct":"wrong"); if(!ok)opts.querySelectorAll(".gap-btn")[q.correct].classList.add("correct"); showFB(ok,q); });
+    opts.appendChild(btn);
+  });
+  card.appendChild(opts); makeFB(card); makeNext(card); parent.appendChild(card);
+}
+
+function renderTrueFalse(q,parent){
+  var card=makeQCard(q);
+  card.innerHTML+="<div class=\"q-type-badge\">\u2705\u274c Wahr oder Falsch?</div><div class=\"q-prompt\">"+q.prompt+"</div><div class=\"q-sentence\">"+q.sentence+"</div>";
+  var opts=document.createElement("div"); opts.className="tf-options"; var answered=false;
+  ["\u2705 Richtig","\u274c Falsch"].forEach(function(label,i){ var isTrue=(i===0),btn=document.createElement("button"); btn.className="tf-btn"; btn.textContent=label; btn.addEventListener("click",function(){ if(answered)return; answered=true; var ok=(isTrue===q.correct); btn.classList.add(ok?"correct":"wrong"); showFB(ok,q); }); opts.appendChild(btn); });
+  card.appendChild(opts); makeFB(card); makeNext(card); parent.appendChild(card);
+}
+
+function renderMatch(q,parent){
+  var card=makeQCard(q);
+  card.innerHTML+="<div class=\"q-type-badge\">\ud83d\udd17 Match Pairs</div><div class=\"q-prompt\">"+q.prompt+"</div>";
+  var lr=document.createElement("div"); lr.className="match-col-labels"; lr.innerHTML="<div class=\"match-col-label\">"+q.leftTitle+"</div><div class=\"match-col-label\">"+q.rightTitle+"</div>"; card.appendChild(lr);
+  var pairs=q.pairs.slice(), right=pairs.map(function(p){return p[1];}).sort(function(){return Math.random()-0.5;});
+  var grid=document.createElement("div"); grid.className="match-grid";
+  var selL=null,selR=null,matched=0,lEls=[],rEls=[];
+  pairs.forEach(function(pair,i){
+    var lEl=document.createElement("div"); lEl.className="match-item"; lEl.textContent=pair[0];
+    var rEl=document.createElement("div"); rEl.className="match-item"; rEl.textContent=right[i];
+    lEl.addEventListener("click",function(){ if(lEl.classList.contains("matched"))return; lEls.forEach(function(e){if(!e.classList.contains("matched"))e.classList.remove("selected");}); lEl.classList.add("selected"); selL=lEl; tryMatch(); });
+    rEl.addEventListener("click",function(){ if(rEl.classList.contains("matched"))return; rEls.forEach(function(e){if(!e.classList.contains("matched"))e.classList.remove("selected");}); rEl.classList.add("selected"); selR=rEl; tryMatch(); });
+    lEls.push(lEl); rEls.push(rEl); grid.appendChild(lEl); grid.appendChild(rEl);
+  });
+  function tryMatch(){ if(!selL||!selR)return; var ok=pairs.some(function(p){return p[0]===selL.textContent&&p[1]===selR.textContent;}); if(ok){selL.classList.add("matched");selR.classList.add("matched");matched++;if(matched===pairs.length){showFB(true,q);document.getElementById("nextBtn").classList.add("visible");}}else{selL.classList.add("wrong");selR.classList.add("wrong");var sl=selL,sr=selR;setTimeout(function(){sl.classList.remove("wrong","selected");sr.classList.remove("wrong","selected");selL=null;selR=null;},600);return;} selL=null;selR=null; }
+  card.appendChild(grid); makeFB(card); makeNext(card); parent.appendChild(card);
+}
+
+function renderPuzzle(q,parent){
+  var card=makeQCard(q);
+  card.innerHTML+="<div class=\"q-type-badge\">\ud83e\udde9 Satz bauen</div><div class=\"q-prompt\">"+q.prompt+"</div>";
+  card.innerHTML+="<div style=\"font-size:12px;color:var(--stone);margin-bottom:10px;font-style:italic;\">\ud83d\udca1 "+q.translation+"</div>";
+  var target=document.createElement("div"); target.className="puzzle-target";
+  var source=document.createElement("div"); source.className="puzzle-source";
+  var placed=[],shuffled=shuffle(q.tiles),tileEls={};
+  shuffled.forEach(function(word){ var tile=document.createElement("div"); tile.className="tile"; tile.textContent=word; tile.addEventListener("click",function(){ if(tile.classList.contains("used")){placed=placed.filter(function(w){return w!==word;});tile.classList.remove("used");rebuild();}else{placed.push(word);tile.classList.add("used");rebuild();} }); tileEls[word]=tile; source.appendChild(tile); });
+  function rebuild(){ target.innerHTML=""; placed.forEach(function(word){ var t=document.createElement("div"); t.className="tile placed"; t.textContent=word; t.addEventListener("click",function(){ placed=placed.filter(function(w){return w!==word;}); tileEls[word].classList.remove("used"); rebuild(); }); target.appendChild(t); }); }
+  card.appendChild(target); card.appendChild(source);
+  var cb=document.createElement("button"); cb.className="check-btn"; cb.textContent="Pr\u00fcfen \u2713";
+  cb.addEventListener("click",function(){ var ok=placed.length===q.tiles.length&&placed[0]===q.subject&&q.tiles.every(function(w){return placed.indexOf(w)!==-1;}); showFB(ok,q); if(ok)confetti(); });
+  card.appendChild(cb); makeFB(card); makeNext(card); parent.appendChild(card);
+}
+
+function renderQuickQuiz(q,parent){
+  var card=makeQCard(q); card.innerHTML+="<div class=\"q-type-badge\">\u26a1 Quick Quiz</div>";
+  var tn=document.createElement("div"); tn.className="quiz-timer-num"; tn.textContent="\u23f1 60";
+  var tw=document.createElement("div"); tw.className="quiz-timer-bar-wrap";
+  var tb=document.createElement("div"); tb.className="quiz-timer-bar"; tb.style.width="100%";
+  tw.appendChild(tb); var td=document.createElement("div"); td.className="quiz-timer"; td.appendChild(tn); td.appendChild(tw); card.appendChild(td);
+  card.innerHTML+="<div class=\"q-prompt\">"+q.prompt+"</div>";
+  var opts=document.createElement("div"); opts.className="gap-options"; var letters=["A","B","C","D"],answered=false,timeLeft=60;
+  var timer=setInterval(function(){ timeLeft--; tn.textContent="\u23f1 "+timeLeft; tb.style.width=(timeLeft/60*100)+"%"; if(timeLeft<=0){clearInterval(timer);if(!answered){answered=true;showFB(false,q);}} },1000);
+  q.options.forEach(function(opt,i){ var btn=document.createElement("button"); btn.className="gap-btn"; btn.innerHTML="<span class=\"gap-btn-letter\">"+letters[i]+"</span> "+opt; btn.addEventListener("click",function(){ if(answered)return; answered=true; clearInterval(timer); var ok=(i===q.correct); btn.classList.add(ok?"correct":"wrong"); if(!ok)opts.querySelectorAll(".gap-btn")[q.correct].classList.add("correct"); showFB(ok,q); }); opts.appendChild(btn); });
+  card.appendChild(opts); makeFB(card); makeNext(card); parent.appendChild(card);
+}
+
+function renderSpotlight(q,parent){
+  var card=makeQCard(q); card.innerHTML+="<div class=\"q-type-badge\">\ud83c\udfaf Spotlight</div><div class=\"q-prompt\">"+q.prompt+"</div>";
+  var sd=document.createElement("div"); sd.className="spotlight-sentence"; sd.innerHTML=q.sentence.replace(q.spotWord,"<span class=\"spotlight-word\">"+q.spotWord+"</span>"); card.appendChild(sd);
+  var opts=document.createElement("div"); opts.className="tf-options"; var answered=false;
+  ["\u2705 Ja, Nominativ","\u274c Nein"].forEach(function(label,i){ var isTrue=(i===0),btn=document.createElement("button"); btn.className="tf-btn"; btn.textContent=label; btn.addEventListener("click",function(){ if(answered)return; answered=true; var ok=(isTrue===q.correct); btn.classList.add(ok?"correct":"wrong"); showFB(ok,q); }); opts.appendChild(btn); });
+  card.appendChild(opts); makeFB(card); makeNext(card); parent.appendChild(card);
+}
+
+function renderSwipe(q,parent){
+  var card=makeQCard(q); card.innerHTML+="<div class=\"q-type-badge\">\ud83d\udc4b Richtig oder Falsch?</div><div class=\"q-prompt\">"+q.prompt+"</div>";
+  var sc=document.createElement("div"); sc.className="swipe-card"; sc.textContent=q.sentence; card.appendChild(sc);
+  var btns=document.createElement("div"); btns.className="swipe-buttons"; var answered=false;
+  [["\u274c Falsch",false,"left"],["\u2705 Richtig",true,"right"]].forEach(function(arr){ var btn=document.createElement("button"); btn.className="swipe-btn "+arr[2]; btn.textContent=arr[0]; btn.addEventListener("click",function(){ if(answered)return; answered=true; showFB((arr[1]===q.correct),q); }); btns.appendChild(btn); });
+  card.appendChild(btns); makeFB(card); makeNext(card); parent.appendChild(card);
+}
+
+function showCompletion(){
+  document.getElementById("mainContent").style.display="none";
+  var screen=document.getElementById("completionScreen"); screen.classList.add("visible");
+  var pct=Math.round(score/totalQuestions*100);
+  document.getElementById("finalScore").textContent=score+"/"+totalQuestions+" ("+pct+"%)";
+  document.getElementById("finalStars").textContent=pct>=90?"\u2b50\u2b50\u2b50":pct>=70?"\u2b50\u2b50":"\u2b50";
+  var msgs=["Magnifice! D\u0101vus und Incit\u0101tus gratulieren dir! \ud83c\udfd9","Victor gaudet \u2014 und du auch! Weiter zu L02! \ud83c\udfc6","Brava! 37 prima.-Vokabeln gemeistert! \ud83d\udcd6"];
+  document.getElementById("finalMsg").textContent=msgs[Math.floor(Math.random()*msgs.length)];
+  confetti(); setTimeout(confetti,700);
+}
+
+function confetti(){
+  var container=document.getElementById("confettiContainer");
+  var colors=["#C9A84C","#E8C96A","#C0522B","#4CAF7D","#FDFAF3","#8B6914"];
+  for(var i=0;i<30;i++){(function(i){setTimeout(function(){var el=document.createElement("div");el.className="confetti-piece";el.style.left=Math.random()*100+"vw";el.style.background=colors[Math.floor(Math.random()*colors.length)];el.style.animationDuration=(1.5+Math.random()*2)+"s";el.style.width=el.style.height=(6+Math.random()*10)+"px";container.appendChild(el);setTimeout(function(){el.remove();},3500);},i*40);})(i);}
+}
+
+renderCurrent();
+</script>
+</body>
+</html>
