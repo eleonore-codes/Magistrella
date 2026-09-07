@@ -2,36 +2,36 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>L01 · Sieg im Circus Maximus · Magistrella</title>
 <style>
   :root{--gold:#C9A84C;--gold-light:#E8C96A;--gold-dark:#8B6914;--terracotta:#C0522B;--ink:#1A1208;--ink-mid:#2A1F0E;--parchment:#F5EDD6;--parchment-dark:#E8D9B5;--stone:#7A6E5A;--green-ok:#4CAF7D;--red-wrong:#E05050;--white:#FDFAF3;}
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-  body{font-family:'Georgia',serif;background:var(--ink);color:var(--parchment);min-height:100vh;}
+  body{font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--ink);color:var(--parchment);min-height:100vh;line-height:1.6;-webkit-font-smoothing:antialiased;}
   .topbar{position:sticky;top:0;z-index:100;background:rgba(26,18,8,0.95);backdrop-filter:blur(8px);border-bottom:1px solid rgba(201,168,76,0.2);padding:10px 16px;display:flex;align-items:center;gap:12px;}
   .back-btn{color:var(--gold);text-decoration:none;font-size:20px;padding:4px 8px 4px 0;}
-  .topbar-info{flex:1;}.topbar-title{font-size:14px;font-style:italic;color:var(--gold-light);}.topbar-sub{font-size:11px;color:var(--stone);letter-spacing:1px;}.topbar-progress{font-size:13px;color:var(--gold);font-weight:700;min-width:48px;text-align:right;}
+  .topbar-info{flex:1;}.topbar-title{font-size:14px;font-style:italic;color:var(--gold-light);}.topbar-sub{font-size:13px;color:var(--stone);letter-spacing:.6px;}.topbar-progress{font-size:13px;color:var(--gold);font-weight:700;min-width:48px;text-align:right;}
   .rule-card{margin:16px;background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(201,168,76,0.04));border:1px solid rgba(201,168,76,0.3);border-radius:16px;padding:16px;position:relative;overflow:hidden;}
   .rule-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold-dark),var(--gold-light),var(--gold-dark));}
-  .rule-title{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
-  .rule-body{font-size:13px;color:var(--parchment-dark);line-height:1.7;}
-  .rule-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:12px;}
+  .rule-title{font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+  .rule-body{font-size:15px;color:var(--parchment-dark);line-height:1.7;}
+  .rule-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px;}
   .rule-table th{background:rgba(201,168,76,0.15);color:var(--gold-light);padding:5px 8px;text-align:left;font-size:11px;font-weight:700;}
   .rule-table td{padding:5px 8px;border-bottom:1px solid rgba(201,168,76,0.1);color:var(--parchment);}
   .rule-table tr:last-child td{border-bottom:none;}
   .rule-highlight{color:var(--gold-light);font-weight:700;}
   .vocab-block{margin:12px 16px;background:rgba(0,0,0,0.2);border:1px solid rgba(201,168,76,0.15);border-radius:12px;overflow:hidden;}
-  .vocab-block-title{background:rgba(201,168,76,0.1);padding:8px 12px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);}
+  .vocab-block-title{background:rgba(201,168,76,0.1);padding:8px 12px;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);}
   .vocab-row{display:flex;padding:7px 12px;border-bottom:1px solid rgba(201,168,76,0.08);align-items:baseline;gap:8px;}
   .vocab-row:last-child{border-bottom:none;}
-  .vocab-lat{font-size:14px;font-style:italic;color:var(--white);min-width:110px;flex-shrink:0;}
-  .vocab-gen{font-size:11px;color:var(--gold);min-width:55px;flex-shrink:0;}
-  .vocab-de{font-size:13px;color:var(--parchment-dark);flex:1;}
+  .vocab-lat{font-size:16px;font-style:italic;color:var(--white);min-width:110px;flex-shrink:0;}
+  .vocab-gen{font-size:13px;color:var(--gold);min-width:55px;flex-shrink:0;}
+  .vocab-de{font-size:15px;color:var(--parchment-dark);flex:1;}
   .question-card{margin:0 16px 16px;background:var(--ink-mid);border:1px solid rgba(201,168,76,0.15);border-radius:20px;padding:20px;animation:slideUp 0.3s ease;}
   @keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-  .q-theme{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
-  .q-type-badge{display:inline-block;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:99px;padding:3px 10px;font-size:11px;color:var(--gold-light);margin-bottom:12px;}
-  .q-prompt{font-size:15px;color:var(--parchment);line-height:1.5;margin-bottom:14px;font-style:italic;}
+  .q-theme{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+  .q-type-badge{display:inline-block;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:99px;padding:4px 10px;font-size:13px;color:var(--gold-light);margin-bottom:12px;}
+  .q-prompt{font-size:17px;color:var(--parchment);line-height:1.5;margin-bottom:14px;font-style:italic;}
   .q-sentence{font-size:17px;color:var(--white);text-align:center;margin-bottom:16px;line-height:1.5;padding:12px;background:rgba(0,0,0,0.2);border-radius:12px;font-style:italic;}
   .gap-options{display:flex;flex-direction:column;gap:10px;}
   .gap-btn{background:rgba(255,255,255,0.04);border:1.5px solid rgba(201,168,76,0.25);border-radius:14px;padding:13px 15px;font-size:16px;font-family:'Georgia',serif;color:var(--parchment);cursor:pointer;text-align:left;transition:all 0.18s;display:flex;align-items:center;gap:10px;}
@@ -46,8 +46,8 @@
   .tf-btn.wrong{background:rgba(224,80,80,0.12);border-color:var(--red-wrong);}
   .match-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
   .match-col-labels{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px;}
-  .match-col-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-align:center;}
-  .match-item{background:rgba(255,255,255,0.04);border:1.5px solid rgba(201,168,76,0.2);border-radius:12px;padding:9px;font-size:13px;font-family:'Georgia',serif;color:var(--parchment);cursor:pointer;text-align:center;transition:all 0.18s;font-style:italic;min-height:42px;display:flex;align-items:center;justify-content:center;}
+  .match-col-label{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-align:center;}
+  .match-item{appearance:none;background:rgba(255,255,255,0.04);border:1.5px solid rgba(201,168,76,0.2);border-radius:12px;padding:9px;font-size:15px;font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color:var(--parchment);cursor:pointer;text-align:center;transition:all 0.18s;font-style:italic;min-height:42px;display:flex;align-items:center;justify-content:center;}
   .match-item.selected{background:rgba(201,168,76,0.2);border-color:var(--gold);color:var(--gold-light);}
   .match-item.matched{background:rgba(76,175,125,0.15);border-color:var(--green-ok);color:var(--green-ok);pointer-events:none;}
   .match-item.wrong{background:rgba(224,80,80,0.12);border-color:var(--red-wrong);}
@@ -81,8 +81,8 @@
   .check-btn:active{background:rgba(201,168,76,0.25);}
   .section-header{margin:16px 16px 0;padding:12px 14px;background:rgba(201,168,76,0.08);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;}
   .section-header h2{font-size:16px;color:var(--gold-light);font-style:italic;}
-  .section-header p{font-size:11px;color:var(--stone);margin-top:2px;}
-  .mustersatz{font-size:11px;color:var(--stone);text-align:right;margin-top:4px;font-style:italic;}
+  .section-header p{font-size:14px;color:var(--stone);margin-top:2px;}
+  .mustersatz{font-size:13px;color:var(--stone);text-align:right;margin-top:4px;font-style:italic;}
   .completion{display:none;text-align:center;padding:40px 24px;}
   .completion.visible{display:block;}
   .completion-emoji{font-size:68px;margin-bottom:16px;animation:bounce 0.6s ease infinite alternate;}
@@ -95,11 +95,23 @@
   .confetti-container{position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden;}
   .confetti-piece{position:absolute;border-radius:2px;animation:confettiFall linear forwards;}
   @keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+
+  button:focus-visible,a:focus-visible{outline:3px solid #FFF1A8;outline-offset:3px;}
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}
+    .completion-emoji{animation:none!important;}
+  }
+  @media (max-width:380px){
+    .vocab-row{align-items:flex-start;flex-wrap:wrap;}
+    .vocab-lat{min-width:100px;}
+    .vocab-gen{min-width:50px;}
+  }
+
 </style>
 </head>
 <body>
 <div class="topbar">
-  <a class="back-btn" href="../index.html">&#8592;</a>
+  <a class="back-btn" href="../index.html" aria-label="Zurück zur Übersicht">&#8592;</a>
   <div class="topbar-info">
     <div class="topbar-title">L01 &middot; Sieg im Circus Maximus</div>
     <div class="topbar-sub">&#127963; Magistrella &middot; prima.</div>
@@ -177,7 +189,7 @@ var MUSTERSAETZE = [
   { lat: "Servus ven\u012Bre d\u0113bet.",    de: "Der Sklave muss kommen.",                subj: "Servus",      verb: "ven\u012Bre" }
 ];
 
-// Spotlight-Sätze: Subjekt markiert, aus Mustersätzen
+// Genau hinschauen-Sätze: Subjekt markiert, aus Mustersätzen
 var SPOTLIGHT_SAETZE = [
   { sentence: "D\u0101vus c\u014Dgitat.", spotWord: "D\u0101vus", correct: true,
     affirmation: "Ita! D\u0101vus = Nominativ = Subjekt! \ud83c\udfaf",
@@ -190,7 +202,16 @@ var SPOTLIGHT_SAETZE = [
     wrongMsg: "Incit\u0101tus ist Nominativ Singular (Endung -us) = Subjekt." },
   { sentence: "Serv\u012B stant et spectant.", spotWord: "Serv\u012B", correct: true,
     affirmation: "Ita! Serv\u012B = Nominativ Plural (Endung -\u012B) = Subjekt! \ud83c\udfaf",
-    wrongMsg: "Serv\u012B ist Nominativ Plural \u2014 die Sklaven stehen." }
+    wrongMsg: "Serv\u012B ist Nominativ Plural \u2014 die Sklaven stehen." },
+  { sentence: "D\u0101vus c\u014Dgitat.", spotWord: "c\u014Dgitat", correct: false,
+    affirmation: "Recte! c\u014Dgitat ist das Pr\u00e4dikat, nicht das Subjekt. \ud83c\udfaf",
+    wrongMsg: "c\u014Dgitat ist eine Verbform und hier das Pr\u00e4dikat. Das Subjekt ist D\u0101vus." },
+  { sentence: "Victor gaudet.", spotWord: "gaudet", correct: false,
+    affirmation: "Recte! gaudet ist das Pr\u00e4dikat, nicht das Subjekt. \ud83c\udfaf",
+    wrongMsg: "gaudet ist die Verbform. Das Subjekt im Nominativ ist Victor." },
+  { sentence: "Serv\u012B stant et spectant.", spotWord: "stant", correct: false,
+    affirmation: "Recte! stant ist eine Verbform. Das Subjekt ist Serv\u012B. \ud83c\udfaf",
+    wrongMsg: "stant ist Teil des Pr\u00e4dikats. Serv\u012B ist das Subjekt im Nominativ." }
 ];
 
 // esse-Fragen: nur mit Formen die im Heft sichtbar sind
@@ -228,9 +249,9 @@ function shuffle(arr) {
 // ═══════════════════════════════════════════════════
 var RULE_ESSE = "<div class=\"rule-title\">\ud83d\udccb Regelkarte \u00b7 esse</div><div class=\"rule-body\"><strong style=\"color:var(--gold)\">esse</strong> = sein (unregelm\u00e4\u00dfig!)<table class=\"rule-table\"><tr><th>Person</th><th>Sg.</th><th>Pl.</th></tr><tr><td>1.</td><td>sum</td><td>sumus</td></tr><tr><td>2.</td><td>es</td><td>estis</td></tr><tr><td class=\"rule-highlight\">3.</td><td class=\"rule-highlight\">est</td><td class=\"rule-highlight\">sunt</td></tr></table><br><strong style=\"color:var(--gold)\">adesse</strong> = da sein:<br>3. Sg.: <strong style=\"color:var(--gold-light)\">adest</strong> &nbsp; 3. Pl.: <strong style=\"color:var(--gold-light)\">adsunt</strong><br><br><em style=\"color:var(--parchment-dark)\">Ub\u012B est Incit\u0101tus? \u2014 Wo ist Incitatus?<br>Nunc etiam Incit\u0101tus adest. \u2014 Jetzt ist auch Incitatus da.</em></div>";
 
-var RULE_NOM = "<div class=\"rule-title\">\ud83d\udccb Regelkarte \u00b7 Nominativ</div><div class=\"rule-body\">Der <strong style=\"color:var(--gold-light)\">Nominativ</strong> = Subjekt \u2014 wer oder was handelt.<table class=\"rule-table\"><tr><th></th><th>a-Dek. (f)</th><th>o-Dek. (m)</th></tr><tr><td>Nom. Sg.</td><td class=\"rule-highlight\">-a</td><td class=\"rule-highlight\">-us</td></tr><tr><td>Nom. Pl.</td><td class=\"rule-highlight\">-ae</td><td class=\"rule-highlight\">-\u012B</td></tr></table><br><em style=\"color:var(--parchment-dark)\">Victor gaudet. \u2014 Der Sieger freut sich.<br>Serv\u012B stant. \u2014 Die Sklaven stehen.</em></div>";
+var RULE_NOM = "<div class=\"rule-title\">\ud83d\udccb Regelkarte \u00b7 Nominativ</div><div class=\"rule-body\">Das <strong style=\"color:var(--gold-light)\">Subjekt</strong> steht in diesen S\u00e4tzen im Nominativ. Mit <strong style=\"color:var(--gold-light)\">Wer oder was?</strong> findest du das Subjekt.<table class=\"rule-table\"><tr><th></th><th>a-Dek. (f)</th><th>o-Dek. (m)</th></tr><tr><td>Nom. Sg.</td><td class=\"rule-highlight\">-a</td><td class=\"rule-highlight\">-us</td></tr><tr><td>Nom. Pl.</td><td class=\"rule-highlight\">-ae</td><td class=\"rule-highlight\">-\u012B</td></tr></table><br><em style=\"color:var(--parchment-dark)\">Victor gaudet. \u2014 Der Sieger freut sich.<br>Serv\u012B stant. \u2014 Die Sklaven stehen.</em></div>";
 
-var RULE_INF = "<div class=\"rule-title\">\ud83d\udccb Regelkarte \u00b7 Infinitiv & d\u0113b\u0113re</div><div class=\"rule-body\">Infinitiv endet auf <strong style=\"color:var(--gold)\">-re</strong>: <em>ven\u012Bre, st\u0101re, spect\u0101re</em><br><br><strong style=\"color:var(--gold)\">d\u0113b\u0113re + Infinitiv</strong> = m\u00fcssen / sollen:<br><br><em style=\"color:var(--parchment-dark)\">Servus ven\u012Bre d\u0113bet.</em><br>\u2192 Der Sklave muss kommen.<br><br>d\u0113bet = 3. Sg. (er/sie muss)</div>";
+var RULE_INF = "<div class=\"rule-title\">\ud83d\udccb Regelkarte \u00b7 Infinitiv & d\u0113b\u0113re</div><div class=\"rule-body\">Der Infinitiv Pr\u00e4sens Aktiv endet hier auf <strong style=\"color:var(--gold)\">-re</strong>: <em>ven\u012Bre, st\u0101re, spect\u0101re</em><br><br><strong style=\"color:var(--gold)\">d\u0113b\u0113re + Infinitiv</strong> = m\u00fcssen / sollen:<br><br><em style=\"color:var(--parchment-dark)\">Servus ven\u012Bre d\u0113bet.</em><br>\u2192 Der Sklave muss kommen.<br><br>d\u0113bet = 3. Sg. (er/sie muss)</div>";
 
 // ═══════════════════════════════════════════════════
 // DYNAMISCHE FRAGENGENERATOREN
@@ -271,7 +292,7 @@ function genQuickQuiz(pool) {
   var allOpts = shuffle([target.de].concat(distractors));
   return {
     type: "quickQuiz", showRule: null,
-    theme: "\u26a1 Quick Quiz",
+    theme: "\u26a1 Kurz-Quiz",
     prompt: "Was bedeutet \u201e" + target.lat + "\u201c?",
     options: allOpts,
     correct: allOpts.indexOf(target.de),
@@ -324,7 +345,7 @@ function genDebere() {
   };
 }
 
-function genSpotlight() {
+function genGenau hinschauen() {
   // Nur echte Prima-Mustersätze
   var s = shuffle(SPOTLIGHT_SAETZE)[0];
   return {
@@ -339,7 +360,7 @@ function genSpotlight() {
 
 function genPuzzle() {
   // Nur echte Prima-Mustersätze, nur Subjekt + 1 Verb
-  var simple = MUSTERSAETZE.filter(function(s){ return s.subj && s.verb; });
+  var simple = MUSTERSAETZE.filter(function(s){ return s.subj && s.verb && s.lat === s.subj + " " + s.verb + "."; });
   var p = shuffle(simple)[0];
   return {
     type: "puzzle", showRule: RULE_NOM,
@@ -376,7 +397,7 @@ function buildSession() {
 
   items.push({ _vocabBlock: true, blockIndex: 1 });
   [genMatchVocab(b2), genQuickQuiz(b1.concat(b2)),
-   genSpotlight(), genPuzzle(), genTrueFalseVocab(b2)
+   genGenau hinschauen(), genPuzzle(), genTrueFalseVocab(b2)
   ].forEach(function(q){ items.push({ _question: true, q: q }); });
 
   items.push({ _vocabBlock: true, blockIndex: 2 });
@@ -406,7 +427,6 @@ function renderCurrent() {
   main.innerHTML = "";
   if (item._vocabBlock) {
     renderVocabBlock(item.blockIndex, main);
-    setTimeout(function(){ currentIndex++; renderCurrent(); }, 0);
     return;
   }
   updateProgress();
@@ -417,7 +437,7 @@ function renderCurrent() {
   else if (q.type==="match") renderMatch(q,main);
   else if (q.type==="puzzle") renderPuzzle(q,main);
   else if (q.type==="quickQuiz") renderQuickQuiz(q,main);
-  else if (q.type==="spotlight") renderSpotlight(q,main);
+  else if (q.type==="spotlight") renderGenau hinschauen(q,main);
   else if (q.type==="swipe") renderSwipe(q,main);
 }
 
@@ -433,11 +453,20 @@ function renderVocabBlock(idx, parent) {
     vb.appendChild(row);
   });
   parent.appendChild(vb);
+  var continueBtn=document.createElement("button");
+  continueBtn.className="next-btn visible";
+  continueBtn.textContent="Weiter zu den Übungen →";
+  continueBtn.addEventListener("click",function(){
+    currentIndex++;
+    renderCurrent();
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+  parent.appendChild(continueBtn);
 }
 
 function makeQCard(q){ var c=document.createElement("div"); c.className="question-card"; c.innerHTML="<div class=\"q-theme\">"+q.theme+"</div>"; return c; }
 function makeFB(p){ var fb=document.createElement("div"); fb.className="feedback"; fb.id="feedback"; p.appendChild(fb); }
-function makeNext(p){ var btn=document.createElement("button"); btn.className="next-btn"; btn.id="nextBtn"; btn.textContent=currentIndex>=allItems.length-1?"Lektion abschlie\u00dfen \u2713":"Weiter \u2192"; btn.addEventListener("click",function(){ currentIndex++; renderCurrent(); }); p.appendChild(btn); }
+function makeNext(p){ var btn=document.createElement("button"); btn.type="button"; btn.className="next-btn"; btn.id="nextBtn"; btn.textContent=currentIndex>=allItems.length-1?"Lektion abschlie\u00dfen \u2713":"Weiter \u2192"; btn.addEventListener("click",function(){ currentIndex++; renderCurrent(); }); p.appendChild(btn); }
 function showFB(ok,q){ var fb=document.getElementById("feedback"),nb=document.getElementById("nextBtn"); totalAnswered++; if(ok){score++;fb.className="feedback correct";fb.innerHTML="<div class=\"feedback-affirmation\">"+q.affirmation+"</div>";if(score%3===0)confetti();}else{fb.className="feedback wrong";fb.innerHTML="<div class=\"feedback-affirmation\">\ud83d\udc9b Fast!</div>"+q.wrongMsg;} if(nb)nb.classList.add("visible"); }
 
 function renderGap(q,parent){
@@ -447,7 +476,7 @@ function renderGap(q,parent){
   var opts=document.createElement("div"); opts.className="gap-options";
   var letters=["A","B","C"], answered=false;
   q.options.forEach(function(opt,i){
-    var btn=document.createElement("button"); btn.className="gap-btn";
+    var btn=document.createElement("button"); btn.type="button"; btn.className="gap-btn";
     btn.innerHTML="<span class=\"gap-btn-letter\">"+letters[i]+"</span><em>"+opt+"</em>";
     btn.addEventListener("click",function(){ if(answered)return; answered=true; var ok=(i===q.correct); btn.classList.add(ok?"correct":"wrong"); if(!ok)opts.querySelectorAll(".gap-btn")[q.correct].classList.add("correct"); showFB(ok,q); });
     opts.appendChild(btn);
@@ -465,14 +494,14 @@ function renderTrueFalse(q,parent){
 
 function renderMatch(q,parent){
   var card=makeQCard(q);
-  card.innerHTML+="<div class=\"q-type-badge\">\ud83d\udd17 Match Pairs</div><div class=\"q-prompt\">"+q.prompt+"</div>";
+  card.innerHTML+="<div class=\"q-type-badge\">\ud83d\udd17 Paare zuordnen</div><div class=\"q-prompt\">"+q.prompt+"</div>";
   var lr=document.createElement("div"); lr.className="match-col-labels"; lr.innerHTML="<div class=\"match-col-label\">"+q.leftTitle+"</div><div class=\"match-col-label\">"+q.rightTitle+"</div>"; card.appendChild(lr);
   var pairs=q.pairs.slice(), right=pairs.map(function(p){return p[1];}).sort(function(){return Math.random()-0.5;});
   var grid=document.createElement("div"); grid.className="match-grid";
   var selL=null,selR=null,matched=0,lEls=[],rEls=[];
   pairs.forEach(function(pair,i){
-    var lEl=document.createElement("div"); lEl.className="match-item"; lEl.textContent=pair[0];
-    var rEl=document.createElement("div"); rEl.className="match-item"; rEl.textContent=right[i];
+    var lEl=document.createElement("button"); lEl.type="button"; lEl.className="match-item"; lEl.textContent=pair[0];
+    var rEl=document.createElement("button"); rEl.type="button"; rEl.className="match-item"; rEl.textContent=right[i];
     lEl.addEventListener("click",function(){ if(lEl.classList.contains("matched"))return; lEls.forEach(function(e){if(!e.classList.contains("matched"))e.classList.remove("selected");}); lEl.classList.add("selected"); selL=lEl; tryMatch(); });
     rEl.addEventListener("click",function(){ if(rEl.classList.contains("matched"))return; rEls.forEach(function(e){if(!e.classList.contains("matched"))e.classList.remove("selected");}); rEl.classList.add("selected"); selR=rEl; tryMatch(); });
     lEls.push(lEl); rEls.push(rEl); grid.appendChild(lEl); grid.appendChild(rEl);
@@ -488,29 +517,45 @@ function renderPuzzle(q,parent){
   var target=document.createElement("div"); target.className="puzzle-target";
   var source=document.createElement("div"); source.className="puzzle-source";
   var placed=[],shuffled=shuffle(q.tiles),tileEls={};
-  shuffled.forEach(function(word){ var tile=document.createElement("div"); tile.className="tile"; tile.textContent=word; tile.addEventListener("click",function(){ if(tile.classList.contains("used")){placed=placed.filter(function(w){return w!==word;});tile.classList.remove("used");rebuild();}else{placed.push(word);tile.classList.add("used");rebuild();} }); tileEls[word]=tile; source.appendChild(tile); });
-  function rebuild(){ target.innerHTML=""; placed.forEach(function(word){ var t=document.createElement("div"); t.className="tile placed"; t.textContent=word; t.addEventListener("click",function(){ placed=placed.filter(function(w){return w!==word;}); tileEls[word].classList.remove("used"); rebuild(); }); target.appendChild(t); }); }
+  shuffled.forEach(function(word){ var tile=document.createElement("button"); tile.type="button"; tile.className="tile"; tile.textContent=word; tile.addEventListener("click",function(){ if(tile.classList.contains("used")){placed=placed.filter(function(w){return w!==word;});tile.classList.remove("used");rebuild();}else{placed.push(word);tile.classList.add("used");rebuild();} }); tileEls[word]=tile; source.appendChild(tile); });
+  function rebuild(){ target.innerHTML=""; placed.forEach(function(word){ var t=document.createElement("button"); t.type="button"; t.className="tile placed"; t.textContent=word; t.addEventListener("click",function(){ placed=placed.filter(function(w){return w!==word;}); tileEls[word].classList.remove("used"); rebuild(); }); target.appendChild(t); }); }
   card.appendChild(target); card.appendChild(source);
-  var cb=document.createElement("button"); cb.className="check-btn"; cb.textContent="Pr\u00fcfen \u2713";
-  cb.addEventListener("click",function(){ var ok=placed.length===q.tiles.length&&placed[0]===q.subject&&q.tiles.every(function(w){return placed.indexOf(w)!==-1;}); showFB(ok,q); if(ok)confetti(); });
+  var cb=document.createElement("button"); cb.type="button"; cb.className="check-btn"; cb.textContent="Pr\u00fcfen \u2713";
+  var puzzleAnswered=false;
+  cb.addEventListener("click",function(){
+    if(puzzleAnswered)return;
+    puzzleAnswered=true;
+    cb.disabled=true;
+    var ok=placed.length===q.tiles.length&&placed[0]===q.subject&&q.tiles.every(function(w){return placed.indexOf(w)!==-1;});
+    showFB(ok,q);
+    if(ok)confetti();
+  });
   card.appendChild(cb); makeFB(card); makeNext(card); parent.appendChild(card);
 }
 
 function renderQuickQuiz(q,parent){
-  var card=makeQCard(q); card.innerHTML+="<div class=\"q-type-badge\">\u26a1 Quick Quiz</div>";
-  var tn=document.createElement("div"); tn.className="quiz-timer-num"; tn.textContent="\u23f1 60";
-  var tw=document.createElement("div"); tw.className="quiz-timer-bar-wrap";
-  var tb=document.createElement("div"); tb.className="quiz-timer-bar"; tb.style.width="100%";
-  tw.appendChild(tb); var td=document.createElement("div"); td.className="quiz-timer"; td.appendChild(tn); td.appendChild(tw); card.appendChild(td);
-  card.innerHTML+="<div class=\"q-prompt\">"+q.prompt+"</div>";
-  var opts=document.createElement("div"); opts.className="gap-options"; var letters=["A","B","C","D"],answered=false,timeLeft=60;
-  var timer=setInterval(function(){ timeLeft--; tn.textContent="\u23f1 "+timeLeft; tb.style.width=(timeLeft/60*100)+"%"; if(timeLeft<=0){clearInterval(timer);if(!answered){answered=true;showFB(false,q);}} },1000);
-  q.options.forEach(function(opt,i){ var btn=document.createElement("button"); btn.className="gap-btn"; btn.innerHTML="<span class=\"gap-btn-letter\">"+letters[i]+"</span> "+opt; btn.addEventListener("click",function(){ if(answered)return; answered=true; clearInterval(timer); var ok=(i===q.correct); btn.classList.add(ok?"correct":"wrong"); if(!ok)opts.querySelectorAll(".gap-btn")[q.correct].classList.add("correct"); showFB(ok,q); }); opts.appendChild(btn); });
+  var card=makeQCard(q);
+  card.innerHTML+="<div class=\"q-type-badge\">⚡ Kurz-Quiz</div><div class=\"q-prompt\">"+q.prompt+"</div>";
+  var opts=document.createElement("div"); opts.className="gap-options";
+  var letters=["A","B","C","D"],answered=false;
+  q.options.forEach(function(opt,i){
+    var btn=document.createElement("button"); btn.type="button"; btn.className="gap-btn";
+    btn.innerHTML="<span class=\"gap-btn-letter\">"+letters[i]+"</span> "+opt;
+    btn.addEventListener("click",function(){
+      if(answered)return;
+      answered=true;
+      var ok=(i===q.correct);
+      btn.classList.add(ok?"correct":"wrong");
+      if(!ok)opts.querySelectorAll(".gap-btn")[q.correct].classList.add("correct");
+      showFB(ok,q);
+    });
+    opts.appendChild(btn);
+  });
   card.appendChild(opts); makeFB(card); makeNext(card); parent.appendChild(card);
 }
 
-function renderSpotlight(q,parent){
-  var card=makeQCard(q); card.innerHTML+="<div class=\"q-type-badge\">\ud83c\udfaf Spotlight</div><div class=\"q-prompt\">"+q.prompt+"</div>";
+function renderGenau hinschauen(q,parent){
+  var card=makeQCard(q); card.innerHTML+="<div class=\"q-type-badge\">\ud83c\udfaf Genau hinschauen</div><div class=\"q-prompt\">"+q.prompt+"</div>";
   var sd=document.createElement("div"); sd.className="spotlight-sentence"; sd.innerHTML=q.sentence.replace(q.spotWord,"<span class=\"spotlight-word\">"+q.spotWord+"</span>"); card.appendChild(sd);
   var opts=document.createElement("div"); opts.className="tf-options"; var answered=false;
   ["\u2705 Ja, Nominativ","\u274c Nein"].forEach(function(label,i){ var isTrue=(i===0),btn=document.createElement("button"); btn.className="tf-btn"; btn.textContent=label; btn.addEventListener("click",function(){ if(answered)return; answered=true; var ok=(isTrue===q.correct); btn.classList.add(ok?"correct":"wrong"); showFB(ok,q); }); opts.appendChild(btn); });
@@ -521,7 +566,7 @@ function renderSwipe(q,parent){
   var card=makeQCard(q); card.innerHTML+="<div class=\"q-type-badge\">\ud83d\udc4b Richtig oder Falsch?</div><div class=\"q-prompt\">"+q.prompt+"</div>";
   var sc=document.createElement("div"); sc.className="swipe-card"; sc.textContent=q.sentence; card.appendChild(sc);
   var btns=document.createElement("div"); btns.className="swipe-buttons"; var answered=false;
-  [["\u274c Falsch",false,"left"],["\u2705 Richtig",true,"right"]].forEach(function(arr){ var btn=document.createElement("button"); btn.className="swipe-btn "+arr[2]; btn.textContent=arr[0]; btn.addEventListener("click",function(){ if(answered)return; answered=true; showFB((arr[1]===q.correct),q); }); btns.appendChild(btn); });
+  [["\u274c Falsch",false,"left"],["\u2705 Richtig",true,"right"]].forEach(function(arr){ var btn=document.createElement("button"); btn.type="button"; btn.className="swipe-btn "+arr[2]; btn.textContent=arr[0]; btn.addEventListener("click",function(){ if(answered)return; answered=true; showFB((arr[1]===q.correct),q); }); btns.appendChild(btn); });
   card.appendChild(btns); makeFB(card); makeNext(card); parent.appendChild(card);
 }
 
@@ -531,7 +576,7 @@ function showCompletion(){
   var pct=Math.round(score/totalQuestions*100);
   document.getElementById("finalScore").textContent=score+"/"+totalQuestions+" ("+pct+"%)";
   document.getElementById("finalStars").textContent=pct>=90?"\u2b50\u2b50\u2b50":pct>=70?"\u2b50\u2b50":"\u2b50";
-  var msgs=["Magnifice! D\u0101vus und Incit\u0101tus gratulieren dir! \ud83c\udfd9","Victor gaudet \u2014 und du auch! Weiter zu L02! \ud83c\udfc6","Brava! 37 prima.-Vokabeln gemeistert! \ud83d\udcd6"];
+  var msgs=["Magnifice! D\u0101vus und Incit\u0101tus gratulieren dir! \ud83c\udfd9","Victor gaudet \u2014 und du hast L01 abgeschlossen! \ud83c\udfc6","Optime! Du hast die Übungen zu L01 abgeschlossen. \ud83d\udcd6"];
   document.getElementById("finalMsg").textContent=msgs[Math.floor(Math.random()*msgs.length)];
   confetti(); setTimeout(confetti,700);
 }
