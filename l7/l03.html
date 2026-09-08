@@ -370,7 +370,7 @@ function genPuzzle(sentPool){
   const tokens = stripPunct(s.lat).split(' ');
   const subject = tokens[0];
   const rest = tokens.slice(1);
-  return {type:'puzzle', subject, rest, full:tokens, de:s.de, showRule:null};
+  return {type:'puzzle', subject, rest, full:tokens, de:s.de, showRule:s.rule||null};
 }
 
 function buildBlockQueue(blockIdx){
@@ -544,14 +544,47 @@ function markStreak(isCorrect){
 function showFeedback(isCorrect){
   const q = state.queue[state.qIdx];
   const fb = document.getElementById('fb');
+  const rc = document.getElementById('ruleContainer');
+
   fb.className = 'feedback ' + (isCorrect?'ok':'bad');
-  fb.textContent = isCorrect ? affirm() : 'Noch nicht richtig. Schau dir die Lösung und die Regel noch einmal an.';
-  if(q.showRule){
-    const rc = document.getElementById('ruleContainer');
-    if(rc){
-      rc.innerHTML = '<div class="rule-card"><div class="rt">'+LEKTION.rules[q.showRule].title+'</div><div class="rx">'+LEKTION.rules[q.showRule].text+'</div></div>';
+
+  if(isCorrect){
+    fb.textContent = affirm();
+  } else if(q.type==='puzzle'){
+    fb.textContent = 'Noch nicht richtig. Hier siehst du die richtige Lösung und die passende Regel.';
+  } else {
+    fb.textContent = 'Noch nicht richtig. Schau dir die Lösung noch einmal an.';
+  }
+
+  if(rc){
+    rc.innerHTML = '';
+
+    if(!isCorrect && q.type==='puzzle'){
+      const solution = q.full.join(' ') + '.';
+      let html =
+        '<div class="rule-card">'+
+          '<div class="rt">Richtige Lösung</div>'+
+          '<div class="rx" style="font-size:1.05rem;color:var(--gold-light);">'+solution+'</div>'+
+          '<div class="rx" style="margin-top:6px;">„'+q.de+'“</div>'+
+        '</div>';
+
+      if(q.showRule && LEKTION.rules[q.showRule]){
+        html +=
+          '<div class="rule-card">'+
+            '<div class="rt">'+LEKTION.rules[q.showRule].title+'</div>'+
+            '<div class="rx">'+LEKTION.rules[q.showRule].text+'</div>'+
+          '</div>';
+      }
+      rc.innerHTML = html;
+    } else if(q.showRule && q.type!=='quickQuiz' && q.type!=='puzzle'){
+      rc.innerHTML =
+        '<div class="rule-card">'+
+          '<div class="rt">'+LEKTION.rules[q.showRule].title+'</div>'+
+          '<div class="rx">'+LEKTION.rules[q.showRule].text+'</div>'+
+        '</div>';
     }
   }
+
   const nb = document.getElementById('nextBtn');
   if(nb) nb.style.display = 'block';
 }
