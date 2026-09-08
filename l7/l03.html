@@ -128,10 +128,11 @@ button.btn.secondary{
 .match-item.wrongflash{border-color:var(--bad);background:rgba(161,60,46,0.28);}
 
 .rule-card{
-  margin-top:14px;padding:14px;border-radius:12px;background:rgba(192,82,43,0.12);
-  border:1px solid var(--terra);
+  margin-top:14px;padding:14px;border-radius:12px;
+  background:rgba(201,168,76,0.10);
+  border:1px solid rgba(201,168,76,0.55);
 }
-.rule-card .rt{color:var(--terra);font-weight:bold;font-size:0.9rem;margin-bottom:4px;}
+.rule-card .rt{color:var(--gold-light);font-weight:bold;font-size:0.9rem;margin-bottom:4px;}
 .rule-card .rx{color:var(--text);font-size:0.85rem;line-height:1.5;}
 
 .feedback{
@@ -506,7 +507,7 @@ function renderQuiz(){
     inner = '<div class="q-label">Neue Konstruktion</div>'+
       '<div class="q-sentence">'+q.sentence+'</div>'+
       '<div class="q-info">„'+q.sentenceDe+'“</div>'+
-      '<button class="btn" id="ruleUnderstoodBtn">Regel anzeigen</button>';
+      '<button class="btn" id="ruleUnderstoodBtn">Regel zeigen</button>';
   } else if(q.type==='puzzle'){
     inner = '<div class="q-label">Baue den vollständigen Satz in der richtigen Reihenfolge — tippe ein gelegtes Wort an, um es zurückzunehmen</div>'+
       '<div class="puzzle-target" id="puzTarget"></div>'+
@@ -631,9 +632,13 @@ function attachHandlers(){
       rb.onclick=()=>{
         if(state.answered)return;
         state.answered=true;
-        markStreak(true);
-        showFeedback(true);
+        const rc=document.getElementById('ruleContainer');
+        if(rc && q.showRule){
+          rc.innerHTML='<div class="rule-card"><div class="rt">'+LEKTION.rules[q.showRule].title+'</div><div class="rx">'+LEKTION.rules[q.showRule].text+'</div></div>';
+        }
         rb.style.display='none';
+        const nb=document.getElementById('nextBtn');
+        if(nb) nb.style.display='block';
       };
     }
   }
