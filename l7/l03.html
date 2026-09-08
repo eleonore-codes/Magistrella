@@ -219,7 +219,9 @@ const LEKTION = {
     APUD:{title:"apud + Akkusativ", text:"apud verlangt den Akkusativ und bedeutet hier „bei“. Beispiel: apud amīcōs = bei den Freunden."},
     IN_AKK:{title:"in + Akkusativ", text:"in + Akkusativ kann hier eine Richtung („in … hinein“) oder „gegen“ ausdrücken. Beispiele: in tabernam = in den Laden hinein; in senātōrem = gegen den Senator."},
     PROPTER:{title:"propter + Akkusativ", text:"propter regiert den Akkusativ und bedeutet „wegen“. Beispiel: propter audāciam = wegen der Frechheit."},
-    PARARE_INF:{title:"parāre + Infinitiv", text:"parāre kann mit einem Infinitiv stehen: „vorhaben, zu …“ / „sich bereit machen, zu …“. Beispiel: Equōs spectāre parō. = Ich habe vor, die Pferde anzuschauen."}
+    PARARE_INF:{title:"parāre + Infinitiv", text:"parāre kann mit einem Infinitiv stehen: „vorhaben, zu …“ / „sich bereit machen, zu …“. Beispiel: Equōs spectāre parō. = Ich habe vor, die Pferde anzuschauen."},
+    AUDERE_INF:{title:"audēre + Infinitiv", text:"audēre kann mit einem Infinitiv stehen und bedeutet „wagen, etwas zu tun“. Im Satz Dāvus aedificium intrāre audet gehört intrāre als Infinitiv zu audet: Davus wagt es, das Haus zu betreten."},
+    SUBJ_AKK_PRED:{title:"Subjekt + Akkusativobjekt + Prädikat", text:"In diesem Satz steht das Subjekt im Nominativ und das direkte Objekt im Akkusativ. Beispiel: Amīcī scelerātōs temptant. = Die Freunde greifen die Verbrecher an."}
   },
   // Beispielsätze — L03
   sentences:[
@@ -231,8 +233,8 @@ const LEKTION = {
     {lat:"Salvē! Salvēte!", de:"Sei gegrüßt! Seid gegrüßt!", block:2, puzzle:false},
     {lat:"In tabernam.", de:"In den Laden (hinein).", block:2, puzzle:false, gapWord:"In", rule:"IN_AKK"},
     {lat:"In senātōrem.", de:"Gegen den Senator.", block:2, puzzle:false, gapWord:"In", rule:"IN_AKK"},
-    {lat:"Dāvus aedificium intrāre audet.", de:"Davus wagt es, das Haus zu betreten.", block:3, puzzle:true},
-    {lat:"Amīcī scelerātōs temptant.", de:"Die Freunde greifen die Verbrecher an.", block:3, puzzle:true},
+    {lat:"Dāvus aedificium intrāre audet.", de:"Davus wagt es, das Haus zu betreten.", block:3, puzzle:true, rule:"AUDERE_INF"},
+    {lat:"Amīcī scelerātōs temptant.", de:"Die Freunde greifen die Verbrecher an.", block:3, puzzle:true, rule:"SUBJ_AKK_PRED"},
     {lat:"Ad cōnsilium venīre.", de:"Zur Beratung kommen.", block:2, puzzle:false},
     {lat:"Cōnsilium scīre.", de:"Den Plan kennen.", block:2, puzzle:false},
     {lat:"Cōnsilium audīre.", de:"Den Rat hören.", block:2, puzzle:false}
