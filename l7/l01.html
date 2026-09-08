@@ -13,7 +13,7 @@
   .topbar-info{flex:1;}.topbar-title{font-size:14px;font-style:italic;color:var(--gold-light);}.topbar-sub{font-size:13px;color:var(--stone);letter-spacing:.6px;}.topbar-progress{font-size:13px;color:var(--gold);font-weight:700;min-width:48px;text-align:right;}
   .rule-card{margin:16px;background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(201,168,76,0.04));border:1px solid rgba(201,168,76,0.3);border-radius:16px;padding:16px;position:relative;overflow:hidden;}
   .rule-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold-dark),var(--gold-light),var(--gold-dark));}
-  .rule-title{font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+  .rule-title{font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--gold-light);margin-bottom:10px;}
   .rule-body{font-size:15px;color:var(--parchment-dark);line-height:1.7;}
   .rule-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px;}
   .rule-table th{background:rgba(201,168,76,0.15);color:var(--gold-light);padding:5px 8px;text-align:left;font-size:11px;font-weight:700;}
@@ -345,8 +345,8 @@ function genDebere() {
   };
 }
 
-function genGenau hinschauen() {
-  // Nur echte Prima-Mustersätze
+function genGenauHinschauen() {
+  // Nur echte Mustersätze
   var s = shuffle(SPOTLIGHT_SAETZE)[0];
   return {
     type: "spotlight", showRule: RULE_NOM,
@@ -359,18 +359,19 @@ function genGenau hinschauen() {
 }
 
 function genPuzzle() {
-  // Nur echte Prima-Mustersätze, nur Subjekt + 1 Verb
+  // Nur echte Mustersätze, nur Subjekt + 1 Verb
   var simple = MUSTERSAETZE.filter(function(s){ return s.subj && s.verb && s.lat === s.subj + " " + s.verb + "."; });
   var p = shuffle(simple)[0];
   return {
     type: "puzzle", showRule: RULE_NOM,
     theme: "\ud83e\udde9 Satz bauen",
-    prompt: "Baue den Satz! Subjekt zuerst, dann Verb.",
+    prompt: "Baue den Satz aus dem Lernmaterial in seiner vorgegebenen Reihenfolge.",
     subject: p.subj,
     tiles: [p.subj, p.verb],
+    solution: [p.subj, p.verb],
     translation: p.de,
     affirmation: "Perfectum! " + p.subj + " " + p.verb + "! \ud83c\udfaf",
-    wrongMsg: p.subj + " (Subjekt, Nominativ) kommt zuerst, dann " + p.verb + " (Verb)."
+    wrongMsg: "Achte auf die vorgegebene Reihenfolge des Satzes."
   };
 }
 
@@ -397,7 +398,7 @@ function buildSession() {
 
   items.push({ _vocabBlock: true, blockIndex: 1 });
   [genMatchVocab(b2), genQuickQuiz(b1.concat(b2)),
-   genGenau hinschauen(), genPuzzle(), genTrueFalseVocab(b2)
+   genGenauHinschauen(), genPuzzle(), genTrueFalseVocab(b2)
   ].forEach(function(q){ items.push({ _question: true, q: q }); });
 
   items.push({ _vocabBlock: true, blockIndex: 2 });
@@ -437,7 +438,7 @@ function renderCurrent() {
   else if (q.type==="match") renderMatch(q,main);
   else if (q.type==="puzzle") renderPuzzle(q,main);
   else if (q.type==="quickQuiz") renderQuickQuiz(q,main);
-  else if (q.type==="spotlight") renderGenau hinschauen(q,main);
+  else if (q.type==="spotlight") renderGenauHinschauen(q,main);
   else if (q.type==="swipe") renderSwipe(q,main);
 }
 
@@ -467,7 +468,34 @@ function renderVocabBlock(idx, parent) {
 function makeQCard(q){ var c=document.createElement("div"); c.className="question-card"; c.innerHTML="<div class=\"q-theme\">"+q.theme+"</div>"; return c; }
 function makeFB(p){ var fb=document.createElement("div"); fb.className="feedback"; fb.id="feedback"; p.appendChild(fb); }
 function makeNext(p){ var btn=document.createElement("button"); btn.type="button"; btn.className="next-btn"; btn.id="nextBtn"; btn.textContent=currentIndex>=allItems.length-1?"Lektion abschlie\u00dfen \u2713":"Weiter \u2192"; btn.addEventListener("click",function(){ currentIndex++; renderCurrent(); }); p.appendChild(btn); }
-function showFB(ok,q){ var fb=document.getElementById("feedback"),nb=document.getElementById("nextBtn"); totalAnswered++; if(ok){score++;fb.className="feedback correct";fb.innerHTML="<div class=\"feedback-affirmation\">"+q.affirmation+"</div>";if(score%3===0)confetti();}else{fb.className="feedback wrong";fb.innerHTML="<div class=\"feedback-affirmation\">\ud83d\udc9b Fast!</div>"+q.wrongMsg;} if(nb)nb.classList.add("visible"); }
+function showFB(ok,q){
+  var fb=document.getElementById("feedback"), nb=document.getElementById("nextBtn");
+  totalAnswered++;
+  if(ok){
+    score++;
+    fb.className="feedback correct";
+    fb.innerHTML="<div class=\"feedback-affirmation\">"+q.affirmation+"</div>";
+    if(score%3===0)confetti();
+  }else{
+    fb.className="feedback wrong";
+
+    if(q.type==="puzzle"){
+      var solution=(q.solution||q.tiles||[]).join(" ") + ".";
+      fb.innerHTML=
+        "<div class=\"feedback-affirmation\">Noch nicht richtig.</div>"+
+        "<div>Hier siehst du die richtige Lösung und die passende Regel.</div>"+
+        "<div class=\"rule-card\" style=\"margin:12px 0 0;\">"+
+          "<div class=\"rule-title\">Richtige Lösung</div>"+
+          "<div class=\"rule-body\"><strong style=\"color:var(--gold-light)\">"+solution+"</strong><br>„"+q.translation+"“</div>"+
+        "</div>"+
+        (q.showRule ? "<div class=\"rule-card\" style=\"margin:10px 0 0;\">"+q.showRule+"</div>" : "");
+    }else{
+      fb.innerHTML="<div class=\"feedback-affirmation\">Noch nicht richtig.</div>"+q.wrongMsg+
+        (q.showRule ? "<div class=\"rule-card\" style=\"margin:10px 0 0;\">"+q.showRule+"</div>" : "");
+    }
+  }
+  if(nb)nb.classList.add("visible");
+}
 
 function renderGap(q,parent){
   var card=makeQCard(q);
@@ -526,7 +554,7 @@ function renderPuzzle(q,parent){
     if(puzzleAnswered)return;
     puzzleAnswered=true;
     cb.disabled=true;
-    var ok=placed.length===q.tiles.length&&placed[0]===q.subject&&q.tiles.every(function(w){return placed.indexOf(w)!==-1;});
+    var ok=placed.length===q.solution.length&&placed.every(function(w,i){return w===q.solution[i];});
     showFB(ok,q);
     if(ok)confetti();
   });
@@ -554,7 +582,7 @@ function renderQuickQuiz(q,parent){
   card.appendChild(opts); makeFB(card); makeNext(card); parent.appendChild(card);
 }
 
-function renderGenau hinschauen(q,parent){
+function renderGenauHinschauen(q,parent){
   var card=makeQCard(q); card.innerHTML+="<div class=\"q-type-badge\">\ud83c\udfaf Genau hinschauen</div><div class=\"q-prompt\">"+q.prompt+"</div>";
   var sd=document.createElement("div"); sd.className="spotlight-sentence"; sd.innerHTML=q.sentence.replace(q.spotWord,"<span class=\"spotlight-word\">"+q.spotWord+"</span>"); card.appendChild(sd);
   var opts=document.createElement("div"); opts.className="tf-options"; var answered=false;
