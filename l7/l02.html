@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L02 · Möhren weisen den Weg · Magistrella</title>
+<title>L02 · Akkusativ · Subjekt und Prädikat · Magistrella</title>
 <style>
   :root{--gold:#C9A84C;--gold-light:#E8C96A;--gold-dark:#8B6914;--terracotta:#C0522B;--ink:#1A1208;--ink-mid:#2A1F0E;--parchment:#F5EDD6;--parchment-dark:#E8D9B5;--stone:#7A6E5A;--green-ok:#4CAF7D;--red-wrong:#E05050;--white:#FDFAF3;}
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
@@ -13,7 +13,7 @@
   .topbar-info{flex:1;}.topbar-title{font-size:14px;font-style:italic;color:var(--gold-light);}.topbar-sub{font-size:11px;color:var(--stone);letter-spacing:1px;}.topbar-progress{font-size:13px;color:var(--gold);font-weight:700;min-width:48px;text-align:right;}
   .rule-card{margin:16px;background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(201,168,76,0.04));border:1px solid rgba(201,168,76,0.3);border-radius:16px;padding:16px;position:relative;overflow:hidden;}
   .rule-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold-dark),var(--gold-light),var(--gold-dark));}
-  .rule-title{font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+  .rule-title{font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--gold-light);margin-bottom:10px;}
   .rule-body{font-size:15px;color:var(--parchment-dark);line-height:1.7;}
   .rule-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px;}
   .rule-table th{background:rgba(201,168,76,0.15);color:var(--gold-light);padding:5px 8px;text-align:left;font-size:11px;font-weight:700;}
@@ -108,7 +108,7 @@
   <a class="back-btn" href="../index.html" aria-label="Zurück zur Übersicht">&#8592;</a>
   <div class="topbar-info">
     <div class="topbar-title">L02 &middot; M&ouml;hren weisen den Weg</div>
-    <div class="topbar-sub">&#127963; Magistrella &middot; prima.</div>
+    <div class="topbar-sub">&#127963; Magistrella &middot; Latein</div>
   </div>
   <div class="topbar-progress" id="progressLabel">1/15</div>
 </div>
@@ -126,7 +126,7 @@
 "use strict";
 
 // ═══════════════════════════════════════════════════
-// VOKABELPOOL — prima. L02, direkt aus Fotos
+// VOKABELPOOL — Latein L02, direkt aus Fotos
 // ═══════════════════════════════════════════════════
 var POOL = [
   // Block 1
@@ -170,7 +170,7 @@ var POOL = [
 ];
 
 // ═══════════════════════════════════════════════════
-// GESICHERTE MUSTERSÄTZE AUS prima. (nur aus Fotos!)
+// GESICHERTE MUSTERSÄTZE AUS Latein (nur aus Fotos!)
 // ═══════════════════════════════════════════════════
 var MUSTERSAETZE = [
   { lat: "Am\u012Bc\u012B per forum properant.",
@@ -223,13 +223,13 @@ var SPOTLIGHT_SAETZE = [
 var PRAEP_FRAGEN = [
   { sentence: "Am\u012Bc\u012B _____ forum properant.", blank: "_____",
     correct: "per", opts: ["per","ad","ante"],
-    hint: "per forum = durch das Forum (aus prima.)" },
+    hint: "per forum = durch das Forum (aus Latein)" },
   { sentence: "D\u0101vus _____ dominum venit.", blank: "_____",
     correct: "ad", opts: ["ad","per","ante"],
-    hint: "ad dominum = zum Herrn (aus prima.)" },
+    hint: "ad dominum = zum Herrn (aus Latein)" },
   { sentence: "Serva _____ Colosso\u0113um properat.", blank: "_____",
     correct: "ad", opts: ["ad","ante","per"],
-    hint: "ad Colosso\u0113um = zum Kolosseum (aus prima.)" }
+    hint: "ad Colosso\u0113um = zum Kolosseum (aus Latein)" }
 ];
 
 // Puzzle: nur Subjekt + Verb aus echten Mustersätzen (2 Wörter!)
@@ -244,7 +244,7 @@ var PUZZLE_SAETZE = [
 // ═══════════════════════════════════════════════════
 // REGELKARTEN
 // ═══════════════════════════════════════════════════
-var RULE_PRAEP = "<div class=\"rule-title\">\ud83d\udccb Regelkarte \u00b7 Pr\u00e4positionen + Akkusativ</div><div class=\"rule-body\">Diese Pr\u00e4positionen verlangen den <strong style=\"color:var(--gold-light)\">Akkusativ</strong>:<table class=\"rule-table\"><tr><th>Pr\u00e4p.</th><th>Bedeutung</th><th>Beispiel (aus prima.)</th></tr><tr><td class=\"rule-highlight\">ad</td><td>zu, bei</td><td>ad dominum</td></tr><tr><td class=\"rule-highlight\">per</td><td>durch</td><td>per forum</td></tr><tr><td class=\"rule-highlight\">ante</td><td>vor</td><td>ante aedificium</td></tr></table><br><em style=\"color:var(--parchment-dark)\">Am\u012Bc\u012B per forum properant.</em><br>\u2192 Die Freunde eilen durch das Forum.<br><br><em style=\"color:var(--parchment-dark)\">D\u0101vus ad dominum venit.</em><br>\u2192 Davus kommt zum Herrn.</div>";
+var RULE_PRAEP = "<div class=\"rule-title\">\ud83d\udccb Regelkarte \u00b7 Pr\u00e4positionen + Akkusativ</div><div class=\"rule-body\">Diese Pr\u00e4positionen verlangen den <strong style=\"color:var(--gold-light)\">Akkusativ</strong>:<table class=\"rule-table\"><tr><th>Pr\u00e4p.</th><th>Bedeutung</th><th>Beispiel (aus Latein)</th></tr><tr><td class=\"rule-highlight\">ad</td><td>zu, bei</td><td>ad dominum</td></tr><tr><td class=\"rule-highlight\">per</td><td>durch</td><td>per forum</td></tr><tr><td class=\"rule-highlight\">ante</td><td>vor</td><td>ante aedificium</td></tr></table><br><em style=\"color:var(--parchment-dark)\">Am\u012Bc\u012B per forum properant.</em><br>\u2192 Die Freunde eilen durch das Forum.<br><br><em style=\"color:var(--parchment-dark)\">D\u0101vus ad dominum venit.</em><br>\u2192 Davus kommt zum Herrn.</div>";
 
 var RULE_NOM_AKK = "<div class=\"rule-title\">\ud83d\udccb Regelkarte \u00b7 Nominativ & Akkusativ</div><div class=\"rule-body\"><strong style=\"color:var(--gold)\">Nominativ</strong> = Subjekt (wer handelt?)<br><strong style=\"color:var(--gold)\">Akkusativ</strong> = Objekt (wen/was?)<br><br><table class=\"rule-table\"><tr><th></th><th>a-Dek. (f)</th><th>o-Dek. (m)</th></tr><tr><td>Nom. Sg.</td><td>am\u012Bca</td><td>am\u012Bcus</td></tr><tr><td class=\"rule-highlight\">Akk. Sg.</td><td class=\"rule-highlight\">am\u012Bc<u>am</u></td><td class=\"rule-highlight\">am\u012Bc<u>um</u></td></tr></table><br><em style=\"color:var(--parchment-dark)\">Serva am\u012Bcam adiuvat.</em><br>\u2192 Serva (Nom.) hilft am\u012Bcam (Akk.).</div>";
 
@@ -300,13 +300,13 @@ function genPraepGap() {
   var f=shuffle(PRAEP_FRAGEN)[0];
   var opts=shuffle(f.opts);
   return { type:"gap", showRule:RULE_PRAEP, theme:"\ud83c\udfd9 Pr\u00e4position w\u00e4hlen",
-    prompt:"Welche Pr\u00e4position passt? (aus prima.)", sentence:f.sentence, blank:f.blank,
+    prompt:"Welche Pr\u00e4position passt? (aus Latein)", sentence:f.sentence, blank:f.blank,
     options:opts, correct:opts.indexOf(f.correct),
     affirmation:"Ita! "+f.correct+" \u2014 "+f.hint+"! \ud83c\udfd9",
     wrongMsg:f.hint+". Alle drei (ad, per, ante) verlangen den Akkusativ." };
 }
 
-function genGenau hinschauen() {
+function genGenauHinschauen() {
   var s=shuffle(SPOTLIGHT_SAETZE)[0];
   return { type:"spotlight", showRule:RULE_NOM_AKK, theme:"\ud83c\udfaf Subjekt erkennen",
     prompt:"Ist das markierte Wort das Subjekt (Nominativ)?",
@@ -350,7 +350,7 @@ function buildSession() {
   items.push({_vocabBlock:true,blockIndex:1});
   [genMatchVocab(b2),
    genQuickQuiz(b1.concat(b2)),
-   genGenau hinschauen(),
+   genGenauHinschauen(),
    genPuzzle(),
    genTrueFalseVocab(b2)
   ].forEach(function(q){items.push({_question:true,q:q});});
@@ -391,7 +391,7 @@ function renderCurrent(){
   else if(q.type==="match")renderMatch(q,main);
   else if(q.type==="puzzle")renderPuzzle(q,main);
   else if(q.type==="quickQuiz")renderQuickQuiz(q,main);
-  else if(q.type==="spotlight")renderGenau hinschauen(q,main);
+  else if(q.type==="spotlight")renderGenauHinschauen(q,main);
   else if(q.type==="swipe")renderSwipe(q,main);
 }
 
@@ -418,15 +418,33 @@ function renderVocabBlock(idx,parent){
 function makeQCard(q){var c=document.createElement("div");c.className="question-card";c.innerHTML="<div class=\"q-theme\">"+q.theme+"</div>";return c;}
 function makeFB(p){var fb=document.createElement("div");fb.className="feedback";fb.id="feedback";p.appendChild(fb);}
 function makeNext(p){var btn=document.createElement("button");btn.type="button";btn.className="next-btn";btn.id="nextBtn";btn.textContent=currentIndex>=allItems.length-1?"Lektion abschlie\u00dfen \u2713":"Weiter \u2192";btn.addEventListener("click",function(){currentIndex++;renderCurrent();});p.appendChild(btn);}
-function showFB(ok,q){var fb=document.getElementById("feedback"),nb=document.getElementById("nextBtn");totalAnswered++;if(ok){score++;fb.className="feedback correct";fb.innerHTML="<div class=\"feedback-affirmation\">"+q.affirmation+"</div>";if(score%3===0)confetti();}else{fb.className="feedback wrong";fb.innerHTML="<div class=\"feedback-affirmation\">\ud83d\udc9b Fast!</div>"+q.wrongMsg;}if(nb)nb.classList.add("visible");}
-
-function renderGap(q,parent){
-  var card=makeQCard(q);
-  card.innerHTML+="<div class=\"q-type-badge\">\ud83d\udd22 Richtige Form w\u00e4hlen</div><div class=\"q-prompt\">"+q.prompt+"</div>";
-  card.innerHTML+="<div class=\"q-sentence\">"+q.sentence.replace(q.blank,"<span style=\"border-bottom:2px solid var(--gold);min-width:80px;display:inline-block;text-align:center;padding:0 6px;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>")+"</div>";
-  var opts=document.createElement("div");opts.className="gap-options";var letters=["A","B","C"],answered=false;
-  q.options.forEach(function(opt,i){var btn=document.createElement("button");btn.type="button";btn.className="gap-btn";btn.innerHTML="<span class=\"gap-btn-letter\">"+letters[i]+"</span><em>"+opt+"</em>";btn.addEventListener("click",function(){if(answered)return;answered=true;var ok=(i===q.correct);btn.classList.add(ok?"correct":"wrong");if(!ok)opts.querySelectorAll(".gap-btn")[q.correct].classList.add("correct");showFB(ok,q);});opts.appendChild(btn);});
-  card.appendChild(opts);makeFB(card);makeNext(card);parent.appendChild(card);
+function showFB(ok,q){
+  var fb=document.getElementById("feedback"), nb=document.getElementById("nextBtn");
+  totalAnswered++;
+  if(ok){
+    score++;
+    fb.className="feedback correct";
+    fb.innerHTML="<div class=\"feedback-affirmation\">"+q.affirmation+"</div>";
+    if(score%3===0)confetti();
+  }else{
+    fb.className="feedback wrong";
+    if(q.type==="puzzle"){
+      var solArr=q.solution||q.full||q.tiles||[];
+      var solution=solArr.join(" ") + ".";
+      fb.innerHTML=
+        "<div class=\"feedback-affirmation\">Noch nicht richtig.</div>"+
+        "<div>Hier siehst du die richtige Lösung und die passende Regel.</div>"+
+        "<div class=\"rule-card\" style=\"margin:12px 0 0;\">"+
+          "<div class=\"rule-title\">Richtige Lösung</div>"+
+          "<div class=\"rule-body\"><strong style=\"color:var(--gold-light)\">"+solution+"</strong><br>„"+(q.translation||q.de||"")+"“</div>"+
+        "</div>"+
+        (q.showRule ? "<div class=\"rule-card\" style=\"margin:10px 0 0;\">"+q.showRule+"</div>" : "");
+    }else{
+      fb.innerHTML="<div class=\"feedback-affirmation\">Noch nicht richtig.</div>"+q.wrongMsg+
+        (q.showRule ? "<div class=\"rule-card\" style=\"margin:10px 0 0;\">"+q.showRule+"</div>" : "");
+    }
+  }
+  if(nb)nb.classList.add("visible");
 }
 
 function renderTrueFalse(q,parent){
@@ -499,7 +517,7 @@ function renderQuickQuiz(q,parent){
   card.appendChild(opts);makeFB(card);makeNext(card);parent.appendChild(card);
 }
 
-function renderGenau hinschauen(q,parent){
+function renderGenauHinschauen(q,parent){
   var card=makeQCard(q);card.innerHTML+="<div class=\"q-type-badge\">\ud83c\udfaf Genau hinschauen</div><div class=\"q-prompt\">"+q.prompt+"</div>";
   var sd=document.createElement("div");sd.className="spotlight-sentence";sd.innerHTML=q.sentence.replace(q.spotWord,"<span class=\"spotlight-word\">"+q.spotWord+"</span>");card.appendChild(sd);
   var opts=document.createElement("div");opts.className="tf-options";var answered=false;
