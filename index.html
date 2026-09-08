@@ -50,329 +50,119 @@
     }
 
     .skip-link{
-      position:absolute;
-      left:12px;
-      top:-100px;
-      padding:10px 14px;
-      background:var(--focus);
-      color:var(--ink);
-      border-radius:8px;
-      font-weight:700;
-      text-decoration:none;
-      z-index:1000;
+      position:absolute;left:12px;top:-100px;padding:10px 14px;
+      background:var(--focus);color:var(--ink);border-radius:8px;
+      font-weight:700;text-decoration:none;z-index:1000;
     }
     .skip-link:focus{top:12px}
-
-    a:focus-visible{
-      outline:3px solid var(--focus);
-      outline-offset:4px;
-    }
+    a:focus-visible{outline:3px solid var(--focus);outline-offset:4px}
 
     .container{
-      position:relative;
-      z-index:1;
-      width:100%;
-      max-width:520px;
-      margin:0 auto;
-      padding:
-        0 max(16px,env(safe-area-inset-right))
-        calc(48px + env(safe-area-inset-bottom))
-        max(16px,env(safe-area-inset-left));
+      position:relative;z-index:1;width:100%;max-width:520px;margin:0 auto;
+      padding:0 max(16px,env(safe-area-inset-right))
+              calc(48px + env(safe-area-inset-bottom))
+              max(16px,env(safe-area-inset-left));
     }
 
     .hero{text-align:center;padding:42px 0 28px}
-
     .hero-emblem{
-      width:88px;
-      height:88px;
-      margin:0 auto 20px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      border-radius:50%;
-      background:radial-gradient(circle at 35% 35%,var(--gold-light),var(--gold-dark));
-      font-size:44px;
-      box-shadow:
-        0 0 0 4px var(--gold-dark),
-        0 0 0 8px rgba(201,168,76,.2),
-        0 8px 32px rgba(0,0,0,.5);
+      width:88px;height:88px;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;
+      border-radius:50%;background:radial-gradient(circle at 35% 35%,var(--gold-light),var(--gold-dark));
+      font-size:44px;box-shadow:0 0 0 4px var(--gold-dark),0 0 0 8px rgba(201,168,76,.2),0 8px 32px rgba(0,0,0,.5);
       animation:glow 3s ease-in-out infinite alternate;
     }
-
     @keyframes glow{
-      from{
-        box-shadow:
-          0 0 0 4px var(--gold-dark),
-          0 0 0 8px rgba(201,168,76,.2),
-          0 8px 32px rgba(0,0,0,.5);
-      }
-      to{
-        box-shadow:
-          0 0 0 4px var(--gold-dark),
-          0 0 0 12px rgba(201,168,76,.4),
-          0 12px 40px rgba(0,0,0,.6);
-      }
+      from{box-shadow:0 0 0 4px var(--gold-dark),0 0 0 8px rgba(201,168,76,.2),0 8px 32px rgba(0,0,0,.5)}
+      to{box-shadow:0 0 0 4px var(--gold-dark),0 0 0 12px rgba(201,168,76,.4),0 12px 40px rgba(0,0,0,.6)}
     }
-
     .hero-title{
-      font-family:Georgia,"Times New Roman",serif;
-      font-size:clamp(36px,10vw,44px);
-      font-weight:700;
-      letter-spacing:2px;
-      color:var(--gold-light);
-      text-shadow:0 2px 8px rgba(0,0,0,.6);
+      font-family:Georgia,"Times New Roman",serif;font-size:clamp(36px,10vw,44px);
+      font-weight:700;letter-spacing:2px;color:var(--gold-light);text-shadow:0 2px 8px rgba(0,0,0,.6);
     }
-
     .hero-subtitle{
-      margin-top:7px;
-      font-size:13px;
-      font-weight:700;
-      letter-spacing:2px;
-      text-transform:uppercase;
-      color:var(--stone);
+      margin-top:7px;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--stone);
     }
-
     .hero-tagline{
-      max-width:330px;
-      margin:15px auto 0;
-      font-size:16px;
-      line-height:1.55;
-      color:var(--parchment-dark);
+      max-width:330px;margin:15px auto 0;font-size:16px;line-height:1.55;color:var(--parchment-dark);
     }
 
-    .divider{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      margin:28px 0;
-    }
-    .divider-line{
-      flex:1;
-      height:1px;
-      background:linear-gradient(90deg,transparent,var(--gold-dark),transparent);
-    }
-    .divider-gem{
-      width:8px;
-      height:8px;
-      background:var(--gold);
-      transform:rotate(45deg);
-      box-shadow:0 0 8px var(--gold);
-    }
+    .divider{display:flex;align-items:center;gap:12px;margin:28px 0}
+    .divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dark),transparent)}
+    .divider-gem{width:8px;height:8px;background:var(--gold);transform:rotate(45deg);box-shadow:0 0 8px var(--gold)}
 
     .section-label{
-      margin-bottom:18px;
-      text-align:center;
-      font-size:13px;
-      font-weight:700;
-      letter-spacing:2px;
-      text-transform:uppercase;
-      color:var(--gold-light);
+      margin-bottom:18px;text-align:center;font-size:13px;font-weight:700;
+      letter-spacing:2px;text-transform:uppercase;color:var(--gold-light);
     }
 
     .year-card{
-      position:relative;
-      overflow:hidden;
-      margin-bottom:16px;
-      padding:20px;
-      border:1px solid rgba(201,168,76,.28);
-      border-radius:var(--radius-lg);
+      position:relative;overflow:hidden;margin-bottom:16px;padding:20px;
+      border:1px solid rgba(201,168,76,.28);border-radius:var(--radius-lg);
       background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.03));
     }
-
     .year-card::before{
-      content:"";
-      position:absolute;
-      top:0;left:0;right:0;
-      height:3px;
+      content:"";position:absolute;top:0;left:0;right:0;height:3px;
       background:linear-gradient(90deg,var(--gold-dark),var(--gold-light),var(--gold-dark));
     }
-
     .year-card.active{
       border-color:rgba(201,168,76,.5);
       background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(201,168,76,.05));
     }
-
     .year-card.locked{opacity:.58}
 
-    .year-header{
-      display:flex;
-      align-items:center;
-      gap:14px;
-      margin-bottom:16px;
-    }
-
+    .year-header{display:flex;align-items:center;gap:14px;margin-bottom:16px}
     .year-badge{
-      width:56px;
-      height:56px;
-      flex-shrink:0;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      background:linear-gradient(135deg,var(--gold-dark),var(--gold));
-      border-radius:var(--radius-md);
+      width:56px;height:56px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+      background:linear-gradient(135deg,var(--gold-dark),var(--gold));border-radius:var(--radius-md);
       box-shadow:0 4px 12px rgba(0,0,0,.3);
     }
-
-    .year-badge-num{
-      font-size:21px;
-      font-weight:800;
-      line-height:1;
-      color:var(--ink);
-    }
-
-    .year-badge-label{
-      margin-top:3px;
-      font-size:10px;
-      font-weight:700;
-      color:var(--ink);
-      letter-spacing:.6px;
-      text-transform:uppercase;
-    }
-
+    .year-badge-num{font-size:21px;font-weight:800;line-height:1;color:var(--ink)}
+    .year-badge-label{margin-top:3px;font-size:10px;font-weight:700;color:var(--ink);letter-spacing:.6px;text-transform:uppercase}
     .year-info{min-width:0;flex:1}
-    .year-info h2{
-      color:var(--gold-light);
-      font-family:Georgia,"Times New Roman",serif;
-      font-size:19px;
-      line-height:1.25;
-    }
-    .year-info p{
-      margin-top:4px;
-      color:var(--stone);
-      font-size:14px;
-      line-height:1.45;
-    }
-
+    .year-info h2{color:var(--gold-light);font-family:Georgia,"Times New Roman",serif;font-size:19px;line-height:1.25}
+    .year-info p{margin-top:4px;color:var(--stone);font-size:14px;line-height:1.45}
     .lock-badge{margin-left:auto;font-size:20px;opacity:.75}
 
     .lektion-grid{
-      display:grid;
-      grid-template-columns:repeat(2,minmax(0,1fr));
-      gap:12px;
-      margin-top:5px;
+      display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:5px;
     }
 
     .lektion-btn{
-      position:relative;
-      display:flex;
-      flex-direction:column;
-      min-height:132px;
-      padding:14px;
-      border:1px solid rgba(201,168,76,.25);
-      border-radius:var(--radius-md);
-      background:rgba(26,18,8,.65);
-      color:inherit;
-      text-align:left;
-      text-decoration:none;
-      cursor:pointer;
-      transition:transform .15s ease,background .15s ease,border-color .15s ease;
+      position:relative;display:flex;flex-direction:column;justify-content:center;
+      min-height:118px;padding:16px 14px;
+      border:1px solid rgba(201,168,76,.25);border-radius:var(--radius-md);
+      background:rgba(26,18,8,.65);color:inherit;text-align:left;text-decoration:none;
+      cursor:pointer;transition:transform .15s ease,background .15s ease,border-color .15s ease;
     }
-
-    .lektion-btn:hover{
-      border-color:rgba(201,168,76,.55);
-      background:rgba(201,168,76,.09);
-    }
-
+    .lektion-btn:hover{border-color:rgba(201,168,76,.55);background:rgba(201,168,76,.09)}
     .lektion-btn:active{transform:scale(.98)}
-
-    .lektion-btn.available{
-      border-color:rgba(201,168,76,.5);
-      background:rgba(201,168,76,.08);
-    }
-
+    .lektion-btn.available{border-color:rgba(201,168,76,.5);background:rgba(201,168,76,.08)}
     .lektion-btn.locked{
-      cursor:not-allowed;
-      opacity:.5;
-      border-color:rgba(201,168,76,.16);
-      background:rgba(26,18,8,.35);
+      cursor:not-allowed;opacity:.5;border-color:rgba(201,168,76,.16);background:rgba(26,18,8,.35);
     }
 
     .lektion-num{
-      padding-right:28px;
-      font-size:13px;
-      font-weight:800;
-      letter-spacing:1.4px;
-      color:var(--gold-light);
+      padding-right:28px;font-size:13px;font-weight:800;letter-spacing:1.4px;color:var(--gold-light);
     }
-
-    .lektion-name{
-      margin-top:6px;
-      font-size:15px;
-      font-weight:700;
-      line-height:1.4;
-      color:var(--parchment);
-    }
-
     .lektion-topics{
-      margin-top:8px;
-      font-size:13px;
-      line-height:1.5;
-      color:var(--stone);
+      margin-top:14px;font-size:18px;font-weight:750;line-height:1.4;color:var(--parchment);
     }
-
-    .lektion-status{
-      position:absolute;
-      top:10px;
-      right:10px;
-      font-size:16px;
-    }
+    .lektion-status{position:absolute;top:10px;right:10px;font-size:16px}
 
     .progress-section{margin-top:18px}
-
-    .progress-bar-wrap{
-      height:8px;
-      overflow:hidden;
-      border-radius:999px;
-      background:rgba(255,255,255,.08);
-    }
-
-    .progress-bar-fill{
-      height:100%;
-      border-radius:999px;
-      background:linear-gradient(90deg,var(--gold-dark),var(--gold-light));
-    }
-
-    .progress-label{
-      margin-top:7px;
-      text-align:right;
-      font-size:13px;
-      font-weight:600;
-      color:var(--stone);
-    }
+    .progress-bar-wrap{height:8px;overflow:hidden;border-radius:999px;background:rgba(255,255,255,.08)}
+    .progress-bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--gold-dark),var(--gold-light))}
+    .progress-label{margin-top:7px;text-align:right;font-size:13px;font-weight:600;color:var(--stone)}
 
     .latin-quote{
-      margin-top:28px;
-      padding:24px 18px;
-      text-align:center;
-      border:1px solid rgba(201,168,76,.18);
-      border-radius:var(--radius-lg);
-      background:rgba(201,168,76,.04);
+      margin-top:28px;padding:24px 18px;text-align:center;border:1px solid rgba(201,168,76,.18);
+      border-radius:var(--radius-lg);background:rgba(201,168,76,.04);
     }
-
-    .latin-quote blockquote{
-      font-family:Georgia,"Times New Roman",serif;
-      font-size:19px;
-      line-height:1.5;
-      color:var(--gold-light);
-    }
-
-    .latin-translation{
-      display:block;
-      margin-top:10px;
-      font-size:14px;
-      line-height:1.5;
-      color:var(--stone);
-    }
+    .latin-quote blockquote{font-family:Georgia,"Times New Roman",serif;font-size:19px;line-height:1.5;color:var(--gold-light)}
+    .latin-translation{display:block;margin-top:10px;font-size:14px;line-height:1.5;color:var(--stone)}
 
     .footer{
-      margin-top:40px;
-      text-align:center;
-      font-size:12px;
-      font-weight:600;
-      color:var(--stone);
-      letter-spacing:1.4px;
-      opacity:.8;
+      margin-top:40px;text-align:center;font-size:12px;font-weight:600;color:var(--stone);letter-spacing:1.4px;opacity:.8;
     }
 
     @media(max-width:370px){
@@ -383,10 +173,8 @@
 
     @media(prefers-reduced-motion:reduce){
       *,*::before,*::after{
-        scroll-behavior:auto!important;
-        animation-duration:.01ms!important;
-        animation-iteration-count:1!important;
-        transition-duration:.01ms!important;
+        scroll-behavior:auto!important;animation-duration:.01ms!important;
+        animation-iteration-count:1!important;transition-duration:.01ms!important;
       }
       .hero-emblem{animation:none}
     }
@@ -423,7 +211,6 @@
           <span class="year-badge-num">7</span>
           <span class="year-badge-label">Klasse</span>
         </div>
-
         <div class="year-info">
           <h2 id="klasse7-title">Einstieg in Latein</h2>
           <p>16 Lektionen · derzeit verfügbar: L01–L07</p>
@@ -433,67 +220,59 @@
       <nav class="lektion-grid" aria-label="Latein-Lektionen Klasse 7">
 
         <a class="lektion-btn available" href="l7/l01.html"
-           aria-label="Lektion 1: Sieg im Circus Maximus. Nominativ, dritte Person und Infinitiv.">
+           aria-label="Lektion 1. Nominativ, dritte Person und Infinitiv.">
           <span class="lektion-status" aria-hidden="true">⚡</span>
           <div class="lektion-num">L 01</div>
-          <div class="lektion-name">Sieg im Circus Maximus</div>
           <div class="lektion-topics">Nominativ · 3. Person · Infinitiv</div>
         </a>
 
         <a class="lektion-btn available" href="l7/l02.html"
-           aria-label="Lektion 2: Möhren weisen den Weg. Akkusativ sowie Subjekt und Prädikat.">
+           aria-label="Lektion 2. Akkusativ sowie Subjekt und Prädikat.">
           <span class="lektion-status" aria-hidden="true">⚡</span>
           <div class="lektion-num">L 02</div>
-          <div class="lektion-name">Möhren weisen den Weg</div>
           <div class="lektion-topics">Akkusativ · Subjekt und Prädikat</div>
         </a>
 
         <a class="lektion-btn available" href="l7/l03.html"
-           aria-label="Lektion 3: Die Pläne der Verbrecher. Präpositionen mit Akkusativ und Infinitiv-Konstruktionen.">
+           aria-label="Lektion 3. Präpositionen mit Akkusativ und Infinitiv-Konstruktionen.">
           <span class="lektion-status" aria-hidden="true">⚡</span>
           <div class="lektion-num">L 03</div>
-          <div class="lektion-name">Die Pläne der Verbrecher</div>
           <div class="lektion-topics">Präpositionen + Akkusativ · Infinitiv</div>
         </a>
 
         <a class="lektion-btn available" href="l7/l04.html"
-           aria-label="Lektion 4: Incitatus ist der Größte. Ablativ und Präpositionen.">
+           aria-label="Lektion 4. Ablativ und Präpositionen.">
           <span class="lektion-status" aria-hidden="true">⚡</span>
           <div class="lektion-num">L 04</div>
-          <div class="lektion-name">Incitatus ist der Größte!</div>
           <div class="lektion-topics">Ablativ · Präpositionen</div>
         </a>
 
         <a class="lektion-btn available" href="l7/l05.html"
-           aria-label="Lektion 5: Orpheus und Eurydike. Verben und Infinitiv-Konstruktionen.">
+           aria-label="Lektion 5. Verben und Infinitiv-Konstruktionen.">
           <span class="lektion-status" aria-hidden="true">⚡</span>
           <div class="lektion-num">L 05</div>
-          <div class="lektion-name">Orpheus und Eurydike</div>
           <div class="lektion-topics">Verben · nōn dēbēre + Infinitiv</div>
         </a>
 
         <a class="lektion-btn available" href="l7/l06.html"
-           aria-label="Lektion 6: Ikarus und der Traum vom Fliegen. Genitiv.">
+           aria-label="Lektion 6. Genitiv.">
           <span class="lektion-status" aria-hidden="true">⚡</span>
           <div class="lektion-num">L 06</div>
-          <div class="lektion-name">Ikarus und der Traum vom Fliegen</div>
           <div class="lektion-topics">Genitiv</div>
         </a>
 
         <a class="lektion-btn available" href="l7/l07.html"
-           aria-label="Lektion 7: Äneas flieht aus Troja. Dativ und prō mit Ablativ.">
+           aria-label="Lektion 7. Dativ und prō mit Ablativ.">
           <span class="lektion-status" aria-hidden="true">⚡</span>
           <div class="lektion-num">L 07</div>
-          <div class="lektion-name">Äneas flieht aus Troja</div>
           <div class="lektion-topics">Dativ · prō + Ablativ</div>
         </a>
 
         <div class="lektion-btn locked"
              aria-disabled="true"
-             aria-label="Lektion 8: Ein Anfang mit Schrecken. Noch nicht verfügbar.">
+             aria-label="Lektion 8. Perfekt und posse. Noch nicht verfügbar.">
           <span class="lektion-status" aria-hidden="true">🔒</span>
           <div class="lektion-num">L 08</div>
-          <div class="lektion-name">Ein Anfang mit Schrecken</div>
           <div class="lektion-topics">Perfekt · posse</div>
         </div>
       </nav>
@@ -558,7 +337,7 @@
       <span class="latin-translation">Durch Schwierigkeiten zu den Sternen.</span>
     </section>
 
-    <footer class="footer">Magistrella · MMXXVI - Prof. Dr. Eleonore Soei-Winkels</footer>
+    <footer class="footer">Magistrella · MMXXVI</footer>
   </main>
 </body>
 </html>
