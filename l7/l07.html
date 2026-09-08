@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Magistrella · L07 · Äneas flieht aus Troja</title>
+<title>L07 · Dativ · prō + Ablativ · Magistrella</title>
 <style>
 :root{
   --gold:#C9A84C;
@@ -128,7 +128,7 @@ button.btn.secondary{
   margin-top:14px;padding:14px;border-radius:12px;background:rgba(192,82,43,0.12);
   border:1px solid var(--terra);
 }
-.rule-card .rt{color:var(--terra);font-weight:bold;font-size:0.9rem;margin-bottom:4px;}
+.rule-card .rt{color:var(--gold-light);font-weight:bold;font-size:0.9rem;margin-bottom:4px;}
 .rule-card .rx{color:var(--text);font-size:0.85rem;line-height:1.5;}
 
 .feedback{
@@ -161,6 +161,35 @@ button:focus-visible,a:focus-visible,.word-token:focus-visible{
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important;}
 }
+
+/* Magistrella: gut lesbare Antwortoptionen auf dunklem Hintergrund */
+.answer-btn,
+.option-btn,
+.choice-btn,
+.quiz-option,
+.answer-option,
+button.answer,
+button.option,
+.options button,
+.answers button,
+.choice,
+.option {
+  color: #fff !important;
+}
+.answer-btn *,
+.option-btn *,
+.choice-btn *,
+.quiz-option *,
+.answer-option *,
+button.answer *,
+button.option *,
+.options button *,
+.answers button *,
+.choice *,
+.option * {
+  color: #fff !important;
+}
+
 </style></head>
 <body>
 <div id="app"></div>
@@ -219,7 +248,7 @@ const LEKTION = {
     DATIV:{title:"Der Dativ", text:"Der Dativ antwortet häufig auf die Frage „Wem?“. Einige lateinische Verben verlangen einen Dativ, auch wenn im Deutschen anders übersetzt wird. Beispiele: Cōnsilium patrī nōn placet. = Der Plan gefällt dem Vater nicht. familiae cōnsulere = für die Familie sorgen. Via vōbīs patet. = Der Weg steht euch offen. Entscheidend ist also die lateinische Konstruktion."},
     PRO_ABL:{title:"prō + Ablativ", text:"prō regiert den Ablativ und bedeutet „für, anstelle von, vor“. Beispiele: prō amīcō dīcere = für den Freund sprechen; prō aedificiō stāre = vor dem Gebäude stehen."}
   },
-  // aus prima. Foto
+  // aus  Foto
   sentences:[
     {lat:"Quid agere dēbeō?", de:"Was muss ich tun?", block:2, puzzle:false},
     {lat:"Bēstiās dē forō agō.", de:"Ich treibe die Tiere vom Forum.", block:2, puzzle:false},
@@ -372,7 +401,7 @@ function genPuzzle(sentPool){
   const tokens = stripPunct(s.lat).split(' ');
   const subject = tokens[0];
   const rest = tokens.slice(1);
-  return {type:'puzzle', subject, rest, full:tokens, de:s.de, showRule:null};
+  return {type:'puzzle', subject, rest, full:tokens, solution:tokens, de:s.de, showRule:s.rule||null};
 }
 
 function buildBlockQueue(blockIdx){
@@ -544,17 +573,52 @@ function markStreak(isCorrect){
 function showFeedback(isCorrect){
   const q = state.queue[state.qIdx];
   const fb = document.getElementById('fb');
+  const rc = document.getElementById('ruleContainer');
+
   fb.className = 'feedback ' + (isCorrect?'ok':'bad');
-  fb.textContent = isCorrect ? affirm() : 'Noch nicht richtig. Schau dir die Lösung und die Regel noch einmal an.';
-  if(q.showRule){
-    const rc = document.getElementById('ruleContainer');
-    if(rc){
-      rc.innerHTML = '<div class="rule-card"><div class="rt">'+LEKTION.rules[q.showRule].title+'</div><div class="rx">'+LEKTION.rules[q.showRule].text+'</div></div>';
+
+  if(isCorrect){
+    fb.textContent = affirm();
+  } else if(q.type==='puzzle'){
+    fb.textContent = 'Noch nicht richtig. Hier siehst du die richtige Lösung und die passende Regel.';
+  } else {
+    fb.textContent = 'Noch nicht richtig. Schau dir die Lösung noch einmal an.';
+  }
+
+  if(rc){
+    rc.innerHTML = '';
+
+    if(!isCorrect && q.type==='puzzle'){
+      const solArr = q.solution || q.full || q.tiles || [];
+      const solution = solArr.join(' ') + '.';
+      let html =
+        '<div class="rule-card">'+
+          '<div class="rt">Richtige Lösung</div>'+
+          '<div class="rx" style="font-size:1.05rem;color:var(--gold-light);">'+solution+'</div>'+
+          '<div class="rx" style="margin-top:6px;">„'+(q.translation||q.de||'')+'“</div>'+
+        '</div>';
+
+      if(q.showRule && LEKTION.rules[q.showRule]){
+        html +=
+          '<div class="rule-card">'+
+            '<div class="rt">'+LEKTION.rules[q.showRule].title+'</div>'+
+            '<div class="rx">'+LEKTION.rules[q.showRule].text+'</div>'+
+          '</div>';
+      }
+      rc.innerHTML = html;
+    } else if(q.showRule && q.type!=='quickQuiz' && q.type!=='puzzle'){
+      rc.innerHTML =
+        '<div class="rule-card">'+
+          '<div class="rt">'+LEKTION.rules[q.showRule].title+'</div>'+
+          '<div class="rx">'+LEKTION.rules[q.showRule].text+'</div>'+
+        '</div>';
     }
   }
+
   const nb = document.getElementById('nextBtn');
   if(nb) nb.style.display = 'block';
 }
+
 function nextQuestion(){
   state.qIdx++;
   state.answered = false;
@@ -632,8 +696,7 @@ function attachHandlers(){
       rb.onclick=()=>{
         if(state.answered)return;
         state.answered=true;
-        markStreak(true);
-        showFeedback(true);
+        
         rb.style.display='none';
       };
     }
