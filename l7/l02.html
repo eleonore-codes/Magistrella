@@ -7,1731 +7,3168 @@
 <title>L02 · Nominativ & Akkusativ · Satzglieder · Magistrella</title>
 
 <style>
-  :root{
-    --gold:#C9A84C;
-    --gold-light:#E8C96A;
-    --gold-dark:#8B6914;
-    --terracotta:#C0522B;
-    --ink:#1A1208;
-    --ink-mid:#2A1F0E;
-    --parchment:#F5EDD6;
-    --parchment-dark:#E8D9B5;
-    --stone:#8E8370;
-    --green-ok:#4CAF7D;
-    --red-wrong:#E05050;
-    --white:#FDFAF3;
+:root{
+  --gold:#C9A84C;
+  --gold-light:#E8C96A;
+  --gold-dark:#8B6914;
+  --ink:#1A1208;
+  --ink-mid:#2A1F0E;
+  --parchment:#F5EDD6;
+  --parchment-dark:#E8D9B5;
+  --stone:#968B78;
+  --green-ok:#4CAF7D;
+  --red-wrong:#E05050;
+  --white:#FDFAF3;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+body{
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;
+  background:var(--ink);
+  color:var(--parchment);
+  min-height:100vh;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+
+button{
+  font:inherit;
+}
+
+/* =====================================================
+   TOPBAR
+===================================================== */
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:100;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:10px 16px;
+  background:rgba(26,18,8,.96);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid rgba(201,168,76,.2);
+}
+
+.back-btn{
+  color:var(--gold);
+  text-decoration:none;
+  font-size:20px;
+  padding:4px 8px 4px 0;
+}
+
+.topbar-info{
+  flex:1;
+}
+
+.topbar-title{
+  color:var(--gold-light);
+  font-size:14px;
+  font-style:italic;
+}
+
+.topbar-sub{
+  color:var(--stone);
+  font-size:12px;
+}
+
+.topbar-progress{
+  color:var(--gold);
+  font-weight:800;
+  font-size:13px;
+  min-width:55px;
+  text-align:right;
+}
+
+/* =====================================================
+   INTRO
+===================================================== */
+
+.lesson-intro{
+  margin:16px;
+  padding:18px;
+  border:1px solid rgba(201,168,76,.25);
+  border-radius:18px;
+  background:linear-gradient(
+    135deg,
+    rgba(201,168,76,.12),
+    rgba(201,168,76,.03)
+  );
+}
+
+.lesson-kicker{
+  color:var(--gold);
+  font-size:12px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:2px;
+}
+
+.lesson-intro h1{
+  color:var(--gold-light);
+  font-size:24px;
+  line-height:1.25;
+  margin:5px 0 10px;
+}
+
+.lesson-intro p{
+  color:var(--parchment-dark);
+  font-size:15px;
+}
+
+.lesson-goals{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:14px;
+}
+
+.goal-chip{
+  background:rgba(0,0,0,.18);
+  border:1px solid rgba(201,168,76,.16);
+  border-radius:11px;
+  padding:8px 10px;
+  font-size:13px;
+  color:var(--parchment-dark);
+}
+
+/* =====================================================
+   LERNKARTEN
+===================================================== */
+
+.teach-card{
+  margin:16px;
+  border-radius:18px;
+  overflow:hidden;
+  background:var(--parchment);
+  color:#2A1F0E;
+  border:1px solid rgba(201,168,76,.55);
+}
+
+.teach-head{
+  padding:13px 16px;
+  background:var(--parchment-dark);
+  border-bottom:1px solid rgba(90,60,10,.12);
+}
+
+.teach-kicker{
+  color:#735108;
+  text-transform:uppercase;
+  font-size:11px;
+  letter-spacing:2px;
+  font-weight:800;
+}
+
+.teach-head h2{
+  color:#2A1F0E;
+  font-size:20px;
+  line-height:1.3;
+  margin-top:2px;
+}
+
+.teach-body{
+  padding:16px;
+  font-size:15px;
+}
+
+.teach-body p + p{
+  margin-top:10px;
+}
+
+.teach-body strong{
+  color:#6C4B06;
+}
+
+.teach-example{
+  margin-top:14px;
+  padding:12px;
+  background:rgba(255,255,255,.55);
+  border-left:4px solid var(--gold-dark);
+  border-radius:10px;
+}
+
+.teach-example .latin{
+  font-size:17px;
+  font-weight:800;
+  font-style:italic;
+  color:#2A1F0E;
+}
+
+.teach-example .german{
+  margin-top:2px;
+  color:#594931;
+}
+
+.mini-rule{
+  margin-top:14px;
+  padding:11px 12px;
+  border:1px solid rgba(139,105,20,.25);
+  border-radius:10px;
+  background:#FFF9EA;
+  color:#594006;
+  font-weight:700;
+}
+
+/* =====================================================
+   TABELLEN
+===================================================== */
+
+.rule-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:14px;
+  font-size:13px;
+}
+
+.rule-table th{
+  background:rgba(139,105,20,.13);
+  color:#654807;
+  padding:7px 6px;
+  text-align:left;
+  font-size:11px;
+}
+
+.rule-table td{
+  color:#2E2110;
+  padding:7px 6px;
+  border-bottom:1px solid rgba(80,55,5,.14);
+  vertical-align:top;
+}
+
+.rule-table tr:last-child td{
+  border-bottom:none;
+}
+
+.rule-highlight{
+  color:#694A06 !important;
+  font-weight:800;
+}
+
+/* =====================================================
+   TRAINING
+===================================================== */
+
+.training-intro{
+  margin:16px;
+  padding:16px;
+  border-radius:16px;
+  border:1px solid rgba(201,168,76,.25);
+  background:rgba(201,168,76,.07);
+}
+
+.training-intro h2{
+  color:var(--gold-light);
+  font-size:19px;
+  margin-bottom:5px;
+}
+
+.training-intro p{
+  color:var(--parchment-dark);
+  font-size:14px;
+}
+
+.question-card{
+  margin:16px;
+  padding:20px;
+  border-radius:20px;
+  background:var(--ink-mid);
+  border:1px solid rgba(201,168,76,.15);
+  animation:slideUp .22s ease;
+}
+
+@keyframes slideUp{
+  from{
+    opacity:0;
+    transform:translateY(14px);
   }
-
-  *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    -webkit-tap-highlight-color:transparent;
+  to{
+    opacity:1;
+    transform:translateY(0);
   }
+}
 
-  body{
-    font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;
-    background:var(--ink);
-    color:var(--parchment);
-    min-height:100vh;
-    line-height:1.6;
-    -webkit-font-smoothing:antialiased;
-  }
+.q-theme{
+  color:var(--gold);
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  margin-bottom:8px;
+}
 
-  button{font:inherit;}
+.q-type-badge{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:99px;
+  background:rgba(201,168,76,.14);
+  border:1px solid rgba(201,168,76,.28);
+  color:var(--gold-light);
+  font-size:12px;
+  margin-bottom:12px;
+}
 
-  .topbar{
-    position:sticky;
-    top:0;
-    z-index:100;
-    background:rgba(26,18,8,.96);
-    backdrop-filter:blur(8px);
-    border-bottom:1px solid rgba(201,168,76,.2);
-    padding:10px 16px;
-    display:flex;
-    align-items:center;
-    gap:12px;
-  }
+.q-prompt{
+  font-size:17px;
+  color:var(--parchment);
+  margin-bottom:14px;
+}
 
-  .back-btn{
-    color:var(--gold);
-    text-decoration:none;
-    font-size:20px;
-    padding:4px 8px 4px 0;
-  }
+.q-sentence{
+  font-size:18px;
+  color:var(--white);
+  text-align:center;
+  font-style:italic;
+  background:rgba(0,0,0,.2);
+  border-radius:12px;
+  padding:13px;
+  margin-bottom:16px;
+}
 
-  .topbar-info{flex:1;}
+.q-helper{
+  color:var(--stone);
+  font-size:13px;
+  margin-top:-6px;
+  margin-bottom:14px;
+}
 
-  .topbar-title{
-    font-size:14px;
-    font-style:italic;
-    color:var(--gold-light);
-  }
+.options{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
 
-  .topbar-sub{
-    font-size:12px;
-    color:var(--stone);
-    letter-spacing:.6px;
-  }
+.option-btn{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:13px 15px;
+  border-radius:14px;
+  border:1.5px solid rgba(201,168,76,.25);
+  background:rgba(255,255,255,.04);
+  color:#fff;
+  cursor:pointer;
+  text-align:left;
+  transition:.15s;
+}
 
-  .topbar-progress{
-    font-size:13px;
-    color:var(--gold);
-    font-weight:700;
-    min-width:48px;
-    text-align:right;
-  }
+.option-btn:active{
+  transform:scale(.98);
+}
 
-  .lesson-intro{
-    margin:16px;
-    padding:18px;
-    border-radius:18px;
-    border:1px solid rgba(201,168,76,.25);
-    background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(201,168,76,.03));
-  }
+.option-btn.correct{
+  background:rgba(76,175,125,.15);
+  border-color:var(--green-ok);
+  color:#9FE7BD;
+}
 
-  .lesson-kicker{
-    font-size:12px;
-    letter-spacing:2px;
-    text-transform:uppercase;
-    color:var(--gold);
-  }
+.option-btn.wrong{
+  background:rgba(224,80,80,.12);
+  border-color:var(--red-wrong);
+  color:#FFB6B6;
+}
 
-  .lesson-intro h1{
-    font-size:23px;
-    color:var(--gold-light);
-    margin:4px 0 8px;
-  }
+.option-letter{
+  width:28px;
+  height:28px;
+  flex:0 0 28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:8px;
+  background:rgba(201,168,76,.15);
+  color:var(--gold-light);
+  font-size:12px;
+  font-weight:800;
+}
 
-  .lesson-intro p{
-    color:var(--parchment-dark);
-    font-size:15px;
-  }
+.feedback{
+  display:none;
+  margin-top:14px;
+  padding:14px;
+  border-radius:14px;
+  font-size:14px;
+  line-height:1.55;
+}
+
+.feedback.correct{
+  display:block;
+  background:rgba(76,175,125,.12);
+  border:1px solid rgba(76,175,125,.3);
+  color:#91E2B3;
+}
+
+.feedback.wrong{
+  display:block;
+  background:rgba(224,80,80,.09);
+  border:1px solid rgba(224,80,80,.28);
+  color:#F2B0B0;
+}
+
+.feedback-title{
+  font-weight:800;
+  margin-bottom:5px;
+}
+
+.feedback-tip{
+  margin-top:8px;
+  color:#F5E7B8;
+}
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.continue-btn,
+.next-btn{
+  width:calc(100% - 32px);
+  margin:12px 16px 16px;
+  padding:15px;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(
+    135deg,
+    var(--gold-dark),
+    var(--gold)
+  );
+  color:var(--ink);
+  font-weight:800;
+  cursor:pointer;
+}
+
+.next-btn{
+  width:100%;
+  margin:14px 0 0;
+  display:none;
+}
+
+.next-btn.visible{
+  display:block;
+}
+
+.continue-btn:active,
+.next-btn:active{
+  transform:scale(.98);
+}
+
+/* =====================================================
+   COMPLETION
+===================================================== */
+
+.completion{
+  display:none;
+  text-align:center;
+  padding:40px 24px;
+}
+
+.completion.visible{
+  display:block;
+}
+
+.completion-symbol{
+  font-size:60px;
+  margin-bottom:12px;
+}
+
+.completion-title{
+  color:var(--gold-light);
+  font-size:27px;
+  margin-bottom:8px;
+}
+
+.completion-score{
+  color:var(--gold);
+  font-size:42px;
+  font-weight:800;
+  margin:14px 0;
+}
+
+.completion-stars{
+  font-size:32px;
+  margin-bottom:18px;
+  letter-spacing:6px;
+}
+
+.completion-msg{
+  color:var(--parchment-dark);
+  max-width:520px;
+  margin:0 auto 25px;
+  font-size:15px;
+}
+
+.home-btn{
+  display:inline-block;
+  padding:14px 25px;
+  border-radius:14px;
+  background:linear-gradient(
+    135deg,
+    var(--gold-dark),
+    var(--gold)
+  );
+  color:var(--ink);
+  font-weight:800;
+  text-decoration:none;
+}
+
+button:focus-visible,
+a:focus-visible{
+  outline:3px solid #FFF1A8;
+  outline-offset:3px;
+}
+
+@media(max-width:540px){
 
   .lesson-goals{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:8px;
-    margin-top:14px;
+    grid-template-columns:1fr;
   }
-
-  .goal-chip{
-    padding:8px 10px;
-    border-radius:10px;
-    font-size:13px;
-    color:var(--parchment-dark);
-    background:rgba(0,0,0,.18);
-    border:1px solid rgba(201,168,76,.16);
-  }
-
-  .rule-card{
-    margin:16px;
-    background:linear-gradient(135deg,rgba(245,237,214,.98),rgba(232,217,181,.95));
-    border:1px solid rgba(201,168,76,.55);
-    border-radius:16px;
-    padding:18px;
-    color:#261B0D;
-    position:relative;
-    overflow:hidden;
-  }
-
-  .rule-card::before{
-    content:'';
-    position:absolute;
-    top:0;
-    left:0;
-    right:0;
-    height:3px;
-    background:linear-gradient(90deg,var(--gold-dark),var(--gold-light),var(--gold-dark));
-  }
-
-  .rule-title{
-    font-size:12px;
-    letter-spacing:2px;
-    text-transform:uppercase;
-    color:#765207;
-    font-weight:800;
-    margin-bottom:10px;
-  }
-
-  .rule-body{
-    font-size:15px;
-    color:#312513;
-    line-height:1.7;
-  }
-
-  .rule-body strong{color:#745107;}
 
   .rule-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:10px;
-    font-size:13px;
+    font-size:11.5px;
   }
 
-  .rule-table th{
-    background:rgba(139,105,20,.14);
-    color:#604407;
-    padding:6px 7px;
-    text-align:left;
-    font-size:11px;
-  }
-
+  .rule-table th,
   .rule-table td{
-    padding:6px 7px;
-    border-bottom:1px solid rgba(80,55,5,.14);
-    color:#2E2110;
+    padding:6px 3px;
   }
 
-  .rule-table tr:last-child td{border-bottom:none;}
+}
 
-  .rule-highlight{
-    color:#684A06 !important;
-    font-weight:800;
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    transition-duration:.01ms!important;
   }
-
-  .rule-example{
-    margin-top:12px;
-    padding:10px 12px;
-    background:rgba(255,255,255,.45);
-    border-left:3px solid var(--gold-dark);
-    border-radius:9px;
-  }
-
-  .section-header{
-    margin:16px 16px 0;
-    padding:12px 14px;
-    background:rgba(201,168,76,.08);
-    border-left:3px solid var(--gold);
-    border-radius:0 10px 10px 0;
-  }
-
-  .section-header h2{
-    font-size:16px;
-    color:var(--gold-light);
-  }
-
-  .section-header p{
-    font-size:14px;
-    color:var(--stone);
-    margin-top:2px;
-  }
-
-  .vocab-block{
-    margin:12px 16px;
-    background:rgba(0,0,0,.2);
-    border:1px solid rgba(201,168,76,.15);
-    border-radius:12px;
-    overflow:hidden;
-  }
-
-  .vocab-row{
-    display:flex;
-    padding:8px 12px;
-    border-bottom:1px solid rgba(201,168,76,.08);
-    align-items:baseline;
-    gap:8px;
-  }
-
-  .vocab-row:last-child{border-bottom:none;}
-
-  .vocab-lat{
-    font-size:16px;
-    font-style:italic;
-    color:var(--white);
-    min-width:120px;
-    flex-shrink:0;
-  }
-
-  .vocab-gen{
-    font-size:13px;
-    color:var(--gold);
-    min-width:76px;
-    flex-shrink:0;
-  }
-
-  .vocab-de{
-    font-size:15px;
-    color:var(--parchment-dark);
-    flex:1;
-  }
-
-  .question-card{
-    margin:0 16px 16px;
-    background:var(--ink-mid);
-    border:1px solid rgba(201,168,76,.15);
-    border-radius:20px;
-    padding:20px;
-    animation:slideUp .25s ease;
-  }
-
-  @keyframes slideUp{
-    from{opacity:0;transform:translateY(14px)}
-    to{opacity:1;transform:translateY(0)}
-  }
-
-  .q-theme{
-    font-size:12px;
-    letter-spacing:2px;
-    text-transform:uppercase;
-    color:var(--gold);
-    margin-bottom:8px;
-  }
-
-  .q-type-badge{
-    display:inline-block;
-    background:rgba(201,168,76,.15);
-    border:1px solid rgba(201,168,76,.3);
-    border-radius:99px;
-    padding:4px 10px;
-    font-size:12px;
-    color:var(--gold-light);
-    margin-bottom:12px;
-  }
-
-  .q-prompt{
-    font-size:17px;
-    color:var(--parchment);
-    line-height:1.5;
-    margin-bottom:14px;
-  }
-
-  .q-sentence{
-    font-size:18px;
-    color:var(--white);
-    text-align:center;
-    margin-bottom:16px;
-    line-height:1.6;
-    padding:13px;
-    background:rgba(0,0,0,.2);
-    border-radius:12px;
-    font-style:italic;
-  }
-
-  .gap-options{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-  }
-
-  .gap-btn{
-    background:rgba(255,255,255,.04);
-    border:1.5px solid rgba(201,168,76,.25);
-    border-radius:14px;
-    padding:13px 15px;
-    font-size:16px;
-    color:#fff;
-    cursor:pointer;
-    text-align:left;
-    transition:.15s;
-    display:flex;
-    align-items:center;
-    gap:10px;
-  }
-
-  .gap-btn:active{transform:scale(.98);}
-
-  .gap-btn.correct{
-    background:rgba(76,175,125,.15);
-    border-color:var(--green-ok);
-    color:#9BE6BC;
-  }
-
-  .gap-btn.wrong{
-    background:rgba(224,80,80,.12);
-    border-color:var(--red-wrong);
-    color:#FFB2B2;
-  }
-
-  .gap-btn-letter{
-    width:28px;
-    height:28px;
-    flex:0 0 28px;
-    background:rgba(201,168,76,.15);
-    border-radius:8px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:12px;
-    font-weight:800;
-    color:var(--gold-light);
-  }
-
-  .match-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:8px;
-  }
-
-  .match-col-labels{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:8px;
-    margin-bottom:4px;
-  }
-
-  .match-col-label{
-    font-size:11px;
-    letter-spacing:2px;
-    text-transform:uppercase;
-    color:var(--gold);
-    text-align:center;
-  }
-
-  .match-item{
-    background:rgba(255,255,255,.04);
-    border:1.5px solid rgba(201,168,76,.2);
-    border-radius:12px;
-    padding:9px;
-    font-size:14px;
-    color:#fff;
-    cursor:pointer;
-    text-align:center;
-    min-height:44px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
-
-  .match-item.selected{
-    background:rgba(201,168,76,.2);
-    border-color:var(--gold);
-    color:var(--gold-light);
-  }
-
-  .match-item.matched{
-    background:rgba(76,175,125,.15);
-    border-color:var(--green-ok);
-    color:#9BE6BC;
-    pointer-events:none;
-  }
-
-  .match-item.wrong{
-    background:rgba(224,80,80,.12);
-    border-color:var(--red-wrong);
-  }
-
-  .feedback{
-    margin-top:14px;
-    padding:14px;
-    border-radius:14px;
-    font-size:14px;
-    line-height:1.55;
-    display:none;
-  }
-
-  .feedback.correct{
-    display:block;
-    background:rgba(76,175,125,.12);
-    border:1px solid rgba(76,175,125,.3);
-    color:#8EE2B3;
-  }
-
-  .feedback.wrong{
-    display:block;
-    background:rgba(224,80,80,.09);
-    border:1px solid rgba(224,80,80,.28);
-    color:#F3B1B1;
-  }
-
-  .feedback-affirmation{
-    font-size:15px;
-    font-weight:800;
-    margin-bottom:5px;
-  }
-
-  .next-btn{
-    width:100%;
-    background:linear-gradient(135deg,var(--gold-dark),var(--gold));
-    border:none;
-    border-radius:14px;
-    padding:15px;
-    font-size:15px;
-    color:var(--ink);
-    font-weight:800;
-    cursor:pointer;
-    margin-top:12px;
-    display:none;
-  }
-
-  .next-btn.visible{display:block;}
-
-  .next-btn:active{transform:scale(.98);}
-
-  .completion{
-    display:none;
-    text-align:center;
-    padding:40px 24px;
-  }
-
-  .completion.visible{display:block;}
-
-  .completion-emoji{
-    font-size:62px;
-    margin-bottom:14px;
-  }
-
-  .completion-title{
-    font-size:26px;
-    color:var(--gold-light);
-    margin-bottom:8px;
-  }
-
-  .completion-score{
-    font-size:42px;
-    font-weight:800;
-    color:var(--gold);
-    margin:14px 0;
-  }
-
-  .completion-stars{
-    font-size:32px;
-    margin-bottom:18px;
-    letter-spacing:6px;
-  }
-
-  .completion-msg{
-    font-size:15px;
-    color:var(--parchment-dark);
-    line-height:1.6;
-    margin:0 auto 28px;
-    max-width:500px;
-  }
-
-  .home-btn{
-    display:inline-block;
-    background:linear-gradient(135deg,var(--gold-dark),var(--gold));
-    border-radius:14px;
-    padding:14px 28px;
-    font-size:15px;
-    color:var(--ink);
-    font-weight:800;
-    text-decoration:none;
-  }
-
-  button:focus-visible,
-  a:focus-visible{
-    outline:3px solid #FFF1A8;
-    outline-offset:3px;
-  }
-
-  @media(max-width:500px){
-    .lesson-goals{grid-template-columns:1fr;}
-
-    .vocab-row{
-      flex-wrap:wrap;
-      align-items:flex-start;
-    }
-
-    .vocab-lat{min-width:105px;}
-
-    .rule-table{font-size:12px;}
-
-    .rule-table th,
-    .rule-table td{
-      padding:5px 4px;
-    }
-  }
-
-  @media(prefers-reduced-motion:reduce){
-    *,*::before,*::after{
-      animation-duration:.01ms!important;
-      transition-duration:.01ms!important;
-    }
-  }
+}
 </style>
 </head>
 
 <body>
 
 <div class="topbar">
-  <a class="back-btn" href="../index.html" aria-label="Zurück zur Übersicht">←</a>
+
+  <a
+    class="back-btn"
+    href="../index.html"
+    aria-label="Zurück zur Übersicht">
+    ←
+  </a>
 
   <div class="topbar-info">
-    <div class="topbar-title">L02 · Nominativ & Akkusativ · Satzglieder</div>
-    <div class="topbar-sub">Magistrella · Latein-Grammatiktrainer</div>
+
+    <div class="topbar-title">
+      L02 · Nominativ & Akkusativ · Satzglieder
+    </div>
+
+    <div class="topbar-sub">
+      Magistrella · Latein-Grammatiktrainer
+    </div>
+
   </div>
 
-  <div class="topbar-progress" id="progressLabel">1/18</div>
+  <div
+    class="topbar-progress"
+    id="progressLabel">
+    Lernen
+  </div>
+
 </div>
+
 
 <div id="mainContent"></div>
 
-<div class="completion" id="completionScreen">
-  <div class="completion-emoji">🏆</div>
-  <div class="completion-title">Lektion abgeschlossen!</div>
-  <div class="completion-score" id="finalScore">--</div>
-  <div class="completion-stars" id="finalStars">★★★</div>
-  <div class="completion-msg" id="finalMsg"></div>
 
-  <a class="home-btn" href="../index.html">← Zurück zur Übersicht</a>
+<div
+  class="completion"
+  id="completionScreen">
+
+  <div class="completion-symbol">
+    🏆
+  </div>
+
+  <div class="completion-title">
+    L02 abgeschlossen
+  </div>
+
+  <div
+    class="completion-score"
+    id="finalScore">
+    --
+  </div>
+
+  <div
+    class="completion-stars"
+    id="finalStars">
+    ★★★
+  </div>
+
+  <div
+    class="completion-msg"
+    id="finalMsg">
+  </div>
+
+  <a
+    class="home-btn"
+    href="../index.html">
+    ← Zurück zur Übersicht
+  </a>
+
 </div>
+
 
 <script>
 "use strict";
 
+
 /* =====================================================
    L02 – GRAMMATISCHER SCOPE
 
-   Wiederholung:
-   - Singular / Plural
-   - 3. Person Singular / Plural
+   L01 wird wiederholt:
+   - Singular und Plural
+   - Deklinationsklassen
    - Kongruenz
+   - 3. Person Singular / Plural
 
    Neu:
-   - Nominativ vs. Akkusativ
-   - Akkusativ Singular / Plural
-   - Kasus + Numerus bestimmen
-   - a-, o- und 3. Deklination
+   - Kasus
+   - Nominativ und Akkusativ
+   - Akkusativ Singular und Plural
    - Akkusativobjekt
    - Präposition + Akkusativ
    - Objekt vs. Adverbiale
-   - lateinische vs. deutsche Wortstellung
+   - Neutrum: Nom. = Akk.
+   - Wortstellung Latein → Deutsch
 ===================================================== */
 
-var POOL = [
-  {lat:"ad",gen:"Präp. + Akk.",de:"zu, bei, nach",type:"praep"},
-  {lat:"properāre",gen:"properat",de:"eilen, sich beeilen",type:"verb"},
-  {lat:"forum",gen:"forum n",de:"das Forum, der Marktplatz",type:"nomen"},
-  {lat:"circus",gen:"circum m",de:"der Zirkus, die Rennbahn",type:"nomen"},
-  {lat:"diū",gen:"Adv.",de:"lange, lange Zeit",type:"adv"},
 
-  {lat:"amīcus",gen:"amīcum m",de:"der Freund",type:"nomen"},
-  {lat:"amīca",gen:"amīcam f",de:"die Freundin",type:"nomen"},
-  {lat:"per",gen:"Präp. + Akk.",de:"durch",type:"praep"},
-  {lat:"via",gen:"viam f",de:"der Weg, die Straße",type:"nomen"},
-  {lat:"reperīre",gen:"reperit",de:"finden, wiederfinden",type:"verb"},
-  {lat:"audīre",gen:"audit",de:"hören",type:"verb"},
-  {lat:"itaque",gen:"",de:"deshalb",type:"adv"},
-  {lat:"iterum",gen:"Adv.",de:"wieder, zum zweiten Mal",type:"adv"},
-  {lat:"iam",gen:"Adv.",de:"schon, bereits, nun",type:"adv"},
-  {lat:"exspectāre",gen:"exspectat",de:"warten, erwarten",type:"verb"},
-  {lat:"narrāre",gen:"narrat",de:"erzählen",type:"verb"},
-  {lat:"subitō",gen:"Adv.",de:"plötzlich",type:"adv"},
-  {lat:"nōn iam",gen:"",de:"nicht mehr",type:"adv"},
-  {lat:"iō!",gen:"",de:"Hurra! Ha! Ach!",type:"adv"},
-  {lat:"nōs",gen:"Akk.",de:"uns",type:"pron"},
-  {lat:"adiuvāre",gen:"adiuvat",de:"helfen, unterstützen",type:"verb"},
-  {lat:"vocāre",gen:"vocat",de:"rufen, nennen",type:"verb"},
-  {lat:"statim",gen:"Adv.",de:"sofort, auf der Stelle",type:"adv"},
+/* =====================================================
+   DATEN
+===================================================== */
 
-  {lat:"aedificium",gen:"aedificium n",de:"das Gebäude, das Haus",type:"nomen"},
-  {lat:"bene",gen:"Adv.",de:"gut",type:"adv"},
-  {lat:"taberna",gen:"tabernam f",de:"das Gasthaus, der Laden",type:"nomen"},
-  {lat:"senātor",gen:"senātōrem m",de:"der Senator",type:"nomen"},
-  {lat:"ecce!",gen:"",de:"Schau! Sieh da! Seht da!",type:"adv"},
-  {lat:"ante",gen:"Präp. + Akk.",de:"vor",type:"praep"},
-  {lat:"semper",gen:"Adv.",de:"immer",type:"adv"},
-  {lat:"bēstia",gen:"bēstiam f",de:"das Tier",type:"nomen"},
-  {lat:"Capitōlium",gen:"n",de:"das Kapitol",type:"eigen"},
-  {lat:"Circus Maximus",gen:"m",de:"Circus Maximus",type:"eigen"},
-  {lat:"Colossēum",gen:"n",de:"das Kolosseum",type:"eigen"},
-  {lat:"Iuppiter",gen:"Iovem m",de:"Jupiter",type:"eigen"}
+const NOUNS = [
+
+  {
+    nomSg:"serva",
+    akkSg:"servam",
+    nomPl:"servae",
+    akkPl:"servās",
+    de:"Sklavin / Dienerin",
+    decl:"a-Deklination",
+    genus:"f"
+  },
+
+  {
+    nomSg:"amīca",
+    akkSg:"amīcam",
+    nomPl:"amīcae",
+    akkPl:"amīcās",
+    de:"Freundin",
+    decl:"a-Deklination",
+    genus:"f"
+  },
+
+  {
+    nomSg:"domina",
+    akkSg:"dominam",
+    nomPl:"dominae",
+    akkPl:"dominās",
+    de:"Herrin / Dame",
+    decl:"a-Deklination",
+    genus:"f"
+  },
+
+  {
+    nomSg:"via",
+    akkSg:"viam",
+    nomPl:"viae",
+    akkPl:"viās",
+    de:"Weg / Straße",
+    decl:"a-Deklination",
+    genus:"f"
+  },
+
+  {
+    nomSg:"taberna",
+    akkSg:"tabernam",
+    nomPl:"tabernae",
+    akkPl:"tabernās",
+    de:"Gasthaus / Laden",
+    decl:"a-Deklination",
+    genus:"f"
+  },
+
+  {
+    nomSg:"bēstia",
+    akkSg:"bēstiam",
+    nomPl:"bēstiae",
+    akkPl:"bēstiās",
+    de:"Tier",
+    decl:"a-Deklination",
+    genus:"f"
+  },
+
+  {
+    nomSg:"servus",
+    akkSg:"servum",
+    nomPl:"servī",
+    akkPl:"servōs",
+    de:"Sklave / Diener",
+    decl:"o-Deklination",
+    genus:"m"
+  },
+
+  {
+    nomSg:"amīcus",
+    akkSg:"amīcum",
+    nomPl:"amīcī",
+    akkPl:"amīcōs",
+    de:"Freund",
+    decl:"o-Deklination",
+    genus:"m"
+  },
+
+  {
+    nomSg:"dominus",
+    akkSg:"dominum",
+    nomPl:"dominī",
+    akkPl:"dominōs",
+    de:"Herr",
+    decl:"o-Deklination",
+    genus:"m"
+  },
+
+  {
+    nomSg:"equus",
+    akkSg:"equum",
+    nomPl:"equī",
+    akkPl:"equōs",
+    de:"Pferd",
+    decl:"o-Deklination",
+    genus:"m"
+  },
+
+  {
+    nomSg:"circus",
+    akkSg:"circum",
+    nomPl:"circī",
+    akkPl:"circōs",
+    de:"Zirkus / Rennbahn",
+    decl:"o-Deklination",
+    genus:"m"
+  },
+
+  {
+    nomSg:"forum",
+    akkSg:"forum",
+    nomPl:"fora",
+    akkPl:"fora",
+    de:"Forum / Marktplatz",
+    decl:"o-Deklination",
+    genus:"n"
+  },
+
+  {
+    nomSg:"aedificium",
+    akkSg:"aedificium",
+    nomPl:"aedificia",
+    akkPl:"aedificia",
+    de:"Gebäude / Haus",
+    decl:"o-Deklination",
+    genus:"n"
+  },
+
+  {
+    nomSg:"frūmentum",
+    akkSg:"frūmentum",
+    nomPl:"frūmenta",
+    akkPl:"frūmenta",
+    de:"Getreide",
+    decl:"o-Deklination",
+    genus:"n"
+  },
+
+  {
+    nomSg:"mercātor",
+    akkSg:"mercātōrem",
+    nomPl:"mercātōrēs",
+    akkPl:"mercātōrēs",
+    de:"Kaufmann / Händler",
+    decl:"3. Deklination",
+    genus:"m"
+  },
+
+  {
+    nomSg:"victor",
+    akkSg:"victōrem",
+    nomPl:"victōrēs",
+    akkPl:"victōrēs",
+    de:"Sieger",
+    decl:"3. Deklination",
+    genus:"m"
+  },
+
+  {
+    nomSg:"senātor",
+    akkSg:"senātōrem",
+    nomPl:"senātōrēs",
+    akkPl:"senātōrēs",
+    de:"Senator",
+    decl:"3. Deklination",
+    genus:"m"
+  },
+
+  {
+    nomSg:"clāmor",
+    akkSg:"clāmōrem",
+    nomPl:"clāmōrēs",
+    akkPl:"clāmōrēs",
+    de:"Lärm / Geschrei",
+    decl:"3. Deklination",
+    genus:"m"
+  }
+
 ];
 
-var NOUN_FORMS = [
-  {nomSg:"serva",nomPl:"servae",akkSg:"servam",akkPl:"servās",decl:"a-Deklination",genus:"f",de:"Sklavin"},
-  {nomSg:"amīca",nomPl:"amīcae",akkSg:"amīcam",akkPl:"amīcās",decl:"a-Deklination",genus:"f",de:"Freundin"},
-  {nomSg:"domina",nomPl:"dominae",akkSg:"dominam",akkPl:"dominās",decl:"a-Deklination",genus:"f",de:"Herrin"},
 
-  {nomSg:"servus",nomPl:"servī",akkSg:"servum",akkPl:"servōs",decl:"o-Deklination",genus:"m",de:"Sklave"},
-  {nomSg:"amīcus",nomPl:"amīcī",akkSg:"amīcum",akkPl:"amīcōs",decl:"o-Deklination",genus:"m",de:"Freund"},
-  {nomSg:"dominus",nomPl:"dominī",akkSg:"dominum",akkPl:"dominōs",decl:"o-Deklination",genus:"m",de:"Herr"},
-  {nomSg:"equus",nomPl:"equī",akkSg:"equum",akkPl:"equōs",decl:"o-Deklination",genus:"m",de:"Pferd"},
+const VERBS = [
 
-  {nomSg:"frūmentum",nomPl:"frūmenta",akkSg:"frūmentum",akkPl:"frūmenta",decl:"o-Deklination",genus:"n",de:"Getreide"},
-  {nomSg:"aedificium",nomPl:"aedificia",akkSg:"aedificium",akkPl:"aedificia",decl:"o-Deklination",genus:"n",de:"Gebäude"},
+  {
+    inf:"properāre",
+    sg:"properat",
+    pl:"properant",
+    de:"eilen / sich beeilen"
+  },
 
-  {nomSg:"mercātor",nomPl:"mercātōrēs",akkSg:"mercātōrem",akkPl:"mercātōrēs",decl:"3. Deklination",genus:"m",de:"Händler"},
-  {nomSg:"victor",nomPl:"victōrēs",akkSg:"victōrem",akkPl:"victōrēs",decl:"3. Deklination",genus:"m",de:"Sieger"},
-  {nomSg:"senātor",nomPl:"senātōrēs",akkSg:"senātōrem",akkPl:"senātōrēs",decl:"3. Deklination",genus:"m",de:"Senator"}
+  {
+    inf:"reperīre",
+    sg:"reperit",
+    pl:"reperiunt",
+    de:"finden / wiederfinden"
+  },
+
+  {
+    inf:"audīre",
+    sg:"audit",
+    pl:"audiunt",
+    de:"hören"
+  },
+
+  {
+    inf:"exspectāre",
+    sg:"exspectat",
+    pl:"exspectant",
+    de:"warten / erwarten"
+  },
+
+  {
+    inf:"narrāre",
+    sg:"narrat",
+    pl:"narrant",
+    de:"erzählen"
+  },
+
+  {
+    inf:"adiuvāre",
+    sg:"adiuvat",
+    pl:"adiuvant",
+    de:"helfen / unterstützen"
+  },
+
+  {
+    inf:"vocāre",
+    sg:"vocat",
+    pl:"vocant",
+    de:"rufen / nennen"
+  },
+
+  {
+    inf:"vidēre",
+    sg:"videt",
+    pl:"vident",
+    de:"sehen"
+  },
+
+  {
+    inf:"venīre",
+    sg:"venit",
+    pl:"veniunt",
+    de:"kommen"
+  }
+
 ];
 
-var RULE_NOM_AKK = `
-<div class="rule-title">Regel · Nominativ und Akkusativ</div>
-<div class="rule-body">
 
-<strong>Nominativ</strong>: Wer oder was handelt? → häufig das Subjekt.
+const PREPOSITIONS = [
 
-<br><br>
+  {
+    lat:"ad",
+    de:"zu / nach / bei",
+    example:"ad dominum",
+    exampleDe:"zum Herrn"
+  },
 
-<strong>Akkusativ</strong>: Wen oder was betrifft die Handlung? → kann ein Akkusativobjekt sein.
+  {
+    lat:"per",
+    de:"durch",
+    example:"per forum",
+    exampleDe:"durch das Forum"
+  },
 
-<table class="rule-table">
-<tr>
-<th></th>
-<th>Nom. Sg.</th>
-<th>Akk. Sg.</th>
-<th>Nom. Pl.</th>
-<th>Akk. Pl.</th>
-</tr>
+  {
+    lat:"ante",
+    de:"vor",
+    example:"ante aedificium",
+    exampleDe:"vor dem Gebäude"
+  }
 
-<tr>
-<td>a-Dekl.</td>
-<td>serva</td>
-<td class="rule-highlight">servam</td>
-<td>servae</td>
-<td class="rule-highlight">servās</td>
-</tr>
+];
 
-<tr>
-<td>o-Dekl. m.</td>
-<td>servus</td>
-<td class="rule-highlight">servum</td>
-<td>servī</td>
-<td class="rule-highlight">servōs</td>
-</tr>
 
-<tr>
-<td>o-Dekl. n.</td>
-<td>frūmentum</td>
-<td class="rule-highlight">frūmentum</td>
-<td>frūmenta</td>
-<td class="rule-highlight">frūmenta</td>
-</tr>
+const SMALL_VOCAB = [
 
-<tr>
-<td>3. Dekl.</td>
-<td>mercātor</td>
-<td class="rule-highlight">mercātōrem</td>
-<td>mercātōrēs</td>
-<td class="rule-highlight">mercātōrēs</td>
-</tr>
-</table>
+  {lat:"diū",de:"lange / lange Zeit"},
+  {lat:"itaque",de:"deshalb"},
+  {lat:"iterum",de:"wieder / nochmals"},
+  {lat:"iam",de:"schon / bereits / nun"},
+  {lat:"subitō",de:"plötzlich"},
+  {lat:"nōn iam",de:"nicht mehr"},
+  {lat:"iō!",de:"Hurra! / Ha! / Ach!"},
+  {lat:"nōs",de:"uns"},
+  {lat:"statim",de:"sofort / auf der Stelle"},
+  {lat:"bene",de:"gut"},
+  {lat:"ecce!",de:"Schau! / Sieh da!"},
+  {lat:"semper",de:"immer"}
 
-<div class="rule-example">
-<strong>Wichtig beim Neutrum:</strong><br>
-Nominativ und Akkusativ sehen gleich aus.<br>
-frūmentum → Nom. Sg. oder Akk. Sg.<br>
-frūmenta → Nom. Pl. oder Akk. Pl.
-</div>
+];
 
-</div>`;
 
-var RULE_PRAEP = `
-<div class="rule-title">Regel · Präposition + Akkusativ</div>
-<div class="rule-body">
-
-Diese Präpositionen verlangen in L02 den <strong>Akkusativ</strong>:
-
-<table class="rule-table">
-<tr><th>Präposition</th><th>Bedeutung</th><th>Beispiel</th></tr>
-<tr><td class="rule-highlight">ad</td><td>zu, nach, bei</td><td>ad dominum</td></tr>
-<tr><td class="rule-highlight">per</td><td>durch</td><td>per forum</td></tr>
-<tr><td class="rule-highlight">ante</td><td>vor</td><td>ante aedificium</td></tr>
-</table>
-
-<div class="rule-example">
-Amīcī <strong>per forum</strong> properant.<br>
-→ Die Freunde eilen <strong>durch das Forum</strong>.
-</div>
-
-</div>`;
-
-var RULE_OBJEKT_ADVERBIALE = `
-<div class="rule-title">Regel · Objekt oder Adverbiale?</div>
-<div class="rule-body">
-
-Nicht jeder Akkusativ ist automatisch ein Objekt.
-
-<br><br>
-
-<strong>Akkusativobjekt:</strong><br>
-Populus <strong>equōs</strong> exspectat.<br>
-→ Wen oder was erwartet das Volk?<br>
-→ die Pferde
-
-<br><br>
-
-<strong>Präposition + Akkusativ:</strong><br>
-Equī <strong>per circum</strong> properant.<br>
-→ durch den Circus
-
-<br><br>
-
-Diese Wortgruppe beschreibt hier den Weg und gehört zu einer <strong>Adverbiale</strong>.
-
-</div>`;
-
-var RULE_KONGRUENZ = `
-<div class="rule-title">Wiederholung · Kongruenz</div>
-<div class="rule-body">
-
-Subjekt und Prädikat müssen im Numerus zusammenpassen.
-
-<div class="rule-example">
-Amīcus <strong>clāmat</strong>.<br>
-→ Singular
-
-<br><br>
-
-Victōrēs <strong>veniunt</strong>.<br>
-→ Plural
-</div>
-
-<strong>-t → Singular</strong><br>
-<strong>-nt → Plural</strong>
-
-</div>`;
-
-var RULE_WORD_ORDER = `
-<div class="rule-title">Übersetzungsstrategie · Wortstellung</div>
-<div class="rule-body">
-
-Latein und Deutsch haben nicht immer dieselbe Wortstellung.
-
-<br><br>
-
-Im lateinischen Hauptsatz steht das Prädikat häufig weiter hinten oder am Satzende.
-
-<br><br>
-
-Im deutschen Aussagesatz steht die finite Verbform normalerweise an <strong>zweiter Stelle</strong>.
-
-<div class="rule-example">
-Amīcī per forum properant.<br>
-→ Die Freunde <strong>eilen</strong> durch das Forum.
-</div>
-
-<strong>Übersetze daher nicht einfach Wort für Wort in derselben Reihenfolge.</strong>
-
-</div>`;
+/* =====================================================
+   HILFSFUNKTIONEN
+===================================================== */
 
 function shuffle(arr){
-  var a=arr.slice();
-  for(var i=a.length-1;i>0;i--){
-    var j=Math.floor(Math.random()*(i+1));
-    var temp=a[i];
-    a[i]=a[j];
-    a[j]=temp;
+
+  const a=arr.slice();
+
+  for(let i=a.length-1;i>0;i--){
+
+    const j=
+      Math.floor(
+        Math.random()*(i+1)
+      );
+
+    [a[i],a[j]]=
+      [a[j],a[i]];
+
   }
+
   return a;
 }
 
+
 function one(arr){
-  return arr[Math.floor(Math.random()*arr.length)];
+
+  return arr[
+    Math.floor(
+      Math.random()*arr.length
+    )
+  ];
+
 }
+
 
 function unique(arr){
-  return arr.filter(function(v,i,a){
-    return a.indexOf(v)===i;
-  });
+
+  return arr.filter(
+    (value,index,array)=>
+      array.indexOf(value)===index
+  );
+
 }
 
-function genMatchVocab(pool){
-  var picked=shuffle(pool).slice(0,4);
+
+function distractors(
+  correct,
+  values,
+  amount=2
+){
+
+  return shuffle(
+    unique(values)
+      .filter(
+        value=>value!==correct
+      )
+  ).slice(0,amount);
+
+}
+
+
+/* =====================================================
+   LERNKARTEN
+===================================================== */
+
+const TEACHING = [
+
+{
+  title:"1. Was ist ein Kasus?",
+  kicker:"Neues Grammatikwerkzeug",
+  body:`
+
+    <p>
+      In L01 hast du gelernt,
+      dass lateinische Substantive ihre
+      <strong>Endung verändern</strong>.
+    </p>
+
+    <p>
+      Jetzt kommt eine zweite Information dazu:
+      Die Endung kann auch zeigen,
+      <strong>welche Aufgabe ein Wort im Satz hat</strong>.
+    </p>
+
+    <p>
+      Diese grammatische Form nennt man
+      <strong>Kasus</strong> oder
+      <strong>Fall</strong>.
+    </p>
+
+    <div class="mini-rule">
+      Kasus = Fall.<br>
+      In L02 brauchst du zunächst nur
+      <strong>Nominativ</strong> und
+      <strong>Akkusativ</strong>.
+    </div>
+
+  `
+},
+
+
+{
+  title:"2. Der Nominativ",
+  kicker:"Wer oder was handelt?",
+  body:`
+
+    <p>
+      Der <strong>Nominativ</strong>
+      ist in unseren ersten Sätzen meist
+      der Kasus des
+      <strong>Subjekts</strong>.
+    </p>
+
+    <p>
+      Das Subjekt sagt:
+      Wer oder was handelt?
+    </p>
+
+    <div class="teach-example">
+
+      <div class="latin">
+        Populus equōs exspectat.
+      </div>
+
+      <div class="german">
+        Das Volk erwartet die Pferde.
+      </div>
+
+    </div>
+
+    <table class="rule-table">
+
+      <tr>
+        <th>Latein</th>
+        <th>Deutsch</th>
+        <th>Aufgabe</th>
+      </tr>
+
+      <tr>
+        <td class="rule-highlight">Populus</td>
+        <td>das Volk</td>
+        <td>Subjekt</td>
+      </tr>
+
+      <tr>
+        <td>exspectat</td>
+        <td>erwartet</td>
+        <td>Prädikat</td>
+      </tr>
+
+    </table>
+
+    <div class="mini-rule">
+      Frage nach dem Subjekt:<br>
+      <strong>Wer oder was?</strong>
+    </div>
+
+  `
+},
+
+
+{
+  title:"3. Der Akkusativ",
+  kicker:"Wen oder was?",
+  body:`
+
+    <p>
+      Ein Substantiv kann auch im
+      <strong>Akkusativ</strong> stehen.
+    </p>
+
+    <p>
+      Sehr häufig begegnet dir der Akkusativ
+      zunächst als
+      <strong>Akkusativobjekt</strong>.
+    </p>
+
+    <div class="teach-example">
+
+      <div class="latin">
+        Populus equōs exspectat.
+      </div>
+
+      <div class="german">
+        Das Volk erwartet die Pferde.
+      </div>
+
+    </div>
+
+    <table class="rule-table">
+
+      <tr>
+        <th>Latein</th>
+        <th>Deutsch</th>
+        <th>Kasus / Funktion</th>
+      </tr>
+
+      <tr>
+        <td>Populus</td>
+        <td>das Volk</td>
+        <td>Nominativ · Subjekt</td>
+      </tr>
+
+      <tr>
+        <td class="rule-highlight">equōs</td>
+        <td>die Pferde</td>
+        <td>Akkusativ · Objekt</td>
+      </tr>
+
+    </table>
+
+    <div class="mini-rule">
+      Frage nach einem Akkusativobjekt:<br>
+      <strong>Wen oder was?</strong>
+    </div>
+
+  `
+},
+
+
+{
+  title:"4. a-Deklination: Nominativ und Akkusativ",
+  kicker:"Bekanntes Muster erweitern",
+  body:`
+
+    <p>
+      Aus L01 kennst du die
+      <strong>a-Deklination</strong>.
+    </p>
+
+    <p>
+      Jetzt ergänzen wir den Akkusativ.
+    </p>
+
+    <table class="rule-table">
+
+      <tr>
+        <th>Kasus</th>
+        <th>Singular</th>
+        <th>Deutsch</th>
+        <th>Plural</th>
+        <th>Deutsch</th>
+      </tr>
+
+      <tr>
+        <td>Nominativ</td>
+        <td class="rule-highlight">amīca</td>
+        <td>die Freundin</td>
+        <td class="rule-highlight">amīcae</td>
+        <td>die Freundinnen</td>
+      </tr>
+
+      <tr>
+        <td>Akkusativ</td>
+        <td class="rule-highlight">amīcam</td>
+        <td>die Freundin</td>
+        <td class="rule-highlight">amīcās</td>
+        <td>die Freundinnen</td>
+      </tr>
+
+    </table>
+
+    <div class="mini-rule">
+      a-Deklination:<br>
+      Akk. Sg. häufig <strong>-am</strong><br>
+      Akk. Pl. häufig <strong>-ās</strong>
+    </div>
+
+  `
+},
+
+
+{
+  title:"5. o-Deklination maskulin",
+  kicker:"Nominativ und Akkusativ",
+  body:`
+
+    <p>
+      Auch das bekannte
+      <strong>-us-Muster</strong>
+      wird jetzt erweitert.
+    </p>
+
+    <table class="rule-table">
+
+      <tr>
+        <th>Kasus</th>
+        <th>Singular</th>
+        <th>Deutsch</th>
+        <th>Plural</th>
+        <th>Deutsch</th>
+      </tr>
+
+      <tr>
+        <td>Nominativ</td>
+        <td class="rule-highlight">amīcus</td>
+        <td>der Freund</td>
+        <td class="rule-highlight">amīcī</td>
+        <td>die Freunde</td>
+      </tr>
+
+      <tr>
+        <td>Akkusativ</td>
+        <td class="rule-highlight">amīcum</td>
+        <td>den Freund</td>
+        <td class="rule-highlight">amīcōs</td>
+        <td>die Freunde</td>
+      </tr>
+
+    </table>
+
+    <div class="mini-rule">
+      o-Deklination maskulin:<br>
+      Akk. Sg. häufig <strong>-um</strong><br>
+      Akk. Pl. häufig <strong>-ōs</strong>
+    </div>
+
+  `
+},
+
+
+{
+  title:"6. o-Deklination Neutrum",
+  kicker:"Eine besonders wichtige Regel",
+  body:`
+
+    <p>
+      Bei <strong>Neutra</strong>
+      gilt eine besonders wichtige Regel:
+    </p>
+
+    <p>
+      <strong>
+        Nominativ und Akkusativ sehen gleich aus.
+      </strong>
+    </p>
+
+    <table class="rule-table">
+
+      <tr>
+        <th>Kasus</th>
+        <th>Singular</th>
+        <th>Deutsch</th>
+        <th>Plural</th>
+        <th>Deutsch</th>
+      </tr>
+
+      <tr>
+        <td>Nominativ</td>
+        <td class="rule-highlight">forum</td>
+        <td>das Forum</td>
+        <td class="rule-highlight">fora</td>
+        <td>die Foren</td>
+      </tr>
+
+      <tr>
+        <td>Akkusativ</td>
+        <td class="rule-highlight">forum</td>
+        <td>das Forum</td>
+        <td class="rule-highlight">fora</td>
+        <td>die Foren</td>
+      </tr>
+
+    </table>
+
+    <div class="mini-rule">
+      Neutrum-Regel:<br>
+      <strong>Nominativ = Akkusativ</strong>
+    </div>
+
+    <p style="margin-top:12px;">
+      Deshalb kannst du bei
+      <em>forum</em> allein noch nicht immer erkennen,
+      ob es Nominativ oder Akkusativ ist.
+      Dafür brauchst du den Satz.
+    </p>
+
+  `
+},
+
+
+{
+  title:"7. Die 3. Deklination",
+  kicker:"Akkusativ dazulernen",
+  body:`
+
+    <p>
+      Auch bei der
+      <strong>3. Deklination</strong>
+      lernen wir jetzt neue Formen.
+    </p>
+
+    <table class="rule-table">
+
+      <tr>
+        <th>Kasus</th>
+        <th>Singular</th>
+        <th>Deutsch</th>
+        <th>Plural</th>
+        <th>Deutsch</th>
+      </tr>
+
+      <tr>
+        <td>Nominativ</td>
+        <td class="rule-highlight">senātor</td>
+        <td>der Senator</td>
+        <td class="rule-highlight">senātōrēs</td>
+        <td>die Senatoren</td>
+      </tr>
+
+      <tr>
+        <td>Akkusativ</td>
+        <td class="rule-highlight">senātōrem</td>
+        <td>den Senator</td>
+        <td class="rule-highlight">senātōrēs</td>
+        <td>die Senatoren</td>
+      </tr>
+
+    </table>
+
+    <div class="mini-rule">
+      In diesen Wörtern:<br>
+      Akk. Sg. <strong>-em</strong><br>
+      Nom. Pl. und Akk. Pl. <strong>-ēs</strong>
+    </div>
+
+    <p style="margin-top:12px;">
+      Deshalb kann zum Beispiel
+      <em>senātōrēs</em>
+      ohne Satzkontext sowohl
+      Nominativ Plural als auch Akkusativ Plural sein.
+    </p>
+
+  `
+},
+
+
+{
+  title:"8. Kasus und Numerus zusammen bestimmen",
+  kicker:"Zwei Informationen gleichzeitig",
+  body:`
+
+    <p>
+      Bei einer Form kannst du nun zwei Dinge bestimmen:
+    </p>
+
+    <p>
+      <strong>Kasus</strong>:
+      Nominativ oder Akkusativ?
+    </p>
+
+    <p>
+      <strong>Numerus</strong>:
+      Singular oder Plural?
+    </p>
+
+    <table class="rule-table">
+
+      <tr>
+        <th>Form</th>
+        <th>Deutsch</th>
+        <th>Bestimmung</th>
+      </tr>
+
+      <tr>
+        <td class="rule-highlight">amīcam</td>
+        <td>die Freundin</td>
+        <td>Akkusativ Singular</td>
+      </tr>
+
+      <tr>
+        <td class="rule-highlight">servōs</td>
+        <td>die Sklaven</td>
+        <td>Akkusativ Plural</td>
+      </tr>
+
+      <tr>
+        <td class="rule-highlight">senātōrem</td>
+        <td>den Senator</td>
+        <td>Akkusativ Singular</td>
+      </tr>
+
+    </table>
+
+    <div class="mini-rule">
+      Kasus = Fall.<br>
+      Numerus = Singular oder Plural.
+    </div>
+
+  `
+},
+
+
+{
+  title:"9. Nicht jeder Akkusativ ist ein Objekt",
+  kicker:"Präpositionen",
+  body:`
+
+    <p>
+      Jetzt kommt eine wichtige Unterscheidung.
+    </p>
+
+    <p>
+      Ein Akkusativ kann ein
+      <strong>Akkusativobjekt</strong> sein.
+    </p>
+
+    <p>
+      Er kann aber auch nach einer
+      <strong>Präposition</strong>
+      stehen.
+    </p>
+
+    <p>
+      Eine Präposition ist ein kleines Wort wie
+      <em>ad</em>, <em>per</em> oder <em>ante</em>.
+    </p>
+
+    <table class="rule-table">
+
+      <tr>
+        <th>Präposition</th>
+        <th>Deutsch</th>
+        <th>Beispiel</th>
+        <th>Deutsch</th>
+      </tr>
+
+      <tr>
+        <td class="rule-highlight">ad</td>
+        <td>zu / nach / bei</td>
+        <td>ad dominum</td>
+        <td>zum Herrn</td>
+      </tr>
+
+      <tr>
+        <td class="rule-highlight">per</td>
+        <td>durch</td>
+        <td>per forum</td>
+        <td>durch das Forum</td>
+      </tr>
+
+      <tr>
+        <td class="rule-highlight">ante</td>
+        <td>vor</td>
+        <td>ante aedificium</td>
+        <td>vor dem Gebäude</td>
+      </tr>
+
+    </table>
+
+    <div class="mini-rule">
+      In L02 verlangen
+      <strong>ad, per und ante</strong>
+      den Akkusativ.
+    </div>
+
+  `
+},
+
+
+{
+  title:"10. Objekt oder Adverbiale?",
+  kicker:"Satzglieder unterscheiden",
+  body:`
+
+    <p>
+      Vergleiche diese beiden Sätze:
+    </p>
+
+    <div class="teach-example">
+
+      <div class="latin">
+        Populus equōs exspectat.
+      </div>
+
+      <div class="german">
+        Das Volk erwartet die Pferde.
+      </div>
+
+    </div>
+
+    <p>
+      <em>equōs</em> ist hier ein
+      <strong>Akkusativobjekt</strong>.
+    </p>
+
+    <p>
+      Wen oder was erwartet das Volk?
+      → die Pferde.
+    </p>
+
+    <div class="teach-example">
+
+      <div class="latin">
+        Amīcī per forum properant.
+      </div>
+
+      <div class="german">
+        Die Freunde eilen durch das Forum.
+      </div>
+
+    </div>
+
+    <p>
+      <em>per forum</em> beschreibt hier,
+      <strong>wo hindurch</strong> sie eilen.
+    </p>
+
+    <p>
+      Diese Wortgruppe gehört deshalb zu einer
+      <strong>Adverbiale</strong>.
+    </p>
+
+    <div class="mini-rule">
+      Akkusativ ohne Präposition:
+      kann ein Objekt sein.<br><br>
+
+      Präposition + Akkusativ:
+      häufig Teil einer Adverbiale.
+    </div>
+
+  `
+},
+
+
+{
+  title:"11. Kongruenz bleibt wichtig",
+  kicker:"Wiederholung aus L01",
+  body:`
+
+    <p>
+      Auch in L02 gilt weiterhin:
+      Subjekt und Prädikat müssen im
+      <strong>Numerus</strong> zusammenpassen.
+    </p>
+
+    <table class="rule-table">
+
+      <tr>
+        <th>Subjekt</th>
+        <th>Deutsch</th>
+        <th>Verb</th>
+        <th>Deutsch</th>
+      </tr>
+
+      <tr>
+        <td>amīcus</td>
+        <td>der Freund</td>
+        <td class="rule-highlight">properat</td>
+        <td>er eilt</td>
+      </tr>
+
+      <tr>
+        <td>amīcī</td>
+        <td>die Freunde</td>
+        <td class="rule-highlight">properant</td>
+        <td>sie eilen</td>
+      </tr>
+
+      <tr>
+        <td>senātor</td>
+        <td>der Senator</td>
+        <td class="rule-highlight">rīdet</td>
+        <td>er lacht</td>
+      </tr>
+
+      <tr>
+        <td>senātōrēs</td>
+        <td>die Senatoren</td>
+        <td class="rule-highlight">rīdent</td>
+        <td>sie lachen</td>
+      </tr>
+
+    </table>
+
+    <div class="mini-rule">
+      3. Person Singular → häufig <strong>-t</strong><br>
+      3. Person Plural → <strong>-nt</strong>
+    </div>
+
+  `
+},
+
+
+{
+  title:"12. Latein und Deutsch haben unterschiedliche Wortstellung",
+  kicker:"Übersetzungsstrategie",
+  body:`
+
+    <p>
+      Beim Übersetzen darfst du lateinische Wörter
+      nicht einfach in genau derselben Reihenfolge
+      ins Deutsche übertragen.
+    </p>
+
+    <div class="teach-example">
+
+      <div class="latin">
+        Amīcī per forum properant.
+      </div>
+
+      <div class="german">
+        Die Freunde eilen durch das Forum.
+      </div>
+
+    </div>
+
+    <table class="rule-table">
+
+      <tr>
+        <th>Latein</th>
+        <th>Deutsch</th>
+      </tr>
+
+      <tr>
+        <td>Amīcī</td>
+        <td>die Freunde</td>
+      </tr>
+
+      <tr>
+        <td>per forum</td>
+        <td>durch das Forum</td>
+      </tr>
+
+      <tr>
+        <td>properant</td>
+        <td>eilen</td>
+      </tr>
+
+    </table>
+
+    <p style="margin-top:12px;">
+      Im lateinischen Satz steht das Verb
+      häufig weiter hinten.
+    </p>
+
+    <p>
+      Im deutschen Aussagesatz steht die finite
+      Verbform normalerweise an
+      <strong>zweiter Stelle</strong>.
+    </p>
+
+    <div class="mini-rule">
+      Nicht Wort für Wort übersetzen.<br>
+      Erst verstehen – dann einen guten deutschen Satz bilden.
+    </div>
+
+  `
+}
+
+];
+
+
+/* =====================================================
+   FRAGEN
+===================================================== */
+
+function makeQuestion(
+  theme,
+  prompt,
+  sentence,
+  helper,
+  options,
+  correct,
+  success,
+  wrong
+){
 
   return{
-    type:"match",
-    showRule:null,
-    theme:"Vokabeln",
-    prompt:"Verbinde Latein mit der passenden deutschen Bedeutung.",
-    leftTitle:"Latein",
-    rightTitle:"Deutsch",
-    pairs:picked.map(function(v){return [v.lat,v.de];}),
-    affirmation:"Alle vier Zuordnungen stimmen.",
-    wrongMsg:"Prüfe die Bedeutungen noch einmal."
+    theme,
+    prompt,
+    sentence,
+    helper,
+    options,
+    correct,
+    success,
+    wrong
   };
+
 }
 
-function genAkkusativForm(){
-  var n=one(NOUN_FORMS);
-  var plural=Math.random()>.5;
-  var correct=plural?n.akkPl:n.akkSg;
 
-  var candidatePool=unique(
-    [n.nomSg,n.nomPl,n.akkSg,n.akkPl].concat(
-      NOUN_FORMS.map(function(x){
-        return plural?x.akkPl:x.akkSg;
-      })
+function qMeaning(){
+
+  const n=one(NOUNS);
+
+  const correct=n.de;
+
+  const wrong=distractors(
+    correct,
+    NOUNS.map(x=>x.de),
+    2
+  );
+
+  const opts=shuffle([
+    correct,
+    ...wrong
+  ]);
+
+  return makeQuestion(
+    "Vokabel + Grammatik",
+    "Was bedeutet die Grundform?",
+    n.nomSg,
+    "Bevor wir die Form bestimmen, sichern wir die Wortbedeutung.",
+    opts,
+    opts.indexOf(correct),
+    n.nomSg+" bedeutet „"+n.de+"“.",
+    "Die richtige Bedeutung ist „"+n.de+"“."
+  );
+
+}
+
+
+function qAkkSg(){
+
+  const n=one(
+    NOUNS.filter(x=>
+      x.akkSg!==x.nomSg
     )
   );
 
-  candidatePool=candidatePool.filter(function(x){
-    return x!==correct;
-  });
+  const correct=n.akkSg;
 
-  var opts=shuffle([correct].concat(shuffle(candidatePool).slice(0,2)));
+  const alternatives=distractors(
+    correct,
+    [
+      n.nomSg,
+      n.nomPl,
+      n.akkPl
+    ].concat(
+      NOUNS.map(x=>x.akkSg)
+    ),
+    2
+  );
 
-  return{
-    type:"gap",
-    showRule:RULE_NOM_AKK,
-    theme:"Akkusativ bilden",
-    prompt:plural
-      ?"Welche Form ist der Akkusativ Plural?"
-      :"Welche Form ist der Akkusativ Singular?",
-    sentence:n.nomSg+" · "+n.de,
-    blank:null,
-    options:opts,
-    correct:opts.indexOf(correct),
-    affirmation:correct+" ist der Akkusativ "+(plural?"Plural":"Singular")+".",
-    wrongMsg:"Gesucht war "+correct+"."
-  };
+  const opts=shuffle([
+    correct,
+    ...alternatives
+  ]);
+
+  return makeQuestion(
+    "Akkusativ Singular",
+    "Welche Form ist der Akkusativ Singular?",
+    n.nomSg+" = "+n.de,
+    "Gesucht ist die Form für „wen oder was?“ im Singular.",
+    opts,
+    opts.indexOf(correct),
+    n.nomSg+" → Akkusativ Singular: "+correct+".",
+    "Der Akkusativ Singular lautet "+correct+"."
+  );
+
 }
 
-function genKasusNumerus(){
-  var all=[];
 
-  NOUN_FORMS.forEach(function(n){
-    var candidates=[
-      {form:n.nomSg,label:"Nominativ Singular"},
-      {form:n.nomPl,label:"Nominativ Plural"},
-      {form:n.akkSg,label:"Akkusativ Singular"},
-      {form:n.akkPl,label:"Akkusativ Plural"}
+function qAkkPl(){
+
+  const n=one(
+    NOUNS.filter(x=>
+      x.akkPl!==x.nomPl
+    )
+  );
+
+  const correct=n.akkPl;
+
+  const alternatives=distractors(
+    correct,
+    [
+      n.nomSg,
+      n.nomPl,
+      n.akkSg
+    ].concat(
+      NOUNS.map(x=>x.akkPl)
+    ),
+    2
+  );
+
+  const opts=shuffle([
+    correct,
+    ...alternatives
+  ]);
+
+  return makeQuestion(
+    "Akkusativ Plural",
+    "Welche Form ist der Akkusativ Plural?",
+    n.nomSg+" = "+n.de,
+    "Gesucht ist die Akkusativform für mehrere.",
+    opts,
+    opts.indexOf(correct),
+    n.nomSg+" → Akkusativ Plural: "+correct+".",
+    "Der Akkusativ Plural lautet "+correct+"."
+  );
+
+}
+
+
+function qKasusNumerus(){
+
+  const candidates=[];
+
+  NOUNS.forEach(function(n){
+
+    const forms=[
+      {
+        form:n.nomSg,
+        label:"Nominativ Singular",
+        de:n.de
+      },
+      {
+        form:n.akkSg,
+        label:"Akkusativ Singular",
+        de:n.de
+      },
+      {
+        form:n.nomPl,
+        label:"Nominativ Plural",
+        de:n.de
+      },
+      {
+        form:n.akkPl,
+        label:"Akkusativ Plural",
+        de:n.de
+      }
     ];
 
-    candidates.forEach(function(c){
-      var same=candidates.filter(function(x){
-        return x.form===c.form;
-      });
+    forms.forEach(function(f){
 
-      if(same.length===1){
-        all.push(c);
+      const equalForms=
+        forms.filter(
+          x=>x.form===f.form
+        );
+
+      if(equalForms.length===1){
+        candidates.push(f);
       }
+
     });
+
   });
 
-  var target=one(all);
+  const q=one(candidates);
 
-  var opts=shuffle([
+  const opts=shuffle([
     "Nominativ Singular",
-    "Nominativ Plural",
     "Akkusativ Singular",
+    "Nominativ Plural",
     "Akkusativ Plural"
   ]);
 
-  return{
-    type:"gap",
-    showRule:RULE_NOM_AKK,
-    theme:"Kasus und Numerus",
-    prompt:"Bestimme Kasus und Numerus dieser Form.",
-    sentence:target.form,
-    blank:null,
-    options:opts,
-    correct:opts.indexOf(target.label),
-    affirmation:target.form+" = "+target.label+".",
-    wrongMsg:"Diese Form ist hier als "+target.label+" eindeutig bestimmbar."
-  };
+  return makeQuestion(
+    "Kasus + Numerus",
+    "Bestimme die Form.",
+    q.form,
+    "Wortbedeutung: "+q.de,
+    opts,
+    opts.indexOf(q.label),
+    q.form+" = "+q.label+".",
+    "Die richtige Bestimmung lautet "+q.label+"."
+  );
+
 }
 
-function genNeutrum(){
-  var questions=[
+
+function qNeutrum(){
+
+  const questions=[
+
     {
-      sentence:"frūmentum",
-      correct:"Nominativ Singular oder Akkusativ Singular",
-      options:[
-        "Nominativ Singular oder Akkusativ Singular",
-        "nur Akkusativ Singular",
-        "Nominativ Plural"
-      ]
+      form:"forum",
+      de:"das Forum / der Marktplatz",
+      answer:"Nominativ Singular oder Akkusativ Singular"
     },
+
     {
-      sentence:"frūmenta",
-      correct:"Nominativ Plural oder Akkusativ Plural",
-      options:[
-        "Nominativ Plural oder Akkusativ Plural",
-        "nur Nominativ Plural",
-        "Akkusativ Singular"
-      ]
+      form:"fora",
+      de:"die Foren",
+      answer:"Nominativ Plural oder Akkusativ Plural"
     },
+
     {
-      sentence:"aedificium",
-      correct:"Nominativ Singular oder Akkusativ Singular",
-      options:[
-        "Nominativ Singular oder Akkusativ Singular",
-        "Akkusativ Plural",
-        "Nominativ Plural"
-      ]
+      form:"aedificium",
+      de:"das Gebäude / Haus",
+      answer:"Nominativ Singular oder Akkusativ Singular"
+    },
+
+    {
+      form:"aedificia",
+      de:"die Gebäude",
+      answer:"Nominativ Plural oder Akkusativ Plural"
     }
+
   ];
 
-  var q=one(questions);
-  var opts=shuffle(q.options);
+  const q=one(questions);
 
-  return{
-    type:"gap",
-    showRule:RULE_NOM_AKK,
-    theme:"Neutrum",
-    prompt:"Welche Bestimmung ist ohne Satzkontext möglich?",
-    sentence:q.sentence,
-    blank:null,
-    options:opts,
-    correct:opts.indexOf(q.correct),
-    affirmation:"Richtig. Beim Neutrum sind Nominativ und Akkusativ formgleich.",
-    wrongMsg:"Beim Neutrum sehen Nominativ und Akkusativ gleich aus."
-  };
+  const options=shuffle([
+    q.answer,
+    "nur Nominativ Singular",
+    "nur Akkusativ Plural"
+  ]);
+
+  return makeQuestion(
+    "Neutrum-Regel",
+    "Was kannst du ohne Satzkontext sicher sagen?",
+    q.form,
+    q.form+" bedeutet hier „"+q.de+"“.",
+    options,
+    options.indexOf(q.answer),
+    "Richtig. Bei Neutra sind Nominativ und Akkusativ formgleich.",
+    "Denke an die Neutrum-Regel: Nominativ = Akkusativ."
+  );
+
 }
 
-function genNomOderAkk(){
-  var questions=[
+
+function qNomAkkSentence(){
+
+  const questions=[
+
     {
       sentence:"Populus equōs exspectat.",
       word:"Populus",
+      de:"das Volk",
       answer:"Nominativ",
       why:"Populus ist das Subjekt: Das Volk erwartet."
     },
+
     {
       sentence:"Populus equōs exspectat.",
       word:"equōs",
+      de:"die Pferde",
       answer:"Akkusativ",
-      why:"equōs beantwortet hier die Frage: Wen oder was erwartet das Volk?"
+      why:"Wen oder was erwartet das Volk? → equōs."
     },
+
     {
       sentence:"Servī Afram spectant.",
       word:"Servī",
+      de:"die Sklaven",
       answer:"Nominativ",
       why:"Servī ist das handelnde Subjekt."
     },
+
     {
       sentence:"Servī Afram spectant.",
       word:"Afram",
+      de:"Afra",
       answer:"Akkusativ",
-      why:"Afram ist das Akkusativobjekt."
+      why:"Wen betrachten die Sklaven? → Afram."
     },
-    {
-      sentence:"Dāvus Pompōnium mercātōrem spectat.",
-      word:"Pompōnium mercātōrem",
-      answer:"Akkusativ",
-      why:"Wen betrachtet Davus? → Pompōnium mercātōrem."
-    }
-  ];
 
-  var q=one(questions);
-  var opts=shuffle(["Nominativ","Akkusativ"]);
-
-  return{
-    type:"gap",
-    showRule:RULE_NOM_AKK,
-    theme:"Nominativ oder Akkusativ?",
-    prompt:"In welchem Kasus steht das hervorgehobene Satzglied?",
-    sentence:q.sentence.replace(
-      q.word,
-      "<strong style=\"color:var(--gold-light)\">"+q.word+"</strong>"
-    ),
-    blank:null,
-    options:opts,
-    correct:opts.indexOf(q.answer),
-    affirmation:"Richtig. "+q.why,
-    wrongMsg:q.why
-  };
-}
-
-function genObject(){
-  var questions=[
-    {
-      sentence:"Populus equōs exspectat.",
-      word:"equōs",
-      answer:"Akkusativobjekt",
-      why:"Wen oder was erwartet das Volk? → equōs."
-    },
     {
       sentence:"Dāvus amīcum videt.",
       word:"amīcum",
-      answer:"Akkusativobjekt",
+      de:"den Freund",
+      answer:"Akkusativ",
       why:"Wen sieht Davus? → amīcum."
+    }
+
+  ];
+
+  const q=one(questions);
+
+  const options=shuffle([
+    "Nominativ",
+    "Akkusativ"
+  ]);
+
+  const sentence=q.sentence.replace(
+    q.word,
+    "<strong style=\"color:var(--gold-light)\">"+
+    q.word+
+    "</strong>"
+  );
+
+  return makeQuestion(
+    "Nominativ oder Akkusativ?",
+    "Welcher Kasus liegt beim markierten Wort vor?",
+    sentence,
+    q.word+" = "+q.de,
+    options,
+    options.indexOf(q.answer),
+    "Richtig. "+q.why,
+    q.why
+  );
+
+}
+
+
+function qObjectOrAdverbial(){
+
+  const questions=[
+
+    {
+      sentence:"Populus equōs exspectat.",
+      word:"equōs",
+      de:"die Pferde",
+      answer:"Akkusativobjekt",
+      why:"Wen oder was erwartet das Volk? → die Pferde."
     },
+
+    {
+      sentence:"Dāvus amīcum videt.",
+      word:"amīcum",
+      de:"den Freund",
+      answer:"Akkusativobjekt",
+      why:"Wen sieht Davus? → den Freund."
+    },
+
     {
       sentence:"Populus clāmōrem audit.",
       word:"clāmōrem",
+      de:"den Lärm / das Geschrei",
       answer:"Akkusativobjekt",
-      why:"Wen oder was hört das Volk? → clāmōrem."
+      why:"Wen oder was hört das Volk? → den Lärm."
     },
+
     {
-      sentence:"Equī per circum properant.",
-      word:"circum",
+      sentence:"Amīcī per forum properant.",
+      word:"per forum",
+      de:"durch das Forum",
       answer:"Teil einer Adverbiale",
-      why:"per circum beschreibt den Weg: durch den Circus."
+      why:"per forum beschreibt den Weg."
     },
+
     {
       sentence:"Dāvus ante aedificium exspectat.",
-      word:"aedificium",
+      word:"ante aedificium",
+      de:"vor dem Gebäude",
       answer:"Teil einer Adverbiale",
       why:"ante aedificium beschreibt den Ort."
     }
+
   ];
 
-  var q=one(questions);
+  const q=one(questions);
 
-  var opts=shuffle([
+  const options=shuffle([
     "Akkusativobjekt",
     "Teil einer Adverbiale"
   ]);
 
-  return{
-    type:"gap",
-    showRule:RULE_OBJEKT_ADVERBIALE,
-    theme:"Satzglieder erkennen",
-    prompt:"Welche Funktion hat „"+q.word+"“?",
-    sentence:q.sentence,
-    blank:null,
-    options:opts,
-    correct:opts.indexOf(q.answer),
-    affirmation:"Richtig. "+q.why,
-    wrongMsg:q.why
-  };
+  return makeQuestion(
+    "Satzglieder",
+    "Welche Funktion hat die markierte Wortgruppe?",
+    q.sentence.replace(
+      q.word,
+      "<strong style=\"color:var(--gold-light)\">"+
+      q.word+
+      "</strong>"
+    ),
+    q.word+" = "+q.de,
+    options,
+    options.indexOf(q.answer),
+    "Richtig. "+q.why,
+    q.why
+  );
+
 }
 
-function genPraepGap(){
-  var questions=[
+
+function qPreposition(){
+
+  const q=one(PREPOSITIONS);
+
+  const options=shuffle(
+    PREPOSITIONS.map(
+      x=>x.lat
+    )
+  );
+
+  return makeQuestion(
+    "Präposition + Akkusativ",
+    "Welche Präposition passt zu dieser deutschen Bedeutung?",
+    q.exampleDe,
+    q.example+" = "+q.exampleDe,
+    options,
+    options.indexOf(q.lat),
+    q.lat+" bedeutet hier „"+q.de+"“.",
+    "Gesucht war "+q.lat+"."
+  );
+
+}
+
+
+function qPrepositionSentence(){
+
+  const questions=[
+
     {
       sentence:"Amīcī _____ forum properant.",
-      correct:"per",
-      hint:"per forum = durch das Forum"
+      de:"Die Freunde eilen durch das Forum.",
+      answer:"per"
     },
+
     {
       sentence:"Dāvus _____ dominum venit.",
-      correct:"ad",
-      hint:"ad dominum = zum Herrn"
+      de:"Davus kommt zum Herrn.",
+      answer:"ad"
     },
+
     {
       sentence:"Serva _____ Colossēum properat.",
-      correct:"ad",
-      hint:"ad Colossēum = zum Kolosseum"
+      de:"Die Sklavin eilt zum Kolosseum.",
+      answer:"ad"
     },
+
     {
       sentence:"Dāvus _____ aedificium exspectat.",
-      correct:"ante",
-      hint:"ante aedificium = vor dem Gebäude"
+      de:"Davus wartet vor dem Gebäude.",
+      answer:"ante"
     }
+
   ];
 
-  var q=one(questions);
+  const q=one(questions);
 
-  var opts=shuffle(["ad","per","ante"]);
+  const options=shuffle([
+    "ad",
+    "per",
+    "ante"
+  ]);
 
-  return{
-    type:"gap",
-    showRule:RULE_PRAEP,
-    theme:"Präposition + Akkusativ",
-    prompt:"Welche Präposition passt?",
-    sentence:q.sentence,
-    blank:"_____",
-    options:opts,
-    correct:opts.indexOf(q.correct),
-    affirmation:"Richtig. "+q.hint+".",
-    wrongMsg:q.hint+"."
-  };
+  return makeQuestion(
+    "Präposition einsetzen",
+    "Welche Präposition passt?",
+    q.sentence,
+    q.de,
+    options,
+    options.indexOf(q.answer),
+    "Richtig. Die passende Präposition ist "+q.answer+".",
+    "Die richtige Präposition ist "+q.answer+"."
+  );
+
 }
 
-function genVerbKongruenz(){
-  var questions=[
+
+function qKongruenz(){
+
+  const questions=[
+
     {
       sentence:"Amīcus _____.",
-      correct:"clāmat",
+      subjectDe:"der Freund",
+      verbDe:"rufen",
+      answer:"clāmat",
       options:["clāmat","clāmant","clāmāre"],
-      why:"Amīcus steht im Singular."
+      why:"amīcus steht im Singular."
     },
+
     {
-      sentence:"Victōrēs _____.",
-      correct:"veniunt",
-      options:["venit","veniunt","venīre"],
-      why:"Victōrēs steht im Plural."
+      sentence:"Amīcī _____.",
+      subjectDe:"die Freunde",
+      verbDe:"eilen",
+      answer:"properant",
+      options:["properat","properant","properāre"],
+      why:"amīcī steht im Plural."
     },
-    {
-      sentence:"Dominī et dominae _____.",
-      correct:"tacent",
-      options:["tacet","tacent","tacēre"],
-      why:"Dominī et dominae ist Plural."
-    },
+
     {
       sentence:"Senātor _____.",
-      correct:"rīdet",
+      subjectDe:"der Senator",
+      verbDe:"lachen",
+      answer:"rīdet",
       options:["rīdet","rīdent","rīdēre"],
-      why:"Senātor steht im Singular."
+      why:"senātor steht im Singular."
     },
+
+    {
+      sentence:"Victōrēs _____.",
+      subjectDe:"die Sieger",
+      verbDe:"kommen",
+      answer:"veniunt",
+      options:["venit","veniunt","venīre"],
+      why:"victōrēs steht im Plural."
+    },
+
     {
       sentence:"Servī ad amīcōs _____.",
-      correct:"properant",
+      subjectDe:"die Sklaven",
+      verbDe:"eilen",
+      answer:"properant",
       options:["properat","properant","properāre"],
-      why:"Servī steht im Plural."
+      why:"servī steht im Plural."
     }
+
   ];
 
-  var q=one(questions);
-  var opts=shuffle(q.options);
+  const q=one(questions);
 
-  return{
-    type:"gap",
-    showRule:RULE_KONGRUENZ,
-    theme:"Kongruenz",
-    prompt:"Welche Verbform passt zum Subjekt?",
-    sentence:q.sentence,
-    blank:"_____",
-    options:opts,
-    correct:opts.indexOf(q.correct),
-    affirmation:"Richtig. "+q.why,
-    wrongMsg:q.why
-  };
+  const options=shuffle(
+    q.options
+  );
+
+  return makeQuestion(
+    "Kongruenz",
+    "Welche Verbform passt zum Subjekt?",
+    q.sentence,
+    q.subjectDe+" · "+q.verbDe,
+    options,
+    options.indexOf(q.answer),
+    "Richtig. "+q.why,
+    q.why
+  );
+
 }
 
-function genWordOrder(){
-  var questions=[
+
+function qWordOrder(){
+
+  const questions=[
+
     {
-      lat:"Amīcī per forum properant.",
-      correct:"Die Freunde eilen durch das Forum.",
+      latin:"Amīcī per forum properant.",
+      helper:"amīcī = die Freunde · per forum = durch das Forum · properant = sie eilen",
+      answer:"Die Freunde eilen durch das Forum.",
       wrong:[
         "Die Freunde durch das Forum eilen.",
-        "Durch die Freunde eilt das Forum."
+        "Durch die Freunde das Forum eilt."
       ]
     },
+
     {
-      lat:"Populus equōs exspectat.",
-      correct:"Das Volk erwartet die Pferde.",
+      latin:"Populus equōs exspectat.",
+      helper:"populus = das Volk · equōs = die Pferde · exspectat = erwartet",
+      answer:"Das Volk erwartet die Pferde.",
       wrong:[
         "Das Volk die Pferde erwartet.",
-        "Die Pferde erwartet das Volk."
+        "Die Pferde das Volk erwartet."
       ]
     },
+
     {
-      lat:"Dāvus ibi amīcum videt.",
-      correct:"Davus sieht dort den Freund.",
+      latin:"Dāvus ibi amīcum videt.",
+      helper:"Dāvus = Davus · ibi = dort · amīcum = den Freund · videt = sieht",
+      answer:"Davus sieht dort den Freund.",
       wrong:[
         "Davus dort den Freund sieht.",
-        "Der Freund sieht dort Davus."
+        "Den Freund Davus dort sieht."
       ]
     },
+
     {
-      lat:"Servī ad amīcōs properant.",
-      correct:"Die Sklaven eilen zu den Freunden.",
+      latin:"Servī ad amīcōs properant.",
+      helper:"servī = die Sklaven · ad amīcōs = zu den Freunden · properant = sie eilen",
+      answer:"Die Sklaven eilen zu den Freunden.",
       wrong:[
         "Die Sklaven zu den Freunden eilen.",
-        "Zu den Sklaven eilen die Freunde."
+        "Zu den Sklaven die Freunde eilen."
       ]
     }
+
   ];
 
-  var q=one(questions);
-  var opts=shuffle([q.correct].concat(q.wrong));
+  const q=one(questions);
 
-  return{
-    type:"gap",
-    showRule:RULE_WORD_ORDER,
-    theme:"Latein → Deutsch",
-    prompt:"Welche Übersetzung hat eine richtige deutsche Wortstellung?",
-    sentence:q.lat,
-    blank:null,
-    options:opts,
-    correct:opts.indexOf(q.correct),
-    affirmation:"Richtig. Die finite Verbform steht im deutschen Hauptsatz hier an zweiter Stelle.",
-    wrongMsg:"Beim Übersetzen muss die lateinische Wortstellung häufig umgestellt werden."
-  };
+  const options=shuffle([
+    q.answer,
+    ...q.wrong
+  ]);
+
+  return makeQuestion(
+    "Latein → Deutsch",
+    "Welche Übersetzung ist gutes Deutsch?",
+    q.latin,
+    q.helper,
+    options,
+    options.indexOf(q.answer),
+    "Richtig. Beim Übersetzen wird die lateinische Wortstellung sinnvoll ins Deutsche übertragen.",
+    "Nicht einfach Wort für Wort in derselben Reihenfolge übersetzen."
+  );
+
 }
 
-var vocabBlocks=[
-  {title:"Block 1",items:POOL.slice(0,5)},
-  {title:"Block 2",items:POOL.slice(5,23)},
-  {title:"Block 3",items:POOL.slice(23)}
-];
+
+function qSmallVocab(){
+
+  const v=one(SMALL_VOCAB);
+
+  const wrong=distractors(
+    v.de,
+    SMALL_VOCAB.map(x=>x.de),
+    2
+  );
+
+  const options=shuffle([
+    v.de,
+    ...wrong
+  ]);
+
+  return makeQuestion(
+    "Vokabel",
+    "Was bedeutet dieses Wort?",
+    v.lat,
+    "",
+    options,
+    options.indexOf(v.de),
+    v.lat+" bedeutet „"+v.de+"“.",
+    "Die richtige Bedeutung ist „"+v.de+"“."
+  );
+
+}
+
+
+/* =====================================================
+   SESSION
+===================================================== */
 
 function buildSession(){
-  var b1=POOL.slice(0,5);
-  var b2=POOL.slice(5,23);
-  var b3=POOL.slice(23);
 
-  var items=[];
+  return [
 
-  items.push({_vocabBlock:true,blockIndex:0});
+    qMeaning(),
 
-  [
-    genMatchVocab(b1.concat(shuffle(b2).slice(0,3))),
-    genNomOderAkk(),
-    genAkkusativForm(),
-    genKasusNumerus(),
-    genVerbKongruenz(),
-    genPraepGap()
-  ].forEach(function(q){
-    items.push({_question:true,q:q});
-  });
+    qNomAkkSentence(),
 
-  items.push({_vocabBlock:true,blockIndex:1});
+    qAkkSg(),
 
-  [
-    genMatchVocab(b2),
-    genAkkusativForm(),
-    genNomOderAkk(),
-    genObject(),
-    genNeutrum(),
-    genKasusNumerus()
-  ].forEach(function(q){
-    items.push({_question:true,q:q});
-  });
+    qAkkPl(),
 
-  items.push({_vocabBlock:true,blockIndex:2});
+    qKasusNumerus(),
 
-  [
-    genMatchVocab(b3),
-    genPraepGap(),
-    genObject(),
-    genVerbKongruenz(),
-    genWordOrder(),
-    genWordOrder()
-  ].forEach(function(q){
-    items.push({_question:true,q:q});
-  });
+    qNeutrum(),
 
-  return items;
+    qNomAkkSentence(),
+
+    qObjectOrAdverbial(),
+
+    qPreposition(),
+
+    qPrepositionSentence(),
+
+    qAkkSg(),
+
+    qKasusNumerus(),
+
+    qObjectOrAdverbial(),
+
+    qKongruenz(),
+
+    qKongruenz(),
+
+    qWordOrder(),
+
+    qWordOrder(),
+
+    qSmallVocab()
+
+  ];
+
 }
 
-var allItems=buildSession();
-var currentIndex=0;
-var score=0;
 
-var totalQuestions=allItems.filter(function(i){
-  return i._question;
-}).length;
+let session=buildSession();
 
-function updateProgress(){
-  var questionsBefore=allItems
-    .slice(0,currentIndex+1)
-    .filter(function(i){
-      return i._question;
-    }).length;
+let current=0;
 
-  document.getElementById("progressLabel").textContent=
-    Math.min(questionsBefore,totalQuestions)+"/"+totalQuestions;
-}
+let score=0;
 
-function renderCurrent(){
-  var item=allItems[currentIndex];
 
-  if(!item){
-    showCompletion();
-    return;
-  }
-
-  var main=document.getElementById("mainContent");
-  main.innerHTML="";
-
-  if(item._vocabBlock){
-    renderVocabBlock(item.blockIndex,main);
-    return;
-  }
-
-  updateProgress();
-
-  var q=item.q;
-
-  if(q.showRule){
-    var rc=document.createElement("div");
-    rc.className="rule-card";
-    rc.innerHTML=q.showRule;
-    main.appendChild(rc);
-  }
-
-  if(q.type==="gap"){
-    renderGap(q,main);
-  } else if(q.type==="match"){
-    renderMatch(q,main);
-  }
-}
+/* =====================================================
+   INTRO
+===================================================== */
 
 function renderIntro(){
-  var main=document.getElementById("mainContent");
+
+  const main=
+    document.getElementById(
+      "mainContent"
+    );
+
+
+  document.getElementById(
+    "progressLabel"
+  ).textContent=
+    "Lernen";
+
 
   main.innerHTML=`
+
     <div class="lesson-intro">
 
       <div class="lesson-kicker">
         Magistrella · L02
       </div>
 
-      <h1>Nominativ, Akkusativ und Satzglieder</h1>
+      <h1>
+        Nominativ, Akkusativ und Satzglieder
+      </h1>
 
       <p>
-        In dieser Lektion lernst du, zwischen Subjekt und
-        Akkusativobjekt zu unterscheiden. Außerdem trainierst du
-        Akkusativformen, Präpositionen und die richtige
-        Wortstellung beim Übersetzen.
+        In L01 hast du gelernt,
+        dass lateinische Wörter ihre Endung verändern.
+        Jetzt lernst du, dass diese Formen auch zeigen können,
+        welche Aufgabe ein Wort im Satz hat.
       </p>
 
       <div class="lesson-goals">
 
-        <div class="goal-chip">Nominativ ↔ Akkusativ</div>
-        <div class="goal-chip">Akkusativ Sg. & Pl.</div>
-        <div class="goal-chip">Kasus + Numerus</div>
-        <div class="goal-chip">Objekt vs. Adverbiale</div>
-        <div class="goal-chip">ad · per · ante + Akk.</div>
-        <div class="goal-chip">Latein → Deutsch</div>
+        <div class="goal-chip">
+          Kasus verstehen
+        </div>
+
+        <div class="goal-chip">
+          Nominativ ↔ Akkusativ
+        </div>
+
+        <div class="goal-chip">
+          Akkusativ Singular & Plural
+        </div>
+
+        <div class="goal-chip">
+          Objekt & Adverbiale
+        </div>
+
+        <div class="goal-chip">
+          ad · per · ante + Akk.
+        </div>
+
+        <div class="goal-chip">
+          Latein sinnvoll übersetzen
+        </div>
 
       </div>
+
     </div>
 
-    <div class="rule-card">
-      ${RULE_NOM_AKK}
-    </div>
   `;
 
-  var btn=document.createElement("button");
 
-  btn.type="button";
-  btn.className="next-btn visible";
-  btn.style.margin="16px";
-  btn.style.width="calc(100% - 32px)";
-  btn.textContent="Training starten →";
+  const btn=
+    document.createElement(
+      "button"
+    );
 
-  btn.addEventListener("click",function(){
-    currentIndex=0;
-    renderCurrent();
+  btn.type=
+    "button";
 
-    window.scrollTo({
-      top:0,
-      behavior:"smooth"
-    });
-  });
-
-  main.appendChild(btn);
-}
-
-function renderVocabBlock(idx,parent){
-  var block=vocabBlocks[idx];
-
-  var hdr=document.createElement("div");
-  hdr.className="section-header";
-
-  hdr.innerHTML=
-    "<h2>📖 "+block.title+"</h2>"+
-    "<p>Diese Wörter brauchst du für die folgenden Übungen.</p>";
-
-  parent.appendChild(hdr);
-
-  var vb=document.createElement("div");
-  vb.className="vocab-block";
-
-  block.items.forEach(function(v){
-    var row=document.createElement("div");
-    row.className="vocab-row";
-
-    row.innerHTML=
-      "<span class=\"vocab-lat\">"+v.lat+"</span>"+
-      "<span class=\"vocab-gen\">"+(v.gen||"")+"</span>"+
-      "<span class=\"vocab-de\">"+v.de+"</span>";
-
-    vb.appendChild(row);
-  });
-
-  parent.appendChild(vb);
-
-  var continueBtn=document.createElement("button");
-
-  continueBtn.type="button";
-  continueBtn.className="next-btn visible";
-  continueBtn.style.margin="12px 16px";
-  continueBtn.style.width="calc(100% - 32px)";
-  continueBtn.textContent="Weiter zu den Übungen →";
-
-  continueBtn.addEventListener("click",function(){
-    currentIndex++;
-    renderCurrent();
-
-    window.scrollTo({
-      top:0,
-      behavior:"smooth"
-    });
-  });
-
-  parent.appendChild(continueBtn);
-}
-
-function makeQCard(q){
-  var c=document.createElement("div");
-  c.className="question-card";
-  c.innerHTML="<div class=\"q-theme\">"+q.theme+"</div>";
-  return c;
-}
-
-function makeFB(parent){
-  var fb=document.createElement("div");
-  fb.className="feedback";
-  fb.id="feedback";
-  parent.appendChild(fb);
-}
-
-function makeNext(parent){
-  var btn=document.createElement("button");
-
-  btn.type="button";
-  btn.className="next-btn";
-  btn.id="nextBtn";
+  btn.className=
+    "continue-btn";
 
   btn.textContent=
-    currentIndex>=allItems.length-1
-      ?"Lektion abschließen ✓"
-      :"Weiter →";
+    "Mit der ersten Erklärung starten →";
 
-  btn.addEventListener("click",function(){
-    currentIndex++;
-    renderCurrent();
 
-    window.scrollTo({
-      top:0,
-      behavior:"smooth"
-    });
-  });
+  btn.addEventListener(
+    "click",
+    function(){
 
-  parent.appendChild(btn);
-}
+      renderTeaching(0);
 
-function showFB(ok,q){
-  var fb=document.getElementById("feedback");
-  var next=document.getElementById("nextBtn");
+      window.scrollTo({
+        top:0,
+        behavior:"smooth"
+      });
 
-  if(ok){
-    score++;
-
-    fb.className="feedback correct";
-    fb.innerHTML=
-      "<div class=\"feedback-affirmation\">Richtig.</div>"+
-      q.affirmation;
-
-  } else {
-
-    fb.className="feedback wrong";
-    fb.innerHTML=
-      "<div class=\"feedback-affirmation\">Noch nicht richtig.</div>"+
-      q.wrongMsg;
-  }
-
-  if(next){
-    next.classList.add("visible");
-  }
-}
-
-function renderGap(q,parent){
-  var card=makeQCard(q);
-
-  card.innerHTML+=
-    "<div class=\"q-type-badge\">Form auswählen</div>"+
-    "<div class=\"q-prompt\">"+q.prompt+"</div>";
-
-  if(q.sentence){
-    var sentence=q.sentence;
-
-    if(q.blank){
-      sentence=sentence.replace(
-        q.blank,
-        "<span style=\"border-bottom:2px solid var(--gold);min-width:70px;display:inline-block;\">&nbsp;</span>"
-      );
     }
-
-    card.innerHTML+=
-      "<div class=\"q-sentence\">"+sentence+"</div>";
-  }
-
-  var opts=document.createElement("div");
-  opts.className="gap-options";
-
-  var letters=["A","B","C","D"];
-  var answered=false;
-
-  q.options.forEach(function(opt,i){
-    var btn=document.createElement("button");
-
-    btn.type="button";
-    btn.className="gap-btn";
-
-    btn.innerHTML=
-      "<span class=\"gap-btn-letter\">"+letters[i]+"</span>"+
-      "<span>"+opt+"</span>";
-
-    btn.addEventListener("click",function(){
-      if(answered)return;
-
-      answered=true;
-
-      var ok=i===q.correct;
-
-      btn.classList.add(ok?"correct":"wrong");
-
-      if(!ok){
-        var all=opts.querySelectorAll(".gap-btn");
-        all[q.correct].classList.add("correct");
-      }
-
-      showFB(ok,q);
-    });
-
-    opts.appendChild(btn);
-  });
-
-  card.appendChild(opts);
-
-  makeFB(card);
-  makeNext(card);
-
-  parent.appendChild(card);
-}
-
-function renderMatch(q,parent){
-  var card=makeQCard(q);
-
-  card.innerHTML+=
-    "<div class=\"q-type-badge\">Paare zuordnen</div>"+
-    "<div class=\"q-prompt\">"+q.prompt+"</div>";
-
-  var labels=document.createElement("div");
-  labels.className="match-col-labels";
-
-  labels.innerHTML=
-    "<div class=\"match-col-label\">"+q.leftTitle+"</div>"+
-    "<div class=\"match-col-label\">"+q.rightTitle+"</div>";
-
-  card.appendChild(labels);
-
-  var pairs=q.pairs.slice();
-
-  var right=shuffle(
-    pairs.map(function(p){
-      return p[1];
-    })
   );
 
-  var grid=document.createElement("div");
-  grid.className="match-grid";
 
-  var selectedLeft=null;
-  var selectedRight=null;
-  var matched=0;
+  main.appendChild(
+    btn
+  );
 
-  var leftElements=[];
-  var rightElements=[];
+}
 
-  pairs.forEach(function(pair,i){
-    var left=document.createElement("button");
-    left.type="button";
-    left.className="match-item";
-    left.textContent=pair[0];
 
-    var rightBtn=document.createElement("button");
-    rightBtn.type="button";
-    rightBtn.className="match-item";
-    rightBtn.textContent=right[i];
+/* =====================================================
+   LERNPHASE
+===================================================== */
 
-    left.addEventListener("click",function(){
-      if(left.classList.contains("matched"))return;
+function renderTeaching(index){
 
-      leftElements.forEach(function(el){
-        if(!el.classList.contains("matched")){
-          el.classList.remove("selected");
-        }
-      });
+  const main=
+    document.getElementById(
+      "mainContent"
+    );
 
-      left.classList.add("selected");
-      selectedLeft=left;
 
-      tryMatch();
-    });
+  const item=
+    TEACHING[index];
 
-    rightBtn.addEventListener("click",function(){
-      if(rightBtn.classList.contains("matched"))return;
 
-      rightElements.forEach(function(el){
-        if(!el.classList.contains("matched")){
-          el.classList.remove("selected");
-        }
-      });
+  document.getElementById(
+    "progressLabel"
+  ).textContent=
+    (index+1)+
+    "/"+
+    TEACHING.length;
 
-      rightBtn.classList.add("selected");
-      selectedRight=rightBtn;
 
-      tryMatch();
-    });
+  main.innerHTML=`
 
-    leftElements.push(left);
-    rightElements.push(rightBtn);
+    <div class="teach-card">
 
-    grid.appendChild(left);
-    grid.appendChild(rightBtn);
-  });
+      <div class="teach-head">
 
-  function tryMatch(){
-    if(!selectedLeft || !selectedRight)return;
+        <div class="teach-kicker">
+          ${item.kicker}
+        </div>
 
-    var ok=pairs.some(function(p){
-      return(
-        p[0]===selectedLeft.textContent &&
-        p[1]===selectedRight.textContent
-      );
-    });
+        <h2>
+          ${item.title}
+        </h2>
 
-    if(ok){
-      selectedLeft.classList.add("matched");
-      selectedRight.classList.add("matched");
+      </div>
 
-      matched++;
+      <div class="teach-body">
 
-      if(matched===pairs.length){
-        showFB(true,q);
+        ${item.body}
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  const btn=
+    document.createElement(
+      "button"
+    );
+
+  btn.type=
+    "button";
+
+  btn.className=
+    "continue-btn";
+
+
+  if(
+    index===
+    TEACHING.length-1
+  ){
+
+    btn.textContent=
+      "Jetzt üben →";
+
+
+    btn.addEventListener(
+      "click",
+      function(){
+
+        renderTrainingIntro();
+
+        window.scrollTo({
+          top:0,
+          behavior:"smooth"
+        });
+
       }
+    );
 
-    } else {
-
-      selectedLeft.classList.add("wrong");
-      selectedRight.classList.add("wrong");
-
-      var oldLeft=selectedLeft;
-      var oldRight=selectedRight;
-
-      setTimeout(function(){
-        oldLeft.classList.remove("wrong","selected");
-        oldRight.classList.remove("wrong","selected");
-      },550);
-    }
-
-    selectedLeft=null;
-    selectedRight=null;
   }
 
-  card.appendChild(grid);
+  else{
 
-  makeFB(card);
-  makeNext(card);
+    btn.textContent=
+      "Weiter →";
 
-  parent.appendChild(card);
+
+    btn.addEventListener(
+      "click",
+      function(){
+
+        renderTeaching(
+          index+1
+        );
+
+        window.scrollTo({
+          top:0,
+          behavior:"smooth"
+        });
+
+      }
+    );
+
+  }
+
+
+  main.appendChild(
+    btn
+  );
+
 }
+
+
+/* =====================================================
+   TRAININGSSTART
+===================================================== */
+
+function renderTrainingIntro(){
+
+  const main=
+    document.getElementById(
+      "mainContent"
+    );
+
+
+  document.getElementById(
+    "progressLabel"
+  ).textContent=
+    "Training";
+
+
+  main.innerHTML=`
+
+    <div class="training-intro">
+
+      <h2>
+        Jetzt trainierst du L02
+      </h2>
+
+      <p>
+        Die deutsche Bedeutung wird dir an vielen Stellen
+        zusätzlich angezeigt. So trainierst du Grammatik und
+        Vokabeln gleichzeitig.
+      </p>
+
+      <p style="margin-top:8px;">
+        Wichtig: Manche lateinischen Formen sind ohne Satz
+        nicht eindeutig. Die App verlangt deshalb nur dort eine
+        eindeutige Bestimmung, wo sie grammatisch wirklich möglich ist.
+      </p>
+
+    </div>
+
+  `;
+
+
+  const btn=
+    document.createElement(
+      "button"
+    );
+
+  btn.type=
+    "button";
+
+  btn.className=
+    "continue-btn";
+
+  btn.textContent=
+    "Training starten →";
+
+
+  btn.addEventListener(
+    "click",
+    function(){
+
+      current=0;
+
+      renderQuestion();
+
+      window.scrollTo({
+        top:0,
+        behavior:"smooth"
+      });
+
+    }
+  );
+
+
+  main.appendChild(
+    btn
+  );
+
+}
+
+
+/* =====================================================
+   FRAGEN RENDERN
+===================================================== */
+
+function renderQuestion(){
+
+  if(
+    current>=
+    session.length
+  ){
+
+    showCompletion();
+
+    return;
+  }
+
+
+  const q=
+    session[current];
+
+
+  document.getElementById(
+    "progressLabel"
+  ).textContent=
+    (current+1)+
+    "/"+
+    session.length;
+
+
+  const main=
+    document.getElementById(
+      "mainContent"
+    );
+
+
+  main.innerHTML=
+    "";
+
+
+  const card=
+    document.createElement(
+      "div"
+    );
+
+  card.className=
+    "question-card";
+
+
+  card.innerHTML=`
+
+    <div class="q-theme">
+      ${q.theme}
+    </div>
+
+    <div class="q-type-badge">
+      Aufgabe ${current+1}
+    </div>
+
+    <div class="q-prompt">
+      ${q.prompt}
+    </div>
+
+    <div class="q-sentence">
+      ${q.sentence}
+    </div>
+
+    ${
+      q.helper
+      ?
+      `<div class="q-helper">
+        ${q.helper}
+      </div>`
+      :
+      ""
+    }
+
+  `;
+
+
+  const optionWrap=
+    document.createElement(
+      "div"
+    );
+
+  optionWrap.className=
+    "options";
+
+
+  const letters=
+    ["A","B","C","D"];
+
+
+  let answered=
+    false;
+
+
+  q.options.forEach(
+    function(option,index){
+
+      const btn=
+        document.createElement(
+          "button"
+        );
+
+      btn.type=
+        "button";
+
+      btn.className=
+        "option-btn";
+
+
+      btn.innerHTML=`
+
+        <span class="option-letter">
+          ${letters[index]}
+        </span>
+
+        <span>
+          ${option}
+        </span>
+
+      `;
+
+
+      btn.addEventListener(
+        "click",
+        function(){
+
+          if(answered){
+            return;
+          }
+
+
+          answered=
+            true;
+
+
+          const buttons=
+            optionWrap.querySelectorAll(
+              ".option-btn"
+            );
+
+
+          const ok=
+            index===
+            q.correct;
+
+
+          if(ok){
+
+            btn.classList.add(
+              "correct"
+            );
+
+            score++;
+
+          }
+
+          else{
+
+            btn.classList.add(
+              "wrong"
+            );
+
+            buttons[
+              q.correct
+            ].classList.add(
+              "correct"
+            );
+
+          }
+
+
+          showFeedback(
+            card,
+            q,
+            ok
+          );
+
+        }
+      );
+
+
+      optionWrap.appendChild(
+        btn
+      );
+
+    }
+  );
+
+
+  card.appendChild(
+    optionWrap
+  );
+
+
+  const feedback=
+    document.createElement(
+      "div"
+    );
+
+  feedback.id=
+    "feedback";
+
+  feedback.className=
+    "feedback";
+
+
+  card.appendChild(
+    feedback
+  );
+
+
+  const next=
+    document.createElement(
+      "button"
+    );
+
+  next.type=
+    "button";
+
+  next.id=
+    "nextBtn";
+
+  next.className=
+    "next-btn";
+
+
+  next.textContent=
+    current===
+    session.length-1
+      ?
+      "Lektion abschließen ✓"
+      :
+      "Weiter →";
+
+
+  next.addEventListener(
+    "click",
+    function(){
+
+      current++;
+
+      renderQuestion();
+
+      window.scrollTo({
+        top:0,
+        behavior:"smooth"
+      });
+
+    }
+  );
+
+
+  card.appendChild(
+    next
+  );
+
+
+  main.appendChild(
+    card
+  );
+
+}
+
+
+/* =====================================================
+   FEEDBACK
+===================================================== */
+
+function showFeedback(
+  card,
+  q,
+  ok
+){
+
+  const feedback=
+    card.querySelector(
+      "#feedback"
+    );
+
+
+  feedback.className=
+    "feedback "+
+    (
+      ok
+      ?
+      "correct"
+      :
+      "wrong"
+    );
+
+
+  feedback.innerHTML=`
+
+    <div class="feedback-title">
+      ${
+        ok
+        ?
+        "Richtig."
+        :
+        "Noch nicht richtig."
+      }
+    </div>
+
+    <div>
+      ${
+        ok
+        ?
+        q.success
+        :
+        q.wrong
+      }
+    </div>
+
+    ${
+      !ok
+      ?
+      `<div class="feedback-tip">
+        Prüfe zuerst die Wortbedeutung,
+        dann die Endung und schließlich
+        die Aufgabe des Wortes im Satz.
+      </div>`
+      :
+      ""
+    }
+
+  `;
+
+
+  card
+    .querySelector(
+      "#nextBtn"
+    )
+    .classList.add(
+      "visible"
+    );
+
+}
+
+
+/* =====================================================
+   ABSCHLUSS
+===================================================== */
 
 function showCompletion(){
-  document.getElementById("mainContent").style.display="none";
 
-  var screen=document.getElementById("completionScreen");
-  screen.classList.add("visible");
+  document.getElementById(
+    "mainContent"
+  ).style.display=
+    "none";
 
-  var pct=Math.round(score/totalQuestions*100);
 
-  document.getElementById("finalScore").textContent=
-    score+"/"+totalQuestions+" · "+pct+" %";
+  const screen=
+    document.getElementById(
+      "completionScreen"
+    );
 
-  document.getElementById("finalStars").textContent=
-    pct>=90
-      ?"★★★"
-      :pct>=70
-        ?"★★"
-        :"★";
 
-  var msg;
-
-  if(pct>=90){
-    msg=
-      "Sehr sicher. Du kannst Nominativ und Akkusativ unterscheiden, Akkusativformen bestimmen und Satzglieder beim Übersetzen sinnvoll erkennen.";
-  } else if(pct>=70){
-    msg=
-      "Gute Grundlage. Wiederhole besonders Kasus und Numerus sowie die Unterscheidung zwischen Akkusativobjekt und Präpositionalangabe.";
-  } else {
-    msg=
-      "Wiederhole L02 noch einmal. Konzentriere dich zunächst auf die Akkusativendungen und danach auf Objekt und Präposition + Akkusativ.";
-  }
-
-  document.getElementById("finalMsg").textContent=msg;
-
-  var oldBest=Number(
-    localStorage.getItem("magistrella-l02-best") || 0
+  screen.classList.add(
+    "visible"
   );
 
-  if(pct>oldBest){
-    localStorage.setItem("magistrella-l02-best",pct);
+
+  const pct=
+    Math.round(
+      score/
+      session.length*
+      100
+    );
+
+
+  document.getElementById(
+    "finalScore"
+  ).textContent=
+    score+
+    "/"+
+    session.length+
+    " · "+
+    pct+
+    " %";
+
+
+  document.getElementById(
+    "finalStars"
+  ).textContent=
+    pct>=90
+      ?
+      "★★★"
+      :
+      pct>=70
+        ?
+        "★★"
+        :
+        "★";
+
+
+  let msg;
+
+
+  if(pct>=90){
+
+    msg=
+      "Sehr sicher. Du kannst Nominativ und Akkusativ unterscheiden, Akkusativformen bestimmen und erkennen, ob ein Akkusativ als Objekt oder nach einer Präposition verwendet wird.";
+
   }
+
+  else if(pct>=70){
+
+    msg=
+      "Die Grundlage sitzt. Wiederhole besonders die Akkusativendungen und die Unterscheidung zwischen Akkusativobjekt und Präposition + Akkusativ.";
+
+  }
+
+  else{
+
+    msg=
+      "Gehe L02 noch einmal durch. Beginne mit Nominativ und Akkusativ und arbeite dich danach erneut zu Objekt, Adverbiale und Wortstellung vor.";
+
+  }
+
+
+  document.getElementById(
+    "finalMsg"
+  ).textContent=
+    msg;
+
+
+  const oldBest=
+    Number(
+      localStorage.getItem(
+        "magistrella-l02-best"
+      )||0
+    );
+
+
+  if(pct>oldBest){
+
+    localStorage.setItem(
+      "magistrella-l02-best",
+      pct
+    );
+
+  }
+
 }
 
+
+/* =====================================================
+   START
+===================================================== */
+
 renderIntro();
+
 </script>
 
 </body>
