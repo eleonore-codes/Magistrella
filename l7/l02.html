@@ -3,583 +3,1736 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L02 · Akkusativ · Subjekt und Prädikat · Magistrella</title>
+
+<title>L02 · Nominativ & Akkusativ · Satzglieder · Magistrella</title>
+
 <style>
-  :root{--gold:#C9A84C;--gold-light:#E8C96A;--gold-dark:#8B6914;--terracotta:#C0522B;--ink:#1A1208;--ink-mid:#2A1F0E;--parchment:#F5EDD6;--parchment-dark:#E8D9B5;--stone:#7A6E5A;--green-ok:#4CAF7D;--red-wrong:#E05050;--white:#FDFAF3;}
-  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-  body{font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--ink);color:var(--parchment);min-height:100vh;line-height:1.6;-webkit-font-smoothing:antialiased;}
-  .topbar{position:sticky;top:0;z-index:100;background:rgba(26,18,8,0.95);backdrop-filter:blur(8px);border-bottom:1px solid rgba(201,168,76,0.2);padding:10px 16px;display:flex;align-items:center;gap:12px;}
-  .back-btn{color:var(--gold);text-decoration:none;font-size:20px;padding:4px 8px 4px 0;}
-  .topbar-info{flex:1;}.topbar-title{font-size:14px;font-style:italic;color:var(--gold-light);}.topbar-sub{font-size:11px;color:var(--stone);letter-spacing:1px;}.topbar-progress{font-size:13px;color:var(--gold);font-weight:700;min-width:48px;text-align:right;}
-  .rule-card{margin:16px;background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(201,168,76,0.04));border:1px solid rgba(201,168,76,0.3);border-radius:16px;padding:16px;position:relative;overflow:hidden;}
-  .rule-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold-dark),var(--gold-light),var(--gold-dark));}
-  .rule-title{font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--gold-light);margin-bottom:10px;}
-  .rule-body{font-size:15px;color:var(--parchment-dark);line-height:1.7;}
-  .rule-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px;}
-  .rule-table th{background:rgba(201,168,76,0.15);color:var(--gold-light);padding:5px 8px;text-align:left;font-size:11px;font-weight:700;}
-  .rule-table td{padding:5px 8px;border-bottom:1px solid rgba(201,168,76,0.1);color:var(--parchment);}
-  .rule-table tr:last-child td{border-bottom:none;}
-  .rule-highlight{color:var(--gold-light);font-weight:700;}
-  .vocab-block{margin:12px 16px;background:rgba(0,0,0,0.2);border:1px solid rgba(201,168,76,0.15);border-radius:12px;overflow:hidden;}
-  .vocab-block-title{background:rgba(201,168,76,0.1);padding:8px 12px;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);}
-  .vocab-row{display:flex;padding:7px 12px;border-bottom:1px solid rgba(201,168,76,0.08);align-items:baseline;gap:8px;}
-  .vocab-row:last-child{border-bottom:none;}
-  .vocab-lat{font-size:16px;font-style:italic;color:var(--white);min-width:120px;flex-shrink:0;}
-  .vocab-gen{font-size:13px;color:var(--gold);min-width:70px;flex-shrink:0;}
-  .vocab-de{font-size:15px;color:var(--parchment-dark);flex:1;}
-  .question-card{margin:0 16px 16px;background:var(--ink-mid);border:1px solid rgba(201,168,76,0.15);border-radius:20px;padding:20px;animation:slideUp 0.3s ease;}
-  @keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-  .q-theme{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
-  .q-type-badge{display:inline-block;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:99px;padding:3px 10px;font-size:11px;color:var(--gold-light);margin-bottom:12px;}
-  .q-prompt{font-size:17px;color:var(--parchment);line-height:1.5;margin-bottom:14px;font-style:italic;}
-  .q-sentence{font-size:17px;color:var(--white);text-align:center;margin-bottom:16px;line-height:1.5;padding:12px;background:rgba(0,0,0,0.2);border-radius:12px;font-style:italic;}
-  .gap-options{display:flex;flex-direction:column;gap:10px;}
-  .gap-btn{background:rgba(255,255,255,0.04);border:1.5px solid rgba(201,168,76,0.25);border-radius:14px;padding:13px 15px;font-size:16px;font-family:'Georgia',serif;color:var(--parchment);cursor:pointer;text-align:left;transition:all 0.18s;display:flex;align-items:center;gap:10px;}
-  .gap-btn:active{transform:scale(0.97);}
-  .gap-btn.correct{background:rgba(76,175,125,0.15);border-color:var(--green-ok);color:var(--green-ok);}
-  .gap-btn.wrong{background:rgba(224,80,80,0.12);border-color:var(--red-wrong);color:var(--red-wrong);}
-  .gap-btn-letter{width:26px;height:26px;background:rgba(201,168,76,0.15);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--gold);flex-shrink:0;}
-  .tf-options{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-  .tf-btn{padding:16px;border-radius:16px;font-size:24px;text-align:center;border:2px solid rgba(201,168,76,0.2);background:rgba(255,255,255,0.03);cursor:pointer;transition:all 0.18s;}
-  .tf-btn:active{transform:scale(0.95);}
-  .tf-btn.correct{background:rgba(76,175,125,0.15);border-color:var(--green-ok);}
-  .tf-btn.wrong{background:rgba(224,80,80,0.12);border-color:var(--red-wrong);}
-  .match-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-  .match-col-labels{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px;}
-  .match-col-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-align:center;}
-  .match-item{background:rgba(255,255,255,0.04);border:1.5px solid rgba(201,168,76,0.2);border-radius:12px;padding:9px;font-size:13px;font-family:'Georgia',serif;color:var(--parchment);cursor:pointer;text-align:center;transition:all 0.18s;font-style:italic;min-height:42px;display:flex;align-items:center;justify-content:center;}
-  .match-item.selected{background:rgba(201,168,76,0.2);border-color:var(--gold);color:var(--gold-light);}
-  .match-item.matched{background:rgba(76,175,125,0.15);border-color:var(--green-ok);color:var(--green-ok);pointer-events:none;}
-  .match-item.wrong{background:rgba(224,80,80,0.12);border-color:var(--red-wrong);}
-  .match-item:active{transform:scale(0.96);}
-  .puzzle-target{min-height:50px;background:rgba(201,168,76,0.06);border:1.5px dashed rgba(201,168,76,0.35);border-radius:12px;padding:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:8px;}
-  .puzzle-source{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:12px;}
-  .tile{background:rgba(201,168,76,0.12);border:1.5px solid rgba(201,168,76,0.4);border-radius:10px;padding:7px 12px;font-size:14px;font-family:'Georgia',serif;color:var(--parchment);cursor:pointer;transition:all 0.15s;font-style:italic;}
-  .tile:active{transform:scale(0.93);}
-  .tile.used{opacity:0.25;pointer-events:none;}
-  .tile.placed{background:rgba(201,168,76,0.18);border-color:var(--gold);}
-  .swipe-card{background:linear-gradient(135deg,rgba(201,168,76,0.1),rgba(201,168,76,0.03));border:1.5px solid rgba(201,168,76,0.25);border-radius:20px;padding:22px 18px;text-align:center;margin-bottom:14px;font-size:17px;font-style:italic;color:var(--white);line-height:1.6;}
-  .swipe-buttons{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-  .swipe-btn{padding:14px;border-radius:16px;font-size:22px;border:2px solid;cursor:pointer;transition:all 0.18s;}
-  .swipe-btn.left{border-color:var(--red-wrong);background:rgba(224,80,80,0.08);}
-  .swipe-btn.right{border-color:var(--green-ok);background:rgba(76,175,125,0.08);}
-  .swipe-btn:active{transform:scale(0.95);}
-  .spotlight-sentence{font-size:18px;text-align:center;font-style:italic;color:var(--white);margin-bottom:16px;padding:14px;background:rgba(0,0,0,0.2);border-radius:12px;line-height:1.7;}
-  .spotlight-word{background:rgba(201,168,76,0.25);border:1.5px solid var(--gold);border-radius:6px;padding:2px 7px;color:var(--gold-light);font-style:normal;font-weight:700;}
-  .quiz-timer{text-align:center;margin-bottom:12px;}
-  .quiz-timer-bar-wrap{background:rgba(255,255,255,0.08);border-radius:99px;height:6px;overflow:hidden;margin-top:5px;}
-  .quiz-timer-bar{height:100%;background:linear-gradient(90deg,var(--gold-dark),var(--gold-light));border-radius:99px;transition:width 1s linear;}
-  .quiz-timer-num{font-size:13px;color:var(--gold);}
-  .feedback{margin-top:14px;padding:14px;border-radius:14px;font-size:14px;line-height:1.5;display:none;}
-  .feedback.correct{display:block;background:rgba(76,175,125,0.12);border:1px solid rgba(76,175,125,0.3);color:#7FD8A8;}
-  .feedback.wrong{display:block;background:rgba(224,80,80,0.08);border:1px solid rgba(224,80,80,0.25);color:#F0A0A0;}
-  .feedback-affirmation{font-size:15px;font-weight:700;margin-bottom:6px;}
-  .next-btn{width:100%;background:linear-gradient(135deg,var(--gold-dark),var(--gold));border:none;border-radius:14px;padding:15px;font-size:15px;font-family:'Georgia',serif;color:var(--ink);font-weight:700;cursor:pointer;margin-top:12px;letter-spacing:1px;display:none;transition:all 0.2s;}
-  .next-btn:active{transform:scale(0.98);}
-  .next-btn.visible{display:block;}
-  .check-btn{width:100%;background:rgba(201,168,76,0.15);border:1.5px solid rgba(201,168,76,0.4);border-radius:14px;padding:13px;font-size:15px;font-family:'Georgia',serif;color:var(--gold-light);cursor:pointer;margin-top:8px;transition:all 0.18s;}
-  .check-btn:active{background:rgba(201,168,76,0.25);}
-  .section-header{margin:16px 16px 0;padding:12px 14px;background:rgba(201,168,76,0.08);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;}
-  .section-header h2{font-size:16px;color:var(--gold-light);font-style:italic;}
-  .section-header p{font-size:14px;color:var(--stone);margin-top:2px;}
-  .completion{display:none;text-align:center;padding:40px 24px;}
-  .completion.visible{display:block;}
-  .completion-emoji{font-size:68px;margin-bottom:16px;animation:bounce 0.6s ease infinite alternate;}
-  @keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-12px)}}
-  .completion-title{font-size:26px;color:var(--gold-light);font-style:italic;margin-bottom:8px;}
-  .completion-score{font-size:44px;font-weight:700;color:var(--gold);margin:14px 0;}
-  .completion-stars{font-size:34px;margin-bottom:20px;letter-spacing:8px;}
-  .completion-msg{font-size:15px;color:var(--parchment-dark);line-height:1.6;font-style:italic;margin-bottom:28px;}
-  .home-btn{display:inline-block;background:linear-gradient(135deg,var(--gold-dark),var(--gold));border-radius:14px;padding:14px 28px;font-size:15px;font-family:'Georgia',serif;color:var(--ink);font-weight:700;text-decoration:none;}
-  .confetti-container{position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden;}
-  .confetti-piece{position:absolute;border-radius:2px;animation:confettiFall linear forwards;}
-  @keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
-
-  button:focus-visible,a:focus-visible{outline:3px solid #FFF1A8;outline-offset:3px;}
-  @media (prefers-reduced-motion:reduce){
-    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}
-    .completion-emoji{animation:none!important;}
+  :root{
+    --gold:#C9A84C;
+    --gold-light:#E8C96A;
+    --gold-dark:#8B6914;
+    --terracotta:#C0522B;
+    --ink:#1A1208;
+    --ink-mid:#2A1F0E;
+    --parchment:#F5EDD6;
+    --parchment-dark:#E8D9B5;
+    --stone:#8E8370;
+    --green-ok:#4CAF7D;
+    --red-wrong:#E05050;
+    --white:#FDFAF3;
   }
-  @media (max-width:380px){.vocab-row{align-items:flex-start;flex-wrap:wrap}.vocab-lat{min-width:100px}.vocab-gen{min-width:50px}}
 
-/* Magistrella: gut lesbare Antwortoptionen auf dunklem Hintergrund */
-.answer-btn,
-.option-btn,
-.choice-btn,
-.quiz-option,
-.answer-option,
-button.answer,
-button.option,
-.options button,
-.answers button,
-.choice,
-.option {
-  color: #fff !important;
-}
-.answer-btn *,
-.option-btn *,
-.choice-btn *,
-.quiz-option *,
-.answer-option *,
-button.answer *,
-button.option *,
-.options button *,
-.answers button *,
-.choice *,
-.option * {
-  color: #fff !important;
-}
+  *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+  }
 
+  body{
+    font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;
+    background:var(--ink);
+    color:var(--parchment);
+    min-height:100vh;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  button{font:inherit;}
+
+  .topbar{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:rgba(26,18,8,.96);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(201,168,76,.2);
+    padding:10px 16px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+
+  .back-btn{
+    color:var(--gold);
+    text-decoration:none;
+    font-size:20px;
+    padding:4px 8px 4px 0;
+  }
+
+  .topbar-info{flex:1;}
+
+  .topbar-title{
+    font-size:14px;
+    font-style:italic;
+    color:var(--gold-light);
+  }
+
+  .topbar-sub{
+    font-size:12px;
+    color:var(--stone);
+    letter-spacing:.6px;
+  }
+
+  .topbar-progress{
+    font-size:13px;
+    color:var(--gold);
+    font-weight:700;
+    min-width:48px;
+    text-align:right;
+  }
+
+  .lesson-intro{
+    margin:16px;
+    padding:18px;
+    border-radius:18px;
+    border:1px solid rgba(201,168,76,.25);
+    background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(201,168,76,.03));
+  }
+
+  .lesson-kicker{
+    font-size:12px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--gold);
+  }
+
+  .lesson-intro h1{
+    font-size:23px;
+    color:var(--gold-light);
+    margin:4px 0 8px;
+  }
+
+  .lesson-intro p{
+    color:var(--parchment-dark);
+    font-size:15px;
+  }
+
+  .lesson-goals{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-top:14px;
+  }
+
+  .goal-chip{
+    padding:8px 10px;
+    border-radius:10px;
+    font-size:13px;
+    color:var(--parchment-dark);
+    background:rgba(0,0,0,.18);
+    border:1px solid rgba(201,168,76,.16);
+  }
+
+  .rule-card{
+    margin:16px;
+    background:linear-gradient(135deg,rgba(245,237,214,.98),rgba(232,217,181,.95));
+    border:1px solid rgba(201,168,76,.55);
+    border-radius:16px;
+    padding:18px;
+    color:#261B0D;
+    position:relative;
+    overflow:hidden;
+  }
+
+  .rule-card::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:3px;
+    background:linear-gradient(90deg,var(--gold-dark),var(--gold-light),var(--gold-dark));
+  }
+
+  .rule-title{
+    font-size:12px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:#765207;
+    font-weight:800;
+    margin-bottom:10px;
+  }
+
+  .rule-body{
+    font-size:15px;
+    color:#312513;
+    line-height:1.7;
+  }
+
+  .rule-body strong{color:#745107;}
+
+  .rule-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+    font-size:13px;
+  }
+
+  .rule-table th{
+    background:rgba(139,105,20,.14);
+    color:#604407;
+    padding:6px 7px;
+    text-align:left;
+    font-size:11px;
+  }
+
+  .rule-table td{
+    padding:6px 7px;
+    border-bottom:1px solid rgba(80,55,5,.14);
+    color:#2E2110;
+  }
+
+  .rule-table tr:last-child td{border-bottom:none;}
+
+  .rule-highlight{
+    color:#684A06 !important;
+    font-weight:800;
+  }
+
+  .rule-example{
+    margin-top:12px;
+    padding:10px 12px;
+    background:rgba(255,255,255,.45);
+    border-left:3px solid var(--gold-dark);
+    border-radius:9px;
+  }
+
+  .section-header{
+    margin:16px 16px 0;
+    padding:12px 14px;
+    background:rgba(201,168,76,.08);
+    border-left:3px solid var(--gold);
+    border-radius:0 10px 10px 0;
+  }
+
+  .section-header h2{
+    font-size:16px;
+    color:var(--gold-light);
+  }
+
+  .section-header p{
+    font-size:14px;
+    color:var(--stone);
+    margin-top:2px;
+  }
+
+  .vocab-block{
+    margin:12px 16px;
+    background:rgba(0,0,0,.2);
+    border:1px solid rgba(201,168,76,.15);
+    border-radius:12px;
+    overflow:hidden;
+  }
+
+  .vocab-row{
+    display:flex;
+    padding:8px 12px;
+    border-bottom:1px solid rgba(201,168,76,.08);
+    align-items:baseline;
+    gap:8px;
+  }
+
+  .vocab-row:last-child{border-bottom:none;}
+
+  .vocab-lat{
+    font-size:16px;
+    font-style:italic;
+    color:var(--white);
+    min-width:120px;
+    flex-shrink:0;
+  }
+
+  .vocab-gen{
+    font-size:13px;
+    color:var(--gold);
+    min-width:76px;
+    flex-shrink:0;
+  }
+
+  .vocab-de{
+    font-size:15px;
+    color:var(--parchment-dark);
+    flex:1;
+  }
+
+  .question-card{
+    margin:0 16px 16px;
+    background:var(--ink-mid);
+    border:1px solid rgba(201,168,76,.15);
+    border-radius:20px;
+    padding:20px;
+    animation:slideUp .25s ease;
+  }
+
+  @keyframes slideUp{
+    from{opacity:0;transform:translateY(14px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+
+  .q-theme{
+    font-size:12px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:8px;
+  }
+
+  .q-type-badge{
+    display:inline-block;
+    background:rgba(201,168,76,.15);
+    border:1px solid rgba(201,168,76,.3);
+    border-radius:99px;
+    padding:4px 10px;
+    font-size:12px;
+    color:var(--gold-light);
+    margin-bottom:12px;
+  }
+
+  .q-prompt{
+    font-size:17px;
+    color:var(--parchment);
+    line-height:1.5;
+    margin-bottom:14px;
+  }
+
+  .q-sentence{
+    font-size:18px;
+    color:var(--white);
+    text-align:center;
+    margin-bottom:16px;
+    line-height:1.6;
+    padding:13px;
+    background:rgba(0,0,0,.2);
+    border-radius:12px;
+    font-style:italic;
+  }
+
+  .gap-options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .gap-btn{
+    background:rgba(255,255,255,.04);
+    border:1.5px solid rgba(201,168,76,.25);
+    border-radius:14px;
+    padding:13px 15px;
+    font-size:16px;
+    color:#fff;
+    cursor:pointer;
+    text-align:left;
+    transition:.15s;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+
+  .gap-btn:active{transform:scale(.98);}
+
+  .gap-btn.correct{
+    background:rgba(76,175,125,.15);
+    border-color:var(--green-ok);
+    color:#9BE6BC;
+  }
+
+  .gap-btn.wrong{
+    background:rgba(224,80,80,.12);
+    border-color:var(--red-wrong);
+    color:#FFB2B2;
+  }
+
+  .gap-btn-letter{
+    width:28px;
+    height:28px;
+    flex:0 0 28px;
+    background:rgba(201,168,76,.15);
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    font-weight:800;
+    color:var(--gold-light);
+  }
+
+  .match-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+  }
+
+  .match-col-labels{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-bottom:4px;
+  }
+
+  .match-col-label{
+    font-size:11px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--gold);
+    text-align:center;
+  }
+
+  .match-item{
+    background:rgba(255,255,255,.04);
+    border:1.5px solid rgba(201,168,76,.2);
+    border-radius:12px;
+    padding:9px;
+    font-size:14px;
+    color:#fff;
+    cursor:pointer;
+    text-align:center;
+    min-height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .match-item.selected{
+    background:rgba(201,168,76,.2);
+    border-color:var(--gold);
+    color:var(--gold-light);
+  }
+
+  .match-item.matched{
+    background:rgba(76,175,125,.15);
+    border-color:var(--green-ok);
+    color:#9BE6BC;
+    pointer-events:none;
+  }
+
+  .match-item.wrong{
+    background:rgba(224,80,80,.12);
+    border-color:var(--red-wrong);
+  }
+
+  .feedback{
+    margin-top:14px;
+    padding:14px;
+    border-radius:14px;
+    font-size:14px;
+    line-height:1.55;
+    display:none;
+  }
+
+  .feedback.correct{
+    display:block;
+    background:rgba(76,175,125,.12);
+    border:1px solid rgba(76,175,125,.3);
+    color:#8EE2B3;
+  }
+
+  .feedback.wrong{
+    display:block;
+    background:rgba(224,80,80,.09);
+    border:1px solid rgba(224,80,80,.28);
+    color:#F3B1B1;
+  }
+
+  .feedback-affirmation{
+    font-size:15px;
+    font-weight:800;
+    margin-bottom:5px;
+  }
+
+  .next-btn{
+    width:100%;
+    background:linear-gradient(135deg,var(--gold-dark),var(--gold));
+    border:none;
+    border-radius:14px;
+    padding:15px;
+    font-size:15px;
+    color:var(--ink);
+    font-weight:800;
+    cursor:pointer;
+    margin-top:12px;
+    display:none;
+  }
+
+  .next-btn.visible{display:block;}
+
+  .next-btn:active{transform:scale(.98);}
+
+  .completion{
+    display:none;
+    text-align:center;
+    padding:40px 24px;
+  }
+
+  .completion.visible{display:block;}
+
+  .completion-emoji{
+    font-size:62px;
+    margin-bottom:14px;
+  }
+
+  .completion-title{
+    font-size:26px;
+    color:var(--gold-light);
+    margin-bottom:8px;
+  }
+
+  .completion-score{
+    font-size:42px;
+    font-weight:800;
+    color:var(--gold);
+    margin:14px 0;
+  }
+
+  .completion-stars{
+    font-size:32px;
+    margin-bottom:18px;
+    letter-spacing:6px;
+  }
+
+  .completion-msg{
+    font-size:15px;
+    color:var(--parchment-dark);
+    line-height:1.6;
+    margin:0 auto 28px;
+    max-width:500px;
+  }
+
+  .home-btn{
+    display:inline-block;
+    background:linear-gradient(135deg,var(--gold-dark),var(--gold));
+    border-radius:14px;
+    padding:14px 28px;
+    font-size:15px;
+    color:var(--ink);
+    font-weight:800;
+    text-decoration:none;
+  }
+
+  button:focus-visible,
+  a:focus-visible{
+    outline:3px solid #FFF1A8;
+    outline-offset:3px;
+  }
+
+  @media(max-width:500px){
+    .lesson-goals{grid-template-columns:1fr;}
+
+    .vocab-row{
+      flex-wrap:wrap;
+      align-items:flex-start;
+    }
+
+    .vocab-lat{min-width:105px;}
+
+    .rule-table{font-size:12px;}
+
+    .rule-table th,
+    .rule-table td{
+      padding:5px 4px;
+    }
+  }
+
+  @media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{
+      animation-duration:.01ms!important;
+      transition-duration:.01ms!important;
+    }
+  }
 </style>
 </head>
+
 <body>
+
 <div class="topbar">
-  <a class="back-btn" href="../index.html" aria-label="Zurück zur Übersicht">&#8592;</a>
+  <a class="back-btn" href="../index.html" aria-label="Zurück zur Übersicht">←</a>
+
   <div class="topbar-info">
-    <div class="topbar-title">L02 &middot; M&ouml;hren weisen den Weg</div>
-    <div class="topbar-sub">&#127963; Magistrella &middot; Latein</div>
+    <div class="topbar-title">L02 · Nominativ & Akkusativ · Satzglieder</div>
+    <div class="topbar-sub">Magistrella · Latein-Grammatiktrainer</div>
   </div>
-  <div class="topbar-progress" id="progressLabel">1/15</div>
+
+  <div class="topbar-progress" id="progressLabel">1/18</div>
 </div>
+
 <div id="mainContent"></div>
+
 <div class="completion" id="completionScreen">
-  <div class="completion-emoji">&#129365;</div>
+  <div class="completion-emoji">🏆</div>
   <div class="completion-title">Lektion abgeschlossen!</div>
   <div class="completion-score" id="finalScore">--</div>
-  <div class="completion-stars" id="finalStars">&#11088;&#11088;&#11088;</div>
+  <div class="completion-stars" id="finalStars">★★★</div>
   <div class="completion-msg" id="finalMsg"></div>
-  <a class="home-btn" href="../index.html">&#8592; Zur&uuml;ck zur &Uuml;bersicht</a>
+
+  <a class="home-btn" href="../index.html">← Zurück zur Übersicht</a>
 </div>
-<div class="confetti-container" id="confettiContainer"></div>
+
 <script>
 "use strict";
 
-// ═══════════════════════════════════════════════════
-// VOKABELPOOL — Latein L02, direkt aus Fotos
-// ═══════════════════════════════════════════════════
+/* =====================================================
+   L02 – GRAMMATISCHER SCOPE
+
+   Wiederholung:
+   - Singular / Plural
+   - 3. Person Singular / Plural
+   - Kongruenz
+
+   Neu:
+   - Nominativ vs. Akkusativ
+   - Akkusativ Singular / Plural
+   - Kasus + Numerus bestimmen
+   - a-, o- und 3. Deklination
+   - Akkusativobjekt
+   - Präposition + Akkusativ
+   - Objekt vs. Adverbiale
+   - lateinische vs. deutsche Wortstellung
+===================================================== */
+
 var POOL = [
-  // Block 1
-  { lat: "ad",                gen: "Pr\u00e4p. m. Akk.", de: "zu, bei, nach",              type: "praep" },
-  { lat: "proper\u0101re",    gen: "properat",           de: "eilen, sich beeilen",         type: "verb" },
-  { lat: "forum",             gen: "forum n",            de: "das Forum, der Marktplatz",   type: "nomen" },
-  { lat: "circus",            gen: "circum m",           de: "der Zirkus, die Rennbahn",    type: "nomen" },
-  { lat: "di\u016B",          gen: "Adv.",               de: "lange, lange Zeit",           type: "adv" },
-  // Block 2
-  { lat: "am\u012Bcus",       gen: "am\u012Bcum m",      de: "der Freund",                  type: "nomen" },
-  { lat: "am\u012Bca",        gen: "am\u012Bcam f",      de: "die Freundin",                type: "nomen" },
-  { lat: "per",               gen: "Pr\u00e4p. m. Akk.", de: "durch",                      type: "praep" },
-  { lat: "via",               gen: "viam f",             de: "der Weg, die Stra\u00dfe",    type: "nomen" },
-  { lat: "reperire",          gen: "reperit",            de: "finden, wiederfinden",        type: "verb" },
-  { lat: "aud\u012Bre",       gen: "audit",              de: "h\u00f6ren",                  type: "verb" },
-  { lat: "itaque",            gen: "",                   de: "deshalb",                     type: "adv" },
-  { lat: "iterum",            gen: "Adv.",               de: "wieder(um), zum zweiten Mal", type: "adv" },
-  { lat: "iam",               gen: "Adv.",               de: "schon, bereits, nun",         type: "adv" },
-  { lat: "exspect\u0101re",   gen: "exspectat",          de: "warten, erwarten",            type: "verb" },
-  { lat: "narr\u0101re",      gen: "narrat",             de: "erz\u00e4hlen",               type: "verb" },
-  { lat: "subito",            gen: "Adv.",               de: "pl\u00f6tzlich",              type: "adv" },
-  { lat: "n\u014Dn iam",      gen: "",                   de: "nicht mehr",                  type: "adv" },
-  { lat: "i\u014D!",          gen: "",                   de: "Hurra! Ha! Ach!",             type: "adv" },
-  { lat: "n\u014Ds",          gen: "Akk.",               de: "uns",                         type: "pron" },
-  { lat: "adiuv\u0101re",     gen: "adiuvat",            de: "helfen, unterst\u00fctzen",   type: "verb" },
-  { lat: "voc\u0101re",       gen: "vocat",              de: "rufen, nennen",               type: "verb" },
-  { lat: "statim",            gen: "Adv.",               de: "sofort, auf der Stelle",      type: "adv" },
-  // Block 3
-  { lat: "aedificium",        gen: "aedificium n",       de: "das Geb\u00e4ude, das Haus",  type: "nomen" },
-  { lat: "bene",              gen: "Adv.",               de: "gut",                         type: "adv" },
-  { lat: "taberna",           gen: "tabernam f",         de: "das Gasthaus, der Laden",     type: "nomen" },
-  { lat: "sen\u0101tor",      gen: "sen\u0101t\u014Drem m", de: "der Senator",              type: "nomen" },
-  { lat: "ecce!",             gen: "",                   de: "Schau! Sieh da! Seht da!",    type: "adv" },
-  { lat: "ante",              gen: "Pr\u00e4p. m. Akk.", de: "vor",                        type: "praep" },
-  { lat: "semper",            gen: "Adv.",               de: "immer",                       type: "adv" },
-  { lat: "b\u0113stia",       gen: "b\u0113stiam f",     de: "das Tier",                    type: "nomen" },
-  { lat: "Capit\u014Dlium",   gen: "n",                  de: "das Kapitol",                 type: "eigen" },
-  { lat: "Circus Maximus",    gen: "m",                  de: "Circus Maximus (Rennbahn)",   type: "eigen" },
-  { lat: "Colos\u015D\u0113um", gen: "n",                de: "das Kolosseum",               type: "eigen" },
-  { lat: "Iuppiter",          gen: "Iovem m",            de: "Jupiter (h\u00f6chster Gott)", type: "eigen" }
+  {lat:"ad",gen:"Präp. + Akk.",de:"zu, bei, nach",type:"praep"},
+  {lat:"properāre",gen:"properat",de:"eilen, sich beeilen",type:"verb"},
+  {lat:"forum",gen:"forum n",de:"das Forum, der Marktplatz",type:"nomen"},
+  {lat:"circus",gen:"circum m",de:"der Zirkus, die Rennbahn",type:"nomen"},
+  {lat:"diū",gen:"Adv.",de:"lange, lange Zeit",type:"adv"},
+
+  {lat:"amīcus",gen:"amīcum m",de:"der Freund",type:"nomen"},
+  {lat:"amīca",gen:"amīcam f",de:"die Freundin",type:"nomen"},
+  {lat:"per",gen:"Präp. + Akk.",de:"durch",type:"praep"},
+  {lat:"via",gen:"viam f",de:"der Weg, die Straße",type:"nomen"},
+  {lat:"reperīre",gen:"reperit",de:"finden, wiederfinden",type:"verb"},
+  {lat:"audīre",gen:"audit",de:"hören",type:"verb"},
+  {lat:"itaque",gen:"",de:"deshalb",type:"adv"},
+  {lat:"iterum",gen:"Adv.",de:"wieder, zum zweiten Mal",type:"adv"},
+  {lat:"iam",gen:"Adv.",de:"schon, bereits, nun",type:"adv"},
+  {lat:"exspectāre",gen:"exspectat",de:"warten, erwarten",type:"verb"},
+  {lat:"narrāre",gen:"narrat",de:"erzählen",type:"verb"},
+  {lat:"subitō",gen:"Adv.",de:"plötzlich",type:"adv"},
+  {lat:"nōn iam",gen:"",de:"nicht mehr",type:"adv"},
+  {lat:"iō!",gen:"",de:"Hurra! Ha! Ach!",type:"adv"},
+  {lat:"nōs",gen:"Akk.",de:"uns",type:"pron"},
+  {lat:"adiuvāre",gen:"adiuvat",de:"helfen, unterstützen",type:"verb"},
+  {lat:"vocāre",gen:"vocat",de:"rufen, nennen",type:"verb"},
+  {lat:"statim",gen:"Adv.",de:"sofort, auf der Stelle",type:"adv"},
+
+  {lat:"aedificium",gen:"aedificium n",de:"das Gebäude, das Haus",type:"nomen"},
+  {lat:"bene",gen:"Adv.",de:"gut",type:"adv"},
+  {lat:"taberna",gen:"tabernam f",de:"das Gasthaus, der Laden",type:"nomen"},
+  {lat:"senātor",gen:"senātōrem m",de:"der Senator",type:"nomen"},
+  {lat:"ecce!",gen:"",de:"Schau! Sieh da! Seht da!",type:"adv"},
+  {lat:"ante",gen:"Präp. + Akk.",de:"vor",type:"praep"},
+  {lat:"semper",gen:"Adv.",de:"immer",type:"adv"},
+  {lat:"bēstia",gen:"bēstiam f",de:"das Tier",type:"nomen"},
+  {lat:"Capitōlium",gen:"n",de:"das Kapitol",type:"eigen"},
+  {lat:"Circus Maximus",gen:"m",de:"Circus Maximus",type:"eigen"},
+  {lat:"Colossēum",gen:"n",de:"das Kolosseum",type:"eigen"},
+  {lat:"Iuppiter",gen:"Iovem m",de:"Jupiter",type:"eigen"}
 ];
 
-// ═══════════════════════════════════════════════════
-// GESICHERTE MUSTERSÄTZE AUS Latein (nur aus Fotos!)
-// ═══════════════════════════════════════════════════
-var MUSTERSAETZE = [
-  { lat: "Am\u012Bc\u012B per forum properant.",
-    de: "Die Freunde eilen durch das Forum.",
-    subj: "Am\u012Bc\u012B", verb: "properant",
-    praep: "per", praep_de: "durch" },
-  { lat: "D\u0101vus ad dominum venit.",
-    de: "Davus kommt zum Herrn.",
-    subj: "D\u0101vus", verb: "venit",
-    praep: "ad", praep_de: "zu" },
-  { lat: "D\u0101vus ad Colosso\u0113um stat.",
-    de: "Davus steht beim Kolosseum.",
-    subj: "D\u0101vus", verb: "stat",
-    praep: "ad", praep_de: "bei/zum" },
-  { lat: "C\u016Br servus n\u014Dn properat?",
-    de: "Warum beeilt sich der Sklave nicht?",
-    subj: "servus", verb: "properat",
-    praep: null },
-  { lat: "Serva ad Colosso\u0113um properat.",
-    de: "Die Sklavin eilt zum Kolosseum.",
-    subj: "Serva", verb: "properat",
-    praep: "ad", praep_de: "zum" },
-  { lat: "D\u0101vus ibi di\u016B exspectat.",
-    de: "Davus wartet dort lange.",
-    subj: "D\u0101vus", verb: "exspectat",
-    praep: null },
-  { lat: "Serva am\u012Bcam adiuvat.",
-    de: "Die Sklavin hilft der Freundin.",
-    subj: "Serva", verb: "adiuvat",
-    praep: null }
+var NOUN_FORMS = [
+  {nomSg:"serva",nomPl:"servae",akkSg:"servam",akkPl:"servās",decl:"a-Deklination",genus:"f",de:"Sklavin"},
+  {nomSg:"amīca",nomPl:"amīcae",akkSg:"amīcam",akkPl:"amīcās",decl:"a-Deklination",genus:"f",de:"Freundin"},
+  {nomSg:"domina",nomPl:"dominae",akkSg:"dominam",akkPl:"dominās",decl:"a-Deklination",genus:"f",de:"Herrin"},
+
+  {nomSg:"servus",nomPl:"servī",akkSg:"servum",akkPl:"servōs",decl:"o-Deklination",genus:"m",de:"Sklave"},
+  {nomSg:"amīcus",nomPl:"amīcī",akkSg:"amīcum",akkPl:"amīcōs",decl:"o-Deklination",genus:"m",de:"Freund"},
+  {nomSg:"dominus",nomPl:"dominī",akkSg:"dominum",akkPl:"dominōs",decl:"o-Deklination",genus:"m",de:"Herr"},
+  {nomSg:"equus",nomPl:"equī",akkSg:"equum",akkPl:"equōs",decl:"o-Deklination",genus:"m",de:"Pferd"},
+
+  {nomSg:"frūmentum",nomPl:"frūmenta",akkSg:"frūmentum",akkPl:"frūmenta",decl:"o-Deklination",genus:"n",de:"Getreide"},
+  {nomSg:"aedificium",nomPl:"aedificia",akkSg:"aedificium",akkPl:"aedificia",decl:"o-Deklination",genus:"n",de:"Gebäude"},
+
+  {nomSg:"mercātor",nomPl:"mercātōrēs",akkSg:"mercātōrem",akkPl:"mercātōrēs",decl:"3. Deklination",genus:"m",de:"Händler"},
+  {nomSg:"victor",nomPl:"victōrēs",akkSg:"victōrem",akkPl:"victōrēs",decl:"3. Deklination",genus:"m",de:"Sieger"},
+  {nomSg:"senātor",nomPl:"senātōrēs",akkSg:"senātōrem",akkPl:"senātōrēs",decl:"3. Deklination",genus:"m",de:"Senator"}
 ];
 
-// Genau hinschauen: Subjekte aus echten Mustersätzen
-var SPOTLIGHT_SAETZE = [
-  { sentence: "Am\u012Bc\u012B per forum properant.", spotWord: "Am\u012Bc\u012B", correct: true,
-    affirmation: "Ita! Am\u012Bc\u012B = Nominativ Plural (Endung -\u012B) = Subjekt! \ud83c\udfaf",
-    wrongMsg: "Am\u012Bc\u012B ist Nominativ Plural \u2014 die Freunde eilen." },
-  { sentence: "D\u0101vus ad Colosso\u0113um stat.", spotWord: "D\u0101vus", correct: true,
-    affirmation: "Ita! D\u0101vus = Nominativ (Endung -us) = Subjekt! \ud83c\udfaf",
-    wrongMsg: "D\u0101vus ist Nominativ Singular \u2014 er steht beim Kolosseum." },
-  { sentence: "Serva am\u012Bcam adiuvat.", spotWord: "Serva", correct: true,
-    affirmation: "Ita! Serva = Nominativ (Endung -a) = Subjekt! \ud83c\udfaf",
-    wrongMsg: "Serva ist Nominativ Singular (a-Deklination, Endung -a) = Subjekt." },
-  { sentence: "Serva am\u012Bcam adiuvat.", spotWord: "am\u012Bcam", correct: false,
-    affirmation: "Richtig erkannt! am\u012Bcam ist NICHT der Nominativ \u2014 Endung -am zeigt Akkusativ! \ud83c\udfaf",
-    wrongMsg: "am\u012Bcam endet auf -am = Akkusativ (Objekt), nicht Nominativ (Subjekt)." }
-];
+var RULE_NOM_AKK = `
+<div class="rule-title">Regel · Nominativ und Akkusativ</div>
+<div class="rule-body">
 
-// Pr\u00e4positions-Fragen: nur aus echten Mustersätzen
-var PRAEP_FRAGEN = [
-  { sentence: "Am\u012Bc\u012B _____ forum properant.", blank: "_____",
-    correct: "per", opts: ["per","ad","ante"],
-    hint: "per forum = durch das Forum (aus Latein)" },
-  { sentence: "D\u0101vus _____ dominum venit.", blank: "_____",
-    correct: "ad", opts: ["ad","per","ante"],
-    hint: "ad dominum = zum Herrn (aus Latein)" },
-  { sentence: "Serva _____ Colosso\u0113um properat.", blank: "_____",
-    correct: "ad", opts: ["ad","ante","per"],
-    hint: "ad Colosso\u0113um = zum Kolosseum (aus Latein)" }
-];
+<strong>Nominativ</strong>: Wer oder was handelt? → häufig das Subjekt.
 
-// Puzzle: nur Subjekt + Verb aus echten Mustersätzen (2 Wörter!)
-var PUZZLE_SAETZE = [
-  { subj:"Amīcī", tiles:["Amīcī","per","forum","properant."], de:"Die Freunde eilen durch das Forum." },
-  { subj:"Dāvus", tiles:["Dāvus","ad","dominum","venit."], de:"Davus kommt zum Herrn." },
-  { subj:"Serva", tiles:["Serva","ad","Colossoēum","properat."], de:"Die Sklavin eilt zum Kolosseum." },
-  { subj:"Dāvus", tiles:["Dāvus","ibi","diū","exspectat."], de:"Davus wartet dort lange." },
-  { subj:"Serva", tiles:["Serva","amīcam","adiuvat."], de:"Die Sklavin hilft der Freundin." }
-];
+<br><br>
 
-// ═══════════════════════════════════════════════════
-// REGELKARTEN
-// ═══════════════════════════════════════════════════
-var RULE_PRAEP = "<div class=\"rule-title\">\ud83d\udccb Regelkarte \u00b7 Pr\u00e4positionen + Akkusativ</div><div class=\"rule-body\">Diese Pr\u00e4positionen verlangen den <strong style=\"color:var(--gold-light)\">Akkusativ</strong>:<table class=\"rule-table\"><tr><th>Pr\u00e4p.</th><th>Bedeutung</th><th>Beispiel (aus Latein)</th></tr><tr><td class=\"rule-highlight\">ad</td><td>zu, bei</td><td>ad dominum</td></tr><tr><td class=\"rule-highlight\">per</td><td>durch</td><td>per forum</td></tr><tr><td class=\"rule-highlight\">ante</td><td>vor</td><td>ante aedificium</td></tr></table><br><em style=\"color:var(--parchment-dark)\">Am\u012Bc\u012B per forum properant.</em><br>\u2192 Die Freunde eilen durch das Forum.<br><br><em style=\"color:var(--parchment-dark)\">D\u0101vus ad dominum venit.</em><br>\u2192 Davus kommt zum Herrn.</div>";
+<strong>Akkusativ</strong>: Wen oder was betrifft die Handlung? → kann ein Akkusativobjekt sein.
 
-var RULE_NOM_AKK = "<div class=\"rule-title\">\ud83d\udccb Regelkarte \u00b7 Nominativ & Akkusativ</div><div class=\"rule-body\"><strong style=\"color:var(--gold)\">Nominativ</strong> = Subjekt (wer handelt?)<br><strong style=\"color:var(--gold)\">Akkusativ</strong> = Objekt (wen/was?)<br><br><table class=\"rule-table\"><tr><th></th><th>a-Dek. (f)</th><th>o-Dek. (m)</th></tr><tr><td>Nom. Sg.</td><td>am\u012Bca</td><td>am\u012Bcus</td></tr><tr><td class=\"rule-highlight\">Akk. Sg.</td><td class=\"rule-highlight\">am\u012Bc<u>am</u></td><td class=\"rule-highlight\">am\u012Bc<u>um</u></td></tr></table><br><em style=\"color:var(--parchment-dark)\">Serva am\u012Bcam adiuvat.</em><br>\u2192 Serva (Nom.) hilft am\u012Bcam (Akk.).</div>";
+<table class="rule-table">
+<tr>
+<th></th>
+<th>Nom. Sg.</th>
+<th>Akk. Sg.</th>
+<th>Nom. Pl.</th>
+<th>Akk. Pl.</th>
+</tr>
 
-// ═══════════════════════════════════════════════════
-// HILFSFUNKTIONEN
-// ═══════════════════════════════════════════════════
-function shuffle(arr) {
-  var a = arr.slice();
-  for (var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}
+<tr>
+<td>a-Dekl.</td>
+<td>serva</td>
+<td class="rule-highlight">servam</td>
+<td>servae</td>
+<td class="rule-highlight">servās</td>
+</tr>
+
+<tr>
+<td>o-Dekl. m.</td>
+<td>servus</td>
+<td class="rule-highlight">servum</td>
+<td>servī</td>
+<td class="rule-highlight">servōs</td>
+</tr>
+
+<tr>
+<td>o-Dekl. n.</td>
+<td>frūmentum</td>
+<td class="rule-highlight">frūmentum</td>
+<td>frūmenta</td>
+<td class="rule-highlight">frūmenta</td>
+</tr>
+
+<tr>
+<td>3. Dekl.</td>
+<td>mercātor</td>
+<td class="rule-highlight">mercātōrem</td>
+<td>mercātōrēs</td>
+<td class="rule-highlight">mercātōrēs</td>
+</tr>
+</table>
+
+<div class="rule-example">
+<strong>Wichtig beim Neutrum:</strong><br>
+Nominativ und Akkusativ sehen gleich aus.<br>
+frūmentum → Nom. Sg. oder Akk. Sg.<br>
+frūmenta → Nom. Pl. oder Akk. Pl.
+</div>
+
+</div>`;
+
+var RULE_PRAEP = `
+<div class="rule-title">Regel · Präposition + Akkusativ</div>
+<div class="rule-body">
+
+Diese Präpositionen verlangen in L02 den <strong>Akkusativ</strong>:
+
+<table class="rule-table">
+<tr><th>Präposition</th><th>Bedeutung</th><th>Beispiel</th></tr>
+<tr><td class="rule-highlight">ad</td><td>zu, nach, bei</td><td>ad dominum</td></tr>
+<tr><td class="rule-highlight">per</td><td>durch</td><td>per forum</td></tr>
+<tr><td class="rule-highlight">ante</td><td>vor</td><td>ante aedificium</td></tr>
+</table>
+
+<div class="rule-example">
+Amīcī <strong>per forum</strong> properant.<br>
+→ Die Freunde eilen <strong>durch das Forum</strong>.
+</div>
+
+</div>`;
+
+var RULE_OBJEKT_ADVERBIALE = `
+<div class="rule-title">Regel · Objekt oder Adverbiale?</div>
+<div class="rule-body">
+
+Nicht jeder Akkusativ ist automatisch ein Objekt.
+
+<br><br>
+
+<strong>Akkusativobjekt:</strong><br>
+Populus <strong>equōs</strong> exspectat.<br>
+→ Wen oder was erwartet das Volk?<br>
+→ die Pferde
+
+<br><br>
+
+<strong>Präposition + Akkusativ:</strong><br>
+Equī <strong>per circum</strong> properant.<br>
+→ durch den Circus
+
+<br><br>
+
+Diese Wortgruppe beschreibt hier den Weg und gehört zu einer <strong>Adverbiale</strong>.
+
+</div>`;
+
+var RULE_KONGRUENZ = `
+<div class="rule-title">Wiederholung · Kongruenz</div>
+<div class="rule-body">
+
+Subjekt und Prädikat müssen im Numerus zusammenpassen.
+
+<div class="rule-example">
+Amīcus <strong>clāmat</strong>.<br>
+→ Singular
+
+<br><br>
+
+Victōrēs <strong>veniunt</strong>.<br>
+→ Plural
+</div>
+
+<strong>-t → Singular</strong><br>
+<strong>-nt → Plural</strong>
+
+</div>`;
+
+var RULE_WORD_ORDER = `
+<div class="rule-title">Übersetzungsstrategie · Wortstellung</div>
+<div class="rule-body">
+
+Latein und Deutsch haben nicht immer dieselbe Wortstellung.
+
+<br><br>
+
+Im lateinischen Hauptsatz steht das Prädikat häufig weiter hinten oder am Satzende.
+
+<br><br>
+
+Im deutschen Aussagesatz steht die finite Verbform normalerweise an <strong>zweiter Stelle</strong>.
+
+<div class="rule-example">
+Amīcī per forum properant.<br>
+→ Die Freunde <strong>eilen</strong> durch das Forum.
+</div>
+
+<strong>Übersetze daher nicht einfach Wort für Wort in derselben Reihenfolge.</strong>
+
+</div>`;
+
+function shuffle(arr){
+  var a=arr.slice();
+  for(var i=a.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var temp=a[i];
+    a[i]=a[j];
+    a[j]=temp;
+  }
   return a;
 }
 
-// ═══════════════════════════════════════════════════
-// DYNAMISCHE FRAGENGENERATOREN
-// ═══════════════════════════════════════════════════
-function genMatchVocab(items) {
-  var picked = shuffle(items).slice(0,4);
-  return { type:"match", showRule:null, theme:"\ud83d\udd17 Vokabeln zuordnen", prompt:"Verbinde Latein mit Deutsch!", leftTitle:"Latein", rightTitle:"Deutsch",
-    pairs:picked.map(function(v){return[v.lat,v.de];}),
-    affirmation:"Magnifice! Alle richtig! \ud83c\udfc6", wrongMsg:"Schau nochmal in die Vokabelliste oben." };
+function one(arr){
+  return arr[Math.floor(Math.random()*arr.length)];
 }
 
-function genSwipeVocab(pool) {
-  var v=shuffle(pool)[0];
-  var ok=Math.random()>0.5;
-  var disp=ok?v.de:shuffle(pool.filter(function(x){return x.lat!==v.lat;}))[0].de;
-  return { type:"swipe", showRule:null, theme:"\ud83d\udc4b Bedeutung pr\u00fcfen", prompt:"Stimmt die \u00dcbersetzung?",
-    sentence:v.lat+"\n= "+disp, correct:ok,
-    affirmation:"Ita! "+v.lat+" = "+v.de+" \u2705",
-    wrongMsg:v.lat+" = "+v.de+". Merke dir die Vokabel!" };
+function unique(arr){
+  return arr.filter(function(v,i,a){
+    return a.indexOf(v)===i;
+  });
 }
 
-function genQuickQuiz(pool) {
-  var s=shuffle(pool); var t=s[0];
-  var d=s.slice(1,4).map(function(v){return v.de;});
-  var opts=shuffle([t.de].concat(d));
-  return { type:"quickQuiz", showRule:null, theme:"\u26a1 Quick Quiz",
-    prompt:"Was bedeutet \u201e"+t.lat+"\u201c?", options:opts, correct:opts.indexOf(t.de),
-    affirmation:"Ita! "+t.lat+" = "+t.de+" \ud83c\udfaf",
-    wrongMsg:t.lat+" = "+t.de+". Merke dir diese Vokabel!" };
+function genMatchVocab(pool){
+  var picked=shuffle(pool).slice(0,4);
+
+  return{
+    type:"match",
+    showRule:null,
+    theme:"Vokabeln",
+    prompt:"Verbinde Latein mit der passenden deutschen Bedeutung.",
+    leftTitle:"Latein",
+    rightTitle:"Deutsch",
+    pairs:picked.map(function(v){return [v.lat,v.de];}),
+    affirmation:"Alle vier Zuordnungen stimmen.",
+    wrongMsg:"Prüfe die Bedeutungen noch einmal."
+  };
 }
 
-function genTrueFalseVocab(pool) {
-  var v=shuffle(pool)[0]; var ok=Math.random()>0.5;
-  var claim=ok?v.de:shuffle(pool.filter(function(x){return x.lat!==v.lat;}))[0].de;
-  return { type:"trueFalse", showRule:null, theme:"\u2705\u274c Wahr oder Falsch?", prompt:"Richtig oder falsch?",
-    sentence:"\u201e"+v.lat+"\u201c bedeutet: "+claim, correct:ok,
-    affirmation:"Ita! "+v.lat+" = "+v.de+" \u2705",
-    wrongMsg:v.lat+" = "+v.de+". Merke dir diese Vokabel!" };
+function genAkkusativForm(){
+  var n=one(NOUN_FORMS);
+  var plural=Math.random()>.5;
+  var correct=plural?n.akkPl:n.akkSg;
+
+  var candidatePool=unique(
+    [n.nomSg,n.nomPl,n.akkSg,n.akkPl].concat(
+      NOUN_FORMS.map(function(x){
+        return plural?x.akkPl:x.akkSg;
+      })
+    )
+  );
+
+  candidatePool=candidatePool.filter(function(x){
+    return x!==correct;
+  });
+
+  var opts=shuffle([correct].concat(shuffle(candidatePool).slice(0,2)));
+
+  return{
+    type:"gap",
+    showRule:RULE_NOM_AKK,
+    theme:"Akkusativ bilden",
+    prompt:plural
+      ?"Welche Form ist der Akkusativ Plural?"
+      :"Welche Form ist der Akkusativ Singular?",
+    sentence:n.nomSg+" · "+n.de,
+    blank:null,
+    options:opts,
+    correct:opts.indexOf(correct),
+    affirmation:correct+" ist der Akkusativ "+(plural?"Plural":"Singular")+".",
+    wrongMsg:"Gesucht war "+correct+"."
+  };
 }
 
-function genPraepGap() {
-  var f=shuffle(PRAEP_FRAGEN)[0];
-  var opts=shuffle(f.opts);
-  return { type:"gap", showRule:RULE_PRAEP, theme:"\ud83c\udfd9 Pr\u00e4position w\u00e4hlen",
-    prompt:"Welche Pr\u00e4position passt? (aus Latein)", sentence:f.sentence, blank:f.blank,
-    options:opts, correct:opts.indexOf(f.correct),
-    affirmation:"Ita! "+f.correct+" \u2014 "+f.hint+"! \ud83c\udfd9",
-    wrongMsg:f.hint+". Alle drei (ad, per, ante) verlangen den Akkusativ." };
+function genKasusNumerus(){
+  var all=[];
+
+  NOUN_FORMS.forEach(function(n){
+    var candidates=[
+      {form:n.nomSg,label:"Nominativ Singular"},
+      {form:n.nomPl,label:"Nominativ Plural"},
+      {form:n.akkSg,label:"Akkusativ Singular"},
+      {form:n.akkPl,label:"Akkusativ Plural"}
+    ];
+
+    candidates.forEach(function(c){
+      var same=candidates.filter(function(x){
+        return x.form===c.form;
+      });
+
+      if(same.length===1){
+        all.push(c);
+      }
+    });
+  });
+
+  var target=one(all);
+
+  var opts=shuffle([
+    "Nominativ Singular",
+    "Nominativ Plural",
+    "Akkusativ Singular",
+    "Akkusativ Plural"
+  ]);
+
+  return{
+    type:"gap",
+    showRule:RULE_NOM_AKK,
+    theme:"Kasus und Numerus",
+    prompt:"Bestimme Kasus und Numerus dieser Form.",
+    sentence:target.form,
+    blank:null,
+    options:opts,
+    correct:opts.indexOf(target.label),
+    affirmation:target.form+" = "+target.label+".",
+    wrongMsg:"Diese Form ist hier als "+target.label+" eindeutig bestimmbar."
+  };
 }
 
-function genGenauHinschauen() {
-  var s=shuffle(SPOTLIGHT_SAETZE)[0];
-  return { type:"spotlight", showRule:RULE_NOM_AKK, theme:"\ud83c\udfaf Subjekt erkennen",
-    prompt:"Ist das markierte Wort das Subjekt (Nominativ)?",
-    sentence:s.sentence, spotWord:s.spotWord, correct:s.correct,
-    affirmation:s.affirmation, wrongMsg:s.wrongMsg };
+function genNeutrum(){
+  var questions=[
+    {
+      sentence:"frūmentum",
+      correct:"Nominativ Singular oder Akkusativ Singular",
+      options:[
+        "Nominativ Singular oder Akkusativ Singular",
+        "nur Akkusativ Singular",
+        "Nominativ Plural"
+      ]
+    },
+    {
+      sentence:"frūmenta",
+      correct:"Nominativ Plural oder Akkusativ Plural",
+      options:[
+        "Nominativ Plural oder Akkusativ Plural",
+        "nur Nominativ Plural",
+        "Akkusativ Singular"
+      ]
+    },
+    {
+      sentence:"aedificium",
+      correct:"Nominativ Singular oder Akkusativ Singular",
+      options:[
+        "Nominativ Singular oder Akkusativ Singular",
+        "Akkusativ Plural",
+        "Nominativ Plural"
+      ]
+    }
+  ];
+
+  var q=one(questions);
+  var opts=shuffle(q.options);
+
+  return{
+    type:"gap",
+    showRule:RULE_NOM_AKK,
+    theme:"Neutrum",
+    prompt:"Welche Bestimmung ist ohne Satzkontext möglich?",
+    sentence:q.sentence,
+    blank:null,
+    options:opts,
+    correct:opts.indexOf(q.correct),
+    affirmation:"Richtig. Beim Neutrum sind Nominativ und Akkusativ formgleich.",
+    wrongMsg:"Beim Neutrum sehen Nominativ und Akkusativ gleich aus."
+  };
 }
 
-function genPuzzle() {
-  var p=shuffle(PUZZLE_SAETZE)[0];
-  return { type:"puzzle", showRule:null, theme:"🧩 Satz bauen",
-    prompt:"Baue den vollständigen Satz aus dem Originalmaterial.",
-    subject:p.subj, tiles:p.tiles.slice(), translation:p.de,
-    affirmation:"Perfectum! "+p.tiles.join(" ")+" 🎯",
-    wrongMsg:"Achte auf die vollständige Wortfolge des Satzes." };
+function genNomOderAkk(){
+  var questions=[
+    {
+      sentence:"Populus equōs exspectat.",
+      word:"Populus",
+      answer:"Nominativ",
+      why:"Populus ist das Subjekt: Das Volk erwartet."
+    },
+    {
+      sentence:"Populus equōs exspectat.",
+      word:"equōs",
+      answer:"Akkusativ",
+      why:"equōs beantwortet hier die Frage: Wen oder was erwartet das Volk?"
+    },
+    {
+      sentence:"Servī Afram spectant.",
+      word:"Servī",
+      answer:"Nominativ",
+      why:"Servī ist das handelnde Subjekt."
+    },
+    {
+      sentence:"Servī Afram spectant.",
+      word:"Afram",
+      answer:"Akkusativ",
+      why:"Afram ist das Akkusativobjekt."
+    },
+    {
+      sentence:"Dāvus Pompōnium mercātōrem spectat.",
+      word:"Pompōnium mercātōrem",
+      answer:"Akkusativ",
+      why:"Wen betrachtet Davus? → Pompōnium mercātōrem."
+    }
+  ];
+
+  var q=one(questions);
+  var opts=shuffle(["Nominativ","Akkusativ"]);
+
+  return{
+    type:"gap",
+    showRule:RULE_NOM_AKK,
+    theme:"Nominativ oder Akkusativ?",
+    prompt:"In welchem Kasus steht das hervorgehobene Satzglied?",
+    sentence:q.sentence.replace(
+      q.word,
+      "<strong style=\"color:var(--gold-light)\">"+q.word+"</strong>"
+    ),
+    blank:null,
+    options:opts,
+    correct:opts.indexOf(q.answer),
+    affirmation:"Richtig. "+q.why,
+    wrongMsg:q.why
+  };
 }
 
-// ═══════════════════════════════════════════════════
-// VOKABELBLOECKE
-// ═══════════════════════════════════════════════════
-var vocabBlocks = [
-  { title:"Block 1 \u2014 5 Vokabeln",                    items:POOL.slice(0,5) },
-  { title:"Block 2 \u2014 18 Vokabeln",                   items:POOL.slice(5,23) },
-  { title:"Block 3 \u2014 11 Vokabeln + Eigennamen",      items:POOL.slice(23) }
+function genObject(){
+  var questions=[
+    {
+      sentence:"Populus equōs exspectat.",
+      word:"equōs",
+      answer:"Akkusativobjekt",
+      why:"Wen oder was erwartet das Volk? → equōs."
+    },
+    {
+      sentence:"Dāvus amīcum videt.",
+      word:"amīcum",
+      answer:"Akkusativobjekt",
+      why:"Wen sieht Davus? → amīcum."
+    },
+    {
+      sentence:"Populus clāmōrem audit.",
+      word:"clāmōrem",
+      answer:"Akkusativobjekt",
+      why:"Wen oder was hört das Volk? → clāmōrem."
+    },
+    {
+      sentence:"Equī per circum properant.",
+      word:"circum",
+      answer:"Teil einer Adverbiale",
+      why:"per circum beschreibt den Weg: durch den Circus."
+    },
+    {
+      sentence:"Dāvus ante aedificium exspectat.",
+      word:"aedificium",
+      answer:"Teil einer Adverbiale",
+      why:"ante aedificium beschreibt den Ort."
+    }
+  ];
+
+  var q=one(questions);
+
+  var opts=shuffle([
+    "Akkusativobjekt",
+    "Teil einer Adverbiale"
+  ]);
+
+  return{
+    type:"gap",
+    showRule:RULE_OBJEKT_ADVERBIALE,
+    theme:"Satzglieder erkennen",
+    prompt:"Welche Funktion hat „"+q.word+"“?",
+    sentence:q.sentence,
+    blank:null,
+    options:opts,
+    correct:opts.indexOf(q.answer),
+    affirmation:"Richtig. "+q.why,
+    wrongMsg:q.why
+  };
+}
+
+function genPraepGap(){
+  var questions=[
+    {
+      sentence:"Amīcī _____ forum properant.",
+      correct:"per",
+      hint:"per forum = durch das Forum"
+    },
+    {
+      sentence:"Dāvus _____ dominum venit.",
+      correct:"ad",
+      hint:"ad dominum = zum Herrn"
+    },
+    {
+      sentence:"Serva _____ Colossēum properat.",
+      correct:"ad",
+      hint:"ad Colossēum = zum Kolosseum"
+    },
+    {
+      sentence:"Dāvus _____ aedificium exspectat.",
+      correct:"ante",
+      hint:"ante aedificium = vor dem Gebäude"
+    }
+  ];
+
+  var q=one(questions);
+
+  var opts=shuffle(["ad","per","ante"]);
+
+  return{
+    type:"gap",
+    showRule:RULE_PRAEP,
+    theme:"Präposition + Akkusativ",
+    prompt:"Welche Präposition passt?",
+    sentence:q.sentence,
+    blank:"_____",
+    options:opts,
+    correct:opts.indexOf(q.correct),
+    affirmation:"Richtig. "+q.hint+".",
+    wrongMsg:q.hint+"."
+  };
+}
+
+function genVerbKongruenz(){
+  var questions=[
+    {
+      sentence:"Amīcus _____.",
+      correct:"clāmat",
+      options:["clāmat","clāmant","clāmāre"],
+      why:"Amīcus steht im Singular."
+    },
+    {
+      sentence:"Victōrēs _____.",
+      correct:"veniunt",
+      options:["venit","veniunt","venīre"],
+      why:"Victōrēs steht im Plural."
+    },
+    {
+      sentence:"Dominī et dominae _____.",
+      correct:"tacent",
+      options:["tacet","tacent","tacēre"],
+      why:"Dominī et dominae ist Plural."
+    },
+    {
+      sentence:"Senātor _____.",
+      correct:"rīdet",
+      options:["rīdet","rīdent","rīdēre"],
+      why:"Senātor steht im Singular."
+    },
+    {
+      sentence:"Servī ad amīcōs _____.",
+      correct:"properant",
+      options:["properat","properant","properāre"],
+      why:"Servī steht im Plural."
+    }
+  ];
+
+  var q=one(questions);
+  var opts=shuffle(q.options);
+
+  return{
+    type:"gap",
+    showRule:RULE_KONGRUENZ,
+    theme:"Kongruenz",
+    prompt:"Welche Verbform passt zum Subjekt?",
+    sentence:q.sentence,
+    blank:"_____",
+    options:opts,
+    correct:opts.indexOf(q.correct),
+    affirmation:"Richtig. "+q.why,
+    wrongMsg:q.why
+  };
+}
+
+function genWordOrder(){
+  var questions=[
+    {
+      lat:"Amīcī per forum properant.",
+      correct:"Die Freunde eilen durch das Forum.",
+      wrong:[
+        "Die Freunde durch das Forum eilen.",
+        "Durch die Freunde eilt das Forum."
+      ]
+    },
+    {
+      lat:"Populus equōs exspectat.",
+      correct:"Das Volk erwartet die Pferde.",
+      wrong:[
+        "Das Volk die Pferde erwartet.",
+        "Die Pferde erwartet das Volk."
+      ]
+    },
+    {
+      lat:"Dāvus ibi amīcum videt.",
+      correct:"Davus sieht dort den Freund.",
+      wrong:[
+        "Davus dort den Freund sieht.",
+        "Der Freund sieht dort Davus."
+      ]
+    },
+    {
+      lat:"Servī ad amīcōs properant.",
+      correct:"Die Sklaven eilen zu den Freunden.",
+      wrong:[
+        "Die Sklaven zu den Freunden eilen.",
+        "Zu den Sklaven eilen die Freunde."
+      ]
+    }
+  ];
+
+  var q=one(questions);
+  var opts=shuffle([q.correct].concat(q.wrong));
+
+  return{
+    type:"gap",
+    showRule:RULE_WORD_ORDER,
+    theme:"Latein → Deutsch",
+    prompt:"Welche Übersetzung hat eine richtige deutsche Wortstellung?",
+    sentence:q.lat,
+    blank:null,
+    options:opts,
+    correct:opts.indexOf(q.correct),
+    affirmation:"Richtig. Die finite Verbform steht im deutschen Hauptsatz hier an zweiter Stelle.",
+    wrongMsg:"Beim Übersetzen muss die lateinische Wortstellung häufig umgestellt werden."
+  };
+}
+
+var vocabBlocks=[
+  {title:"Block 1",items:POOL.slice(0,5)},
+  {title:"Block 2",items:POOL.slice(5,23)},
+  {title:"Block 3",items:POOL.slice(23)}
 ];
 
-// ═══════════════════════════════════════════════════
-// SESSION AUFBAUEN
-// ═══════════════════════════════════════════════════
-function buildSession() {
-  var b1=POOL.slice(0,5), b2=POOL.slice(5,23), b3=POOL.slice(23);
+function buildSession(){
+  var b1=POOL.slice(0,5);
+  var b2=POOL.slice(5,23);
+  var b3=POOL.slice(23);
+
   var items=[];
 
   items.push({_vocabBlock:true,blockIndex:0});
-  [genMatchVocab(b1.concat(shuffle(b2).slice(0,3))),
-   genSwipeVocab(b1.concat(b2.slice(0,5))),
-   genPraepGap(),
-   genTrueFalseVocab(b1.concat(b2.slice(0,8))),
-   genSwipeVocab(b1.concat(b2.slice(0,5)))
-  ].forEach(function(q){items.push({_question:true,q:q});});
+
+  [
+    genMatchVocab(b1.concat(shuffle(b2).slice(0,3))),
+    genNomOderAkk(),
+    genAkkusativForm(),
+    genKasusNumerus(),
+    genVerbKongruenz(),
+    genPraepGap()
+  ].forEach(function(q){
+    items.push({_question:true,q:q});
+  });
 
   items.push({_vocabBlock:true,blockIndex:1});
-  [genMatchVocab(b2),
-   genQuickQuiz(b1.concat(b2)),
-   genGenauHinschauen(),
-   genPuzzle(),
-   genTrueFalseVocab(b2)
-  ].forEach(function(q){items.push({_question:true,q:q});});
+
+  [
+    genMatchVocab(b2),
+    genAkkusativForm(),
+    genNomOderAkk(),
+    genObject(),
+    genNeutrum(),
+    genKasusNumerus()
+  ].forEach(function(q){
+    items.push({_question:true,q:q});
+  });
 
   items.push({_vocabBlock:true,blockIndex:2});
-  [genMatchVocab(b3),
-   genQuickQuiz(POOL),
-   genPraepGap(),
-   genSwipeVocab(POOL),
-   genQuickQuiz(POOL)
-  ].forEach(function(q){items.push({_question:true,q:q});});
+
+  [
+    genMatchVocab(b3),
+    genPraepGap(),
+    genObject(),
+    genVerbKongruenz(),
+    genWordOrder(),
+    genWordOrder()
+  ].forEach(function(q){
+    items.push({_question:true,q:q});
+  });
 
   return items;
 }
 
 var allItems=buildSession();
-var currentIndex=0,score=0,totalAnswered=0;
-var totalQuestions=allItems.filter(function(i){return i._question;}).length;
+var currentIndex=0;
+var score=0;
 
-// ═══════════════════════════════════════════════════
-// ENGINE
-// ═══════════════════════════════════════════════════
+var totalQuestions=allItems.filter(function(i){
+  return i._question;
+}).length;
+
 function updateProgress(){
-  var ans=allItems.slice(0,currentIndex+1).filter(function(i){return i._question;}).length;
-  document.getElementById("progressLabel").textContent=Math.min(ans,totalQuestions)+"/"+totalQuestions;
+  var questionsBefore=allItems
+    .slice(0,currentIndex+1)
+    .filter(function(i){
+      return i._question;
+    }).length;
+
+  document.getElementById("progressLabel").textContent=
+    Math.min(questionsBefore,totalQuestions)+"/"+totalQuestions;
 }
 
 function renderCurrent(){
   var item=allItems[currentIndex];
-  if(!item){showCompletion();return;}
-  var main=document.getElementById("mainContent"); main.innerHTML="";
-  if(item._vocabBlock){renderVocabBlock(item.blockIndex,main);return;}
+
+  if(!item){
+    showCompletion();
+    return;
+  }
+
+  var main=document.getElementById("mainContent");
+  main.innerHTML="";
+
+  if(item._vocabBlock){
+    renderVocabBlock(item.blockIndex,main);
+    return;
+  }
+
   updateProgress();
+
   var q=item.q;
-  if(q.showRule){var rc=document.createElement("div");rc.className="rule-card";rc.innerHTML=q.showRule;main.appendChild(rc);}
-  if(q.type==="gap")renderGap(q,main);
-  else if(q.type==="trueFalse")renderTrueFalse(q,main);
-  else if(q.type==="match")renderMatch(q,main);
-  else if(q.type==="puzzle")renderPuzzle(q,main);
-  else if(q.type==="quickQuiz")renderQuickQuiz(q,main);
-  else if(q.type==="spotlight")renderGenauHinschauen(q,main);
-  else if(q.type==="swipe")renderSwipe(q,main);
+
+  if(q.showRule){
+    var rc=document.createElement("div");
+    rc.className="rule-card";
+    rc.innerHTML=q.showRule;
+    main.appendChild(rc);
+  }
+
+  if(q.type==="gap"){
+    renderGap(q,main);
+  } else if(q.type==="match"){
+    renderMatch(q,main);
+  }
+}
+
+function renderIntro(){
+  var main=document.getElementById("mainContent");
+
+  main.innerHTML=`
+    <div class="lesson-intro">
+
+      <div class="lesson-kicker">
+        Magistrella · L02
+      </div>
+
+      <h1>Nominativ, Akkusativ und Satzglieder</h1>
+
+      <p>
+        In dieser Lektion lernst du, zwischen Subjekt und
+        Akkusativobjekt zu unterscheiden. Außerdem trainierst du
+        Akkusativformen, Präpositionen und die richtige
+        Wortstellung beim Übersetzen.
+      </p>
+
+      <div class="lesson-goals">
+
+        <div class="goal-chip">Nominativ ↔ Akkusativ</div>
+        <div class="goal-chip">Akkusativ Sg. & Pl.</div>
+        <div class="goal-chip">Kasus + Numerus</div>
+        <div class="goal-chip">Objekt vs. Adverbiale</div>
+        <div class="goal-chip">ad · per · ante + Akk.</div>
+        <div class="goal-chip">Latein → Deutsch</div>
+
+      </div>
+    </div>
+
+    <div class="rule-card">
+      ${RULE_NOM_AKK}
+    </div>
+  `;
+
+  var btn=document.createElement("button");
+
+  btn.type="button";
+  btn.className="next-btn visible";
+  btn.style.margin="16px";
+  btn.style.width="calc(100% - 32px)";
+  btn.textContent="Training starten →";
+
+  btn.addEventListener("click",function(){
+    currentIndex=0;
+    renderCurrent();
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+  });
+
+  main.appendChild(btn);
 }
 
 function renderVocabBlock(idx,parent){
   var block=vocabBlocks[idx];
-  var hdr=document.createElement("div");hdr.className="section-header";
-  hdr.innerHTML="<h2>\ud83d\udcd6 "+block.title+"</h2><p>Lerne diese Vokabeln \u2014 dann kommen die \u00dcbungen!</p>";
+
+  var hdr=document.createElement("div");
+  hdr.className="section-header";
+
+  hdr.innerHTML=
+    "<h2>📖 "+block.title+"</h2>"+
+    "<p>Diese Wörter brauchst du für die folgenden Übungen.</p>";
+
   parent.appendChild(hdr);
-  var vb=document.createElement("div");vb.className="vocab-block";
+
+  var vb=document.createElement("div");
+  vb.className="vocab-block";
+
   block.items.forEach(function(v){
-    var row=document.createElement("div");row.className="vocab-row";
-    row.innerHTML="<span class=\"vocab-lat\">"+v.lat+"</span><span class=\"vocab-gen\">"+(v.gen||"")+"</span><span class=\"vocab-de\">"+v.de+"</span>";
+    var row=document.createElement("div");
+    row.className="vocab-row";
+
+    row.innerHTML=
+      "<span class=\"vocab-lat\">"+v.lat+"</span>"+
+      "<span class=\"vocab-gen\">"+(v.gen||"")+"</span>"+
+      "<span class=\"vocab-de\">"+v.de+"</span>";
+
     vb.appendChild(row);
   });
+
   parent.appendChild(vb);
+
   var continueBtn=document.createElement("button");
+
   continueBtn.type="button";
   continueBtn.className="next-btn visible";
+  continueBtn.style.margin="12px 16px";
+  continueBtn.style.width="calc(100% - 32px)";
   continueBtn.textContent="Weiter zu den Übungen →";
-  continueBtn.addEventListener("click",function(){currentIndex++;renderCurrent();window.scrollTo({top:0,behavior:"smooth"});});
+
+  continueBtn.addEventListener("click",function(){
+    currentIndex++;
+    renderCurrent();
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+  });
+
   parent.appendChild(continueBtn);
 }
 
-function makeQCard(q){var c=document.createElement("div");c.className="question-card";c.innerHTML="<div class=\"q-theme\">"+q.theme+"</div>";return c;}
-function makeFB(p){var fb=document.createElement("div");fb.className="feedback";fb.id="feedback";p.appendChild(fb);}
-function makeNext(p){var btn=document.createElement("button");btn.type="button";btn.className="next-btn";btn.id="nextBtn";btn.textContent=currentIndex>=allItems.length-1?"Lektion abschlie\u00dfen \u2713":"Weiter \u2192";btn.addEventListener("click",function(){currentIndex++;renderCurrent();});p.appendChild(btn);}
-function showFB(ok,q){
-  var fb=document.getElementById("feedback"), nb=document.getElementById("nextBtn");
-  totalAnswered++;
-  if(ok){
-    score++;
-    fb.className="feedback correct";
-    fb.innerHTML="<div class=\"feedback-affirmation\">"+q.affirmation+"</div>";
-    if(score%3===0)confetti();
-  }else{
-    fb.className="feedback wrong";
-    if(q.type==="puzzle"){
-      var solArr=q.solution||q.full||q.tiles||[];
-      var solution=solArr.join(" ") + ".";
-      fb.innerHTML=
-        "<div class=\"feedback-affirmation\">Noch nicht richtig.</div>"+
-        "<div>Hier siehst du die richtige Lösung und die passende Regel.</div>"+
-        "<div class=\"rule-card\" style=\"margin:12px 0 0;\">"+
-          "<div class=\"rule-title\">Richtige Lösung</div>"+
-          "<div class=\"rule-body\"><strong style=\"color:var(--gold-light)\">"+solution+"</strong><br>„"+(q.translation||q.de||"")+"“</div>"+
-        "</div>"+
-        (q.showRule ? "<div class=\"rule-card\" style=\"margin:10px 0 0;\">"+q.showRule+"</div>" : "");
-    }else{
-      fb.innerHTML="<div class=\"feedback-affirmation\">Noch nicht richtig.</div>"+q.wrongMsg+
-        (q.showRule ? "<div class=\"rule-card\" style=\"margin:10px 0 0;\">"+q.showRule+"</div>" : "");
-    }
-  }
-  if(nb)nb.classList.add("visible");
+function makeQCard(q){
+  var c=document.createElement("div");
+  c.className="question-card";
+  c.innerHTML="<div class=\"q-theme\">"+q.theme+"</div>";
+  return c;
 }
 
-function renderTrueFalse(q,parent){
+function makeFB(parent){
+  var fb=document.createElement("div");
+  fb.className="feedback";
+  fb.id="feedback";
+  parent.appendChild(fb);
+}
+
+function makeNext(parent){
+  var btn=document.createElement("button");
+
+  btn.type="button";
+  btn.className="next-btn";
+  btn.id="nextBtn";
+
+  btn.textContent=
+    currentIndex>=allItems.length-1
+      ?"Lektion abschließen ✓"
+      :"Weiter →";
+
+  btn.addEventListener("click",function(){
+    currentIndex++;
+    renderCurrent();
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+  });
+
+  parent.appendChild(btn);
+}
+
+function showFB(ok,q){
+  var fb=document.getElementById("feedback");
+  var next=document.getElementById("nextBtn");
+
+  if(ok){
+    score++;
+
+    fb.className="feedback correct";
+    fb.innerHTML=
+      "<div class=\"feedback-affirmation\">Richtig.</div>"+
+      q.affirmation;
+
+  } else {
+
+    fb.className="feedback wrong";
+    fb.innerHTML=
+      "<div class=\"feedback-affirmation\">Noch nicht richtig.</div>"+
+      q.wrongMsg;
+  }
+
+  if(next){
+    next.classList.add("visible");
+  }
+}
+
+function renderGap(q,parent){
   var card=makeQCard(q);
-  card.innerHTML+="<div class=\"q-type-badge\">\u2705\u274c Wahr oder Falsch?</div><div class=\"q-prompt\">"+q.prompt+"</div><div class=\"q-sentence\">"+q.sentence+"</div>";
-  var opts=document.createElement("div");opts.className="tf-options";var answered=false;
-  ["\u2705 Richtig","\u274c Falsch"].forEach(function(label,i){var isTrue=(i===0),btn=document.createElement("button");btn.className="tf-btn";btn.textContent=label;btn.addEventListener("click",function(){if(answered)return;answered=true;var ok=(isTrue===q.correct);btn.classList.add(ok?"correct":"wrong");showFB(ok,q);});opts.appendChild(btn);});
-  card.appendChild(opts);makeFB(card);makeNext(card);parent.appendChild(card);
+
+  card.innerHTML+=
+    "<div class=\"q-type-badge\">Form auswählen</div>"+
+    "<div class=\"q-prompt\">"+q.prompt+"</div>";
+
+  if(q.sentence){
+    var sentence=q.sentence;
+
+    if(q.blank){
+      sentence=sentence.replace(
+        q.blank,
+        "<span style=\"border-bottom:2px solid var(--gold);min-width:70px;display:inline-block;\">&nbsp;</span>"
+      );
+    }
+
+    card.innerHTML+=
+      "<div class=\"q-sentence\">"+sentence+"</div>";
+  }
+
+  var opts=document.createElement("div");
+  opts.className="gap-options";
+
+  var letters=["A","B","C","D"];
+  var answered=false;
+
+  q.options.forEach(function(opt,i){
+    var btn=document.createElement("button");
+
+    btn.type="button";
+    btn.className="gap-btn";
+
+    btn.innerHTML=
+      "<span class=\"gap-btn-letter\">"+letters[i]+"</span>"+
+      "<span>"+opt+"</span>";
+
+    btn.addEventListener("click",function(){
+      if(answered)return;
+
+      answered=true;
+
+      var ok=i===q.correct;
+
+      btn.classList.add(ok?"correct":"wrong");
+
+      if(!ok){
+        var all=opts.querySelectorAll(".gap-btn");
+        all[q.correct].classList.add("correct");
+      }
+
+      showFB(ok,q);
+    });
+
+    opts.appendChild(btn);
+  });
+
+  card.appendChild(opts);
+
+  makeFB(card);
+  makeNext(card);
+
+  parent.appendChild(card);
 }
 
 function renderMatch(q,parent){
   var card=makeQCard(q);
-  card.innerHTML+="<div class=\"q-type-badge\">\ud83d\udd17 Paare zuordnen</div><div class=\"q-prompt\">"+q.prompt+"</div>";
-  var lr=document.createElement("div");lr.className="match-col-labels";lr.innerHTML="<div class=\"match-col-label\">"+q.leftTitle+"</div><div class=\"match-col-label\">"+q.rightTitle+"</div>";card.appendChild(lr);
-  var pairs=q.pairs.slice(),right=pairs.map(function(p){return p[1];}).sort(function(){return Math.random()-0.5;});
-  var grid=document.createElement("div");grid.className="match-grid";
-  var selL=null,selR=null,matched=0,lEls=[],rEls=[];
+
+  card.innerHTML+=
+    "<div class=\"q-type-badge\">Paare zuordnen</div>"+
+    "<div class=\"q-prompt\">"+q.prompt+"</div>";
+
+  var labels=document.createElement("div");
+  labels.className="match-col-labels";
+
+  labels.innerHTML=
+    "<div class=\"match-col-label\">"+q.leftTitle+"</div>"+
+    "<div class=\"match-col-label\">"+q.rightTitle+"</div>";
+
+  card.appendChild(labels);
+
+  var pairs=q.pairs.slice();
+
+  var right=shuffle(
+    pairs.map(function(p){
+      return p[1];
+    })
+  );
+
+  var grid=document.createElement("div");
+  grid.className="match-grid";
+
+  var selectedLeft=null;
+  var selectedRight=null;
+  var matched=0;
+
+  var leftElements=[];
+  var rightElements=[];
+
   pairs.forEach(function(pair,i){
-    var lEl=document.createElement("button");lEl.type="button";lEl.className="match-item";lEl.textContent=pair[0];
-    var rEl=document.createElement("button");rEl.type="button";rEl.className="match-item";rEl.textContent=right[i];
-    lEl.addEventListener("click",function(){if(lEl.classList.contains("matched"))return;lEls.forEach(function(e){if(!e.classList.contains("matched"))e.classList.remove("selected");});lEl.classList.add("selected");selL=lEl;tryMatch();});
-    rEl.addEventListener("click",function(){if(rEl.classList.contains("matched"))return;rEls.forEach(function(e){if(!e.classList.contains("matched"))e.classList.remove("selected");});rEl.classList.add("selected");selR=rEl;tryMatch();});
-    lEls.push(lEl);rEls.push(rEl);grid.appendChild(lEl);grid.appendChild(rEl);
-  });
-  function tryMatch(){if(!selL||!selR)return;var ok=pairs.some(function(p){return p[0]===selL.textContent&&p[1]===selR.textContent;});if(ok){selL.classList.add("matched");selR.classList.add("matched");matched++;if(matched===pairs.length){showFB(true,q);document.getElementById("nextBtn").classList.add("visible");}}else{selL.classList.add("wrong");selR.classList.add("wrong");var sl=selL,sr=selR;setTimeout(function(){sl.classList.remove("wrong","selected");sr.classList.remove("wrong","selected");selL=null;selR=null;},600);return;}selL=null;selR=null;}
-  card.appendChild(grid);makeFB(card);makeNext(card);parent.appendChild(card);
-}
+    var left=document.createElement("button");
+    left.type="button";
+    left.className="match-item";
+    left.textContent=pair[0];
 
-function renderPuzzle(q,parent){
-  var card=makeQCard(q);
-  card.innerHTML+="<div class=\"q-type-badge\">\ud83e\udde9 Satz bauen</div><div class=\"q-prompt\">"+q.prompt+"</div>";
-  card.innerHTML+="<div style=\"font-size:12px;color:var(--stone);margin-bottom:10px;font-style:italic;\">\ud83d\udca1 "+q.translation+"</div>";
-  var target=document.createElement("div");target.className="puzzle-target";
-  var source=document.createElement("div");source.className="puzzle-source";
-  var placed=[],shuffled=shuffle(q.tiles),tileEls={};
-  shuffled.forEach(function(word){var tile=document.createElement("button");tile.type="button";tile.className="tile";tile.textContent=word;tile.addEventListener("click",function(){if(tile.classList.contains("used")){placed=placed.filter(function(w){return w!==word;});tile.classList.remove("used");rebuild();}else{placed.push(word);tile.classList.add("used");rebuild();}});tileEls[word]=tile;source.appendChild(tile);});
-  function rebuild(){target.innerHTML="";placed.forEach(function(word){var t=document.createElement("button");t.type="button";t.className="tile placed";t.textContent=word;t.addEventListener("click",function(){placed=placed.filter(function(w){return w!==word;});tileEls[word].classList.remove("used");rebuild();});target.appendChild(t);});}
-  card.appendChild(target);card.appendChild(source);
-  var cb=document.createElement("button");cb.type="button";cb.className="check-btn";cb.textContent="Pr\u00fcfen \u2713";
-  var puzzleAnswered=false;
-  cb.addEventListener("click",function(){
-    if(puzzleAnswered)return;
-    var ok=placed.length===q.tiles.length&&q.tiles.every(function(w,i){return placed[i]===w;});
-    if(ok){puzzleAnswered=true;cb.disabled=true;}
-    if(ok){showFB(true,q);confetti();}
-    else{
-      var fb=document.getElementById("feedback");
-      fb.className="feedback wrong";
-      fb.innerHTML="<div class=\"feedback-affirmation\">💛 Noch nicht.</div>"+q.wrongMsg;
-    }
-  });
-  card.appendChild(cb);makeFB(card);makeNext(card);parent.appendChild(card);
-}
+    var rightBtn=document.createElement("button");
+    rightBtn.type="button";
+    rightBtn.className="match-item";
+    rightBtn.textContent=right[i];
 
-function renderQuickQuiz(q,parent){
-  var card=makeQCard(q);
-  card.innerHTML+="<div class=\"q-type-badge\">⚡ Kurz-Quiz</div><div class=\"q-prompt\">"+q.prompt+"</div>";
-  var opts=document.createElement("div");opts.className="gap-options";var letters=["A","B","C","D"],answered=false;
-  q.options.forEach(function(opt,i){
-    var btn=document.createElement("button");btn.type="button";btn.className="gap-btn";
-    btn.innerHTML="<span class=\"gap-btn-letter\">"+letters[i]+"</span> "+opt;
-    btn.addEventListener("click",function(){
-      if(answered)return;answered=true;
-      var ok=(i===q.correct);btn.classList.add(ok?"correct":"wrong");
-      if(!ok)opts.querySelectorAll(".gap-btn")[q.correct].classList.add("correct");
-      showFB(ok,q);
+    left.addEventListener("click",function(){
+      if(left.classList.contains("matched"))return;
+
+      leftElements.forEach(function(el){
+        if(!el.classList.contains("matched")){
+          el.classList.remove("selected");
+        }
+      });
+
+      left.classList.add("selected");
+      selectedLeft=left;
+
+      tryMatch();
     });
-    opts.appendChild(btn);
+
+    rightBtn.addEventListener("click",function(){
+      if(rightBtn.classList.contains("matched"))return;
+
+      rightElements.forEach(function(el){
+        if(!el.classList.contains("matched")){
+          el.classList.remove("selected");
+        }
+      });
+
+      rightBtn.classList.add("selected");
+      selectedRight=rightBtn;
+
+      tryMatch();
+    });
+
+    leftElements.push(left);
+    rightElements.push(rightBtn);
+
+    grid.appendChild(left);
+    grid.appendChild(rightBtn);
   });
-  card.appendChild(opts);makeFB(card);makeNext(card);parent.appendChild(card);
-}
 
-function renderGenauHinschauen(q,parent){
-  var card=makeQCard(q);card.innerHTML+="<div class=\"q-type-badge\">\ud83c\udfaf Genau hinschauen</div><div class=\"q-prompt\">"+q.prompt+"</div>";
-  var sd=document.createElement("div");sd.className="spotlight-sentence";sd.innerHTML=q.sentence.replace(q.spotWord,"<span class=\"spotlight-word\">"+q.spotWord+"</span>");card.appendChild(sd);
-  var opts=document.createElement("div");opts.className="tf-options";var answered=false;
-  ["\u2705 Ja, Nominativ","\u274c Nein"].forEach(function(label,i){var isTrue=(i===0),btn=document.createElement("button");btn.className="tf-btn";btn.textContent=label;btn.addEventListener("click",function(){if(answered)return;answered=true;var ok=(isTrue===q.correct);btn.classList.add(ok?"correct":"wrong");showFB(ok,q);});opts.appendChild(btn);});
-  card.appendChild(opts);makeFB(card);makeNext(card);parent.appendChild(card);
-}
+  function tryMatch(){
+    if(!selectedLeft || !selectedRight)return;
 
-function renderSwipe(q,parent){
-  var card=makeQCard(q);card.innerHTML+="<div class=\"q-type-badge\">\ud83d\udc4b Richtig oder Falsch?</div><div class=\"q-prompt\">"+q.prompt+"</div>";
-  var sc=document.createElement("div");sc.className="swipe-card";sc.textContent=q.sentence;card.appendChild(sc);
-  var btns=document.createElement("div");btns.className="swipe-buttons";var answered=false;
-  [["\u274c Falsch",false,"left"],["\u2705 Richtig",true,"right"]].forEach(function(arr){var btn=document.createElement("button");btn.type="button";btn.className="swipe-btn "+arr[2];btn.textContent=arr[0];btn.addEventListener("click",function(){if(answered)return;answered=true;showFB((arr[1]===q.correct),q);});btns.appendChild(btn);});
-  card.appendChild(btns);makeFB(card);makeNext(card);parent.appendChild(card);
+    var ok=pairs.some(function(p){
+      return(
+        p[0]===selectedLeft.textContent &&
+        p[1]===selectedRight.textContent
+      );
+    });
+
+    if(ok){
+      selectedLeft.classList.add("matched");
+      selectedRight.classList.add("matched");
+
+      matched++;
+
+      if(matched===pairs.length){
+        showFB(true,q);
+      }
+
+    } else {
+
+      selectedLeft.classList.add("wrong");
+      selectedRight.classList.add("wrong");
+
+      var oldLeft=selectedLeft;
+      var oldRight=selectedRight;
+
+      setTimeout(function(){
+        oldLeft.classList.remove("wrong","selected");
+        oldRight.classList.remove("wrong","selected");
+      },550);
+    }
+
+    selectedLeft=null;
+    selectedRight=null;
+  }
+
+  card.appendChild(grid);
+
+  makeFB(card);
+  makeNext(card);
+
+  parent.appendChild(card);
 }
 
 function showCompletion(){
   document.getElementById("mainContent").style.display="none";
-  var screen=document.getElementById("completionScreen");screen.classList.add("visible");
+
+  var screen=document.getElementById("completionScreen");
+  screen.classList.add("visible");
+
   var pct=Math.round(score/totalQuestions*100);
-  document.getElementById("finalScore").textContent=score+"/"+totalQuestions+" ("+pct+"%)";
-  document.getElementById("finalStars").textContent=pct>=90?"\u2b50\u2b50\u2b50":pct>=70?"\u2b50\u2b50":"\u2b50";
-  var msgs=["Optime! Am\u012Bc\u012B per forum properant \u2014 und du auch! \ud83c\udfc6","Magnifice! Du kennst den Weg durch Rom! \ud83c\udfd9","Brava! Weiter zu L03! \ud83d\udcd6"];
-  document.getElementById("finalMsg").textContent=msgs[Math.floor(Math.random()*msgs.length)];
-  confetti();setTimeout(confetti,700);
+
+  document.getElementById("finalScore").textContent=
+    score+"/"+totalQuestions+" · "+pct+" %";
+
+  document.getElementById("finalStars").textContent=
+    pct>=90
+      ?"★★★"
+      :pct>=70
+        ?"★★"
+        :"★";
+
+  var msg;
+
+  if(pct>=90){
+    msg=
+      "Sehr sicher. Du kannst Nominativ und Akkusativ unterscheiden, Akkusativformen bestimmen und Satzglieder beim Übersetzen sinnvoll erkennen.";
+  } else if(pct>=70){
+    msg=
+      "Gute Grundlage. Wiederhole besonders Kasus und Numerus sowie die Unterscheidung zwischen Akkusativobjekt und Präpositionalangabe.";
+  } else {
+    msg=
+      "Wiederhole L02 noch einmal. Konzentriere dich zunächst auf die Akkusativendungen und danach auf Objekt und Präposition + Akkusativ.";
+  }
+
+  document.getElementById("finalMsg").textContent=msg;
+
+  var oldBest=Number(
+    localStorage.getItem("magistrella-l02-best") || 0
+  );
+
+  if(pct>oldBest){
+    localStorage.setItem("magistrella-l02-best",pct);
+  }
 }
 
-function confetti(){
-  var container=document.getElementById("confettiContainer");
-  var colors=["#C9A84C","#E8C96A","#C0522B","#4CAF7D","#FDFAF3","#8B6914"];
-  for(var i=0;i<30;i++){(function(i){setTimeout(function(){var el=document.createElement("div");el.className="confetti-piece";el.style.left=Math.random()*100+"vw";el.style.background=colors[Math.floor(Math.random()*colors.length)];el.style.animationDuration=(1.5+Math.random()*2)+"s";el.style.width=el.style.height=(6+Math.random()*10)+"px";container.appendChild(el);setTimeout(function(){el.remove();},3500);},i*40);})(i);}
-}
-
-renderCurrent();
+renderIntro();
 </script>
+
 </body>
 </html>
