@@ -137,25 +137,91 @@ button{
 }
 
 /* =====================================================
+   STARTAUSWAHL
+===================================================== */
+
+.start-choice{
+  margin:16px;
+  padding:18px;
+  border-radius:18px;
+  background:var(--ink-mid);
+  border:1px solid rgba(201,168,76,.18);
+}
+
+.start-choice h2{
+  color:var(--gold-light);
+  font-size:19px;
+  margin-bottom:5px;
+}
+
+.start-choice p{
+  color:var(--stone);
+  font-size:14px;
+  margin-bottom:15px;
+}
+
+.start-buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.start-btn{
+  min-height:64px;
+  padding:12px;
+  border-radius:14px;
+  cursor:pointer;
+  font-weight:800;
+  border:1.5px solid var(--gold);
+}
+
+.start-btn.learn{
+  background:linear-gradient(
+    135deg,
+    var(--gold-dark),
+    var(--gold)
+  );
+  color:var(--ink);
+}
+
+.start-btn.training{
+  background:rgba(201,168,76,.07);
+  color:var(--gold-light);
+}
+
+.start-btn small{
+  display:block;
+  margin-top:3px;
+  font-size:11px;
+  font-weight:500;
+  line-height:1.35;
+  opacity:.85;
+}
+
+/* =====================================================
    LERNKARTEN
 ===================================================== */
 
-.teach-card{
+.teach-card,
+.review-card{
   margin:16px;
   border-radius:18px;
   overflow:hidden;
   background:var(--parchment);
   color:#2A1F0E;
   border:1px solid rgba(201,168,76,.55);
+  text-align:left;
 }
 
-.teach-head{
+.teach-head,
+.review-head{
   padding:13px 16px;
   background:var(--parchment-dark);
   border-bottom:1px solid rgba(90,60,10,.12);
 }
 
-.teach-kicker{
+.teach-kicker,
+.review-kicker{
   color:#735108;
   text-transform:uppercase;
   font-size:11px;
@@ -163,23 +229,27 @@ button{
   font-weight:800;
 }
 
-.teach-head h2{
+.teach-head h2,
+.review-head h3{
   color:#2A1F0E;
   font-size:20px;
   line-height:1.3;
   margin-top:2px;
 }
 
-.teach-body{
+.teach-body,
+.review-body{
   padding:16px;
   font-size:15px;
 }
 
-.teach-body p + p{
+.teach-body p + p,
+.review-body p + p{
   margin-top:10px;
 }
 
-.teach-body strong{
+.teach-body strong,
+.review-body strong{
   color:#6C4B06;
 }
 
@@ -351,11 +421,6 @@ button{
   color:#fff;
   cursor:pointer;
   text-align:left;
-  transition:.15s;
-}
-
-.option-btn:active{
-  transform:scale(.98);
 }
 
 .option-btn.correct{
@@ -390,7 +455,6 @@ button{
   padding:14px;
   border-radius:14px;
   font-size:14px;
-  line-height:1.55;
 }
 
 .feedback.correct{
@@ -410,11 +474,6 @@ button{
 .feedback-title{
   font-weight:800;
   margin-bottom:5px;
-}
-
-.feedback-tip{
-  margin-top:8px;
-  color:#F5E7B8;
 }
 
 /* =====================================================
@@ -448,34 +507,31 @@ button{
   display:block;
 }
 
-.continue-btn:active,
-.next-btn:active{
-  transform:scale(.98);
-}
-
 /* =====================================================
-   ABSCHLUSS
+   ABSCHLUSS + DIAGNOSE
 ===================================================== */
 
 .completion{
   display:none;
-  text-align:center;
-  padding:40px 24px;
+  padding:32px 16px 45px;
 }
 
 .completion.visible{
   display:block;
 }
 
+.completion-main{
+  text-align:center;
+}
+
 .completion-symbol{
   font-size:60px;
-  margin-bottom:12px;
 }
 
 .completion-title{
   color:var(--gold-light);
   font-size:27px;
-  margin-bottom:8px;
+  margin-top:8px;
 }
 
 .completion-score{
@@ -493,13 +549,85 @@ button{
 
 .completion-msg{
   color:var(--parchment-dark);
-  max-width:520px;
-  margin:0 auto 25px;
+  max-width:560px;
+  margin:0 auto 24px;
   font-size:15px;
+}
+
+.diagnosis{
+  max-width:760px;
+  margin:28px auto 0;
+}
+
+.diagnosis-title{
+  color:var(--gold-light);
+  font-size:21px;
+  margin-bottom:6px;
+  text-align:left;
+}
+
+.diagnosis-sub{
+  color:var(--stone);
+  font-size:14px;
+  text-align:left;
+  margin-bottom:14px;
+}
+
+.skill-result{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 12px;
+  margin-bottom:7px;
+  border-radius:10px;
+  background:rgba(255,255,255,.04);
+  font-size:14px;
+}
+
+.skill-result.good{
+  border-left:4px solid var(--green-ok);
+}
+
+.skill-result.weak{
+  border-left:4px solid var(--red-wrong);
+}
+
+.skill-name{
+  color:var(--parchment);
+}
+
+.skill-score{
+  color:var(--stone);
+  font-weight:700;
+}
+
+.review-heading{
+  color:var(--gold-light);
+  text-align:left;
+  font-size:20px;
+  margin:26px 0 5px;
+}
+
+.review-explanation{
+  color:var(--stone);
+  text-align:left;
+  font-size:14px;
+  margin-bottom:8px;
+}
+
+.mastered-box{
+  padding:16px;
+  border-radius:14px;
+  background:rgba(76,175,125,.1);
+  border:1px solid rgba(76,175,125,.3);
+  color:#A6EAC1;
+  text-align:left;
+  margin-top:18px;
 }
 
 .home-btn{
   display:inline-block;
+  margin-top:28px;
   padding:14px 25px;
   border-radius:14px;
   background:linear-gradient(
@@ -520,7 +648,8 @@ a:focus-visible{
 
 @media(max-width:520px){
 
-  .lesson-goals{
+  .lesson-goals,
+  .start-buttons{
     grid-template-columns:1fr;
   }
 
@@ -570,7 +699,7 @@ a:focus-visible{
   <div
     class="topbar-progress"
     id="progressLabel">
-    Lernen
+    Start
   </div>
 
 </div>
@@ -583,30 +712,41 @@ a:focus-visible{
   class="completion"
   id="completionScreen">
 
-  <div class="completion-symbol">
-    🏆
+  <div class="completion-main">
+
+    <div class="completion-symbol">
+      🏆
+    </div>
+
+    <div class="completion-title">
+      L01 abgeschlossen
+    </div>
+
+    <div
+      class="completion-score"
+      id="finalScore">
+      --
+    </div>
+
+    <div
+      class="completion-stars"
+      id="finalStars">
+      ★★★
+    </div>
+
+    <div
+      class="completion-msg"
+      id="finalMsg">
+    </div>
+
   </div>
 
-  <div class="completion-title">
-    L01 abgeschlossen
-  </div>
 
   <div
-    class="completion-score"
-    id="finalScore">
-    --
+    class="diagnosis"
+    id="diagnosis">
   </div>
 
-  <div
-    class="completion-stars"
-    id="finalStars">
-    ★★★
-  </div>
-
-  <div
-    class="completion-msg"
-    id="finalMsg">
-  </div>
 
   <a
     class="home-btn"
@@ -694,7 +834,7 @@ const NOUNS = [
     sg:"frūmentum",
     pl:"frūmenta",
     deSg:"das Getreide",
-    dePl:"Getreide / Getreidesorten",
+    dePl:"Getreide",
     decl:"o-Deklination",
     genus:"n"
   },
@@ -740,144 +880,376 @@ const NOUNS = [
 
 const VERBS = [
 
-  {
-    inf:"cōgitāre",
-    sg:"cōgitat",
-    pl:"cōgitant",
-    de:"denken / nachdenken"
-  },
-
-  {
-    inf:"venīre",
-    sg:"venit",
-    pl:"veniunt",
-    de:"kommen"
-  },
-
-  {
-    inf:"stāre",
-    sg:"stat",
-    pl:"stant",
-    de:"stehen"
-  },
-
-  {
-    inf:"spectāre",
-    sg:"spectat",
-    pl:"spectant",
-    de:"anschauen / zuschauen"
-  },
-
-  {
-    inf:"clāmāre",
-    sg:"clāmat",
-    pl:"clāmant",
-    de:"rufen / schreien"
-  },
-
-  {
-    inf:"tacēre",
-    sg:"tacet",
-    pl:"tacent",
-    de:"schweigen"
-  },
-
-  {
-    inf:"vidēre",
-    sg:"videt",
-    pl:"vident",
-    de:"sehen"
-  },
-
-  {
-    inf:"gaudēre",
-    sg:"gaudet",
-    pl:"gaudent",
-    de:"sich freuen"
-  },
-
-  {
-    inf:"rīdēre",
-    sg:"rīdet",
-    pl:"rīdent",
-    de:"lachen"
-  },
-
-  {
-    inf:"rogāre",
-    sg:"rogat",
-    pl:"rogant",
-    de:"fragen"
-  },
-
-  {
-    inf:"amāre",
-    sg:"amat",
-    pl:"amant",
-    de:"lieben / gernhaben"
-  }
+  {inf:"cōgitāre",sg:"cōgitat",pl:"cōgitant",de:"denken / nachdenken"},
+  {inf:"venīre",sg:"venit",pl:"veniunt",de:"kommen"},
+  {inf:"stāre",sg:"stat",pl:"stant",de:"stehen"},
+  {inf:"spectāre",sg:"spectat",pl:"spectant",de:"anschauen / zuschauen"},
+  {inf:"clāmāre",sg:"clāmat",pl:"clāmant",de:"rufen / schreien"},
+  {inf:"tacēre",sg:"tacet",pl:"tacent",de:"schweigen"},
+  {inf:"vidēre",sg:"videt",pl:"vident",de:"sehen"},
+  {inf:"gaudēre",sg:"gaudet",pl:"gaudent",de:"sich freuen"},
+  {inf:"rīdēre",sg:"rīdet",pl:"rīdent",de:"lachen"},
+  {inf:"rogāre",sg:"rogat",pl:"rogant",de:"fragen"},
+  {inf:"amāre",sg:"amat",pl:"amant",de:"lieben / gernhaben"}
 
 ];
 
 
 const SMALL_VOCAB = [
 
-  {
-    lat:"ubī?",
-    de:"wo?"
-  },
-
-  {
-    lat:"nōn",
-    de:"nicht"
-  },
-
-  {
-    lat:"et",
-    de:"und / auch"
-  },
-
-  {
-    lat:"sed",
-    de:"aber / sondern"
-  },
-
-  {
-    lat:"nunc",
-    de:"jetzt / nun"
-  },
-
-  {
-    lat:"etiam",
-    de:"auch / sogar"
-  },
-
-  {
-    lat:"undique",
-    de:"von allen Seiten"
-  },
-
-  {
-    lat:"quis?",
-    de:"wer?"
-  },
-
-  {
-    lat:"hīc",
-    de:"hier"
-  },
-
-  {
-    lat:"ibī",
-    de:"dort"
-  },
-
-  {
-    lat:"cūr?",
-    de:"warum?"
-  }
+  {lat:"ubī?",de:"wo?"},
+  {lat:"nōn",de:"nicht"},
+  {lat:"et",de:"und / auch"},
+  {lat:"sed",de:"aber / sondern"},
+  {lat:"nunc",de:"jetzt / nun"},
+  {lat:"etiam",de:"auch / sogar"},
+  {lat:"undique",de:"von allen Seiten"},
+  {lat:"quis?",de:"wer?"},
+  {lat:"hīc",de:"hier"},
+  {lat:"ibī",de:"dort"},
+  {lat:"cūr?",de:"warum?"}
 
 ];
+
+
+/* =====================================================
+   REGEL-DIAGNOSE
+
+   Jede Trainingsfrage erhält einen skill-Wert.
+===================================================== */
+
+const SKILL_INFO = {
+
+  number:{
+    name:"Singular und Plural",
+    review:`
+      <p>
+        <strong>Singular</strong> bedeutet Einzahl,
+        <strong>Plural</strong> Mehrzahl.
+      </p>
+
+      <table class="rule-table">
+        <tr>
+          <th>Singular</th>
+          <th>Deutsch</th>
+          <th>Plural</th>
+          <th>Deutsch</th>
+        </tr>
+
+        <tr>
+          <td class="rule-highlight">serva</td>
+          <td>die Sklavin</td>
+          <td class="rule-highlight">servae</td>
+          <td>die Sklavinnen</td>
+        </tr>
+
+        <tr>
+          <td class="rule-highlight">servus</td>
+          <td>der Sklave</td>
+          <td class="rule-highlight">servī</td>
+          <td>die Sklaven</td>
+        </tr>
+
+        <tr>
+          <td class="rule-highlight">frūmentum</td>
+          <td>das Getreide</td>
+          <td class="rule-highlight">frūmenta</td>
+          <td>Getreide</td>
+        </tr>
+      </table>
+
+      <div class="mini-rule">
+        Achte auf die Endung:
+        Sie zeigt häufig, ob ein Wort im Singular
+        oder Plural steht.
+      </div>
+    `
+  },
+
+
+  declension:{
+    name:"Deklinationsklassen",
+    review:`
+      <p>
+        Wörter, die ihre Formen nach demselben Muster bilden,
+        gehören zu einer
+        <strong>Deklinationsklasse</strong>.
+      </p>
+
+      <table class="rule-table">
+        <tr>
+          <th>Klasse</th>
+          <th>Singular</th>
+          <th>Deutsch</th>
+          <th>Plural</th>
+        </tr>
+
+        <tr>
+          <td>a-Deklination</td>
+          <td>serva</td>
+          <td>die Sklavin</td>
+          <td>servae</td>
+        </tr>
+
+        <tr>
+          <td>o-Deklination m.</td>
+          <td>servus</td>
+          <td>der Sklave</td>
+          <td>servī</td>
+        </tr>
+
+        <tr>
+          <td>o-Deklination n.</td>
+          <td>frūmentum</td>
+          <td>das Getreide</td>
+          <td>frūmenta</td>
+        </tr>
+
+        <tr>
+          <td>3. Deklination</td>
+          <td>mercātor</td>
+          <td>der Händler</td>
+          <td>mercātōrēs</td>
+        </tr>
+      </table>
+
+      <div class="mini-rule">
+        Substantive werden
+        <strong>dekliniert</strong>.
+      </div>
+    `
+  },
+
+
+  genus:{
+    name:"Genus: m, f und n",
+    review:`
+      <p>
+        Das grammatische Geschlecht heißt
+        <strong>Genus</strong>.
+      </p>
+
+      <table class="rule-table">
+        <tr>
+          <th>Abkürzung</th>
+          <th>Bedeutung</th>
+          <th>Beispiel</th>
+          <th>Deutsch</th>
+        </tr>
+
+        <tr>
+          <td class="rule-highlight">m</td>
+          <td>maskulin</td>
+          <td>servus</td>
+          <td>der Sklave</td>
+        </tr>
+
+        <tr>
+          <td class="rule-highlight">f</td>
+          <td>feminin</td>
+          <td>serva</td>
+          <td>die Sklavin</td>
+        </tr>
+
+        <tr>
+          <td class="rule-highlight">n</td>
+          <td>neutrum</td>
+          <td>frūmentum</td>
+          <td>das Getreide</td>
+        </tr>
+      </table>
+    `
+  },
+
+
+  verbNumber:{
+    name:"3. Person Singular und Plural",
+    review:`
+      <p>
+        Bei Verben zeigt die Endung,
+        ob eine oder mehrere Personen handeln.
+      </p>
+
+      <table class="rule-table">
+        <tr>
+          <th>Infinitiv</th>
+          <th>Deutsch</th>
+          <th>3. Sg.</th>
+          <th>3. Pl.</th>
+        </tr>
+
+        <tr>
+          <td>clāmāre</td>
+          <td>rufen</td>
+          <td class="rule-highlight">clāmat</td>
+          <td class="rule-highlight">clāmant</td>
+        </tr>
+
+        <tr>
+          <td>tacēre</td>
+          <td>schweigen</td>
+          <td class="rule-highlight">tacet</td>
+          <td class="rule-highlight">tacent</td>
+        </tr>
+
+        <tr>
+          <td>venīre</td>
+          <td>kommen</td>
+          <td class="rule-highlight">venit</td>
+          <td class="rule-highlight">veniunt</td>
+        </tr>
+      </table>
+
+      <div class="mini-rule">
+        3. Person Singular → häufig <strong>-t</strong><br>
+        3. Person Plural → <strong>-nt</strong>
+      </div>
+    `
+  },
+
+
+  kongruenz:{
+    name:"Kongruenz von Subjekt und Prädikat",
+    review:`
+      <p>
+        Subjekt und Prädikat müssen im
+        <strong>Numerus</strong> zusammenpassen.
+      </p>
+
+      <div class="teach-example">
+        <div class="latin">servus tacet</div>
+        <div class="german">der Sklave schweigt</div>
+      </div>
+
+      <div class="teach-example">
+        <div class="latin">servī tacent</div>
+        <div class="german">die Sklaven schweigen</div>
+      </div>
+
+      <div class="mini-rule">
+        Einer → Singular + Singular<br>
+        Mehrere → Plural + Plural
+      </div>
+    `
+  },
+
+
+  esse:{
+    name:"esse: est und sunt",
+    review:`
+      <p>
+        <strong>esse</strong> bedeutet
+        <strong>sein</strong>.
+      </p>
+
+      <table class="rule-table">
+        <tr>
+          <th>Latein</th>
+          <th>Deutsch</th>
+          <th>Form</th>
+        </tr>
+
+        <tr>
+          <td class="rule-highlight">est</td>
+          <td>er / sie / es ist</td>
+          <td>3. Person Singular</td>
+        </tr>
+
+        <tr>
+          <td class="rule-highlight">sunt</td>
+          <td>sie sind</td>
+          <td>3. Person Plural</td>
+        </tr>
+      </table>
+    `
+  },
+
+
+  infinitive:{
+    name:"Infinitiv",
+    review:`
+      <p>
+        Der <strong>Infinitiv</strong>
+        ist die Grundform des Verbs.
+      </p>
+
+      <table class="rule-table">
+        <tr>
+          <th>Infinitiv</th>
+          <th>Deutsch</th>
+          <th>3. Person Singular</th>
+        </tr>
+
+        <tr>
+          <td class="rule-highlight">venīre</td>
+          <td>kommen</td>
+          <td>venit</td>
+        </tr>
+
+        <tr>
+          <td class="rule-highlight">vidēre</td>
+          <td>sehen</td>
+          <td>videt</td>
+        </tr>
+
+        <tr>
+          <td class="rule-highlight">tacēre</td>
+          <td>schweigen</td>
+          <td>tacet</td>
+        </tr>
+      </table>
+
+      <div class="mini-rule">
+        Viele Infinitive in L01 enden auf
+        <strong>-re</strong>.
+      </div>
+    `
+  },
+
+
+  debere:{
+    name:"dēbēre + Infinitiv",
+    review:`
+      <p>
+        <strong>dēbēre + Infinitiv</strong>
+        bedeutet häufig
+        <strong>müssen / sollen</strong>.
+      </p>
+
+      <div class="teach-example">
+        <div class="latin">
+          Servus venīre dēbet.
+        </div>
+        <div class="german">
+          Der Sklave muss kommen.
+        </div>
+      </div>
+
+      <table class="rule-table">
+        <tr>
+          <th>Latein</th>
+          <th>Deutsch</th>
+        </tr>
+
+        <tr>
+          <td>venīre</td>
+          <td>kommen</td>
+        </tr>
+
+        <tr>
+          <td class="rule-highlight">dēbet</td>
+          <td>er / sie muss</td>
+        </tr>
+
+        <tr>
+          <td class="rule-highlight">dēbent</td>
+          <td>sie müssen</td>
+        </tr>
+      </table>
+    `
+  }
+
+};
 
 
 /* =====================================================
@@ -886,16 +1258,16 @@ const SMALL_VOCAB = [
 
 function shuffle(arr){
 
-  const a = arr.slice();
+  const a=arr.slice();
 
   for(let i=a.length-1;i>0;i--){
 
-    const j =
+    const j=
       Math.floor(
         Math.random()*(i+1)
       );
 
-    [a[i],a[j]] =
+    [a[i],a[j]]=
       [a[j],a[i]];
 
   }
@@ -918,7 +1290,7 @@ function one(arr){
 function unique(arr){
 
   return arr.filter(
-    (value,index,array) =>
+    (value,index,array)=>
       array.indexOf(value)===index
   );
 
@@ -934,8 +1306,7 @@ function distractors(
   return shuffle(
     unique(values)
       .filter(
-        value =>
-          value!==correct
+        value=>value!==correct
       )
   ).slice(0,amount);
 
@@ -955,25 +1326,20 @@ const TEACHING = [
 
     <p>
       <strong>Singular</strong> bedeutet:
-      Eine Person oder eine Sache.
+      eine Person oder eine Sache.
     </p>
 
     <p>
       <strong>Plural</strong> bedeutet:
-      Mehrere Personen oder Sachen.
-    </p>
-
-    <p>
-      Im Lateinischen verändert sich dabei häufig
-      die <strong>Endung</strong> des Wortes.
+      mehrere Personen oder Sachen.
     </p>
 
     <table class="rule-table">
 
       <tr>
-        <th>Latein Singular</th>
+        <th>Singular</th>
         <th>Deutsch</th>
-        <th>Latein Plural</th>
+        <th>Plural</th>
         <th>Deutsch</th>
       </tr>
 
@@ -1019,20 +1385,9 @@ const TEACHING = [
       <strong>Deklinationsklasse</strong>.
     </p>
 
-    <p>
-      Du musst in L01 noch
-      <strong>keine große Deklinationstabelle auswendig lernen</strong>.
-    </p>
-
-    <p>
-      Wir schauen uns zunächst nur an,
-      wie einige wichtige Wörter vom
-      Singular in den Plural wechseln.
-    </p>
-
     <div class="mini-rule">
       Substantive werden <strong>dekliniert</strong>.<br>
-      Verben werden später <strong>konjugiert</strong>.
+      Verben werden <strong>konjugiert</strong>.
     </div>
 
   `
@@ -1043,19 +1398,6 @@ const TEACHING = [
   title:"3. Die a-Deklination",
   kicker:"Erste Formenfamilie",
   body:`
-
-    <p>
-      Eine Formenfamilie heißt
-      <strong>a-Deklination</strong>.
-    </p>
-
-    <p>
-      Viele Wörter dieser Gruppe sind feminin.
-      In L01 begegnen dir zum Beispiel
-      <em>serva</em>,
-      <em>domina</em> und
-      <em>victōria</em>.
-    </p>
 
     <table class="rule-table">
 
@@ -1100,20 +1442,9 @@ const TEACHING = [
 
 
 {
-  title:"4. Die o-Deklination: maskuline Wörter",
+  title:"4. Die o-Deklination",
   kicker:"Zweite Formenfamilie",
   body:`
-
-    <p>
-      Eine weitere Formenfamilie heißt
-      <strong>o-Deklination</strong>.
-    </p>
-
-    <p>
-      Einige maskuline Wörter dieser Gruppe
-      enden im Singular auf
-      <strong>-us</strong>.
-    </p>
 
     <table class="rule-table">
 
@@ -1139,68 +1470,19 @@ const TEACHING = [
       </tr>
 
       <tr>
-        <td class="rule-highlight">equus</td>
-        <td>das Pferd</td>
-        <td class="rule-highlight">equī</td>
-        <td>die Pferde</td>
-      </tr>
-
-    </table>
-
-    <div class="mini-rule">
-      In diesen Beispielen:<br>
-      Singular <strong>-us</strong>
-      → Plural <strong>-ī</strong>
-    </div>
-
-  `
-},
-
-
-{
-  title:"5. Die o-Deklination: Neutrum",
-  kicker:"Gleiche Klasse – anderes Muster",
-  body:`
-
-    <p>
-      Zur o-Deklination gehören auch
-      <strong>neutrale Wörter</strong>.
-    </p>
-
-    <p>
-      Diese sehen anders aus als die
-      maskulinen Wörter auf <em>-us</em>.
-    </p>
-
-    <table class="rule-table">
-
-      <tr>
-        <th>Singular</th>
-        <th>Deutsch</th>
-        <th>Plural</th>
-        <th>Deutsch</th>
-      </tr>
-
-      <tr>
         <td class="rule-highlight">frūmentum</td>
         <td>das Getreide</td>
         <td class="rule-highlight">frūmenta</td>
         <td>Getreide</td>
       </tr>
 
-      <tr>
-        <td class="rule-highlight">fūrtum</td>
-        <td>der Diebstahl</td>
-        <td class="rule-highlight">fūrta</td>
-        <td>die Diebstähle</td>
-      </tr>
-
     </table>
 
     <div class="mini-rule">
-      Bei diesen Neutra:<br>
-      Singular <strong>-um</strong>
-      → Plural <strong>-a</strong>
+      Maskulin häufig:
+      <strong>-us → -ī</strong><br>
+      Neutrum:
+      <strong>-um → -a</strong>
     </div>
 
   `
@@ -1208,18 +1490,13 @@ const TEACHING = [
 
 
 {
-  title:"6. Die 3. Deklination",
+  title:"5. Die 3. Deklination",
   kicker:"Dritte Formenfamilie",
   body:`
 
     <p>
-      Die <strong>3. Deklination</strong>
-      ist etwas weniger leicht an der Singularform zu erkennen.
-    </p>
-
-    <p>
-      Deshalb lernst du zunächst konkrete Wörter
-      und ihre Pluralformen.
+      Die 3. Deklination ist an der Singularform
+      nicht immer leicht zu erkennen.
     </p>
 
     <table class="rule-table">
@@ -1245,13 +1522,6 @@ const TEACHING = [
         <td>die Sieger</td>
       </tr>
 
-      <tr>
-        <td class="rule-highlight">clāmor</td>
-        <td>der Lärm / das Geschrei</td>
-        <td class="rule-highlight">clāmōrēs</td>
-        <td>Rufe / Geschrei</td>
-      </tr>
-
     </table>
 
     <div class="mini-rule">
@@ -1264,362 +1534,44 @@ const TEACHING = [
 
 
 {
-  title:"7. Was ist das Genus?",
+  title:"6. Das Genus",
   kicker:"m · f · n",
-  body:`
-
-    <p>
-      Das grammatische Geschlecht eines Wortes heißt
-      <strong>Genus</strong>.
-    </p>
-
-    <table class="rule-table">
-
-      <tr>
-        <th>Abkürzung</th>
-        <th>Bedeutung</th>
-        <th>Beispiel</th>
-        <th>Deutsch</th>
-      </tr>
-
-      <tr>
-        <td class="rule-highlight">m</td>
-        <td>maskulin</td>
-        <td>servus</td>
-        <td>der Sklave</td>
-      </tr>
-
-      <tr>
-        <td class="rule-highlight">f</td>
-        <td>feminin</td>
-        <td>serva</td>
-        <td>die Sklavin</td>
-      </tr>
-
-      <tr>
-        <td class="rule-highlight">n</td>
-        <td>neutrum</td>
-        <td>frūmentum</td>
-        <td>das Getreide</td>
-      </tr>
-
-    </table>
-
-    <p style="margin-top:12px;">
-      Achtung:
-      Das grammatische Geschlecht im Lateinischen
-      muss nicht immer genauso wirken wie der deutsche Artikel.
-    </p>
-
-  `
+  body:SKILL_INFO.genus.review
 },
 
 
 {
-  title:"8. Auch Verben verändern ihre Form",
+  title:"7. Verben: einer oder mehrere?",
   kicker:"3. Person",
-  body:`
-
-    <p>
-      Jetzt schauen wir auf die
-      <strong>Verben</strong>.
-    </p>
-
-    <p>
-      Auch ein Verb verändert seine Endung.
-      In L01 brauchst du zunächst vor allem:
-    </p>
-
-    <p>
-      <strong>3. Person Singular</strong>
-      = er / sie / es
-      <br>
-      <strong>3. Person Plural</strong>
-      = sie
-    </p>
-
-    <table class="rule-table">
-
-      <tr>
-        <th>Infinitiv</th>
-        <th>Deutsch</th>
-        <th>3. Sg.</th>
-        <th>3. Pl.</th>
-      </tr>
-
-      <tr>
-        <td>clāmāre</td>
-        <td>rufen / schreien</td>
-        <td class="rule-highlight">clāmat</td>
-        <td class="rule-highlight">clāmant</td>
-      </tr>
-
-      <tr>
-        <td>tacēre</td>
-        <td>schweigen</td>
-        <td class="rule-highlight">tacet</td>
-        <td class="rule-highlight">tacent</td>
-      </tr>
-
-      <tr>
-        <td>gaudēre</td>
-        <td>sich freuen</td>
-        <td class="rule-highlight">gaudet</td>
-        <td class="rule-highlight">gaudent</td>
-      </tr>
-
-      <tr>
-        <td>venīre</td>
-        <td>kommen</td>
-        <td class="rule-highlight">venit</td>
-        <td class="rule-highlight">veniunt</td>
-      </tr>
-
-    </table>
-
-    <div class="mini-rule">
-      Einer handelt → häufig <strong>-t</strong><br>
-      Mehrere handeln → <strong>-nt</strong>
-    </div>
-
-  `
+  body:SKILL_INFO.verbNumber.review
 },
 
 
 {
-  title:"9. Subjekt und Prädikat müssen zusammenpassen",
+  title:"8. Subjekt und Prädikat",
   kicker:"Kongruenz",
-  body:`
-
-    <p>
-      Das Subjekt sagt,
-      <strong>wer oder was handelt</strong>.
-    </p>
-
-    <p>
-      Das Prädikat ist die Verbform.
-    </p>
-
-    <p>
-      Steht das Subjekt im Singular,
-      muss auch die Verbform zum Singular passen.
-    </p>
-
-    <div class="teach-example">
-
-      <div class="latin">
-        servus tacet
-      </div>
-
-      <div class="german">
-        der Sklave schweigt
-      </div>
-
-    </div>
-
-    <div class="teach-example">
-
-      <div class="latin">
-        servī tacent
-      </div>
-
-      <div class="german">
-        die Sklaven schweigen
-      </div>
-
-    </div>
-
-    <div class="mini-rule">
-      Einer → Singular + Singular<br>
-      Mehrere → Plural + Plural
-    </div>
-
-  `
+  body:SKILL_INFO.kongruenz.review
 },
 
 
 {
-  title:"10. esse: sein",
-  kicker:"Ein wichtiges besonderes Verb",
-  body:`
-
-    <p>
-      <strong>esse</strong>
-      bedeutet
-      <strong>sein</strong>.
-    </p>
-
-    <p>
-      In L01 brauchst du zunächst nur zwei Formen:
-    </p>
-
-    <table class="rule-table">
-
-      <tr>
-        <th>Form</th>
-        <th>Deutsch</th>
-        <th>Person</th>
-      </tr>
-
-      <tr>
-        <td class="rule-highlight">est</td>
-        <td>er / sie / es ist</td>
-        <td>3. Person Singular</td>
-      </tr>
-
-      <tr>
-        <td class="rule-highlight">sunt</td>
-        <td>sie sind</td>
-        <td>3. Person Plural</td>
-      </tr>
-
-    </table>
-
-    <div class="teach-example">
-
-      <div class="latin">
-        Dāvus servus est.
-      </div>
-
-      <div class="german">
-        Davus ist ein Sklave.
-      </div>
-
-    </div>
-
-    <div class="teach-example">
-
-      <div class="latin">
-        Dāvus et Fidus servī sunt.
-      </div>
-
-      <div class="german">
-        Davus und Fidus sind Sklaven.
-      </div>
-
-    </div>
-
-  `
+  title:"9. esse",
+  kicker:"sein",
+  body:SKILL_INFO.esse.review
 },
 
 
 {
-  title:"11. Was ist ein Infinitiv?",
-  kicker:"Die Grundform des Verbs",
-  body:`
-
-    <p>
-      Der <strong>Infinitiv</strong>
-      ist die Grundform eines Verbs.
-    </p>
-
-    <p>
-      Im Deutschen sind das zum Beispiel:
-      <em>kommen</em>,
-      <em>sehen</em>,
-      <em>schweigen</em>.
-    </p>
-
-    <table class="rule-table">
-
-      <tr>
-        <th>Latein</th>
-        <th>Deutsch</th>
-        <th>3. Person Singular</th>
-      </tr>
-
-      <tr>
-        <td class="rule-highlight">venīre</td>
-        <td>kommen</td>
-        <td>venit = er/sie kommt</td>
-      </tr>
-
-      <tr>
-        <td class="rule-highlight">vidēre</td>
-        <td>sehen</td>
-        <td>videt = er/sie sieht</td>
-      </tr>
-
-      <tr>
-        <td class="rule-highlight">tacēre</td>
-        <td>schweigen</td>
-        <td>tacet = er/sie schweigt</td>
-      </tr>
-
-      <tr>
-        <td class="rule-highlight">clāmāre</td>
-        <td>rufen / schreien</td>
-        <td>clāmat = er/sie ruft</td>
-      </tr>
-
-    </table>
-
-    <div class="mini-rule">
-      Viele Infinitive dieser Lektion enden auf
-      <strong>-re</strong>.
-    </div>
-
-  `
+  title:"10. Der Infinitiv",
+  kicker:"Grundform",
+  body:SKILL_INFO.infinitive.review
 },
 
 
 {
-  title:"12. dēbēre + Infinitiv",
-  kicker:"müssen oder sollen",
-  body:`
-
-    <p>
-      <strong>dēbēre</strong>
-      bedeutet unter anderem
-      <strong>müssen / sollen</strong>.
-    </p>
-
-    <p>
-      Es steht häufig zusammen mit einem Infinitiv.
-    </p>
-
-    <div class="teach-example">
-
-      <div class="latin">
-        Servus venīre dēbet.
-      </div>
-
-      <div class="german">
-        Der Sklave muss kommen.
-      </div>
-
-    </div>
-
-    <table class="rule-table">
-
-      <tr>
-        <th>Latein</th>
-        <th>Deutsch</th>
-      </tr>
-
-      <tr>
-        <td>venīre</td>
-        <td>kommen</td>
-      </tr>
-
-      <tr>
-        <td>dēbet</td>
-        <td>er / sie muss</td>
-      </tr>
-
-      <tr>
-        <td>dēbent</td>
-        <td>sie müssen</td>
-      </tr>
-
-    </table>
-
-    <div class="mini-rule">
-      Latein: Servus – venīre – dēbet.<br>
-      Deutsch: Der Sklave – muss – kommen.
-    </div>
-
-  `
+  title:"11. dēbēre + Infinitiv",
+  kicker:"müssen / sollen",
+  body:SKILL_INFO.debere.review
 }
 
 ];
@@ -1630,6 +1582,7 @@ const TEACHING = [
 ===================================================== */
 
 function makeQuestion(
+  skill,
   theme,
   prompt,
   sentence,
@@ -1641,6 +1594,7 @@ function makeQuestion(
 ){
 
   return{
+    skill,
     theme,
     prompt,
     sentence,
@@ -1656,26 +1610,25 @@ function makeQuestion(
 
 function qMeaningNoun(){
 
-  const n = one(NOUNS);
+  const n=one(NOUNS);
 
-  const wrong =
-    distractors(
-      n.deSg,
-      NOUNS.map(x=>x.deSg),
-      2
-    );
+  const wrong=distractors(
+    n.deSg,
+    NOUNS.map(x=>x.deSg),
+    2
+  );
 
-  const opts =
-    shuffle([
-      n.deSg,
-      ...wrong
-    ]);
+  const opts=shuffle([
+    n.deSg,
+    ...wrong
+  ]);
 
   return makeQuestion(
-    "Vokabel + Substantiv",
+    null,
+    "Vokabel",
     "Was bedeutet dieses lateinische Wort?",
     n.sg,
-    "Bevor du die Form bestimmst: Weißt du noch, was das Wort bedeutet?",
+    "",
     opts,
     opts.indexOf(n.deSg),
     n.sg+" bedeutet „"+n.deSg+"“.",
@@ -1687,29 +1640,28 @@ function qMeaningNoun(){
 
 function qPlural(){
 
-  const n = one(NOUNS);
+  const n=one(NOUNS);
 
-  const wrong =
-    distractors(
-      n.pl,
-      NOUNS.map(x=>x.pl),
-      2
-    );
+  const wrong=distractors(
+    n.pl,
+    NOUNS.map(x=>x.pl),
+    2
+  );
 
-  const opts =
-    shuffle([
-      n.pl,
-      ...wrong
-    ]);
+  const opts=shuffle([
+    n.pl,
+    ...wrong
+  ]);
 
   return makeQuestion(
+    "number",
     "Singular → Plural",
     "Welche Pluralform gehört dazu?",
     n.sg+" = "+n.deSg,
     "Gesucht ist die Form für mehrere.",
     opts,
     opts.indexOf(n.pl),
-    n.sg+" → "+n.pl+". Auf Deutsch: "+n.deSg+" → "+n.dePl+".",
+    n.sg+" → "+n.pl+".",
     "Der passende Plural lautet "+n.pl+"."
   );
 
@@ -1718,22 +1670,21 @@ function qPlural(){
 
 function qSingular(){
 
-  const n = one(NOUNS);
+  const n=one(NOUNS);
 
-  const wrong =
-    distractors(
-      n.sg,
-      NOUNS.map(x=>x.sg),
-      2
-    );
+  const wrong=distractors(
+    n.sg,
+    NOUNS.map(x=>x.sg),
+    2
+  );
 
-  const opts =
-    shuffle([
-      n.sg,
-      ...wrong
-    ]);
+  const opts=shuffle([
+    n.sg,
+    ...wrong
+  ]);
 
   return makeQuestion(
+    "number",
     "Plural → Singular",
     "Welche Singularform gehört dazu?",
     n.pl+" = "+n.dePl,
@@ -1749,23 +1700,23 @@ function qSingular(){
 
 function qDeclension(){
 
-  const n = one(NOUNS);
+  const n=one(NOUNS);
 
-  const opts =
-    shuffle([
-      "a-Deklination",
-      "o-Deklination",
-      "3. Deklination"
-    ]);
+  const opts=shuffle([
+    "a-Deklination",
+    "o-Deklination",
+    "3. Deklination"
+  ]);
 
   return makeQuestion(
+    "declension",
     "Deklinationsklasse",
     "Zu welcher Formenfamilie gehört dieses Wort?",
     n.sg+" → "+n.pl,
     n.sg+" bedeutet „"+n.deSg+"“.",
     opts,
     opts.indexOf(n.decl),
-    n.sg+" / "+n.pl+" gehört zur "+n.decl+".",
+    n.sg+" gehört zur "+n.decl+".",
     "Dieses Wort gehört zur "+n.decl+"."
   );
 
@@ -1774,22 +1725,22 @@ function qDeclension(){
 
 function qGenus(){
 
-  const n = one(NOUNS);
+  const n=one(NOUNS);
 
-  const labels = {
+  const labels={
     m:"maskulin (m)",
     f:"feminin (f)",
     n:"neutrum (n)"
   };
 
-  const opts =
-    shuffle([
-      "maskulin (m)",
-      "feminin (f)",
-      "neutrum (n)"
-    ]);
+  const opts=shuffle([
+    "maskulin (m)",
+    "feminin (f)",
+    "neutrum (n)"
+  ]);
 
   return makeQuestion(
+    "genus",
     "Genus",
     "Welches Genus hat dieses Wort?",
     n.sg+" = "+n.deSg,
@@ -1797,7 +1748,7 @@ function qGenus(){
     opts,
     opts.indexOf(labels[n.genus]),
     n.sg+" ist "+labels[n.genus]+".",
-    "Richtig ist: "+labels[n.genus]+"."
+    "Richtig ist "+labels[n.genus]+"."
   );
 
 }
@@ -1805,26 +1756,25 @@ function qGenus(){
 
 function qVerbMeaning(){
 
-  const v = one(VERBS);
+  const v=one(VERBS);
 
-  const wrong =
-    distractors(
-      v.de,
-      VERBS.map(x=>x.de),
-      2
-    );
+  const wrong=distractors(
+    v.de,
+    VERBS.map(x=>x.de),
+    2
+  );
 
-  const opts =
-    shuffle([
-      v.de,
-      ...wrong
-    ]);
+  const opts=shuffle([
+    v.de,
+    ...wrong
+  ]);
 
   return makeQuestion(
-    "Vokabel + Verb",
+    null,
+    "Vokabel",
     "Was bedeutet dieser Infinitiv?",
     v.inf,
-    "Der Infinitiv ist die Grundform.",
+    "",
     opts,
     opts.indexOf(v.de),
     v.inf+" bedeutet „"+v.de+"“.",
@@ -1836,35 +1786,35 @@ function qVerbMeaning(){
 
 function qVerbNumber(){
 
-  const v = one(VERBS);
+  const v=one(VERBS);
 
-  const plural =
+  const plural=
     Math.random()>.5;
 
-  const correct =
+  const correct=
     plural
       ? v.pl
       : v.sg;
 
-  const opts =
-    shuffle([
-      correct,
-      plural ? v.sg : v.pl,
-      v.inf
-    ]);
+  const opts=shuffle([
+    correct,
+    plural ? v.sg : v.pl,
+    v.inf
+  ]);
 
   return makeQuestion(
+    "verbNumber",
     "3. Person",
     plural
-      ? "Welche Form bedeutet hier: „sie "+v.de+"“?"
-      : "Welche Form bedeutet hier: „er / sie "+v.de+"“?",
+      ? "Welche Form steht in der 3. Person Plural?"
+      : "Welche Form steht in der 3. Person Singular?",
     v.inf+" = "+v.de,
     plural
-      ? "Gesucht ist die 3. Person Plural."
-      : "Gesucht ist die 3. Person Singular.",
+      ? "Gesucht ist die Form für mehrere."
+      : "Gesucht ist die Form für eine Person.",
     opts,
     opts.indexOf(correct),
-    correct+" ist die richtige Form.",
+    correct+" ist richtig.",
     plural
       ? "Die 3. Person Plural lautet "+v.pl+"."
       : "Die 3. Person Singular lautet "+v.sg+"."
@@ -1875,38 +1825,36 @@ function qVerbNumber(){
 
 function qEnding(){
 
-  const v = one(VERBS);
+  const v=one(VERBS);
 
-  const plural =
+  const plural=
     Math.random()>.5;
 
-  const form =
+  const form=
     plural
       ? v.pl
       : v.sg;
 
-  const answer =
+  const correct=
     plural
       ? "mehrere handeln"
       : "eine Person handelt";
 
-  const opts =
-    shuffle([
-      "eine Person handelt",
-      "mehrere handeln"
-    ]);
+  const opts=shuffle([
+    "eine Person handelt",
+    "mehrere handeln"
+  ]);
 
   return makeQuestion(
-    "Endung lesen",
+    "verbNumber",
+    "Verbendung",
     "Was erkennst du an dieser Verbform?",
-    form+" · "+v.de,
-    plural
-      ? "Achte besonders auf -nt."
-      : "Achte besonders auf -t.",
+    form,
+    form+" gehört zu "+v.inf+" = "+v.de+".",
     opts,
-    opts.indexOf(answer),
-    form+" zeigt hier: "+answer+".",
-    "Merke: -t steht hier für Singular, -nt für Plural."
+    opts.indexOf(correct),
+    form+" zeigt: "+correct+".",
+    "Achte auf die Personalendung."
   );
 
 }
@@ -1914,48 +1862,46 @@ function qEnding(){
 
 function qKongruenz(){
 
-  const n = one(NOUNS);
-  const v = one(VERBS);
+  const n=one(NOUNS);
+  const v=one(VERBS);
 
-  const plural =
+  const plural=
     Math.random()>.5;
 
-  const subject =
+  const subject=
     plural
       ? n.pl
       : n.sg;
 
-  const correct =
+  const correct=
     plural
       ? v.pl
       : v.sg;
 
-  const wrongForm =
+  const wrong=
     plural
       ? v.sg
       : v.pl;
 
-  const opts =
-    shuffle([
-      correct,
-      wrongForm,
-      v.inf
-    ]);
+  const opts=shuffle([
+    correct,
+    wrong,
+    v.inf
+  ]);
 
   return makeQuestion(
+    "kongruenz",
     "Subjekt + Prädikat",
     "Welche Verbform passt?",
     subject+" _____",
     subject+" bedeutet „"+
       (plural ? n.dePl : n.deSg)+
-      "“. Das Subjekt steht im "+
-      (plural ? "Plural." : "Singular."),
+      "“.",
     opts,
     opts.indexOf(correct),
-    subject+" "+correct+" passt im Numerus zusammen.",
+    subject+" "+correct+" passt zusammen.",
     "Das Subjekt steht im "+
-      (plural ? "Plural" : "Singular")+
-      ". Deshalb brauchst du "+correct+"."
+      (plural ? "Plural." : "Singular.")
   );
 
 }
@@ -1963,27 +1909,27 @@ function qKongruenz(){
 
 function qEsse(){
 
-  const plural =
+  const plural=
     Math.random()>.5;
 
-  const sentence =
+  const sentence=
     plural
       ? "Dāvus et Fidus servī _____."
       : "Dāvus servus _____.";
 
-  const correct =
+  const correct=
     plural
       ? "sunt"
       : "est";
 
-  const opts =
-    shuffle([
-      "est",
-      "sunt",
-      plural ? "adest" : "adsunt"
-    ]);
+  const opts=shuffle([
+    "est",
+    "sunt",
+    plural ? "adest" : "adsunt"
+  ]);
 
   return makeQuestion(
+    "esse",
     "esse = sein",
     "Welche Form passt?",
     sentence,
@@ -2003,23 +1949,23 @@ function qEsse(){
 
 function qInfinitiv(){
 
-  const v = one(VERBS);
+  const v=one(VERBS);
 
-  const opts =
-    shuffle([
-      v.inf,
-      v.sg,
-      v.pl
-    ]);
+  const opts=shuffle([
+    v.inf,
+    v.sg,
+    v.pl
+  ]);
 
   return makeQuestion(
+    "infinitive",
     "Infinitiv",
     "Welche Form ist die Grundform?",
     v.de,
-    "Der Infinitiv ist die Form, die du im Vokabelverzeichnis lernst.",
+    "Der Infinitiv ist die Form, die du als Grundform lernst.",
     opts,
     opts.indexOf(v.inf),
-    v.inf+" ist der Infinitiv und bedeutet „"+v.de+"“.",
+    v.inf+" ist der Infinitiv.",
     "Die Grundform lautet "+v.inf+"."
   );
 
@@ -2028,27 +1974,27 @@ function qInfinitiv(){
 
 function qDebere(){
 
-  const plural =
+  const plural=
     Math.random()>.5;
 
-  const sentence =
+  const sentence=
     plural
       ? "Servī venīre _____."
       : "Servus venīre _____.";
 
-  const correct =
+  const correct=
     plural
       ? "dēbent"
       : "dēbet";
 
-  const opts =
-    shuffle([
-      "dēbet",
-      "dēbent",
-      "venit"
-    ]);
+  const opts=shuffle([
+    "dēbet",
+    "dēbent",
+    "venit"
+  ]);
 
   return makeQuestion(
+    "debere",
     "dēbēre + Infinitiv",
     "Welche Form passt?",
     sentence,
@@ -2068,14 +2014,14 @@ function qDebere(){
 
 function qDebereTranslation(){
 
-  const opts =
-    shuffle([
-      "Der Sklave muss schweigen.",
-      "Der Sklave schweigt.",
-      "Die Sklaven müssen schweigen."
-    ]);
+  const opts=shuffle([
+    "Der Sklave muss schweigen.",
+    "Der Sklave schweigt.",
+    "Die Sklaven müssen schweigen."
+  ]);
 
   return makeQuestion(
+    "debere",
     "Latein → Deutsch",
     "Welche Übersetzung ist richtig?",
     "Servus tacēre dēbet.",
@@ -2093,24 +2039,22 @@ function qDebereTranslation(){
 
 function qSmallVocab(){
 
-  const v =
-    one(SMALL_VOCAB);
+  const v=one(SMALL_VOCAB);
 
-  const wrong =
-    distractors(
-      v.de,
-      SMALL_VOCAB.map(x=>x.de),
-      2
-    );
+  const wrong=distractors(
+    v.de,
+    SMALL_VOCAB.map(x=>x.de),
+    2
+  );
 
-  const opts =
-    shuffle([
-      v.de,
-      ...wrong
-    ]);
+  const opts=shuffle([
+    v.de,
+    ...wrong
+  ]);
 
   return makeQuestion(
-    "Kleine Vokabel",
+    null,
+    "Vokabel",
     "Was bedeutet dieses Wort?",
     v.lat,
     "",
@@ -2134,13 +2078,9 @@ function buildSession(){
     qMeaningNoun(),
 
     qPlural(),
-
     qSingular(),
 
-    qPlural(),
-
     qDeclension(),
-
     qDeclension(),
 
     qGenus(),
@@ -2148,58 +2088,101 @@ function buildSession(){
     qVerbMeaning(),
 
     qVerbNumber(),
-
     qEnding(),
 
     qKongruenz(),
-
     qKongruenz(),
 
     qEsse(),
 
     qInfinitiv(),
-
     qVerbMeaning(),
 
     qDebere(),
-
     qDebereTranslation(),
 
-    qSmallVocab()
+    qSmallVocab(),
+
+    Math.random()>.5
+      ? qPlural()
+      : qVerbNumber()
 
   ];
 
 }
 
 
-let session =
-  buildSession();
-
-let current =
-  0;
-
-let score =
-  0;
+let session=[];
+let current=0;
+let score=0;
 
 
 /* =====================================================
-   INTRO
+   DIAGNOSE-DATEN
+===================================================== */
+
+let skillStats={};
+
+
+function resetSkillStats(){
+
+  skillStats={};
+
+  Object.keys(
+    SKILL_INFO
+  ).forEach(function(skill){
+
+    skillStats[skill]={
+      attempts:0,
+      correct:0
+    };
+
+  });
+
+}
+
+
+function recordSkill(
+  skill,
+  correct
+){
+
+  if(!skill){
+    return;
+  }
+
+  if(!skillStats[skill]){
+    return;
+  }
+
+  skillStats[skill].attempts++;
+
+  if(correct){
+    skillStats[skill].correct++;
+  }
+
+}
+
+
+/* =====================================================
+   STARTSEITE
 ===================================================== */
 
 function renderIntro(){
 
-  const main =
+  const main=
     document.getElementById(
       "mainContent"
     );
 
+
   document.getElementById(
     "progressLabel"
-  ).textContent =
-    "Lernen";
+  ).textContent=
+    "Start";
 
 
-  main.innerHTML = `
+  main.innerHTML=`
 
     <div class="lesson-intro">
 
@@ -2212,23 +2195,18 @@ function renderIntro(){
       </h1>
 
       <p>
-        Diese Lektion beginnt wirklich bei Null.
-        Zuerst lernst du die Regeln Schritt für Schritt.
-        Erst danach startet das Training.
+        Du kannst die Regeln zuerst Schritt für Schritt
+        wiederholen oder direkt ins Training springen.
       </p>
 
       <div class="lesson-goals">
 
         <div class="goal-chip">
-          Singular & Plural verstehen
+          Singular & Plural
         </div>
 
         <div class="goal-chip">
-          Deklination verstehen
-        </div>
-
-        <div class="goal-chip">
-          a-, o- und 3. Deklination
+          Deklinationsklassen
         </div>
 
         <div class="goal-chip">
@@ -2236,7 +2214,11 @@ function renderIntro(){
         </div>
 
         <div class="goal-chip">
-          Verbformen -t · -nt
+          3. Person
+        </div>
+
+        <div class="goal-chip">
+          Kongruenz
         </div>
 
         <div class="goal-chip">
@@ -2247,24 +2229,59 @@ function renderIntro(){
 
     </div>
 
+
+    <div class="start-choice">
+
+      <h2>
+        Wie möchtest du starten?
+      </h2>
+
+      <p>
+        Wenn du die Regeln noch kennst,
+        kannst du sofort trainieren.
+        Nach dem Training zeigt dir Magistrella automatisch,
+        welche Regeln du noch einmal ansehen solltest.
+      </p>
+
+      <div class="start-buttons">
+
+        <button
+          type="button"
+          class="start-btn learn"
+          id="learnBtn">
+
+          Regeln lernen
+
+          <small>
+            Alle Erklärungen Schritt für Schritt
+          </small>
+
+        </button>
+
+
+        <button
+          type="button"
+          class="start-btn training"
+          id="trainingBtn">
+
+          Direkt zum Training
+
+          <small>
+            Regeln überspringen und Wissen testen
+          </small>
+
+        </button>
+
+      </div>
+
+    </div>
+
   `;
 
 
-  const btn =
-    document.createElement(
-      "button"
-    );
-
-  btn.type =
-    "button";
-
-  btn.className =
-    "continue-btn";
-
-  btn.textContent =
-    "Mit der ersten Erklärung starten →";
-
-  btn.addEventListener(
+  document.getElementById(
+    "learnBtn"
+  ).addEventListener(
     "click",
     function(){
 
@@ -2278,7 +2295,17 @@ function renderIntro(){
     }
   );
 
-  main.appendChild(btn);
+
+  document.getElementById(
+    "trainingBtn"
+  ).addEventListener(
+    "click",
+    function(){
+
+      startTraining();
+
+    }
+  );
 
 }
 
@@ -2289,24 +2316,24 @@ function renderIntro(){
 
 function renderTeaching(index){
 
-  const main =
+  const main=
     document.getElementById(
       "mainContent"
     );
 
-  const item =
+  const item=
     TEACHING[index];
 
 
   document.getElementById(
     "progressLabel"
-  ).textContent =
+  ).textContent=
     (index+1)+
     "/"+
     TEACHING.length;
 
 
-  main.innerHTML = `
+  main.innerHTML=`
 
     <div class="teach-card">
 
@@ -2323,9 +2350,7 @@ function renderTeaching(index){
       </div>
 
       <div class="teach-body">
-
         ${item.body}
-
       </div>
 
     </div>
@@ -2333,46 +2358,39 @@ function renderTeaching(index){
   `;
 
 
-  const btn =
+  const btn=
     document.createElement(
       "button"
     );
 
-  btn.type =
+  btn.type=
     "button";
 
-  btn.className =
+  btn.className=
     "continue-btn";
 
 
   if(
-    index ===
+    index===
     TEACHING.length-1
   ){
 
-    btn.textContent =
-      "Jetzt üben →";
+    btn.textContent=
+      "Jetzt trainieren →";
+
 
     btn.addEventListener(
       "click",
-      function(){
-
-        renderTrainingIntro();
-
-        window.scrollTo({
-          top:0,
-          behavior:"smooth"
-        });
-
-      }
+      startTraining
     );
 
   }
 
   else{
 
-    btn.textContent =
+    btn.textContent=
       "Weiter →";
+
 
     btn.addEventListener(
       "click",
@@ -2393,94 +2411,63 @@ function renderTeaching(index){
   }
 
 
-  main.appendChild(btn);
+  main.appendChild(
+    btn
+  );
 
 }
 
 
 /* =====================================================
-   TRAININGSSTART
+   TRAINING STARTEN
 ===================================================== */
 
-function renderTrainingIntro(){
+function startTraining(){
 
-  const main =
-    document.getElementById(
-      "mainContent"
-    );
+  session=
+    buildSession();
+
+  current=
+    0;
+
+  score=
+    0;
+
+  resetSkillStats();
+
 
   document.getElementById(
-    "progressLabel"
-  ).textContent =
-    "Training";
+    "mainContent"
+  ).style.display=
+    "block";
 
 
-  main.innerHTML = `
-
-    <div class="training-intro">
-
-      <h2>
-        Jetzt trainierst du das Gelernte
-      </h2>
-
-      <p>
-        Die Aufgaben beginnen leicht.
-        Lateinische Formen werden möglichst zusammen
-        mit ihrer deutschen Bedeutung gezeigt.
-        Wenn etwas falsch ist, bekommst du direkt
-        die richtige Erklärung.
-      </p>
-
-    </div>
-
-  `;
-
-
-  const btn =
-    document.createElement(
-      "button"
-    );
-
-  btn.type =
-    "button";
-
-  btn.className =
-    "continue-btn";
-
-  btn.textContent =
-    "Training starten →";
-
-
-  btn.addEventListener(
-    "click",
-    function(){
-
-      current=0;
-
-      renderQuestion();
-
-      window.scrollTo({
-        top:0,
-        behavior:"smooth"
-      });
-
-    }
+  document.getElementById(
+    "completionScreen"
+  ).classList.remove(
+    "visible"
   );
 
 
-  main.appendChild(btn);
+  renderQuestion();
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 
 }
 
 
 /* =====================================================
-   FRAGEN RENDERN
+   FRAGEN
 ===================================================== */
 
 function renderQuestion(){
 
   if(
-    current >=
+    current>=
     session.length
   ){
 
@@ -2490,38 +2477,38 @@ function renderQuestion(){
   }
 
 
-  const q =
+  const q=
     session[current];
 
 
   document.getElementById(
     "progressLabel"
-  ).textContent =
+  ).textContent=
     (current+1)+
     "/"+
     session.length;
 
 
-  const main =
+  const main=
     document.getElementById(
       "mainContent"
     );
 
 
-  main.innerHTML =
+  main.innerHTML=
     "";
 
 
-  const card =
+  const card=
     document.createElement(
       "div"
     );
 
-  card.className =
+  card.className=
     "question-card";
 
 
-  card.innerHTML = `
+  card.innerHTML=`
 
     <div class="q-theme">
       ${q.theme}
@@ -2552,39 +2539,39 @@ function renderQuestion(){
   `;
 
 
-  const optionWrap =
+  const optionWrap=
     document.createElement(
       "div"
     );
 
-  optionWrap.className =
+  optionWrap.className=
     "options";
 
 
-  const letters =
+  const letters=
     ["A","B","C","D"];
 
 
-  let answered =
+  let answered=
     false;
 
 
   q.options.forEach(
     function(option,index){
 
-      const btn =
+      const btn=
         document.createElement(
           "button"
         );
 
-      btn.type =
+      btn.type=
         "button";
 
-      btn.className =
+      btn.className=
         "option-btn";
 
 
-      btn.innerHTML = `
+      btn.innerHTML=`
 
         <span class="option-letter">
           ${letters[index]}
@@ -2605,19 +2592,26 @@ function renderQuestion(){
             return;
           }
 
-          answered =
+
+          answered=
             true;
 
 
-          const buttons =
+          const buttons=
             optionWrap.querySelectorAll(
               ".option-btn"
             );
 
 
-          const ok =
-            index ===
+          const ok=
+            index===
             q.correct;
+
+
+          recordSkill(
+            q.skill,
+            ok
+          );
 
 
           if(ok){
@@ -2668,15 +2662,15 @@ function renderQuestion(){
   );
 
 
-  const feedback =
+  const feedback=
     document.createElement(
       "div"
     );
 
-  feedback.id =
+  feedback.id=
     "feedback";
 
-  feedback.className =
+  feedback.className=
     "feedback";
 
 
@@ -2685,26 +2679,26 @@ function renderQuestion(){
   );
 
 
-  const next =
+  const next=
     document.createElement(
       "button"
     );
 
-  next.type =
+  next.type=
     "button";
 
-  next.id =
+  next.id=
     "nextBtn";
 
-  next.className =
+  next.className=
     "next-btn";
 
 
-  next.textContent =
-    current ===
+  next.textContent=
+    current===
     session.length-1
       ?
-      "Lektion abschließen ✓"
+      "Auswertung anzeigen ✓"
       :
       "Weiter →";
 
@@ -2748,13 +2742,13 @@ function showFeedback(
   ok
 ){
 
-  const feedback =
+  const feedback=
     card.querySelector(
       "#feedback"
     );
 
 
-  feedback.className =
+  feedback.className=
     "feedback "+
     (
       ok
@@ -2765,7 +2759,7 @@ function showFeedback(
     );
 
 
-  feedback.innerHTML = `
+  feedback.innerHTML=`
 
     <div class="feedback-title">
       ${
@@ -2787,17 +2781,6 @@ function showFeedback(
       }
     </div>
 
-    ${
-      !ok
-      ?
-      `<div class="feedback-tip">
-        Schau dir dabei nicht nur die Endung,
-        sondern auch die deutsche Bedeutung an.
-      </div>`
-      :
-      ""
-    }
-
   `;
 
 
@@ -2813,6 +2796,178 @@ function showFeedback(
 
 
 /* =====================================================
+   DIAGNOSE
+===================================================== */
+
+function buildDiagnosis(){
+
+  const diagnosis=
+    document.getElementById(
+      "diagnosis"
+    );
+
+
+  const testedSkills=
+    Object.keys(
+      skillStats
+    ).filter(
+      skill=>
+        skillStats[skill].attempts>0
+    );
+
+
+  const weakSkills=
+    testedSkills.filter(
+      skill=>{
+
+        const stats=
+          skillStats[skill];
+
+        const accuracy=
+          stats.correct/
+          stats.attempts;
+
+        /*
+          Unter 80 % = noch einmal zeigen.
+          Bei nur einer Aufgabe bedeutet ein Fehler
+          automatisch Wiederholung.
+        */
+
+        return accuracy<0.8;
+
+      }
+    );
+
+
+  let html=`
+
+    <div class="diagnosis-title">
+      Deine Regel-Diagnose
+    </div>
+
+    <div class="diagnosis-sub">
+      Magistrella wertet die einzelnen Regelbereiche
+      getrennt aus.
+    </div>
+
+  `;
+
+
+  testedSkills.forEach(
+    skill=>{
+
+      const stats=
+        skillStats[skill];
+
+      const pct=
+        Math.round(
+          stats.correct/
+          stats.attempts*
+          100
+        );
+
+      const weak=
+        pct<80;
+
+
+      html+=`
+
+        <div class="skill-result ${weak ? "weak" : "good"}">
+
+          <span class="skill-name">
+            ${SKILL_INFO[skill].name}
+          </span>
+
+          <span class="skill-score">
+            ${stats.correct}/${stats.attempts}
+          </span>
+
+        </div>
+
+      `;
+
+    }
+  );
+
+
+  if(
+    weakSkills.length===0
+  ){
+
+    html+=`
+
+      <div class="mastered-box">
+
+        <strong>
+          Alle getesteten Regeln sind sicher.
+        </strong>
+
+        <br><br>
+
+        Du musst jetzt keine Regelkarte erneut durcharbeiten.
+
+      </div>
+
+    `;
+
+  }
+
+  else{
+
+    html+=`
+
+      <div class="review-heading">
+        Diese Regeln solltest du noch einmal ansehen
+      </div>
+
+      <div class="review-explanation">
+        Es werden nur die Bereiche angezeigt,
+        bei denen im Training noch Unsicherheit sichtbar war.
+      </div>
+
+    `;
+
+
+    weakSkills.forEach(
+      skill=>{
+
+        html+=`
+
+          <div class="review-card">
+
+            <div class="review-head">
+
+              <div class="review-kicker">
+                Noch einmal ansehen
+              </div>
+
+              <h3>
+                ${SKILL_INFO[skill].name}
+              </h3>
+
+            </div>
+
+            <div class="review-body">
+              ${SKILL_INFO[skill].review}
+            </div>
+
+          </div>
+
+        `;
+
+      }
+    );
+
+  }
+
+
+  diagnosis.innerHTML=
+    html;
+
+}
+
+
+/* =====================================================
    ABSCHLUSS
 ===================================================== */
 
@@ -2820,11 +2975,17 @@ function showCompletion(){
 
   document.getElementById(
     "mainContent"
-  ).style.display =
+  ).style.display=
     "none";
 
 
-  const screen =
+  document.getElementById(
+    "progressLabel"
+  ).textContent=
+    "Fertig";
+
+
+  const screen=
     document.getElementById(
       "completionScreen"
     );
@@ -2835,17 +2996,17 @@ function showCompletion(){
   );
 
 
-  const pct =
+  const pct=
     Math.round(
-      score /
-      session.length *
+      score/
+      session.length*
       100
     );
 
 
   document.getElementById(
     "finalScore"
-  ).textContent =
+  ).textContent=
     score+
     "/"+
     session.length+
@@ -2856,7 +3017,7 @@ function showCompletion(){
 
   document.getElementById(
     "finalStars"
-  ).textContent =
+  ).textContent=
     pct>=90
       ?
       "★★★"
@@ -2873,37 +3034,40 @@ function showCompletion(){
 
   if(pct>=90){
 
-    msg =
-      "Sehr sicher. Du verstehst jetzt, was Singular, Plural und Deklination bedeuten, erkennst die ersten Formenfamilien und kannst wichtige Verbformen zuordnen.";
+    msg=
+      "Sehr sicher. Schau unten trotzdem auf die Regel-Diagnose: Sie prüft die einzelnen Bereiche genauer als der Gesamtscore.";
 
   }
 
   else if(pct>=70){
 
-    msg =
-      "Die Grundlage sitzt. Wiederhole L01 später noch einmal, damit die Endungsmuster und die Verbformen automatisch abrufbar werden.";
+    msg=
+      "Gute Grundlage. Unten findest du automatisch genau die Regeln, bei denen im Training noch Fehler aufgetreten sind.";
 
   }
 
   else{
 
-    msg =
-      "Gehe L01 noch einmal durch. Die Erklärungen kommen vor dem Training erneut. Konzentriere dich zuerst auf Singular und Plural und danach auf -t und -nt.";
+    msg=
+      "Einige Grundlagen brauchen noch Wiederholung. Magistrella zeigt dir unten nur die Regelbereiche, die im Training noch unsicher waren.";
 
   }
 
 
   document.getElementById(
     "finalMsg"
-  ).textContent =
+  ).textContent=
     msg;
 
 
-  const oldBest =
+  buildDiagnosis();
+
+
+  const oldBest=
     Number(
       localStorage.getItem(
         "magistrella-l01-best"
-      ) || 0
+      )||0
     );
 
 
@@ -2915,6 +3079,12 @@ function showCompletion(){
     );
 
   }
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 
 }
 
