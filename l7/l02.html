@@ -41,6 +41,9 @@ button{
   font:inherit;
 }
 
+details.teach-card .rule-table{display:block;overflow-x:auto;font-size:14px;}
+details.teach-card summary:focus-visible{outline:3px solid var(--gold-dark);outline-offset:-3px;}
+
 /* =====================================================
    TOPBAR
 ===================================================== */
@@ -697,7 +700,7 @@ const NOUNS = [
     akkSg:"tabernam",
     nomPl:"tabernae",
     akkPl:"tabernās",
-    de:"Gasthaus / Laden",
+    de:"Gasthaus / Laden / Werkstatt",
     decl:"a-Deklination",
     genus:"f"
   },
@@ -933,7 +936,7 @@ const SMALL_VOCAB = [
 
   {lat:"diū",de:"lange / lange Zeit"},
   {lat:"itaque",de:"deshalb"},
-  {lat:"iterum",de:"wieder / nochmals"},
+  {lat:"iterum",de:"wieder(um) / zum zweiten Mal"},
   {lat:"iam",de:"schon / bereits / nun"},
   {lat:"subitō",de:"plötzlich"},
   {lat:"nōn iam",de:"nicht mehr"},
@@ -941,7 +944,7 @@ const SMALL_VOCAB = [
   {lat:"nōs",de:"uns"},
   {lat:"statim",de:"sofort / auf der Stelle"},
   {lat:"bene",de:"gut"},
-  {lat:"ecce!",de:"Schau! / Sieh da!"},
+  {lat:"ecce!",de:"Schau! / Schaut! / Sieh da! / Seht da!"},
   {lat:"semper",de:"immer"}
 
 ];
@@ -950,6 +953,35 @@ const SMALL_VOCAB = [
 /* =====================================================
    HILFSFUNKTIONEN
 ===================================================== */
+
+// Vokabelheft, L02, Seiten 7–9: 31 Lernwörter und sieben Eigennamen (E).
+// Eigennamen haben eigene Akkusativformen und werden nicht künstlich pluralisiert.
+const PROPER_NAMES = [
+  {lat:"Aventīnus",akk:"Aventīnum",genus:"m",de:"der Aventin (einer der sieben Hügel Roms)"},
+  {lat:"Capitōlium",akk:"Capitōlium",genus:"n",de:"das Kapitol (einer der sieben Hügel Roms)"},
+  {lat:"Circus Maximus",akk:"Circum Maximum",genus:"m",de:"der Circus Maximus (Pferderennbahn)"},
+  {lat:"Colossēum",akk:"Colossēum",genus:"n",de:"das Kolosseum"},
+  {lat:"forum Boārium",akk:"forum Boārium",genus:"n",de:"das Forum Boarium (Rindermarkt)"},
+  {lat:"Iuppiter",akk:"Iovem",genus:"m",de:"Jupiter (der höchste Gott der Römer)"},
+  {lat:"Palātīnus",akk:"Palātīnum",genus:"m",de:"der Palatin (einer der sieben Hügel Roms)"}
+];
+const L02_NOUNS = NOUNS.filter(n=>["forum","circus","amīcus","amīca","via","aedificium","taberna","senātor","bēstia"].includes(n.nomSg));
+const L02_VERBS = VERBS.filter(v=>!["vidēre","venīre"].includes(v.inf));
+const MEANING_VOCAB = [
+  ...NOUNS.map(n=>({lat:n.nomSg,de:n.de})),
+  ...VERBS.map(v=>({lat:v.inf,de:v.de})),
+  ...PROPER_NAMES
+];
+function vocabularyHTML(){
+  const rows=[
+    ...L02_NOUNS.map(n=>[n.nomSg,n.akkSg+" · "+n.genus,n.de]),
+    ...L02_VERBS.map(v=>[v.inf,v.sg+(v.inf==="adiuvāre"?" · mit Akkusativ":""),v.de]),
+    ...PREPOSITIONS.map(p=>[p.lat,"mit Akkusativ",p.de]),
+    ...SMALL_VOCAB.map(v=>[v.lat,v.lat==="nōs"?"Akkusativ":"",v.de])
+  ];
+  const table=items=>`<table class="rule-table"><tr><th>Latein</th><th>Form / Hinweis</th><th>Deutsch</th></tr>${items.map(row=>`<tr>${row.map(value=>`<td>${value}</td>`).join('')}</tr>`).join('')}</table>`;
+  return `<details class="teach-card"><summary class="teach-head" style="cursor:pointer;min-height:48px"><strong>Alle ${rows.length} Lernwörter und 7 Eigennamen aus L02</strong></summary><div class="teach-body"><p>Abgeglichen mit deinem Vokabelheft, Seiten 7–9. Bei Nomen steht der Akkusativ Singular mit Genus, bei Verben die 3. Person Singular.</p>${table(rows)}<h3 style="margin-top:20px">E · Eigennamen</h3>${table(PROPER_NAMES.map(n=>[n.lat,n.akk+" · "+n.genus,n.de]))}<p>Die Bedeutungen passen je nach Satz. <strong>adiuvāre</strong> steht im Lateinischen mit Akkusativ: Serva amīcam adiuvat. = Die Sklavin hilft der Freundin / unterstützt die Freundin.</p><p>Ein Training enthält eine Auswahl aus dem Wortschatz. 100 % bedeutet: alle Aufgaben dieses Durchlaufs richtig.</p></div></details>`;
+}
 
 function shuffle(arr){
 
@@ -1731,13 +1763,13 @@ function makeQuestion(
 
 function qMeaning(){
 
-  const n=one(NOUNS);
+  const n=one(MEANING_VOCAB);
 
   const correct=n.de;
 
   const wrong=distractors(
     correct,
-    NOUNS.map(x=>x.de),
+    MEANING_VOCAB.map(x=>x.de),
     2
   );
 
@@ -1748,12 +1780,12 @@ function qMeaning(){
 
   return makeQuestion(
     "Vokabel + Grammatik",
-    "Was bedeutet die Grundform?",
-    n.nomSg,
+    "Was bedeutet dieses Wort oder dieser Name?",
+    n.lat,
     "Bevor wir die Form bestimmen, sichern wir die Wortbedeutung.",
     opts,
     opts.indexOf(correct),
-    n.nomSg+" bedeutet „"+n.de+"“.",
+    n.lat+" bedeutet „"+n.de+"“.",
     "Die richtige Bedeutung ist „"+n.de+"“."
   );
 
@@ -2475,6 +2507,8 @@ function renderIntro(){
 
   `;
 
+
+  main.insertAdjacentHTML("beforeend",vocabularyHTML());
 
   const btn=
     document.createElement(
