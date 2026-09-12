@@ -41,13 +41,6 @@ button{
   font:inherit;
 }
 
-details.teach-card .rule-table{display:block;overflow-x:auto;font-size:14px;}
-details.teach-card summary:focus-visible{outline:3px solid var(--gold-dark);outline-offset:-3px;}
-
-/* =====================================================
-   TOPBAR
-===================================================== */
-
 .topbar{
   position:sticky;
   top:0;
@@ -144,25 +137,91 @@ details.teach-card summary:focus-visible{outline:3px solid var(--gold-dark);outl
 }
 
 /* =====================================================
+   STARTAUSWAHL
+===================================================== */
+
+.start-choice{
+  margin:16px;
+  padding:18px;
+  border-radius:18px;
+  background:var(--ink-mid);
+  border:1px solid rgba(201,168,76,.18);
+}
+
+.start-choice h2{
+  color:var(--gold-light);
+  font-size:19px;
+  margin-bottom:5px;
+}
+
+.start-choice p{
+  color:var(--stone);
+  font-size:14px;
+  margin-bottom:15px;
+}
+
+.start-buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.start-btn{
+  min-height:64px;
+  padding:12px;
+  border-radius:14px;
+  cursor:pointer;
+  font-weight:800;
+  border:1.5px solid var(--gold);
+}
+
+.start-btn.learn{
+  background:linear-gradient(
+    135deg,
+    var(--gold-dark),
+    var(--gold)
+  );
+  color:var(--ink);
+}
+
+.start-btn.training{
+  background:rgba(201,168,76,.07);
+  color:var(--gold-light);
+}
+
+.start-btn small{
+  display:block;
+  margin-top:3px;
+  font-size:11px;
+  font-weight:500;
+  line-height:1.35;
+  opacity:.85;
+}
+
+/* =====================================================
    LERNKARTEN
 ===================================================== */
 
-.teach-card{
+.teach-card,
+.review-card{
   margin:16px;
   border-radius:18px;
   overflow:hidden;
   background:var(--parchment);
   color:#2A1F0E;
   border:1px solid rgba(201,168,76,.55);
+  text-align:left;
 }
 
-.teach-head{
+.teach-head,
+.review-head{
   padding:13px 16px;
   background:var(--parchment-dark);
   border-bottom:1px solid rgba(90,60,10,.12);
 }
 
-.teach-kicker{
+.teach-kicker,
+.review-kicker{
   color:#735108;
   text-transform:uppercase;
   font-size:11px;
@@ -170,23 +229,27 @@ details.teach-card summary:focus-visible{outline:3px solid var(--gold-dark);outl
   font-weight:800;
 }
 
-.teach-head h2{
+.teach-head h2,
+.review-head h3{
   color:#2A1F0E;
   font-size:20px;
   line-height:1.3;
   margin-top:2px;
 }
 
-.teach-body{
+.teach-body,
+.review-body{
   padding:16px;
   font-size:15px;
 }
 
-.teach-body p + p{
+.teach-body p + p,
+.review-body p + p{
   margin-top:10px;
 }
 
-.teach-body strong{
+.teach-body strong,
+.review-body strong{
   color:#6C4B06;
 }
 
@@ -228,20 +291,20 @@ details.teach-card summary:focus-visible{outline:3px solid var(--gold-dark);outl
   width:100%;
   border-collapse:collapse;
   margin-top:14px;
-  font-size:13px;
+  font-size:14px;
 }
 
 .rule-table th{
   background:rgba(139,105,20,.13);
   color:#654807;
-  padding:7px 6px;
+  padding:7px 7px;
   text-align:left;
-  font-size:11px;
+  font-size:12px;
 }
 
 .rule-table td{
   color:#2E2110;
-  padding:7px 6px;
+  padding:7px;
   border-bottom:1px solid rgba(80,55,5,.14);
   vertical-align:top;
 }
@@ -358,11 +421,6 @@ details.teach-card summary:focus-visible{outline:3px solid var(--gold-dark);outl
   color:#fff;
   cursor:pointer;
   text-align:left;
-  transition:.15s;
-}
-
-.option-btn:active{
-  transform:scale(.98);
 }
 
 .option-btn.correct{
@@ -397,7 +455,6 @@ details.teach-card summary:focus-visible{outline:3px solid var(--gold-dark);outl
   padding:14px;
   border-radius:14px;
   font-size:14px;
-  line-height:1.55;
 }
 
 .feedback.correct{
@@ -417,11 +474,6 @@ details.teach-card summary:focus-visible{outline:3px solid var(--gold-dark);outl
 .feedback-title{
   font-weight:800;
   margin-bottom:5px;
-}
-
-.feedback-tip{
-  margin-top:8px;
-  color:#F5E7B8;
 }
 
 /* =====================================================
@@ -455,34 +507,31 @@ details.teach-card summary:focus-visible{outline:3px solid var(--gold-dark);outl
   display:block;
 }
 
-.continue-btn:active,
-.next-btn:active{
-  transform:scale(.98);
-}
-
 /* =====================================================
-   COMPLETION
+   ABSCHLUSS + DIAGNOSE
 ===================================================== */
 
 .completion{
   display:none;
-  text-align:center;
-  padding:40px 24px;
+  padding:32px 16px 45px;
 }
 
 .completion.visible{
   display:block;
 }
 
+.completion-main{
+  text-align:center;
+}
+
 .completion-symbol{
   font-size:60px;
-  margin-bottom:12px;
 }
 
 .completion-title{
   color:var(--gold-light);
   font-size:27px;
-  margin-bottom:8px;
+  margin-top:8px;
 }
 
 .completion-score{
@@ -500,13 +549,85 @@ details.teach-card summary:focus-visible{outline:3px solid var(--gold-dark);outl
 
 .completion-msg{
   color:var(--parchment-dark);
-  max-width:520px;
-  margin:0 auto 25px;
+  max-width:560px;
+  margin:0 auto 24px;
   font-size:15px;
+}
+
+.diagnosis{
+  max-width:760px;
+  margin:28px auto 0;
+}
+
+.diagnosis-title{
+  color:var(--gold-light);
+  font-size:21px;
+  margin-bottom:6px;
+  text-align:left;
+}
+
+.diagnosis-sub{
+  color:var(--stone);
+  font-size:14px;
+  text-align:left;
+  margin-bottom:14px;
+}
+
+.skill-result{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 12px;
+  margin-bottom:7px;
+  border-radius:10px;
+  background:rgba(255,255,255,.04);
+  font-size:14px;
+}
+
+.skill-result.good{
+  border-left:4px solid var(--green-ok);
+}
+
+.skill-result.weak{
+  border-left:4px solid var(--red-wrong);
+}
+
+.skill-name{
+  color:var(--parchment);
+}
+
+.skill-score{
+  color:var(--stone);
+  font-weight:700;
+}
+
+.review-heading{
+  color:var(--gold-light);
+  text-align:left;
+  font-size:20px;
+  margin:26px 0 5px;
+}
+
+.review-explanation{
+  color:var(--stone);
+  text-align:left;
+  font-size:14px;
+  margin-bottom:8px;
+}
+
+.mastered-box{
+  padding:16px;
+  border-radius:14px;
+  background:rgba(76,175,125,.1);
+  border:1px solid rgba(76,175,125,.3);
+  color:#A6EAC1;
+  text-align:left;
+  margin-top:18px;
 }
 
 .home-btn{
   display:inline-block;
+  margin-top:28px;
   padding:14px 25px;
   border-radius:14px;
   background:linear-gradient(
@@ -525,19 +646,20 @@ a:focus-visible{
   outline-offset:3px;
 }
 
-@media(max-width:540px){
+@media(max-width:520px){
 
-  .lesson-goals{
+  .lesson-goals,
+  .start-buttons{
     grid-template-columns:1fr;
   }
 
   .rule-table{
-    font-size:11.5px;
+    font-size:12px;
   }
 
   .rule-table th,
   .rule-table td{
-    padding:6px 3px;
+    padding:6px 4px;
   }
 
 }
@@ -548,6 +670,22 @@ a:focus-visible{
     transition-duration:.01ms!important;
   }
 }
+
+body > #mainContent, .completion {max-width:820px;margin:auto;}
+.start-btn small{font-size:14px;}
+.feedback.correct,.feedback.wrong{background:var(--parchment);color:var(--ink);border-width:2px;}
+.result-section{margin:24px auto;padding:18px;border:1px solid rgba(201,168,76,.3);border-radius:18px;}
+.result-section h2{font-size:22px;color:var(--gold-light);margin-bottom:14px;}
+.correction{background:var(--parchment);color:var(--ink);padding:16px;border-radius:12px;margin:12px 0;overflow-wrap:anywhere;}
+.result-actions{display:flex;flex-wrap:wrap;gap:12px;margin:16px 0;}
+.result-actions button{flex:1;min-width:180px;}
+.review-card{margin:16px 0;}
+.skill-score{color:var(--parchment);white-space:nowrap;}
+input{display:block;width:100%;min-height:48px;font:inherit;margin:12px 0;padding:10px;border:2px solid var(--gold);border-radius:10px;}
+.history-list{list-style:none;}.history-list li{padding:12px 0;border-bottom:1px solid var(--gold-dark);}
+.rule-table{display:block;overflow-x:auto;font-size:14px;}
+
+.completion{text-align:left;}
 </style>
 </head>
 
@@ -1761,7 +1899,7 @@ function makeQuestion(
 }
 
 
-function qMeaning(){
+function generateMeaning(){
 
   const n=one(MEANING_VOCAB);
 
@@ -1792,7 +1930,7 @@ function qMeaning(){
 }
 
 
-function qAkkSg(){
+function generateAkkSg(){
 
   const n=one(
     NOUNS.filter(x=>
@@ -1833,7 +1971,7 @@ function qAkkSg(){
 }
 
 
-function qAkkPl(){
+function generateAkkPl(){
 
   const n=one(
     NOUNS.filter(x=>
@@ -1874,7 +2012,7 @@ function qAkkPl(){
 }
 
 
-function qKasusNumerus(){
+function generateKasusNumerus(){
 
   const candidates=[];
 
@@ -1941,7 +2079,7 @@ function qKasusNumerus(){
 }
 
 
-function qNeutrum(){
+function generateNeutrum(){
 
   const questions=[
 
@@ -1993,7 +2131,7 @@ function qNeutrum(){
 }
 
 
-function qNomAkkSentence(){
+function generateNomAkkSentence(){
 
   const questions=[
 
@@ -2067,7 +2205,7 @@ function qNomAkkSentence(){
 }
 
 
-function qObjectOrAdverbial(){
+function generateObjectOrAdverbial(){
 
   const questions=[
 
@@ -2139,7 +2277,7 @@ function qObjectOrAdverbial(){
 }
 
 
-function qPreposition(){
+function generatePreposition(){
 
   const q=one(PREPOSITIONS);
 
@@ -2163,7 +2301,7 @@ function qPreposition(){
 }
 
 
-function qPrepositionSentence(){
+function generatePrepositionSentence(){
 
   const questions=[
 
@@ -2215,7 +2353,7 @@ function qPrepositionSentence(){
 }
 
 
-function qKongruenz(){
+function generateKongruenz(){
 
   const questions=[
 
@@ -2286,7 +2424,7 @@ function qKongruenz(){
 }
 
 
-function qWordOrder(){
+function generateWordOrder(){
 
   const questions=[
 
@@ -2353,7 +2491,7 @@ function qWordOrder(){
 }
 
 
-function qSmallVocab(){
+function generateSmallVocab(){
 
   const v=one(SMALL_VOCAB);
 
@@ -2385,6 +2523,55 @@ function qSmallVocab(){
 /* =====================================================
    SESSION
 ===================================================== */
+
+const SKILL_INFO={
+  nounVocab:{name:'Nomen-Vokabeln'},verbVocab:{name:'Verb-Vokabeln'},nameVocab:{name:'Eigennamen'},smallVocab:{name:'Kleine Wörter'},
+  akkSg:{name:'Akkusativ Singular',review:true},akkPl:{name:'Akkusativ Plural',review:true},
+  caseNumber:{name:'Kasus & Numerus',review:true},neuter:{name:'Neutrum-Regel',review:true},
+  caseSentence:{name:'Nominativ & Akkusativ im Satz',review:true},sentencePart:{name:'Objekt & Adverbiale',review:true},
+  preposition:{name:'Präposition + Akkusativ',review:true},agreement:{name:'Kongruenz',review:true},wordOrder:{name:'Wortstellung',review:true}
+};
+function plainText(value){return String(value).replace(/<[^>]*>/g,'');}
+function tagQuestion(q,generator,skill,reviewKeys){
+  if(generator==='qMeaning') skill=VERBS.some(v=>v.inf===q.sentence)?'verbVocab':PROPER_NAMES.some(n=>n.lat===q.sentence)?'nameVocab':'nounVocab';
+  const noun=NOUNS.find(n=>[n.nomSg,n.akkSg,n.nomPl,n.akkPl].includes(q.sentence.split(' = ')[0]));
+  if(['akkSg','akkPl'].includes(skill)) reviewKeys=[noun.decl==='a-Deklination'?3:noun.decl==='3. Deklination'?6:noun.genus==='n'?5:4];
+  if(skill==='caseNumber' && noun) reviewKeys=[7,noun.decl==='a-Deklination'?3:noun.decl==='3. Deklination'?6:noun.genus==='n'?5:4];
+  if(!SKILL_INFO[skill]) throw new Error('Frage ohne Diagnosekategorie');
+  return {...q,skill,generator,reviewKeys};
+}
+function qMeaning(){return tagQuestion(generateMeaning(),'qMeaning','nounVocab',[]);}
+function qAkkSg(){return tagQuestion(generateAkkSg(),'qAkkSg','akkSg',[]);}
+function qAkkPl(){return tagQuestion(generateAkkPl(),'qAkkPl','akkPl',[]);}
+function qKasusNumerus(){return tagQuestion(generateKasusNumerus(),'qKasusNumerus','caseNumber',[7]);}
+function qNeutrum(){return tagQuestion(generateNeutrum(),'qNeutrum','neuter',[5]);}
+function qNomAkkSentence(){return tagQuestion(generateNomAkkSentence(),'qNomAkkSentence','caseSentence',[1, 2]);}
+function qObjectOrAdverbial(){return tagQuestion(generateObjectOrAdverbial(),'qObjectOrAdverbial','sentencePart',[9]);}
+function qPreposition(){return tagQuestion(generatePreposition(),'qPreposition','preposition',[8]);}
+function qPrepositionSentence(){return tagQuestion(generatePrepositionSentence(),'qPrepositionSentence','preposition',[8]);}
+function qKongruenz(){return tagQuestion(generateKongruenz(),'qKongruenz','agreement',[10]);}
+function qWordOrder(){return tagQuestion(generateWordOrder(),'qWordOrder','wordOrder',[11]);}
+function qSmallVocab(){return tagQuestion(generateSmallVocab(),'qSmallVocab','smallVocab',[]);}
+const QUESTION_GENERATORS={qMeaning,qAkkSg,qAkkPl,qKasusNumerus,qNeutrum,qNomAkkSentence,qObjectOrAdverbial,qPreposition,qPrepositionSentence,qKongruenz,qWordOrder,qSmallVocab};
+function buildPractice(result){
+  return result.wrongAnswers.map(error=>{
+    const old=error.question;
+    if(!SKILL_INFO[error.skill].review){
+      const pool=error.skill==='smallVocab'?SMALL_VOCAB:MEANING_VOCAB;
+      // Preserve the exact vocabulary item, reverse the translation direction.
+      const options=shuffle([old.sentence,...distractors(old.sentence,pool.filter(v=>v.de!==error.correctAnswer).map(v=>v.lat))]);
+      return {...makeQuestion('Deine Fehler üben','Welches lateinische Wort bedeutet das?',error.correctAnswer,'',options,options.indexOf(old.sentence),old.sentence+' – '+error.correctAnswer,error.explanation),skill:error.skill,reviewKeys:[],generator:old.generator};
+    }
+    let q=old;
+    for(let i=0;i<200;i++){
+      const candidate=QUESTION_GENERATORS[old.generator]();
+      if(JSON.stringify(candidate.reviewKeys)!==JSON.stringify(old.reviewKeys)) continue;
+      q=candidate;
+      if(q.sentence!==old.sentence) break;
+    }
+    return {...q,prompt:'Noch einmal anwenden: '+q.prompt};
+  });
+}
 
 function buildSession(){
 
@@ -2431,125 +2618,47 @@ function buildSession(){
 }
 
 
-let session=buildSession();
-
-let current=0;
-
-let score=0;
-
-
-/* =====================================================
-   INTRO
-===================================================== */
-
-function renderIntro(){
-
-  const main=
-    document.getElementById(
-      "mainContent"
-    );
-
-
-  document.getElementById(
-    "progressLabel"
-  ).textContent=
-    "Lernen";
-
-
-  main.innerHTML=`
-
-    <div class="lesson-intro">
-
-      <div class="lesson-kicker">
-        Magistrella · L02
-      </div>
-
-      <h1>
-        Nominativ, Akkusativ und Satzglieder
-      </h1>
-
-      <p>
-        In L01 hast du gelernt,
-        dass lateinische Wörter ihre Endung verändern.
-        Jetzt lernst du, dass diese Formen auch zeigen können,
-        welche Aufgabe ein Wort im Satz hat.
-      </p>
-
-      <div class="lesson-goals">
-
-        <div class="goal-chip">
-          Kasus verstehen
-        </div>
-
-        <div class="goal-chip">
-          Nominativ ↔ Akkusativ
-        </div>
-
-        <div class="goal-chip">
-          Akkusativ Singular & Plural
-        </div>
-
-        <div class="goal-chip">
-          Objekt & Adverbiale
-        </div>
-
-        <div class="goal-chip">
-          ad · per · ante + Akk.
-        </div>
-
-        <div class="goal-chip">
-          Latein sinnvoll übersetzen
-        </div>
-
-      </div>
-
-    </div>
-
-  `;
-
-
-  main.insertAdjacentHTML("beforeend",vocabularyHTML());
-
-  const btn=
-    document.createElement(
-      "button"
-    );
-
-  btn.type=
-    "button";
-
-  btn.className=
-    "continue-btn";
-
-  btn.textContent=
-    "Mit der ersten Erklärung starten →";
-
-
-  btn.addEventListener(
-    "click",
-    function(){
-
-      renderTeaching(0);
-
-      window.scrollTo({
-        top:0,
-        behavior:"smooth"
-      });
-
-    }
-  );
-
-
-  main.appendChild(
-    btn
-  );
-
+// Full training and practice have independent state; completed results are snapshots.
+let currentSession=null;
+let practiceSession=null;
+let lastFullResult=null;
+const HISTORY_KEY="magistrella-l02-history-v1";
+const BEST_KEY="magistrella-l02-best";
+let storageMessage="";
+function readStored(key){try{return localStorage.getItem(key);}catch{return null;}}
+function writeStored(key,value){try{localStorage.setItem(key,value);return true;}catch{storageMessage="Dein Browser kann den Verlauf gerade nicht speichern. Dieses Ergebnis bleibt während dieser geöffneten Seite sichtbar.";return false;}}
+function readHistory(){
+  try {const data=JSON.parse(readStored(HISTORY_KEY)||"[]");
+    return Array.isArray(data)?data.filter(r=>r && r.lesson==="L02" && Number.isInteger(r.total) && r.total>0 && Number.isInteger(r.correct) && r.correct>=0 && r.correct<=r.total && r.percentage===Math.round(r.correct/r.total*100) && Number.isFinite(Date.parse(r.completedAt))):[];
+  }catch{return [];}
 }
-
-
-/* =====================================================
-   LERNPHASE
-===================================================== */
+let history=readHistory();
+function activeSession(){return practiceSession || currentSession;}
+function newSession(type,questions){
+  if(!questions.length || questions.some(q=>!SKILL_INFO[q.skill])) throw new Error("Frage ohne Diagnose");
+  return {type,startedAt:new Date().toISOString(),questions,current:0,score:0,total:questions.length,skillStats:{},wrongAnswers:[],answered:false,completed:false};
+}
+function recordAnswer(q,answer,ok){
+  const run=activeSession();
+  if(run.answered || run.completed) return false;
+  run.answered=true;
+  const stats=run.skillStats[q.skill] ||= {attempts:0,correct:0};
+  stats.attempts++;
+  if(ok){stats.correct++;run.score++;}
+  else run.wrongAnswers.push({skill:q.skill,prompt:q.prompt,sentence:plainText(q.sentence)+(q.sentence.includes("<strong")?" · Markiert: "+q.helper:""),answer,correctAnswer:q.options[q.correct],explanation:q.success+" "+q.wrong,question:JSON.parse(JSON.stringify(q))});
+  return true;
+}
+function escapeHTML(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function normalizeAnswer(value){return value.normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim().toLowerCase();}
+function renderIntro(){
+  document.getElementById('progressLabel').textContent='Start';
+  document.getElementById('mainContent').innerHTML=`
+    <div class="lesson-intro"><div class="lesson-kicker">Magistrella · L02</div><h1>Nominativ, Akkusativ und Satzglieder</h1><p>In L01 hast du gelernt, dass lateinische Wörter ihre Endung verändern. Jetzt lernst du, welche Aufgabe ein Wort im Satz hat.</p><div class="lesson-goals"><div class="goal-chip">Nominativ & Akkusativ</div><div class="goal-chip">Akkusativ Singular & Plural</div><div class="goal-chip">Objekt & Adverbiale</div><div class="goal-chip">ad · per · ante</div><div class="goal-chip">Kongruenz</div><div class="goal-chip">Latein sinnvoll übersetzen</div></div></div>
+    <section class="start-choice"><h2>Wie möchtest du starten?</h2><div class="start-buttons"><button class="start-btn learn" id="learnBtn">Regeln lernen<small>Alle Erklärungen Schritt für Schritt</small></button><button class="start-btn training" id="trainingBtn">Direkt zum Training<small>Regeln überspringen und Wissen testen</small></button></div></section>
+    ${vocabularyHTML()}${historyHTML()}`;
+  document.getElementById('learnBtn').onclick=()=>{renderTeaching(0);window.scrollTo({top:0,behavior:'smooth'});};
+  document.getElementById('trainingBtn').onclick=startTraining;
+}
 
 function renderTeaching(index){
 
@@ -2623,7 +2732,7 @@ function renderTeaching(index){
       "click",
       function(){
 
-        renderTrainingIntro();
+        startTraining();
 
         window.scrollTo({
           top:0,
@@ -2671,349 +2780,46 @@ function renderTeaching(index){
    TRAININGSSTART
 ===================================================== */
 
-function renderTrainingIntro(){
-
-  const main=
-    document.getElementById(
-      "mainContent"
-    );
-
-
-  document.getElementById(
-    "progressLabel"
-  ).textContent=
-    "Training";
-
-
-  main.innerHTML=`
-
-    <div class="training-intro">
-
-      <h2>
-        Jetzt trainierst du L02
-      </h2>
-
-      <p>
-        Die deutsche Bedeutung wird dir an vielen Stellen
-        zusätzlich angezeigt. So trainierst du Grammatik und
-        Vokabeln gleichzeitig.
-      </p>
-
-      <p style="margin-top:8px;">
-        Wichtig: Manche lateinischen Formen sind ohne Satz
-        nicht eindeutig. Die App verlangt deshalb nur dort eine
-        eindeutige Bestimmung, wo sie grammatisch wirklich möglich ist.
-      </p>
-
-    </div>
-
-  `;
-
-
-  const btn=
-    document.createElement(
-      "button"
-    );
-
-  btn.type=
-    "button";
-
-  btn.className=
-    "continue-btn";
-
-  btn.textContent=
-    "Training starten →";
-
-
-  btn.addEventListener(
-    "click",
-    function(){
-
-      current=0;
-
-      renderQuestion();
-
-      window.scrollTo({
-        top:0,
-        behavior:"smooth"
-      });
-
-    }
-  );
-
-
-  main.appendChild(
-    btn
-  );
-
+function startTraining(){
+  practiceSession=null;
+  currentSession=newSession("full",buildSession());
+  openTraining();
 }
-
-
-/* =====================================================
-   FRAGEN RENDERN
-===================================================== */
-
+function startPractice(){
+  if(!lastFullResult || !lastFullResult.wrongAnswers.length) return;
+  practiceSession=newSession("practice",buildPractice(lastFullResult));
+  openTraining();
+}
+function openTraining(){
+  document.getElementById("mainContent").style.display="block";
+  document.getElementById("completionScreen").classList.remove("visible");
+  renderQuestion();window.scrollTo({top:0,behavior:"smooth"});
+}
 function renderQuestion(){
-
-  if(
-    current>=
-    session.length
-  ){
-
-    showCompletion();
-
-    return;
+  const run=activeSession();
+  if(run.current>=run.total){showCompletion();return;}
+  run.answered=false;
+  const q=run.questions[run.current];
+  document.getElementById("progressLabel").textContent=(run.type==="practice"?"Üben ":"")+(run.current+1)+"/"+run.total;
+  const main=document.getElementById("mainContent");
+  main.innerHTML=`${run.type==="practice"?'<div class="training-intro"><h2>Nur meine Fehler trainieren</h2><p>Diese Übungsrunde verändert dein vollständiges Training nicht.</p><button class="start-btn training" id="returnResult">Zum vollständigen Ergebnis</button></div>':''}<div class="question-card"><div class="q-theme">${q.theme}</div><div class="q-type-badge">Aufgabe ${run.current+1}</div><div class="q-prompt">${q.prompt}</div><div class="q-sentence">${q.sentence}</div><div class="q-helper">${q.helper}</div><div class="options"></div><div id="feedback" class="feedback" role="status" aria-live="polite"></div><button type="button" id="nextBtn" class="next-btn">${run.current===run.total-1?'Auswertung anzeigen ✓':'Weiter →'}</button></div>`;
+  if(run.type==="practice") document.getElementById("returnResult").onclick=()=>renderFullResult();
+  const card=main.querySelector(".question-card"), wrap=card.querySelector(".options");
+  function submit(answer,ok){
+    if(!recordAnswer(q,answer,ok)) return;
+    wrap.querySelectorAll("button,input").forEach(el=>el.disabled=true);
+    wrap.querySelectorAll(".option-btn").forEach((el,i)=>{if(i===q.correct) el.classList.add("correct");else if(el.textContent===answer) el.classList.add("wrong");});
+    showFeedback(card,q,ok);
   }
-
-
-  const q=
-    session[current];
-
-
-  document.getElementById(
-    "progressLabel"
-  ).textContent=
-    (current+1)+
-    "/"+
-    session.length;
-
-
-  const main=
-    document.getElementById(
-      "mainContent"
-    );
-
-
-  main.innerHTML=
-    "";
-
-
-  const card=
-    document.createElement(
-      "div"
-    );
-
-  card.className=
-    "question-card";
-
-
-  card.innerHTML=`
-
-    <div class="q-theme">
-      ${q.theme}
-    </div>
-
-    <div class="q-type-badge">
-      Aufgabe ${current+1}
-    </div>
-
-    <div class="q-prompt">
-      ${q.prompt}
-    </div>
-
-    <div class="q-sentence">
-      ${q.sentence}
-    </div>
-
-    ${
-      q.helper
-      ?
-      `<div class="q-helper">
-        ${q.helper}
-      </div>`
-      :
-      ""
-    }
-
-  `;
-
-
-  const optionWrap=
-    document.createElement(
-      "div"
-    );
-
-  optionWrap.className=
-    "options";
-
-
-  const letters=
-    ["A","B","C","D"];
-
-
-  let answered=
-    false;
-
-
-  q.options.forEach(
-    function(option,index){
-
-      const btn=
-        document.createElement(
-          "button"
-        );
-
-      btn.type=
-        "button";
-
-      btn.className=
-        "option-btn";
-
-
-      btn.innerHTML=`
-
-        <span class="option-letter">
-          ${letters[index]}
-        </span>
-
-        <span>
-          ${option}
-        </span>
-
-      `;
-
-
-      btn.addEventListener(
-        "click",
-        function(){
-
-          if(answered){
-            return;
-          }
-
-
-          answered=
-            true;
-
-
-          const buttons=
-            optionWrap.querySelectorAll(
-              ".option-btn"
-            );
-
-
-          const ok=
-            index===
-            q.correct;
-
-
-          if(ok){
-
-            btn.classList.add(
-              "correct"
-            );
-
-            score++;
-
-          }
-
-          else{
-
-            btn.classList.add(
-              "wrong"
-            );
-
-            buttons[
-              q.correct
-            ].classList.add(
-              "correct"
-            );
-
-          }
-
-
-          showFeedback(
-            card,
-            q,
-            ok
-          );
-
-        }
-      );
-
-
-      optionWrap.appendChild(
-        btn
-      );
-
-    }
-  );
-
-
-  card.appendChild(
-    optionWrap
-  );
-
-
-  const feedback=
-    document.createElement(
-      "div"
-    );
-
-  feedback.id=
-    "feedback";
-
-  feedback.className=
-    "feedback";
-
-
-  card.appendChild(
-    feedback
-  );
-
-
-  const next=
-    document.createElement(
-      "button"
-    );
-
-  next.type=
-    "button";
-
-  next.id=
-    "nextBtn";
-
-  next.className=
-    "next-btn";
-
-
-  next.textContent=
-    current===
-    session.length-1
-      ?
-      "Lektion abschließen ✓"
-      :
-      "Weiter →";
-
-
-  next.addEventListener(
-    "click",
-    function(){
-
-      current++;
-
-      renderQuestion();
-
-      window.scrollTo({
-        top:0,
-        behavior:"smooth"
-      });
-
-    }
-  );
-
-
-  card.appendChild(
-    next
-  );
-
-
-  main.appendChild(
-    card
-  );
-
+  if(q.input){
+    wrap.innerHTML='<form><label for="formAnswer">Deine Verbform</label><input id="formAnswer" autocomplete="off" autocapitalize="none" spellcheck="false" required><button class="start-btn learn" type="submit">Antwort prüfen</button></form>';
+    wrap.querySelector("form").onsubmit=e=>{e.preventDefault();const value=wrap.querySelector("input").value;if(value.trim()) submit(value,normalizeAnswer(value)===normalizeAnswer(q.options[q.correct]));};
+  }else q.options.forEach((option,i)=>{
+    const btn=document.createElement("button");btn.type="button";btn.className="option-btn";btn.textContent=option;
+    btn.onclick=()=>submit(option,i===q.correct);wrap.appendChild(btn);
+  });
+  document.getElementById("nextBtn").onclick=()=>{if(!run.answered)return;run.current++;renderQuestion();window.scrollTo({top:0,behavior:"smooth"});};
 }
-
 
 /* =====================================================
    FEEDBACK
@@ -3060,21 +2866,9 @@ function showFeedback(
         ?
         q.success
         :
-        q.wrong
+        escapeHTML(q.options[q.correct])+". "+q.success+" "+q.wrong
       }
     </div>
-
-    ${
-      !ok
-      ?
-      `<div class="feedback-tip">
-        Prüfe zuerst die Wortbedeutung,
-        dann die Endung und schließlich
-        die Aufgabe des Wortes im Satz.
-      </div>`
-      :
-      ""
-    }
 
   `;
 
@@ -3091,119 +2885,92 @@ function showFeedback(
 
 
 /* =====================================================
-   ABSCHLUSS
+   DIAGNOSE
 ===================================================== */
 
+function completeFullSession(){
+  const run=currentSession;
+  if(run.completed) return lastFullResult;
+  const stats=Object.values(run.skillStats);
+  if(run.current!==run.total || stats.reduce((n,s)=>n+s.attempts,0)!==run.total || stats.reduce((n,s)=>n+s.correct,0)!==run.score || run.wrongAnswers.length!==run.total-run.score) throw new Error("Unvollständige Trainingsdiagnose");
+  const completedAt=new Date().toISOString();
+  const result=JSON.parse(JSON.stringify({id:globalThis.crypto?.randomUUID?.() || completedAt+"-"+Math.random().toString(36).slice(2),lesson:"L02",startedAt:run.startedAt,completedAt,correct:run.score,total:run.total,percentage:Math.round(run.score/run.total*100),skillStats:run.skillStats,wrongAnswers:run.wrongAnswers}));
+  run.completed=true;lastFullResult=result;
+  // Re-read to retain completed runs from another open tab when possible.
+  const existing=readHistory();
+  history=[...existing,...history.filter(r=>!existing.some(e=>e.id===r.id)),result];
+  writeStored(HISTORY_KEY,JSON.stringify(history));
+  const best=Math.max(Number(readStored(BEST_KEY))||0,...history.map(r=>r.percentage));
+  writeStored(BEST_KEY,String(best));
+  return result;
+}
+function buildDiagnosis(result){
+  const rows=Object.entries(result.skillStats).map(([skill,s])=>`<div class="skill-result ${s.correct===s.attempts?'good':'weak'}"><span>${escapeHTML(SKILL_INFO[skill].name)}</span><span class="skill-score">${s.correct===s.attempts?'✓':'Üben'} · ${s.correct}/${s.attempts}</span></div>`).join('');
+  const errors=result.wrongAnswers.map(e=>`<article class="correction"><strong>${escapeHTML(SKILL_INFO[e.skill].name)}</strong><p>${escapeHTML(e.prompt)}</p><p>${escapeHTML(e.sentence)}</p><p>Deine Antwort: ${escapeHTML(e.answer)}</p><p><strong>Richtig: ${escapeHTML(e.correctAnswer)}</strong></p><p>${escapeHTML(e.explanation)}</p></article>`).join('');
+  const grammar=[...new Set(result.wrongAnswers.flatMap(e=>e.question.reviewKeys || []))];
+  const cards=grammar.map(index=>`<article class="review-card"><div class="review-head"><h3>${TEACHING[index].title.replace(/^\d+\. /,'')}</h3></div><div class="review-body">${TEACHING[index].body}</div></article>`).join('');
+  return `<section class="result-section"><h2>Deine Diagnose</h2><p>Alle ${result.total} Antworten aus diesem Training.</p>${rows}${errors?'<h3 class="review-heading">Deine Antworten verbessern</h3>'+errors:'<p class="mastered-box">✓ Alle Antworten richtig!</p>'}${cards?'<h3 class="review-heading">Diese Regeln helfen dir weiter</h3>'+cards:''}</section>`;
+}
+function historyHTML(){
+  if(!history.length)return '';
+  const recent=history.slice().sort((a,b)=>Date.parse(b.completedAt)-Date.parse(a.completedAt));
+  const best=Math.max(Number(readStored(BEST_KEY))||0,...history.map(r=>r.percentage));
+  return `<section class="result-section"><h2>Dein Verlauf</h2><p>Letztes Training: <strong>${recent[0].percentage} %</strong><br>Bestwert: <strong>${best} %</strong><br>Vollständige Trainings: <strong>${history.length}</strong></p><ul class="history-list">${recent.map(r=>`<li>${escapeHTML(new Date(r.completedAt).toLocaleString('de-DE',{dateStyle:'short',timeStyle:'short'}))} · <strong>${r.correct}/${r.total} · ${r.percentage} %</strong></li>`).join('')}</ul></section>`;
+}
 function showCompletion(){
-
-  document.getElementById(
-    "mainContent"
-  ).style.display=
-    "none";
-
-
-  const screen=
-    document.getElementById(
-      "completionScreen"
-    );
-
-
-  screen.classList.add(
-    "visible"
-  );
-
-
-  const pct=
-    Math.round(
-      score/
-      session.length*
-      100
-    );
-
-
-  document.getElementById(
-    "finalScore"
-  ).textContent=
-    score+
-    "/"+
-    session.length+
-    " · "+
-    pct+
-    " %";
-
-
-  document.getElementById(
-    "finalStars"
-  ).textContent=
-    pct>=90
-      ?
-      "★★★"
-      :
-      pct>=70
-        ?
-        "★★"
-        :
-        "★";
-
-
-  let msg;
-
-
-  if(pct>=90){
-
-    msg=
-      "Sehr sicher. Du kannst Nominativ und Akkusativ unterscheiden, Akkusativformen bestimmen und erkennen, ob ein Akkusativ als Objekt oder nach einer Präposition verwendet wird.";
-
-  }
-
-  else if(pct>=70){
-
-    msg=
-      "Die Grundlage sitzt. Wiederhole besonders die Akkusativendungen und die Unterscheidung zwischen Akkusativobjekt und Präposition + Akkusativ.";
-
-  }
-
-  else{
-
-    msg=
-      "Gehe L02 noch einmal durch. Beginne mit Nominativ und Akkusativ und arbeite dich danach erneut zu Objekt, Adverbiale und Wortstellung vor.";
-
-  }
-
-
-  document.getElementById(
-    "finalMsg"
-  ).textContent=
-    msg;
-
-
-  const oldBest=
-    Number(
-      localStorage.getItem(
-        "magistrella-l02-best"
-      )||0
-    );
-
-
-  if(pct>oldBest){
-
-    localStorage.setItem(
-      "magistrella-l02-best",
-      pct
-    );
-
-  }
-
+  if(activeSession().type==='practice'){
+    practiceSession.completed=true;
+    renderFullResult(`Übungsrunde beendet: ${practiceSession.score}/${practiceSession.total} richtig. Dein vollständiges Ergebnis bleibt unverändert.`);
+  }else{completeFullSession();renderFullResult();}
+}
+function renderFullResult(practiceMessage=''){
+  const r=lastFullResult;if(!r)return;
+  document.getElementById('mainContent').style.display='none';
+  document.getElementById('progressLabel').textContent='Fertig';
+  const screen=document.getElementById('completionScreen');screen.classList.add('visible');
+  screen.innerHTML=`${practiceMessage?`<p class="training-intro" role="status">${escapeHTML(practiceMessage)}</p>`:''}<section class="result-section completion-main"><h2>Dieses Training</h2><div class="completion-title">${r.percentage===100?'PERFECTUM!':'L02 geschafft!'}</div><div class="completion-score">${r.correct} / ${r.total}<br>${r.percentage} %</div><p>Nominativ · Akkusativ · Satzglieder</p><div class="result-actions"><button class="start-btn learn" id="shareResult">Ergebnis teilen</button><button class="start-btn training" id="saveResult">Bild speichern</button></div><p id="shareStatus" role="status"></p></section>${buildDiagnosis(r)}<section class="result-section"><h2>Wie möchtest du weiterlernen?</h2><div class="result-actions">${r.wrongAnswers.length?'<button class="start-btn learn" id="practiceErrors">Nur meine Fehler trainieren</button>':''}<button class="start-btn training" id="restartFull">Alles noch einmal trainieren</button></div><a class="home-btn" href="../index.html">← Zurück zur Übersicht</a></section>${historyHTML()}${storageMessage?`<p role="status">${escapeHTML(storageMessage)}</p>`:''}`;
+  document.getElementById('restartFull').onclick=startTraining;
+  if(r.wrongAnswers.length)document.getElementById('practiceErrors').onclick=startPractice;
+  document.getElementById('shareResult').onclick=()=>shareResult(r);
+  document.getElementById('saveResult').onclick=()=>saveResult(r);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+// Local Canvas only: no learner data, external artwork, fonts or requests.
+function createShareCanvas(result){
+  const canvas=document.createElement('canvas');canvas.width=1080;canvas.height=1080;
+  const ctx=canvas.getContext('2d');if(!ctx)throw new Error('Canvas nicht verfügbar');
+  ctx.fillStyle='#1A1208';ctx.fillRect(0,0,1080,1080);
+  ctx.strokeStyle='#C9A84C';ctx.lineWidth=3;ctx.strokeRect(40,40,1000,1000);ctx.strokeRect(54,54,972,972);
+  ctx.textAlign='center';ctx.fillStyle='#E8C96A';
+  ctx.font='bold 58px Georgia, serif';ctx.fillText('MAGISTRELLA',540,170);
+  ctx.fillStyle='#F5EDD6';ctx.font='32px sans-serif';ctx.fillText('Latein-Training',540,230);
+  ctx.font='bold 52px Georgia, serif';ctx.fillText('L02 geschafft!',540,350);
+  ctx.fillStyle='#E8C96A';ctx.font='bold 130px sans-serif';ctx.fillText(`${result.correct} / ${result.total}`,540,535);
+  ctx.font='bold 100px sans-serif';ctx.fillText(`${result.percentage} %`,540,675);
+  if(result.percentage===100){ctx.font='bold 36px Georgia, serif';ctx.fillText('PERFECTUM!',540,760);}
+  ctx.fillStyle='#F5EDD6';ctx.font='30px sans-serif';ctx.fillText('Nominativ · Akkusativ · Satzglieder',540,860);
+  ctx.font='28px sans-serif';ctx.fillText(new Date(result.completedAt).toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric'}),540,945);
+  return canvas;
+}
+function shareBlob(r){return new Promise((resolve,reject)=>{try{createShareCanvas(r).toBlob(blob=>blob?resolve(blob):reject(new Error('PNG konnte nicht erstellt werden')),'image/png');}catch(e){reject(e);}});}
+function downloadBlob(blob,r){
+  const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`Magistrella-L02-${r.completedAt.slice(0,10)}.png`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
+}
+async function saveResult(r){try{downloadBlob(await shareBlob(r),r);document.getElementById('shareStatus').textContent='Dein Ergebnisbild wurde zum Speichern bereitgestellt.';}catch{document.getElementById('shareStatus').textContent='Das Bild konnte nicht erstellt werden. Bitte versuche es erneut.';}}
+async function shareResult(r){
+  try{
+    const blob=await shareBlob(r);
+    const file=typeof File==='function'?new File([blob],'Magistrella-L02.png',{type:'image/png'}):null;
+    if(file && navigator.share && navigator.canShare?.({files:[file]})){
+      try{await navigator.share({files:[file],title:'Magistrella · L02'});return;}catch(e){if(e.name==='AbortError')return;}
+    }
+    downloadBlob(blob,r);document.getElementById('shareStatus').textContent='Teilen ist hier nicht verfügbar. Dein Bild wurde zum Speichern bereitgestellt.';
+  }catch{document.getElementById('shareStatus').textContent='Bitte nutze „Bild speichern“ oder versuche es erneut.';}
 }
 
 
-/* =====================================================
-   START
-===================================================== */
 
 renderIntro();
-
 </script>
-
 </body>
 </html>
