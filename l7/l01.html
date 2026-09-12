@@ -894,33 +894,42 @@ const NOUNS = [
 
 const VERBS = [
 
-  {inf:"cōgitāre",sg:"cōgitat",pl:"cōgitant",de:"denken / nachdenken"},
+  {inf:"cōgitāre",sg:"cōgitat",pl:"cōgitant",de:"denken / nachdenken / beabsichtigen"},
   {inf:"venīre",sg:"venit",pl:"veniunt",de:"kommen"},
-  {inf:"stāre",sg:"stat",pl:"stant",de:"stehen"},
-  {inf:"spectāre",sg:"spectat",pl:"spectant",de:"anschauen / zuschauen"},
-  {inf:"clāmāre",sg:"clāmat",pl:"clāmant",de:"rufen / schreien"},
+  {inf:"stāre",sg:"stat",pl:"stant",de:"stehen / dastehen"},
+  {inf:"spectāre",sg:"spectat",pl:"spectant",de:"anschauen / betrachten / zuschauen"},
+  {inf:"clāmāre",sg:"clāmat",pl:"clāmant",de:"laut rufen / schreien"},
   {inf:"tacēre",sg:"tacet",pl:"tacent",de:"schweigen"},
   {inf:"vidēre",sg:"videt",pl:"vident",de:"sehen"},
   {inf:"gaudēre",sg:"gaudet",pl:"gaudent",de:"sich freuen"},
-  {inf:"rīdēre",sg:"rīdet",pl:"rīdent",de:"lachen"},
-  {inf:"rogāre",sg:"rogat",pl:"rogant",de:"fragen"},
+  {inf:"rīdēre",sg:"rīdet",pl:"rīdent",de:"lachen / auslachen"},
+  {inf:"rogāre",sg:"rogat",pl:"rogant",de:"fragen / bitten (um)"},
   {inf:"amāre",sg:"amat",pl:"amant",de:"lieben / gernhaben"}
 
 ];
 
 
+// Vollständiger Verbwortschatz aus dem Vokabelheft, L01, Seiten 4–6.
+// Sonderverben bleiben außerhalb der Generatoren für regelmäßige Verbendungen.
+const VOCAB_VERBS = [
+  ...VERBS,
+  {inf:"esse",sg:"est",pl:"sunt",de:"sein / sich befinden"},
+  {inf:"adesse",sg:"adest",pl:"adsunt",de:"da sein / helfen"},
+  {inf:"dēbēre",sg:"dēbet",pl:"dēbent",de:"müssen / sollen / schulden"}
+];
+
 const SMALL_VOCAB = [
 
-  {lat:"ubī?",de:"wo?"},
+  {lat:"ubi?",de:"wo?"},
   {lat:"nōn",de:"nicht"},
   {lat:"et",de:"und / auch"},
   {lat:"sed",de:"aber / sondern"},
   {lat:"nunc",de:"jetzt / nun"},
   {lat:"etiam",de:"auch / sogar"},
-  {lat:"undique",de:"von allen Seiten"},
+  {lat:"undique",de:"von allen Seiten / von überallher"},
   {lat:"quis?",de:"wer?"},
   {lat:"hīc",de:"hier"},
-  {lat:"ibī",de:"dort"},
+  {lat:"ibi",de:"dort"},
   {lat:"cūr?",de:"warum?"}
 
 ];
@@ -1778,11 +1787,11 @@ function qGenus(n=one(NOUNS)){
 
 function qVerbMeaning(){
 
-  const v=one(VERBS);
+  const v=one(VOCAB_VERBS);
 
   const wrong=distractors(
     v.de,
-    VERBS.map(x=>x.de),
+    VOCAB_VERBS.map(x=>x.de),
     2
   );
 
@@ -2178,7 +2187,7 @@ function buildPractice(result){
     const old=error.question;
     if(!SKILL_INFO[error.skill].review){
       // Reverse direction while preserving the exact missed vocabulary item.
-      const pool=error.skill==="nounVocab"?NOUNS.map(n=>n.sg):error.skill==="verbVocab"?VERBS.map(v=>v.inf):SMALL_VOCAB.map(v=>v.lat);
+      const pool=error.skill==="nounVocab"?NOUNS.map(n=>n.sg):error.skill==="verbVocab"?VOCAB_VERBS.map(v=>v.inf):SMALL_VOCAB.map(v=>v.lat);
       const opts=shuffle([old.sentence,...distractors(old.sentence,pool)]);
       return makeQuestion(error.skill,"Deine Fehler üben","Welches lateinische Wort bedeutet das?",error.correctAnswer,"",opts,opts.indexOf(old.sentence),old.sentence+" – "+error.correctAnswer,error.explanation);
     }
@@ -2313,7 +2322,7 @@ function renderIntro(){
 
   `;
 
-  main.insertAdjacentHTML("beforeend",historyHTML());
+  main.insertAdjacentHTML("beforeend",vocabularyHTML()+historyHTML());
 
   document.getElementById(
     "learnBtn"
@@ -2588,6 +2597,14 @@ function buildDiagnosis(result){
   const grammar=[...new Set(result.wrongAnswers.map(e=>e.skill))].filter(skill=>SKILL_INFO[skill].review);
   const cards=grammar.map(skill=>`<article class="review-card"><div class="review-head"><h3>${SKILL_INFO[skill].name}</h3></div><div class="review-body">${SKILL_INFO[skill].review}</div></article>`).join('');
   return `<section class="result-section"><h2>Deine Diagnose</h2><p>Alle ${result.total} Antworten aus diesem Training.</p>${rows}${errors?'<h3 class="review-heading">Deine Antworten verbessern</h3>'+errors:'<p class="mastered-box">✓ Alle Antworten richtig!</p>'}${cards?'<h3 class="review-heading">Diese Regeln helfen dir weiter</h3>'+cards:''}</section>`;
+}
+function vocabularyHTML(){
+  const entries=[
+    ...NOUNS.map(n=>({latin:n.sg,meaning:n.deSg,form:n.genus})),
+    ...VOCAB_VERBS.map(v=>({latin:v.inf,meaning:v.de,form:v.sg})),
+    ...SMALL_VOCAB.map(v=>({latin:v.lat,meaning:v.de,form:""}))
+  ];
+  return `<details class="teach-card"><summary class="teach-head" style="cursor:pointer;min-height:48px"><strong>Alle ${entries.length} Vokabeln aus L01 ansehen</strong></summary><div class="teach-body"><p>Abgeglichen mit deinem Vokabelheft, Seiten 4–6. Bei Nomen steht das Genus dabei, bei Verben die 3. Person Singular.</p><p>Die Bedeutungen passen je nach Satz. Ein vollständiges Training enthält eine Auswahl. 100 % im Training bedeutet: alle 18 Aufgaben dieses Durchlaufs richtig.</p><table class="rule-table"><tr><th>Latein</th><th>Genus / Form</th><th>Deutsch</th></tr>${entries.map(e=>`<tr><td>${escapeHTML(e.latin)}</td><td>${escapeHTML(e.form)}</td><td>${escapeHTML(e.meaning)}</td></tr>`).join('')}</table></div></details>`;
 }
 function historyHTML(){
   if(!history.length)return '';
