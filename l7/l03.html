@@ -3,819 +3,1083 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Magistrella · L03 · Präpositionen + Akkusativ · Infinitiv</title>
+
+<title>L03 · Personalformen · Imperativ · Vokativ · Magistrella</title>
+
 <style>
 :root{
   --gold:#C9A84C;
   --gold-light:#E8C96A;
   --gold-dark:#8B6914;
-  --terra:#C0522B;
   --ink:#1A1208;
-  --parchment:#241a0f;
-  --parchment-2:#2e2113;
-  --text:#EFE3C4;
-  --text-dim:#c9b98f;
-  --ok:#5c8a4a;
-  --bad:#a13c2e;
+  --ink-mid:#2A1F0E;
+  --parchment:#F5EDD6;
+  --parchment-dark:#E8D9B5;
+  --stone:#968B78;
+  --green-ok:#4CAF7D;
+  --red-wrong:#E05050;
+  --white:#FDFAF3;
 }
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html,body{margin:0;padding:0;}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
 body{
-  min-height:100vh;
   font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;
-  background:
-    radial-gradient(circle at 20% 10%, rgba(201,168,76,0.08), transparent 40%),
-    radial-gradient(circle at 85% 80%, rgba(192,82,43,0.08), transparent 45%),
-    repeating-linear-gradient(135deg, rgba(255,255,255,0.015) 0 2px, transparent 2px 40px),
-    linear-gradient(160deg, var(--ink), var(--parchment) 60%, var(--parchment-2));
-  color:var(--text);
-  line-height:1.6;
+  background:var(--ink);
+  color:var(--parchment);
+  min-height:100vh;
+  line-height:1.65;
   -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
 }
-#app{max-width:560px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;padding:14px 14px 30px;}
 
-/* Header */
-header{padding:6px 2px 14px;}
-.h-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
-.h-title{font-size:1.05rem;color:var(--gold-light);letter-spacing:0.5px;}
-.h-title small{display:block;font-size:0.7rem;color:var(--text-dim);font-weight:normal;letter-spacing:1px;text-transform:uppercase;}
-.h-home{color:var(--text-dim);text-decoration:none;font-size:1.3rem;border:1px solid var(--gold-dark);border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;}
-.dots{display:flex;gap:6px;justify-content:center;margin-bottom:10px;}
-.dot{width:9px;height:9px;border-radius:50%;background:rgba(201,168,76,0.25);border:1px solid var(--gold-dark);transition:.3s;}
-.dot.active{background:var(--gold);box-shadow:0 0 8px var(--gold);}
-.dot.done{background:var(--terra);border-color:var(--terra);}
-.progress-track{height:6px;border-radius:4px;background:rgba(0,0,0,0.4);overflow:hidden;border:1px solid rgba(201,168,76,0.2);}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--terra),var(--gold));width:0%;transition:width .4s ease;}
-
-/* Cards */
-.card{
-  background:linear-gradient(160deg, rgba(255,255,255,0.04), rgba(0,0,0,0.15));
-  border:1px solid rgba(201,168,76,0.35);
-  border-radius:16px;
-  padding:18px 16px;
-  margin-bottom:14px;
-  box-shadow:0 6px 18px rgba(0,0,0,0.35), inset 0 0 30px rgba(201,168,76,0.03);
+button{
+  font:inherit;
 }
-.vocab-intro{text-align:center;margin-bottom:16px;}
-.vocab-intro h2{color:var(--gold-light);font-size:1.2rem;margin:0 0 4px;}
-.vocab-intro p{color:var(--text-dim);font-size:0.85rem;margin:0;}
-.vocab-card{
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-  padding:12px 14px;margin-bottom:8px;
-  background:rgba(0,0,0,0.22);border:1px solid rgba(201,168,76,0.25);border-radius:12px;
-}
-.vocab-lat{color:var(--gold-light);font-size:1.05rem;}
-.vocab-info{display:block;color:var(--text-dim);font-size:0.72rem;font-style:italic;margin-top:2px;}
-.vocab-de{color:var(--text);font-size:0.92rem;text-align:right;max-width:55%;}
 
-button.btn{
-  display:block;width:100%;padding:14px;border:none;border-radius:12px;
-  background:linear-gradient(160deg,var(--gold-light),var(--gold-dark));
-  color:#1A1208;font-family:inherit;font-size:1rem;font-weight:bold;
-  letter-spacing:0.5px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.35);
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:100;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:10px 16px;
+  background:rgba(26,18,8,.96);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid rgba(201,168,76,.2);
+}
+
+.back-btn{
+  color:var(--gold);
+  text-decoration:none;
+  font-size:20px;
+  padding:4px 8px 4px 0;
+}
+
+.topbar-info{
+  flex:1;
+}
+
+.topbar-title{
+  color:var(--gold-light);
+  font-size:14px;
+  font-style:italic;
+}
+
+.topbar-sub{
+  color:var(--stone);
+  font-size:12px;
+}
+
+.topbar-progress{
+  color:var(--gold);
+  font-weight:800;
+  font-size:13px;
+  min-width:55px;
+  text-align:right;
+}
+
+/* =====================================================
+   INTRO
+===================================================== */
+
+.lesson-intro{
+  margin:16px;
+  padding:18px;
+  border:1px solid rgba(201,168,76,.25);
+  border-radius:18px;
+  background:linear-gradient(
+    135deg,
+    rgba(201,168,76,.12),
+    rgba(201,168,76,.03)
+  );
+}
+
+.lesson-kicker{
+  color:var(--gold);
+  font-size:12px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:2px;
+}
+
+.lesson-intro h1{
+  color:var(--gold-light);
+  font-size:24px;
+  line-height:1.25;
+  margin:5px 0 10px;
+}
+
+.lesson-intro p{
+  color:var(--parchment-dark);
+  font-size:15px;
+}
+
+.lesson-goals{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:14px;
+}
+
+.goal-chip{
+  background:rgba(0,0,0,.18);
+  border:1px solid rgba(201,168,76,.16);
+  border-radius:11px;
+  padding:8px 10px;
+  font-size:13px;
+  color:var(--parchment-dark);
+}
+
+/* =====================================================
+   STARTAUSWAHL
+===================================================== */
+
+.start-choice{
+  margin:16px;
+  padding:18px;
+  border-radius:18px;
+  background:var(--ink-mid);
+  border:1px solid rgba(201,168,76,.18);
+}
+
+.start-choice h2{
+  color:var(--gold-light);
+  font-size:19px;
+  margin-bottom:5px;
+}
+
+.start-choice p{
+  color:var(--stone);
+  font-size:14px;
+  margin-bottom:15px;
+}
+
+.start-buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.start-btn{
+  min-height:64px;
+  padding:12px;
+  border-radius:14px;
+  cursor:pointer;
+  font-weight:800;
+  border:1.5px solid var(--gold);
+}
+
+.start-btn.learn{
+  background:linear-gradient(
+    135deg,
+    var(--gold-dark),
+    var(--gold)
+  );
+  color:var(--ink);
+}
+
+.start-btn.training{
+  background:rgba(201,168,76,.07);
+  color:var(--gold-light);
+}
+
+.start-btn small{
+  display:block;
+  margin-top:3px;
+  font-size:11px;
+  font-weight:500;
+  line-height:1.35;
+  opacity:.85;
+}
+
+/* =====================================================
+   LERNKARTEN
+===================================================== */
+
+.teach-card,
+.review-card{
+  margin:16px;
+  border-radius:18px;
+  overflow:hidden;
+  background:var(--parchment);
+  color:#2A1F0E;
+  border:1px solid rgba(201,168,76,.55);
+  text-align:left;
+}
+
+.teach-head,
+.review-head{
+  padding:13px 16px;
+  background:var(--parchment-dark);
+  border-bottom:1px solid rgba(90,60,10,.12);
+}
+
+.teach-kicker,
+.review-kicker{
+  color:#735108;
+  text-transform:uppercase;
+  font-size:11px;
+  letter-spacing:2px;
+  font-weight:800;
+}
+
+.teach-head h2,
+.review-head h3{
+  color:#2A1F0E;
+  font-size:20px;
+  line-height:1.3;
+  margin-top:2px;
+}
+
+.teach-body,
+.review-body{
+  padding:16px;
+  font-size:15px;
+}
+
+.teach-body p + p,
+.review-body p + p{
   margin-top:10px;
 }
-button.btn:active{transform:translateY(1px);}
-button.btn.secondary{
-  background:transparent;border:1px solid var(--gold-dark);color:var(--gold-light);
+
+.teach-body strong,
+.review-body strong{
+  color:#6C4B06;
 }
 
-/* Quiz */
-.q-label{color:var(--text-dim);font-size:0.78rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;text-align:center;}
-.q-main{text-align:center;color:var(--gold-light);font-size:1.35rem;margin:6px 0 4px;}
-.q-info{text-align:center;color:var(--text-dim);font-size:0.78rem;font-style:italic;margin-bottom:14px;}
-.q-sentence{text-align:center;color:var(--gold-light);font-size:1.15rem;line-height:1.7;margin:8px 0 16px;}
-.q-sentence .blank{
-  display:inline-block;min-width:60px;border-bottom:2px solid var(--terra);color:var(--terra);padding:0 4px;
+.teach-example{
+  margin-top:14px;
+  padding:12px;
+  background:rgba(255,255,255,.55);
+  border-left:4px solid var(--gold-dark);
+  border-radius:10px;
 }
-.q-sentence .word-token{cursor:pointer;padding:3px 5px;border-radius:6px;border:0;background:transparent;color:inherit;font:inherit;}
-.q-sentence .word-token:hover{background:rgba(201,168,76,0.15);}
-.opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px;}
-.opt-btn{
-  padding:13px 8px;border-radius:12px;border:1px solid rgba(201,168,76,0.35);
-  background:rgba(0,0,0,0.25);color:var(--text);font-family:inherit;font-size:1rem;
-  cursor:pointer;text-align:center;
-}
-.opt-btn:active{background:rgba(201,168,76,0.15);}
-.opt-btn.correct{background:rgba(92,138,74,0.35);border-color:var(--ok);color:#d7ecc9;}
-.opt-btn.wrong{background:rgba(161,60,46,0.35);border-color:var(--bad);color:#f3cfc7;}
 
-.tf-row{display:flex;gap:10px;margin-top:6px;}
-.tf-btn{flex:1;padding:14px;border-radius:12px;border:1px solid rgba(201,168,76,0.35);background:rgba(0,0,0,0.25);color:var(--text);font-family:inherit;font-size:1rem;cursor:pointer;}
-.tf-btn.true{border-color:var(--ok);}
-.tf-btn.false{border-color:var(--bad);}
-
-.swipe-wrap{position:relative;height:150px;margin:10px 0 4px;display:flex;align-items:center;justify-content:center;}
-.swipe-card{
-  position:absolute;width:88%;max-width:340px;padding:22px 16px;border-radius:16px;text-align:center;
-  background:linear-gradient(160deg, rgba(255,255,255,0.06), rgba(0,0,0,0.2));
-  border:1px solid rgba(201,168,76,0.4);box-shadow:0 8px 20px rgba(0,0,0,0.4);
-  touch-action:none;cursor:grab;user-select:none;
+.teach-example .latin{
+  font-size:17px;
+  font-weight:800;
+  font-style:italic;
+  color:#2A1F0E;
 }
-.swipe-card .sw-lat{color:var(--gold-light);font-size:1.25rem;display:block;margin-bottom:6px;}
-.swipe-card .sw-de{color:var(--text);font-size:0.95rem;}
-.swipe-hint{display:flex;justify-content:space-between;font-size:0.72rem;color:var(--text-dim);margin-top:6px;padding:0 6px;}
 
-.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:6px;}
-.match-col{display:flex;flex-direction:column;gap:8px;}
-.match-item{
-  padding:12px 8px;border-radius:10px;border:1px solid rgba(201,168,76,0.3);
-  background:rgba(0,0,0,0.22);color:var(--text);text-align:center;cursor:pointer;font-size:0.9rem;
+.teach-example .german{
+  margin-top:2px;
+  color:#594931;
 }
-.match-item.sel{border-color:var(--gold-light);background:rgba(201,168,76,0.22);}
-.match-item.matched{border-color:var(--ok);background:rgba(92,138,74,0.28);opacity:0.7;cursor:default;}
-.match-item.wrongflash{border-color:var(--bad);background:rgba(161,60,46,0.28);}
 
-.rule-card{
-  margin-top:14px;padding:14px;border-radius:12px;
-  background:rgba(201,168,76,0.10);
-  border:1px solid rgba(201,168,76,0.55);
+.mini-rule{
+  margin-top:14px;
+  padding:11px 12px;
+  border:1px solid rgba(139,105,20,.25);
+  border-radius:10px;
+  background:#FFF9EA;
+  color:#594006;
+  font-weight:700;
 }
-.rule-card .rt{color:var(--gold-light);font-weight:bold;font-size:0.9rem;margin-bottom:4px;}
-.rule-card .rx{color:var(--text);font-size:0.85rem;line-height:1.5;}
+
+/* =====================================================
+   TABELLEN
+===================================================== */
+
+.rule-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:14px;
+  font-size:14px;
+}
+
+.rule-table th{
+  background:rgba(139,105,20,.13);
+  color:#654807;
+  padding:7px 7px;
+  text-align:left;
+  font-size:12px;
+}
+
+.rule-table td{
+  color:#2E2110;
+  padding:7px;
+  border-bottom:1px solid rgba(80,55,5,.14);
+  vertical-align:top;
+}
+
+.rule-table tr:last-child td{
+  border-bottom:none;
+}
+
+.rule-highlight{
+  color:#694A06 !important;
+  font-weight:800;
+}
+
+/* =====================================================
+   TRAINING
+===================================================== */
+
+.training-intro{
+  margin:16px;
+  padding:16px;
+  border-radius:16px;
+  border:1px solid rgba(201,168,76,.25);
+  background:rgba(201,168,76,.07);
+}
+
+.training-intro h2{
+  color:var(--gold-light);
+  font-size:19px;
+  margin-bottom:5px;
+}
+
+.training-intro p{
+  color:var(--parchment-dark);
+  font-size:14px;
+}
+
+.question-card{
+  margin:16px;
+  padding:20px;
+  border-radius:20px;
+  background:var(--ink-mid);
+  border:1px solid rgba(201,168,76,.15);
+  animation:slideUp .22s ease;
+}
+
+@keyframes slideUp{
+  from{
+    opacity:0;
+    transform:translateY(14px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.q-theme{
+  color:var(--gold);
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  margin-bottom:8px;
+}
+
+.q-type-badge{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:99px;
+  background:rgba(201,168,76,.14);
+  border:1px solid rgba(201,168,76,.28);
+  color:var(--gold-light);
+  font-size:12px;
+  margin-bottom:12px;
+}
+
+.q-prompt{
+  font-size:17px;
+  color:var(--parchment);
+  margin-bottom:14px;
+}
+
+.q-sentence{
+  font-size:18px;
+  color:var(--white);
+  text-align:center;
+  font-style:italic;
+  background:rgba(0,0,0,.2);
+  border-radius:12px;
+  padding:13px;
+  margin-bottom:16px;
+}
+
+.q-helper{
+  color:var(--stone);
+  font-size:13px;
+  margin-top:-6px;
+  margin-bottom:14px;
+}
+
+.options{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.option-btn{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:13px 15px;
+  border-radius:14px;
+  border:1.5px solid rgba(201,168,76,.25);
+  background:rgba(255,255,255,.04);
+  color:#fff;
+  cursor:pointer;
+  text-align:left;
+}
+
+.option-btn.correct{
+  background:rgba(76,175,125,.15);
+  border-color:var(--green-ok);
+  color:#9FE7BD;
+}
+
+.option-btn.wrong{
+  background:rgba(224,80,80,.12);
+  border-color:var(--red-wrong);
+  color:#FFB6B6;
+}
+
+.option-letter{
+  width:28px;
+  height:28px;
+  flex:0 0 28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:8px;
+  background:rgba(201,168,76,.15);
+  color:var(--gold-light);
+  font-size:12px;
+  font-weight:800;
+}
 
 .feedback{
-  text-align:center;font-size:1.1rem;margin-top:14px;padding:12px;border-radius:12px;min-height:1.2em;
+  display:none;
+  margin-top:14px;
+  padding:14px;
+  border-radius:14px;
+  font-size:14px;
 }
-.feedback.ok{color:#d7ecc9;background:rgba(92,138,74,0.2);border:1px solid var(--ok);}
-.feedback.bad{color:#f3cfc7;background:rgba(161,60,46,0.2);border:1px solid var(--bad);}
 
-.puzzle-target{min-height:56px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:10px;border:2px dashed rgba(201,168,76,0.3);border-radius:12px;margin-bottom:14px;}
-.puzzle-target .tok{background:rgba(201,168,76,0.18);border:1px solid var(--gold);color:var(--gold-light);padding:8px 10px;border-radius:8px;font-size:1rem;cursor:pointer;}
-.puzzle-target .tok:after{content:' \2715';font-size:0.7em;opacity:0.6;margin-left:4px;}
-.puzzle-target .tok:active{background:rgba(161,60,46,0.28);border-color:var(--bad);}
-.puzzle-bank{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
-.puzzle-bank .tok{background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.35);color:var(--text);padding:8px 10px;border-radius:8px;font-size:1rem;cursor:pointer;}
-.puzzle-bank .tok:active{background:rgba(201,168,76,0.15);}
-
-/* End screen */
-.end-wrap{text-align:center;padding:30px 10px;}
-.end-wrap h2{color:var(--gold-light);font-size:1.4rem;}
-.end-score{font-size:2.2rem;color:var(--gold);margin:10px 0;}
-.affirm{font-size:1.15rem;color:var(--terra);margin:14px 0;font-style:italic;}
-
-/* Confetti */
-.confetti{position:fixed;top:-10px;width:8px;height:14px;z-index:999;pointer-events:none;border-radius:2px;}
-
-footer.nav{margin-top:auto;padding-top:10px;text-align:center;color:var(--text-dim);font-size:0.68rem;letter-spacing:1px;}
-
-button:focus-visible,a:focus-visible,.word-token:focus-visible{
-  outline:3px solid #FFF1A8;outline-offset:3px;
+.feedback.correct{
+  display:block;
+  background:rgba(76,175,125,.12);
+  border:1px solid rgba(76,175,125,.3);
+  color:#91E2B3;
 }
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important;}
+
+.feedback.wrong{
+  display:block;
+  background:rgba(224,80,80,.09);
+  border:1px solid rgba(224,80,80,.28);
+  color:#F2B0B0;
 }
+
+.feedback-title{
+  font-weight:800;
+  margin-bottom:5px;
+}
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.continue-btn,
+.next-btn{
+  width:calc(100% - 32px);
+  margin:12px 16px 16px;
+  padding:15px;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(
+    135deg,
+    var(--gold-dark),
+    var(--gold)
+  );
+  color:var(--ink);
+  font-weight:800;
+  cursor:pointer;
+}
+
+.next-btn{
+  width:100%;
+  margin:14px 0 0;
+  display:none;
+}
+
+.next-btn.visible{
+  display:block;
+}
+
+/* =====================================================
+   ABSCHLUSS + DIAGNOSE
+===================================================== */
+
+.completion{
+  display:none;
+  padding:32px 16px 45px;
+}
+
+.completion.visible{
+  display:block;
+}
+
+.completion-main{
+  text-align:center;
+}
+
+.completion-symbol{
+  font-size:60px;
+}
+
+.completion-title{
+  color:var(--gold-light);
+  font-size:27px;
+  margin-top:8px;
+}
+
+.completion-score{
+  color:var(--gold);
+  font-size:42px;
+  font-weight:800;
+  margin:14px 0;
+}
+
+.completion-stars{
+  font-size:32px;
+  margin-bottom:18px;
+  letter-spacing:6px;
+}
+
+.completion-msg{
+  color:var(--parchment-dark);
+  max-width:560px;
+  margin:0 auto 24px;
+  font-size:15px;
+}
+
+.diagnosis{
+  max-width:760px;
+  margin:28px auto 0;
+}
+
+.diagnosis-title{
+  color:var(--gold-light);
+  font-size:21px;
+  margin-bottom:6px;
+  text-align:left;
+}
+
+.diagnosis-sub{
+  color:var(--stone);
+  font-size:14px;
+  text-align:left;
+  margin-bottom:14px;
+}
+
+.skill-result{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 12px;
+  margin-bottom:7px;
+  border-radius:10px;
+  background:rgba(255,255,255,.04);
+  font-size:14px;
+}
+
+.skill-result.good{
+  border-left:4px solid var(--green-ok);
+}
+
+.skill-result.weak{
+  border-left:4px solid var(--red-wrong);
+}
+
+.skill-name{
+  color:var(--parchment);
+}
+
+.skill-score{
+  color:var(--stone);
+  font-weight:700;
+}
+
+.review-heading{
+  color:var(--gold-light);
+  text-align:left;
+  font-size:20px;
+  margin:26px 0 5px;
+}
+
+.review-explanation{
+  color:var(--stone);
+  text-align:left;
+  font-size:14px;
+  margin-bottom:8px;
+}
+
+.mastered-box{
+  padding:16px;
+  border-radius:14px;
+  background:rgba(76,175,125,.1);
+  border:1px solid rgba(76,175,125,.3);
+  color:#A6EAC1;
+  text-align:left;
+  margin-top:18px;
+}
+
+.home-btn{
+  display:inline-block;
+  margin-top:28px;
+  padding:14px 25px;
+  border-radius:14px;
+  background:linear-gradient(
+    135deg,
+    var(--gold-dark),
+    var(--gold)
+  );
+  color:var(--ink);
+  font-weight:800;
+  text-decoration:none;
+}
+
+button:focus-visible,
+a:focus-visible{
+  outline:3px solid #FFF1A8;
+  outline-offset:3px;
+}
+
+@media(max-width:520px){
+
+  .lesson-goals,
+  .start-buttons{
+    grid-template-columns:1fr;
+  }
+
+  .rule-table{
+    font-size:12px;
+  }
+
+  .rule-table th,
+  .rule-table td{
+    padding:6px 4px;
+  }
+
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    transition-duration:.01ms!important;
+  }
+}
+
+body > #mainContent, .completion {max-width:820px;margin:auto;}
+.start-btn small{font-size:14px;}
+.feedback.correct,.feedback.wrong{background:var(--parchment);color:var(--ink);border-width:2px;}
+.result-section{margin:24px auto;padding:18px;border:1px solid rgba(201,168,76,.3);border-radius:18px;}
+.result-section h2{font-size:22px;color:var(--gold-light);margin-bottom:14px;}
+.correction{background:var(--parchment);color:var(--ink);padding:16px;border-radius:12px;margin:12px 0;overflow-wrap:anywhere;}
+.result-actions{display:flex;flex-wrap:wrap;gap:12px;margin:16px 0;}
+.result-actions button{flex:1;min-width:180px;}
+.review-card{margin:16px 0;}
+.skill-score{color:var(--parchment);white-space:nowrap;}
+input{display:block;width:100%;min-height:48px;font:inherit;margin:12px 0;padding:10px;border:2px solid var(--gold);border-radius:10px;}
+.history-list{list-style:none;}.history-list li{padding:12px 0;border-bottom:1px solid var(--gold-dark);}
+.rule-table{display:block;overflow-x:auto;font-size:14px;}
+
+.completion{text-align:left;}
+
+.vocab-wrap{overflow-x:auto}.vocab-wrap table{min-width:0;width:100%;table-layout:fixed}.vocab-wrap td,.vocab-wrap th{overflow-wrap:anywhere}summary{cursor:pointer;padding:14px;font-weight:700}.result-preview{width:100%;max-width:350px;height:auto;display:block;margin:20px auto}.rule-table{font-size:1rem}.teach-body,.review-body,.correction{line-height:1.8}button,a.home-btn{min-height:48px}input{max-width:100%;min-height:48px;font-size:1.15rem;padding:10px}.start-choice small{line-height:1.5}.learn-check{margin-top:20px;border-top:1px solid #8B6914;padding-top:14px}.learn-check button{display:block;width:100%;margin:10px 0}.learn-nav{display:flex;gap:10px;margin-top:16px}.learn-nav button{flex:1}.learn-response{font-weight:600}.result-section p{overflow-wrap:anywhere}
+.vocab-wrap{background:var(--parchment);border-radius:10px;margin:14px 0;padding:4px;}
+.vocab-wrap .rule-table{display:table;margin:0;font-size:16px;}
+.rule-table th{font-size:14px;}
+.teach-body,.review-body{font-size:16px;}
+.learn-check .start-btn{background:#FFF9EA;color:#2A1F0E;border:2px solid #8B6914;}
+.learn-nav{max-width:820px;margin:16px auto;}
+@media(max-width:480px){.teach-body .vocab-wrap table,.review-body .vocab-wrap table{min-width:460px}.teach-body .vocab-wrap::before,.review-body .vocab-wrap::before{content:'Tabelle seitlich wischen →';display:block;color:#654807;font-size:14px;padding:6px}.learn-nav{flex-wrap:wrap}.learn-nav button{min-width:130px}}
 </style>
 </head>
+
 <body>
-<div id="app"></div>
+
+<div class="topbar">
+
+  <a
+    class="back-btn"
+    href="../index.html"
+    aria-label="Zurück zur Übersicht">
+    ←
+  </a>
+
+  <div class="topbar-info">
+
+    <div class="topbar-title">
+      L03 · Personalformen · Imperativ · Vokativ
+    </div>
+
+    <div class="topbar-sub">
+      Magistrella · Latein-Grammatiktrainer
+    </div>
+
+  </div>
+
+  <div
+    class="topbar-progress"
+    id="progressLabel">
+    Lernen
+  </div>
+
+</div>
+
+
+<div id="mainContent"></div>
+
+
+<div
+  class="completion"
+  id="completionScreen">
+
+  <div class="completion-symbol">
+    🏆
+  </div>
+
+  <div class="completion-title">
+    L03 abgeschlossen
+  </div>
+
+  <div
+    class="completion-score"
+    id="finalScore">
+    --
+  </div>
+
+  <div
+    class="completion-stars"
+    id="finalStars">
+    ★★★
+  </div>
+
+  <div
+    class="completion-msg"
+    id="finalMsg">
+  </div>
+
+  <a
+    class="home-btn"
+    href="../index.html">
+    ← Zurück zur Übersicht
+  </a>
+
+</div>
+
+
 <script>
-/* ================= DATA ================= */
-const LEKTION = {
-  id:"L03", title:"Präpositionen + Akkusativ · Infinitiv", subtitle:"L03",
-  blocks:[
-    { name:"Block 1", vocab:[
-      {lat:"ego", info:"(betont)", de:"ich"},
-      {lat:"parāre", info:"parō", de:"(vor)bereiten, vorhaben, erwerben"},
-      {lat:"tū", info:"(betont)", de:"du"},
-      {lat:"sedēre", info:"sedeō", de:"sitzen"},
-      {lat:"scīre", info:"sciō", de:"wissen, kennen"},
-      {lat:"aliter", info:"Adv.", de:"anders, sonst"},
-      {lat:"pārēre", info:"pāreō", de:"gehorchen"},
-      {lat:"rēctē", info:"Adv.", de:"richtig, zu Recht"},
-      {lat:"verbum", info:"verbum n", de:"das Wort, die Äußerung"},
-      {lat:"certē", info:"Adv.", de:"gewiss, sicherlich"}
-    ], newRules:["PARARE_INF"] },
-    { name:"Block 2", vocab:[
-      {lat:"monēre", info:"moneō", de:"mahnen, ermahnen"},
-      {lat:"quīn?", info:"im Hauptsatz", de:"warum nicht?"},
-      {lat:"labōrāre", info:"labōrō", de:"arbeiten, sich anstrengen"},
-      {lat:"quid?", info:"", de:"was?"},
-      {lat:"apud", info:"Präp. m. Akk.", de:"bei"},
-      {lat:"autem", info:"nachgestellt", de:"aber, andererseits"},
-      {lat:"paulō", info:"Adv.", de:"(um) ein wenig"},
-      {lat:"post", info:"Adv.", de:"dann, später"},
-      {lat:"paulō post", info:"", de:"wenig später, kurz darauf"},
-      {lat:"salūtāre", info:"salūtō", de:"grüßen, begrüßen"},
-      {lat:"Salvē! Salvēte!", info:"", de:"Sei gegrüßt! Seid gegrüßt!"},
-      {lat:"in", info:"Präp. m. Akk.", de:"in (…hinein), nach (wohin?), gegen"},
-      {lat:"tum", info:"Adv.", de:"da, dann, damals"},
-      {lat:"intrāre", info:"intrō", de:"betreten, hineingehen"},
-      {lat:"cōnsilium", info:"cōnsilium n", de:"die Beratung, der Beschluss, der Plan, der Rat"}
-    ], newRules:["APUD","IN_AKK"] },
-    { name:"Block 3", vocab:[
-      {lat:"volō", info:"1. Pers. Sg.", de:"ich will"},
-      {lat:"audēre", info:"audeō", de:"wagen, sich trauen"},
-      {lat:"necāre", info:"necō", de:"töten"},
-      {lat:"servāre", info:"servō", de:"retten, bewahren"},
-      {lat:"quemadmodum?", info:"", de:"wie? auf welche Weise?"},
-      {lat:"propter", info:"Präp. m. Akk.", de:"wegen"},
-      {lat:"audācia", info:"audāciam f", de:"die Frechheit, die Kühnheit"},
-      {lat:"laudāre", info:"laudō", de:"loben"}
-    ], newRules:["PROPTER"] }
-  ],
-  rules:{
-    APUD:{title:"apud + Akkusativ", text:"apud verlangt den Akkusativ und bedeutet hier „bei“. Beispiel: apud amīcōs = bei den Freunden."},
-    IN_AKK:{title:"in + Akkusativ", text:"in + Akkusativ kann hier eine Richtung („in … hinein“) oder „gegen“ ausdrücken. Beispiele: in tabernam = in den Laden hinein; in senātōrem = gegen den Senator."},
-    PROPTER:{title:"propter + Akkusativ", text:"propter regiert den Akkusativ und bedeutet „wegen“. Beispiel: propter audāciam = wegen der Frechheit."},
-    PARARE_INF:{title:"parāre + Infinitiv", text:"parāre kann mit einem Infinitiv stehen: „vorhaben, zu …“ / „sich bereit machen, zu …“. Beispiel: Equōs spectāre parō. = Ich habe vor, die Pferde anzuschauen."},
-    AUDERE_INF:{title:"audēre + Infinitiv", text:"audēre kann mit einem Infinitiv stehen und bedeutet „wagen, etwas zu tun“. Im Satz Dāvus aedificium intrāre audet gehört intrāre als Infinitiv zu audet: Davus wagt es, das Haus zu betreten."},
-    SUBJ_AKK_PRED:{title:"Subjekt + Akkusativobjekt + Prädikat", text:"In diesem Satz steht das Subjekt im Nominativ und das direkte Objekt im Akkusativ. Beispiel: Amīcī scelerātōs temptant. = Die Freunde greifen die Verbrecher an."}
-  },
-  // Beispielsätze — L03
-  sentences:[
-    {lat:"Equōs spectāre parō.", de:"Ich habe vor, die Pferde anzuschauen.", block:1, puzzle:false, rule:"PARARE_INF"},
-    {lat:"Fūrtum parō.", de:"Ich bereite einen Diebstahl vor.", block:1, puzzle:false},
-    {lat:"Frūmentum parō.", de:"Ich erwerbe Getreide.", block:1, puzzle:false},
-    {lat:"Dāvus apud amīcōs est.", de:"Davus ist bei seinen Freunden.", block:2, puzzle:true, gapWord:"apud", rule:"APUD"},
-    {lat:"Servus pāret, dominus autem servum monet.", de:"Der Sklave gehorcht, aber der Herr ermahnt den Sklaven.", block:2, puzzle:false},
-    {lat:"Salvē! Salvēte!", de:"Sei gegrüßt! Seid gegrüßt!", block:2, puzzle:false},
-    {lat:"In tabernam.", de:"In den Laden (hinein).", block:2, puzzle:false, gapWord:"In", rule:"IN_AKK"},
-    {lat:"In senātōrem.", de:"Gegen den Senator.", block:2, puzzle:false, gapWord:"In", rule:"IN_AKK"},
-    {lat:"Dāvus aedificium intrāre audet.", de:"Davus wagt es, das Haus zu betreten.", block:3, puzzle:true, rule:"AUDERE_INF"},
-    {lat:"Amīcī scelerātōs temptant.", de:"Die Freunde greifen die Verbrecher an.", block:3, puzzle:true, rule:"SUBJ_AKK_PRED"},
-    {lat:"Ad cōnsilium venīre.", de:"Zur Beratung kommen.", block:2, puzzle:false},
-    {lat:"Cōnsilium scīre.", de:"Den Plan kennen.", block:2, puzzle:false},
-    {lat:"Cōnsilium audīre.", de:"Den Rat hören.", block:2, puzzle:false}
-  ]
+"use strict";
+const VOCAB=[{"id": 0, "lat": "egō", "info": "(betont)", "de": "ich"}, {"id": 1, "lat": "parāre", "info": "parō", "de": "(vor)bereiten, vorhaben, erwerben"}, {"id": 2, "lat": "tū", "info": "(betont)", "de": "du"}, {"id": 3, "lat": "sedēre", "info": "sedeō", "de": "sitzen"}, {"id": 4, "lat": "scīre", "info": "sciō", "de": "wissen, kennen"}, {"id": 5, "lat": "aliter", "info": "Adv.", "de": "anders, sonst"}, {"id": 6, "lat": "pārēre", "info": "pāreō", "de": "gehorchen"}, {"id": 7, "lat": "rēctē", "info": "Adv.", "de": "richtig, zu Recht"}, {"id": 8, "lat": "verbum", "info": "verbum n", "de": "das Wort, die Äußerung"}, {"id": 9, "lat": "certē", "info": "Adv.", "de": "gewiss, sicherlich"}, {"id": 10, "lat": "monēre", "info": "moneō", "de": "mahnen, ermahnen"}, {"id": 11, "lat": "quīn?", "info": "im Hauptsatz", "de": "warum nicht?"}, {"id": 12, "lat": "labōrāre", "info": "labōrō", "de": "arbeiten, sich anstrengen"}, {"id": 13, "lat": "quid?", "info": "", "de": "was?"}, {"id": 14, "lat": "apud", "info": "Präp. m. Akk.", "de": "bei"}, {"id": 15, "lat": "autem", "info": "nachgestellt", "de": "aber, andererseits"}, {"id": 16, "lat": "paulō", "info": "Adv.", "de": "(um) ein wenig"}, {"id": 17, "lat": "post", "info": "Adv.", "de": "dann, später"}, {"id": 18, "lat": "paulō post", "info": "", "de": "wenig später, kurz darauf"}, {"id": 19, "lat": "salūtāre", "info": "salūtō", "de": "grüßen, begrüßen"}, {"id": 20, "lat": "Salvē! Salvēte!", "info": "", "de": "Sei gegrüßt! Seid gegrüßt!"}, {"id": 21, "lat": "in", "info": "Präp. m. Akk.", "de": "in (… hinein), nach (wohin?); gegen"}, {"id": 22, "lat": "tum", "info": "Adv.", "de": "da, dann, damals"}, {"id": 23, "lat": "intrāre", "info": "intrō", "de": "betreten, hineingehen"}, {"id": 24, "lat": "cōnsilium", "info": "cōnsilium n", "de": "die Beratung, der Beschluss, der Plan, der Rat"}, {"id": 25, "lat": "volō", "info": "1. Pers. Sg.", "de": "ich will"}, {"id": 26, "lat": "audēre", "info": "audeō", "de": "wagen, sich trauen"}, {"id": 27, "lat": "necāre", "info": "necō", "de": "töten"}, {"id": 28, "lat": "servāre", "info": "servō", "de": "retten, bewahren"}, {"id": 29, "lat": "quemadmodum?", "info": "", "de": "wie? auf welche Weise?"}, {"id": 30, "lat": "propter", "info": "Präp. m. Akk.", "de": "wegen"}, {"id": 31, "lat": "audācia", "info": "audāciam f", "de": "die Frechheit, die Kühnheit"}, {"id": 32, "lat": "laudāre", "info": "laudō", "de": "loben"}];
+// Source: uploaded vocabulary pp. 10–12, textbook pp. 28–31, grammar pp. 101–102 (F1–F3, S, M1–M2).
+// Vocabulary form column contains accusatives (nouns), not genitives.
+const PROPER_NAMES=[
+ ['Mārcipor / Mārcipōr','Sklave des Pomponius; die Textformen auf S. 29/30 zeigen beide Schreibungen'],
+ ['Pseudolus','Sklave des Pomponius'],['Pompōnius','Kaufmann'],['Narcissus','Senator'],['Aulus','übernimmt den Auftrag im Zusatztext'],
+ ['Dāvus','Sklave; will Incitatus retten'],['Fidus','Freund des Davus'],['Āfra','Freundin des Davus'],['Lȳdia','Freundin des Davus'],['Incitātus','Rennpferd'],['Scorpus','Sieger und Wagenlenker'],['Gāius','im Übungssatz als Freund genannt'],['Aventīnus','Aventin, ein Hügel Roms'],['Circus Maximus','Rennbahn in Rom'],['Colossēum','Kolosseum'],['forum Boārium','Rindermarkt in Rom']
+];
+const HELP_VOCAB=[['carōta','die Möhre · S. 29'],['asinus','der Esel · S. 29'],['dēsidiōsus','der Faulpelz · S. 29'],['casa','die Hütte · S. 29'],['disputāre','besprechen · S. 29'],['fenestra','das Fenster · S. 29'],['sōlus','allein · S. 29'],['tē','dich · S. 30'],['habeō','ich habe · S. 31'],['āmōvēre','wegschaffen · S. 31'],['pecūnia','das Geld · S. 31']];
+function vocabularyHTML(){
+ const table=(heads,rows)=>`<div class="vocab-wrap"><table class="rule-table"><thead><tr>${heads.map(x=>`<th scope="col">${x}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(x=>`<td>${x}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+ return `<details class="result-section"><summary>Vollständige L03-Vokabelliste · 33 Einträge</summary><p>Lernwortschatz aus S. 10–12. Alle Einträge können im Training vorkommen. Bei Substantiven stehen Akkusativ Singular und Genus (n = Neutrum, f = feminin), bei Verben die 1. Person Singular. Adv. bedeutet Adverb; Präp. m. Akk. bedeutet Präposition mit Akkusativ.</p>${table(['Latein','Form / Hinweis','Alle Bedeutungen'],VOCAB.map(v=>[v.lat,v.info,v.de]))}<h3>Bedeutungen im Zusammenhang</h3><p><b>Equōs spectāre parō.</b> Ich habe vor, die Pferde anzuschauen.<br><b>Fūrtum parō.</b> Ich bereite einen Diebstahl vor.<br><b>Frūmentum parō.</b> Ich erwerbe Getreide.</p><p><b>ad cōnsilium venīre</b> – zur Beratung kommen<br><b>cōnsilium scīre</b> – den Plan (Beschluss) kennen<br><b>cōnsilium audīre</b> – den Rat hören</p><h3>Eigennamen aus den Texten und Übungen</h3><p>Gesondert aufgeführt; keine zusätzliche Vokabelprüfung. Auf den drei Vokabelfotos ist kein eigener Namensblock abgebildet.</p>${table(['Name','Einordnung'],PROPER_NAMES)}<h3>Hilfsvokabeln der einzelnen Texte</h3><p>Die Randhilfen werden nicht als Lernwortschatz gewertet. Die Formen sind wie in den Hilfen angegeben.</p>${table(['Latein','Hilfe / Fundstelle'],HELP_VOCAB)}</details>`;
+}
+function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function one(a){return a[Math.floor(Math.random()*a.length)];}
+function plainText(s){return String(s).replace(/<[^>]*>/g,'');}
+function table(head,rows){return `<div class="vocab-wrap"><table class="rule-table"><thead><tr>${head.map(v=>`<th scope="col">${v}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(v=>`<td>${v}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;}
+const TEACHING=[
+ {title:'1. Wer handelt? Das Subjekt im Prädikat',body:`<p>Das <b>Subjekt</b> sagt, wer handelt. Das <b>Prädikat</b> sagt, was geschieht. Im Lateinischen verrät die Verbendung oft schon das Subjekt.</p><p><b>Labōrō.</b> – Ich arbeite. Ein eigenes Wort für „ich“ ist nicht nötig.<br><b>Egō labōrō.</b> – <em>Ich</em> arbeite. Egō betont „ich“. Tū betont „du“.</p><p><b>Singular</b> ist die Einzahl, <b>Plural</b> die Mehrzahl. Die 1. Person spricht (ich/wir), die 2. wird angesprochen (du/ihr), die 3. ist die Person oder Sache, über die gesprochen wird (er/sie/es; sie).</p>${table(['Person','Endung','Bedeutung'],[['1. Singular','-ō / -m','ich'],['2. Singular','-s','du'],['3. Singular','-t','er / sie / es'],['1. Plural','-mus','wir'],['2. Plural','-tis','ihr'],['3. Plural','-nt','sie']])}<p><b>Amīcī veniunt. Gaudent.</b> – Die Freunde kommen. Sie freuen sich. Im zweiten Satz steckt „sie“ in der Verbform; der vorherige Satz erklärt, wer gemeint ist.</p>`,check:['Was bedeutet die Endung -mus?',['wir','ihr'],0,'-mus bezeichnet die 1. Person Plural: wir.']},
+ {title:'2. Verben konjugieren: ā, ē und ī',body:`<p>Ein Verb in Personalformen zu setzen heißt <b>konjugieren</b>. Der <b>Infinitiv</b> ist die Grundform, z. B. parāre – vorbereiten. Nimm -re weg: parā-. Dieser Teil ist der Präsensstamm. Daran treten die Personalendungen.</p><p>Verben mit ähnlicher Formenbildung gehören zu einer <b>Konjugation</b>. In L03 üben wir die ā-, ē- und ī-Konjugation. Der Stammvokal hilft beim Erkennen. Bei parāre wird ā + ō zu ō; vor -t und -nt stehen kurze Vokale.</p>${table(['Person','parāre · vorbereiten','monēre · mahnen','audīre · hören'],[['ich','parō','moneō','audiō'],['du','parās','monēs','audīs'],['er/sie/es','parat','monet','audit'],['wir','parāmus','monēmus','audīmus'],['ihr','parātis','monētis','audītis'],['sie','parant','monent','audiunt']])}<p>Beachte <b>audiunt</b>: In der ī-Konjugation steht in der 3. Person Plural -iunt. Ebenso: scīre → sciunt (sie wissen), venīre → veniunt (sie kommen).</p><p><b>Form bilden:</b> „ihr mahnt“: monē- + -tis → <b>monētis</b>.<br><b>Im Satz:</b> Servōs monētis. – Ihr ermahnt die Sklaven.</p>`,check:['Welche Form bedeutet „wir bereiten vor“?',['parātis','parāmus'],1,'parā- + -mus ergibt parāmus: wir bereiten vor.']},
+ {title:'3. esse und adesse: sein und da sein',body:`<p><b>Esse</b> (sein) hat besondere Formen. <b>Adesse</b> (da sein) enthält dieselben Formen mit ad-. Diese Formen lernst du als eigene Reihe.</p>${table(['Deutsch','esse','adesse'],[['ich bin (da)','sum','adsum'],['du bist (da)','es','ades'],['er/sie/es ist (da)','est','adest'],['wir sind (da)','sumus','adsumus'],['ihr seid (da)','estis','adestis'],['sie sind (da)','sunt','adsunt']])}<p><b>Hīc sumus.</b> – Wir sind hier.<br><b>Iam adsumus.</b> – Wir sind schon da.<br><b>Ubi estis?</b> – Wo seid ihr?</p><p>Die Personalform passt zum Subjekt. Das nennt man <b>Kongruenz</b>: Servus adest – der Sklave ist da; servī adsunt – die Sklaven sind da.</p>`,check:['Welche Form passt zu „ihr seid“?',['estis','sunt'],0,'Estis bedeutet „ihr seid“; sunt bedeutet „sie sind“.']},
+ {title:'4. Der Imperativ: eine Aufforderung',body:`<p>Der <b>Imperativ</b> ist die Befehls- oder Aufforderungsform. Er richtet sich an „du“ oder „ihr“.</p><p>Bei den hier geübten ā-, ē- und ī-Verben: Für eine Person nimm beim Infinitiv -re weg. Für mehrere Personen hänge -te an.</p>${table(['Grundform','Eine Person','Mehrere Personen'],[['parāre · vorbereiten','parā! · bereite vor!','parāte! · bereitet vor!'],['monēre · mahnen','monē! · mahne!','monēte! · mahnt!'],['audīre · hören','audī! · höre!','audīte! · hört!'],['venīre · kommen','venī! · komm!','venīte! · kommt!'],['pārēre · gehorchen','pārē! · gehorche!','pārēte! · gehorcht!']])}<p><b>Audīte verba!</b> – Hört die Worte!<br><b>Tacē!</b> – Schweig!<br><b>Salvē! / Salvēte!</b> – Sei gegrüßt! / Seid gegrüßt!</p><p>Eine Aussage ist kein Befehl: <b>audītis</b> = ihr hört; <b>audīte!</b> = hört! Auch <b>rēctē</b> (richtig) und <b>certē</b> (gewiss) sind keine Imperative.</p>`,check:['Welches Wort ist eine Aufforderung an mehrere Personen?',['audītis','audīte!'],1,'Audīte! bedeutet „Hört!“; audītis heißt „ihr hört“.']},
+ {title:'5. Der Vokativ: jemanden ansprechen',body:`<p>Ein <b>Substantiv</b> ist ein Nomen, z. B. servus – Sklave. Substantive werden <b>dekliniert</b>: Ihre Form richtet sich nach Kasus (Fall) und Numerus (Einzahl/Mehrzahl).</p><p>Den Nominativ kennst du als Subjektform, den Akkusativ als Objektform oder nach bestimmten Präpositionen. Der <b>Vokativ</b> ist die Anredeform. Er steht häufig mit einer Aufforderung.</p>${table(['Nominativ','Vokativ','Anrede'],[['servus','serve','Sklave!'],['dominus','domine','Herr!'],['amīcus','amīce','Freund!'],['Dāvus','Dāve','Davus!'],['Lȳdia','Lȳdia','Lydia!'],['senātor','senātor','Senator!'],['amīcī (Plural)','amīcī','Freunde!']])}<p>Bei den gezeigten Wörtern der o-Deklination auf -us wird im Singular -us zu -e. Bei den anderen hier gezeigten Formen gleicht der Vokativ dem Nominativ. Der Satz macht die Verwendung deutlich.</p><p><b>Amīcī veniunt.</b> – Die Freunde kommen: amīcī ist Subjekt.<br><b>Venīte, amīcī!</b> – Kommt, Freunde! Amīcī ist eine Anrede.</p>`,check:['Welche Form ist in „Venī, serve!“ die Anrede?',['venī','serve'],1,'Serve ist der Vokativ. Venī ist der Imperativ „komm!“.']},
+ {title:'6. Wiederholen und erweitern: Akkusativ',body:`<p>Der Akkusativ antwortet beim direkten Objekt auf „wen oder was?“. Die Formen wiederholst du aus L02.</p>${table(['Nominativ → Akkusativ','Singular','Plural'],[['a-Deklination','serva → servam','servae → servās'],['o-Deklination, maskulin','servus → servum','servī → servōs'],['o-Deklination, Neutrum','verbum → verbum','verba → verba'],['konsonantische Deklination','senātor → senātōrem','senātōrēs → senātōrēs']])}<p>Beim Neutrum sind Nominativ und Akkusativ gleich. Auch senātōrēs kann Nominativ oder Akkusativ Plural sein. Nutze den Satz.</p><p>Eine <b>Präposition</b> steht vor einer Wortgruppe. In L03 verlangen <b>apud</b>, <b>in</b> (mit Richtung oder „gegen“) und <b>propter</b> den Akkusativ.</p>${table(['Präposition','Beispiel','Deutsch'],[['apud · bei','apud amīcōs','bei den Freunden'],['in · in … hinein / nach','in tabernam','in den Laden hinein'],['in · gegen','in senātōrem','gegen den Senator'],['propter · wegen','propter audāciam','wegen der Frechheit']])}<p><b>Amīcī Dāvum laudant.</b> – Die Freunde loben Davus. Dāvum ist Akkusativobjekt.<br><b>Dāvus apud amīcōs est.</b> – Davus ist bei seinen Freunden. Apud amīcōs gibt hier den Ort an.</p>`,check:['Welchen Fall verlangt „propter“?',['Nominativ','Akkusativ'],1,'Propter verlangt den Akkusativ: propter audāciam – wegen der Frechheit.']},
+ {title:'7. Mit Infinitiv: vorhaben, wagen, müssen',body:`<p>Der <b>Infinitiv</b> nennt die Handlung in der Grundform. Er sagt allein nicht, wer handelt. Das verrät die Personalform des anderen Verbs.</p><p><b>Equōs spectāre parō.</b> – Ich habe vor, die Pferde anzuschauen.<br><b>Dāvus aedificium intrāre audet.</b> – Davus wagt es, das Haus zu betreten.<br><b>Incitātum servāre dēbēmus.</b> – Wir müssen Incitatus retten.</p><p><b>Parāre</b> heißt je nach Zusammenhang auch „vorbereiten“ oder „erwerben“. <b>Audēre</b> bedeutet „wagen, sich trauen“, <b>dēbēre</b> hier „müssen“. <b>Volō</b> lernst du in L03 nur als „ich will“: Cōnsilium scīre volō – ich will den Plan kennen.</p><p><b>Selbst bilden:</b> „Wir haben vor, zu arbeiten.“ → labōrāre + parāmus → <b>Labōrāre parāmus.</b></p><p><b>Autem</b> heißt „aber, andererseits“ und steht nachgestellt: Servus pāret, dominus autem servum monet. – Der Sklave gehorcht, aber der Herr ermahnt den Sklaven.</p>`,check:['Welches Wort verrät in „Servāre dēbēmus“ die Person?',['servāre','dēbēmus'],1,'Dēbēmus bedeutet „wir müssen“; servāre nennt die Handlung „retten“.']}
+];
+// Keep existing review indices stable for stored results.
+TEACHING[0].body += `<p><b>Clāmant.</b> – Sie schreien. Im Deutschen ergänzen wir ein <b>Pronomen</b> (Fürwort), hier „sie“. Wer gemeint ist, zeigt der Zusammenhang, etwa der vorherige Satz über die Sklaven.</p>`;
+TEACHING[1].body += `<h3>Die 1. und 2. Person aus dem Grammatikheft</h3>${table(['Klasse','ich / wir','du / ihr'],[['ā-Konjugation','clāmō – ich schreie<br>clāmāmus – wir schreien','clāmās – du schreist<br>clāmātis – ihr schreit'],['ē-Konjugation','rīdeō – ich lache<br>rīdēmus – wir lachen','rīdēs – du lachst<br>rīdētis – ihr lacht'],['ī-Konjugation','veniō – ich komme<br>venīmus – wir kommen','venīs – du kommst<br>venītis – ihr kommt'],['Hilfsverb esse','sum – ich bin<br>sumus – wir sind','es – du bist<br>estis – ihr seid']])}<p>Clāmō ist aus clāmā-ō entstanden. Die Endungen der 1. Person sind -ō oder -m im Singular und -mus im Plural; die der 2. Person -s und -tis.</p>`;
+TEACHING[3].body += `<h3>Weitere Imperative aus dem Grammatikheft</h3>${table(['Grundform','Eine Person','Mehrere Personen'],[['properāre · sich beeilen','properā! – beeile dich!','properāte! – beeilt euch!'],['tacēre · schweigen','tacē! – schweige!','tacēte! – schweigt!'],['esse · sein','es! – sei!','este! – seid!']])}<p><b>Esse hat besondere Imperative: es! und este!</b> Leite sie nicht durch Weglassen von -re ab.</p><p><b>Es</b> kann „du bist“ oder „sei!“ bedeuten. Der Satz entscheidet: <b>Amīcus es.</b> – Du bist ein Freund. <b>Es amīcus!</b> – Sei ein Freund!</p>`;
+TEACHING[4].body += `<p><b>Salvē, senātor!</b> – Sei gegrüßt, Senator!<br><b>Salvē, serve!</b> – Sei gegrüßt, Sklave!</p><p>Der Vokativ wird in den Deklinationstabellen des Hefts nicht eigens aufgeführt. Seine Formen gleichen im Allgemeinen dem Nominativ; beachte bei den hier behandelten o-Substantiven auf -us den Vokativ Singular auf -e.</p>`;
+TEACHING.push({title:'8. Übersetzen: den Satzbauplan beachten',body:`<p>Beim Übersetzen ordnest du die Satzglieder für das Deutsche neu. Im lateinischen Satz steht das Prädikat häufig am Ende. Im deutschen Aussagesatz steht die <b>gebeugte Verbform an zweiter Satzgliedstelle</b>. Das ist nicht unbedingt das zweite Wort.</p>${table(['Latein','Deutsch'],[['Mercātor bēstiās spectat.','Der Händler betrachtet die Tiere.'],['Nunc mercātor bēstiās spectat.','Jetzt betrachtet der Händler die Tiere.']])}<p><b>So gehst du vor:</b> Finde zuerst das Prädikat spectat – er betrachtet. Frage dann „wer?“: mercātor – der Händler. Frage schließlich „wen oder was?“: bēstiās – die Tiere.</p><p>„Der Händler“ besteht aus zwei Wörtern, ist aber ein Satzglied. Im zweiten Beispiel steht „Jetzt“ zuerst; danach folgt „betrachtet“ und dann das Subjekt „der Händler“.</p><p>Fehlt im Lateinischen ein eigenes Subjekt, ergänze beim Übersetzen das passende Fürwort: <b>Bēstiās spectant.</b> – Sie betrachten die Tiere.</p>`,check:['Welche Übersetzung hat die richtige deutsche Satzstellung?',['Der Händler die Tiere betrachtet.','Der Händler betrachtet die Tiere.'],1,'Im deutschen Aussagesatz steht die gebeugte Verbform an zweiter Satzgliedstelle.']});
+TEACHING.push({title:'9. Wörter lernen: an Bekanntes anknüpfen',body:`<p>Eine Verbindung zu etwas Bekanntem hilft beim Merken. Nutze <b>Wortfamilien</b>, <b>Vorsilben</b> und Wörter anderer Sprachen.</p><h3>Wortfamilien und Vorsilben</h3><p><b>Clāmāre</b> – schreien und <b>clāmor</b> – Geschrei gehören zusammen. Auch <b>spectāre</b> – betrachten und <b>exspectāre</b> – erwarten lassen sich miteinander verbinden.</p><p>Vorsilben können mit Präpositionen zusammenhängen: <b>ad</b> – zu; <b>ad-esse</b> – da sein. Solche Verbindungen sind Merkhilfen. Lerne die tatsächliche Wortbedeutung trotzdem mit.</p><h3>Andere Sprachen nutzen</h3><p>Lateinische Wörter leben in romanischen Sprachen weiter, etwa Italienisch, Spanisch, Portugiesisch, Französisch und Rumänisch. Auch englische Wörter können als Merkhilfe dienen.</p>${table(['Bekanntes Wort','Lateinische Verbindung'],[['englisch view – Sicht, Ansicht','vidēre – sehen'],['italienisch sedere – sitzen','sedēre – sitzen'],['italienisch amico – Freund','amīcus – Freund']])}<p>Wähle zu einer neuen Vokabel eine Verbindung, die dir persönlich hilft. Diese Beispiele sind Lerntipps und erweitern den gewerteten L03-Lernwortschatz nicht.</p>`,check:['Welche Wörter gehören zur gleichen Wortfamilie?',['clāmāre und clāmor','sedēre und amīcus'],0,'Clāmāre heißt schreien, clāmor heißt Geschrei. Die gemeinsame Wortfamilie hilft beim Merken.']});
+const SKILL_INFO={wordOrder:{name:'Deutscher Satzbau beim Übersetzen'},vocab:{name:'L03-Wortschatz'},person:{name:'Person und verstecktes Subjekt'},forms:{name:'Verben konjugieren'},esse:{name:'esse und adesse'},imperative:{name:'Imperativ'},vocative:{name:'Vokativ'},case:{name:'Nominativ und Akkusativ'},prep:{name:'Präpositionen mit Akkusativ'},infinitive:{name:'Infinitiv im Satz'}};
+function question(skill,prompt,sentence,answer,wrong,explanation,reviewKeys,input=false){const options=shuffle([answer,...wrong]);return {skill,theme:SKILL_INFO[skill].name,prompt,sentence,options,correct:options.indexOf(answer),success:explanation,wrong:'',helper:input?'Längezeichen sind freiwillig.':'Wähle eine Antwort.',reviewKeys,input};}
+function qVocab(v=one(VOCAB),reverse=false){const answer=reverse?v.lat:v.de;const wrong=shuffle(VOCAB.filter(x=>x.id!==v.id && x.de!==v.de)).slice(0,3).map(x=>reverse?x.lat:x.de);return {...question('vocab',reverse?'Welcher lateinische Eintrag passt?':'Welche Bedeutungen gehören zu diesem Eintrag?',reverse?v.de:v.lat,answer,wrong,`${v.lat}${v.info?' ('+v.info+')':''}: ${v.de}.`,[]),vocabId:v.id,reverse};}
+const PERSONS=['ich','du','er / sie / es','wir','ihr','sie (Plural)'];
+const VERBS=[
+ ['parāre','vorbereiten',['parō','parās','parat','parāmus','parātis','parant']],['monēre','mahnen',['moneō','monēs','monet','monēmus','monētis','monent']],['audīre','hören',['audiō','audīs','audit','audīmus','audītis','audiunt']],['scīre','wissen',['sciō','scīs','scit','scīmus','scītis','sciunt']],['venīre','kommen',['veniō','venīs','venit','venīmus','venītis','veniunt']],['labōrāre','arbeiten',['labōrō','labōrās','labōrat','labōrāmus','labōrātis','labōrant']],['pārēre','gehorchen',['pāreō','pārēs','pāret','pārēmus','pārētis','pārent']],['servāre','retten',['servō','servās','servat','servāmus','servātis','servant']]
+];
+function qPerson(){const v=one(VERBS),i=Math.floor(Math.random()*6);return question('person','Welches Subjekt steckt in dieser Personalform?',v[2][i],PERSONS[i],shuffle(PERSONS.filter((_,j)=>j!==i)).slice(0,3),`${v[2][i]} gehört zu „${PERSONS[i]}“ (${v[0]} – ${v[1]}).`,[0]);}
+function qForms(){const v=one(VERBS),i=Math.floor(Math.random()*6);return question('forms',`Bilde die Personalform: ${PERSONS[i]}.`,`${v[0]} – ${v[1]}`,v[2][i],shuffle(v[2].filter((_,j)=>j!==i)).slice(0,3),`${PERSONS[i]}: ${v[2][i]}. Verben werden konjugiert.`,[1],true);}
+function qEsse(){const ad=Math.random()<.5,i=Math.floor(Math.random()*6),forms=ad?['adsum','ades','adest','adsumus','adestis','adsunt']:['sum','es','est','sumus','estis','sunt'];return question('esse',`Bilde die Form für „${PERSONS[i]}“.`,ad?'adesse – da sein':'esse – sein',forms[i],shuffle(forms.filter((_,j)=>j!==i)).slice(0,3),`${forms[i]}: ${PERSONS[i]} (${ad?'da sein':'sein'}).`,[2],true);}
+function qImperative(esseOnly=false,pluralOverride){if(esseOnly){const plural=pluralOverride ?? (Math.random()<.5);return {...question('imperative',`Bilde den Imperativ von esse für ${plural?'mehrere Personen':'eine Person'}.`,plural?'___ amīcī! · Seid Freunde!':'___ amīcus! · Sei ein Freund!',plural?'este':'es',plural?['estis','sunt','esse']:['sum','est','esse'],'Die besonderen Imperative von esse heißen es! (sei!) und este! (seid!).',[3],true),esseImperative:true};}const v=one(VERBS.filter(x=>x[0]!=='scīre')),plural=Math.random()<.5,stem=v[0].slice(0,-2),answer=stem+(plural?'te':'');return question('imperative',`Bilde eine Aufforderung an ${plural?'mehrere Personen (ihr)':'eine Person (du)'}.`,`${v[0]} – ${v[1]}`,answer,[stem+(plural?'':'te'),v[2][plural?4:1],v[0]],`${v[0]} ohne -re${plural?' plus -te':''} ergibt ${answer}!`,[3],true);}
+function qVocative(){const v=one([['servus','serve','Sklave'],['dominus','domine','Herr'],['amīcus','amīce','Freund'],['Dāvus','Dāve','Davus'],['Fidus','Fide','Fidus']]);return question('vocative','Setze die Anredeform ein.',`Venī, ___! · Komm, ${v[2]}! (${v[0]})`,v[1],[v[0],v[0].slice(0,-2)+'um',v[0].slice(0,-2)+'ī'],`Bei ${v[0]} wird -us im Vokativ Singular zu -e: ${v[1]}.`,[4],true);}
+function qWordOrder(){const row=one([
+ ['Mercātor bēstiās spectat.','Der Händler betrachtet die Tiere.',['Der Händler die Tiere betrachtet.','Die Tiere betrachten den Händler.'],'Mercātor ist das Subjekt, bēstiās das Objekt. Im Deutschen folgt „betrachtet“ als zweites Satzglied.'],
+ ['Nunc mercātor bēstiās spectat.','Jetzt betrachtet der Händler die Tiere.',['Jetzt der Händler die Tiere betrachtet.','Jetzt betrachten die Tiere den Händler.'],'Nach dem ersten Satzglied „Jetzt“ steht die gebeugte Verbform „betrachtet“.'],
+ ['Bēstiās spectant.','Sie betrachten die Tiere.',['Die Tiere betrachten.','Die Tiere sie betrachten.'],'Das Subjekt steckt in spectant: sie. Bēstiās ist Akkusativ Plural und damit das Objekt.']
+ ]);return question('wordOrder','Übersetze mit passender deutscher Satzstellung.',row[0],row[1],row[2],row[3],[7]);}
+const BANK={
+ case:[['Welche Form ergänzt das Akkusativobjekt?','Amīcī ___ laudant. · Die Freunde loben den Senator.','senātōrem',['senātor','senātōrēs','amīcī'],'Wen loben sie? Den Senator: Akkusativ Singular senātōrem.'],['Bestimme Kasus und Numerus von „verba“.','Servī verba audiunt. · Die Sklaven hören die Worte.','Akkusativ Plural',['Nominativ Plural','Akkusativ Singular','Nominativ Singular'],'Verba ist hier das Objekt zu audiunt. Ohne Kontext könnte verba auch Nominativ Plural sein.'],['Welche Form ist hier das Subjekt im Plural?','___ equōs spectant. · Die Senatoren betrachten die Pferde.','Senātōrēs',['Senātor','Senātōrem','Equōs'],'Senātōrēs steht hier im Nominativ Plural und passt zu spectant.']],
+ prep:[['Welche Präposition bedeutet hier „wegen“?','Amīcī Dāvum ___ audāciam laudant.','propter',['apud','in','ante'],'Propter audāciam: wegen der Frechheit / Kühnheit. Propter verlangt Akkusativ.'],['Welche Form steht nach „apud“?','Dāvus apud ___ est. · Davus ist bei den Freunden.','amīcōs',['amīcī','amīcus','amīce'],'Apud verlangt Akkusativ: apud amīcōs.'],['Wähle die passende Übersetzung.','in tabernam','in den Laden hinein',['bei den Freunden','wegen des Plans','vor den Senator'],'In mit Akkusativ bezeichnet hier die Richtung: in den Laden hinein.'],['Wähle die passende Übersetzung.','in senātōrem','gegen den Senator',['bei dem Senator','wegen des Senators','durch den Laden'],'In mit Akkusativ kann auch „gegen“ bedeuten.']],
+ infinitive:[['Was bedeutet der Satz?','Equōs spectāre parō.','Ich habe vor, die Pferde anzuschauen.',['Wir haben vor, die Pferde anzuschauen.','Du hast vor, die Pferde anzuschauen.','Ihr habt vor, die Pferde anzuschauen.'],'Parō: ich habe vor. Spectāre ist der Infinitiv „anschauen“.'],['Ergänze die Grundform „retten“.','Incitātum ___ dēbēmus. · Wir müssen Incitatus retten.','servāre',['servō','servāmus','servāte'],'Dēbēmus gibt „wir müssen“ an. Die Handlung folgt als Infinitiv servāre.'],['Was bedeutet der Satz?','Dāvus aedificium intrāre audet.','Davus wagt es, das Haus zu betreten.',['Davus hat vor, das Haus zu betreten.','Davus muss das Haus betreten.','Davus wagt es, das Haus zu bewahren.'],'Audet bedeutet „er wagt es“; intrāre nennt die Handlung „betreten“.'],['Welches Wort ist der Infinitiv?','Cōnsilium scīre volō.','scīre',['cōnsilium','volō'],'Scīre heißt „wissen, kennen“. Volō heißt „ich will“: Ich will den Plan kennen.']]
 };
-</script>
-<script>
-/* ================= ENGINE ================= */
-(function(){
-const AFFIRM = ["Ita!","Optime!","Magnifice!","Recte!","Perfectum!"];
-const app = document.getElementById('app');
+function bankQuestion(skill){const row=one(BANK[skill]);return question(skill,row[0],row[1],row[2],row[3],row[4],[{case:5,prep:5,infinitive:6}[skill]]);}
+const GENERATORS={wordOrder:qWordOrder,person:qPerson,forms:qForms,esse:qEsse,imperative:qImperative,vocative:qVocative,case:()=>bankQuestion('case'),prep:()=>bankQuestion('prep'),infinitive:()=>bankQuestion('infinitive')};
+function buildSession(){
+ // Decisions first, then forms, then sentence application. Six distinct vocabulary items.
+ const words=shuffle(VOCAB).slice(0,6);
+ return [qVocab(words[0]),qPerson(),qVocab(words[1]),qPerson(),qForms(),qForms(),qEsse(),qVocab(words[2]),qImperative(),qImperative(true),qVocative(),qVocab(words[3]),bankQuestion('case'),bankQuestion('prep'),qWordOrder(),qVocab(words[4]),bankQuestion('infinitive'),qVocab(words[5])];
+}
+function buildPractice(result){return result.wrongAnswers.map(e=>{const old=e.question;if(old.esseImperative)return qImperative(true,old.options[old.correct]==='es');if(e.skill==='vocab')return qVocab(VOCAB.find(v=>v.id===old.vocabId),!old.reverse);let q;for(let n=0;n<100;n++){q=GENERATORS[e.skill]();if(q.sentence!==old.sentence || q.prompt!==old.prompt)break;}return q;});}
 
-const state = {
-  blockIdx: 0,
-  phase: 'vocab',        // vocab | quiz | end
-  queue: [],
-  qIdx: 0,
-  correct: 0,
-  total: 0,
-  streak: 0,
-  answered: false
-};
+// Full training and practice have independent state; completed results are snapshots.
+let currentSession=null;
+let practiceSession=null;
+let lastFullResult=null;
+const HISTORY_KEY="magistrella-l03-history-v1";
+const BEST_KEY="magistrella-l03-best";
+let storageMessage="";
+function readStored(key){try{return localStorage.getItem(key);}catch{return null;}}
+function writeStored(key,value){try{localStorage.setItem(key,value);return true;}catch{storageMessage="Dein Browser kann den Verlauf gerade nicht speichern. Dieses Ergebnis bleibt während dieser geöffneten Seite sichtbar.";return false;}}
+function readHistory(){
+  try {const data=JSON.parse(readStored(HISTORY_KEY)||"[]");
+    return Array.isArray(data)?data.filter(r=>r && r.lesson==="L03" && Number.isInteger(r.total) && r.total>0 && Number.isInteger(r.correct) && r.correct>=0 && r.correct<=r.total && r.percentage===Math.round(r.correct/r.total*100) && Number.isFinite(Date.parse(r.completedAt))):[];
+  }catch{return [];}
+}
+let history=readHistory();
+function activeSession(){return practiceSession || currentSession;}
+function newSession(type,questions){
+  if(!questions.length || questions.some(q=>!SKILL_INFO[q.skill])) throw new Error("Frage ohne Diagnose");
+  return {type,startedAt:new Date().toISOString(),questions,current:0,score:0,total:questions.length,skillStats:{},wrongAnswers:[],answered:false,completed:false};
+}
+function recordAnswer(q,answer,ok){
+  const run=activeSession();
+  if(run.answered || run.completed) return false;
+  run.answered=true;
+  const stats=run.skillStats[q.skill] ||= {attempts:0,correct:0};
+  stats.attempts++;
+  if(ok){stats.correct++;run.score++;}
+  else run.wrongAnswers.push({skill:q.skill,prompt:q.prompt,sentence:plainText(q.sentence)+(q.sentence.includes("<strong")?" · Markiert: "+q.helper:""),answer,correctAnswer:q.options[q.correct],explanation:q.success+" "+q.wrong,question:JSON.parse(JSON.stringify(q))});
+  return true;
+}
+function escapeHTML(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function normalizeAnswer(value){return value.normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim().toLowerCase();}
+function renderIntro(){
+  document.getElementById('mainContent').style.display='block';
+  document.getElementById('completionScreen').classList.remove('visible');
+  document.getElementById('progressLabel').textContent='Start';
+  document.getElementById('mainContent').innerHTML=`<div class="lesson-intro"><div class="lesson-kicker">Magistrella · L03</div><h1>Die Pläne der Verbrecher</h1><p>Versteckte Subjekte erkennen, Verben konjugieren und Menschen direkt ansprechen.</p><div class="lesson-goals"><div class="goal-chip">Personalformen</div><div class="goal-chip">Imperativ</div><div class="goal-chip">Vokativ</div><div class="goal-chip">Präpositionen + Akkusativ</div><div class="goal-chip">Infinitiv</div></div></div><section class="start-choice"><h2>Wie möchtest du starten?</h2><div class="start-buttons"><button class="start-btn learn" id="learnBtn">Regeln lernen<small>Alle Erklärungen Schritt für Schritt</small></button><button class="start-btn training" id="trainingBtn">Direkt zum Training<small>Regeln überspringen und Wissen testen</small></button></div><p>18 gewertete Aufgaben pro Volltraining. Auf dem Regelweg übst du vorher ohne Punkte.</p></section>${vocabularyHTML()}${historyHTML()}`;
+  document.getElementById('learnBtn').onclick=()=>renderTeaching(0);
+  document.getElementById('trainingBtn').onclick=startTraining;
+}
+function renderTeaching(index){
+ const item=TEACHING[index],main=document.getElementById('mainContent');
+ document.getElementById('progressLabel').textContent=`Regeln ${index+1}/${TEACHING.length}`;
+ main.innerHTML=`<div class="teach-card"><div class="teach-head"><div class="teach-kicker">Erklärung → Beispiel → selbst ausprobieren</div><h2>${item.title}</h2></div><div class="teach-body">${item.body}<div class="learn-check"><h3>Einfach entscheiden · ohne Wertung</h3><p>${item.check[0]}</p>${item.check[1].map((a,i)=>`<button class="start-btn training" data-check="${i}">${a}</button>`).join('')}<p class="learn-response" role="status"></p></div></div></div><div class="learn-nav"><button class="start-btn training" id="backRule">${index?'← Zurück':'Zur Startseite'}</button><button class="continue-btn" id="nextRule">${index===TEACHING.length-1?'Jetzt Volltraining starten →':'Weiter →'}</button></div>`;
+ main.querySelectorAll('[data-check]').forEach(b=>b.onclick=()=>{main.querySelector('.learn-response').textContent=(Number(b.dataset.check)===item.check[2]?'✓ Richtig. ':'↻ Noch nicht richtig. ')+item.check[3];});
+ document.getElementById('backRule').onclick=()=>index?renderTeaching(index-1):renderIntro();
+ document.getElementById('nextRule').onclick=()=>index===TEACHING.length-1?startTraining():renderTeaching(index+1);
+ window.scrollTo({top:0,behavior:'smooth'});
+}
 
-function shuffle(arr){
-  const a = arr.slice();
-  for(let i=a.length-1;i>0;i--){
-    const j = Math.floor(Math.random()*(i+1));
-    [a[i],a[j]] = [a[j],a[i]];
+function startTraining(){
+  practiceSession=null;
+  currentSession=newSession("full",buildSession());
+  openTraining();
+}
+function startPractice(){
+  if(!lastFullResult || !lastFullResult.wrongAnswers.length) return;
+  practiceSession=newSession("practice",buildPractice(lastFullResult));
+  openTraining();
+}
+function openTraining(){
+  document.getElementById("mainContent").style.display="block";
+  document.getElementById("completionScreen").classList.remove("visible");
+  renderQuestion();window.scrollTo({top:0,behavior:"smooth"});
+}
+function renderQuestion(){
+  const run=activeSession();
+  if(run.current>=run.total){showCompletion();return;}
+  run.answered=false;
+  const q=run.questions[run.current];
+  document.getElementById("progressLabel").textContent=(run.type==="practice"?"Üben ":"")+(run.current+1)+"/"+run.total;
+  const main=document.getElementById("mainContent");
+  main.innerHTML=`${run.type==="practice"?'<div class="training-intro"><h2>Nur meine Fehler trainieren</h2><p>Diese Übungsrunde verändert dein vollständiges Training nicht.</p><button class="start-btn training" id="returnResult">Zum vollständigen Ergebnis</button></div>':''}<div class="question-card"><div class="q-theme">${q.theme}</div><div class="q-type-badge">Aufgabe ${run.current+1}</div><div class="q-prompt">${q.prompt}</div><div class="q-sentence">${q.sentence}</div><div class="q-helper">${q.helper}</div><div class="options"></div><div id="feedback" class="feedback" role="status" aria-live="polite"></div><button type="button" id="nextBtn" class="next-btn">${run.current===run.total-1?'Auswertung anzeigen ✓':'Weiter →'}</button></div>`;
+  if(run.type==="practice") document.getElementById("returnResult").onclick=()=>renderFullResult();
+  const card=main.querySelector(".question-card"), wrap=card.querySelector(".options");
+  function submit(answer,ok){
+    if(!recordAnswer(q,answer,ok)) return;
+    wrap.querySelectorAll("button,input").forEach(el=>el.disabled=true);
+    wrap.querySelectorAll(".option-btn").forEach((el,i)=>{if(i===q.correct) el.classList.add("correct");else if(el.textContent===answer) el.classList.add("wrong");});
+    showFeedback(card,q,ok);
   }
-  return a;
-}
-function pick(arr, n){ return shuffle(arr).slice(0, n); }
-function pickOne(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
-function affirm(){ return AFFIRM[Math.floor(Math.random()*AFFIRM.length)]; }
-function stripPunct(s){ return s.replace(/[.,!?]/g,''); }
-
-function cumulativePool(blockIdx){
-  let pool = [];
-  for(let i=0;i<=blockIdx;i++){ pool = pool.concat(LEKTION.blocks[i].vocab); }
-  return pool;
-}
-function sentencesUpTo(blockIdx){
-  return LEKTION.sentences.filter(s => s.block <= blockIdx+1);
-}
-
-/* ---------- Confetti ---------- */
-function confetti(big){
-  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const colors = ['#C9A84C','#E8C96A','#C0522B','#8B6914'];
-  const n = big ? 60 : 22;
-  for(let i=0;i<n;i++){
-    const el = document.createElement('div');
-    el.className = 'confetti';
-    el.style.left = Math.random()*100+'vw';
-    el.style.background = colors[Math.floor(Math.random()*colors.length)];
-    el.style.transform = 'rotate('+(Math.random()*360)+'deg)';
-    const dur = 1.6 + Math.random()*1.4;
-    el.style.transition = 'transform '+dur+'s linear, top '+dur+'s cubic-bezier(.2,.6,.8,1)';
-    document.body.appendChild(el);
-    requestAnimationFrame(()=>{
-      el.style.top = (100+Math.random()*10)+'vh';
-      el.style.transform += ' rotate('+(360+Math.random()*360)+'deg)';
-    });
-    setTimeout(()=>el.remove(), dur*1000+200);
-  }
-}
-
-/* ---------- Question generators ---------- */
-function genQuickQuiz(pool){
-  const word = pickOne(pool);
-  const distractors = pick(pool.filter(w=>w.de!==word.de), Math.min(3,pool.length-1)).map(w=>w.de);
-  while(distractors.length<3 && pool.length>1){ distractors.push(pickOne(pool).de); }
-  const options = shuffle([word.de, ...distractors.slice(0,3)]);
-  return {type:'quickQuiz', lat:word.lat, info:word.info, correct:word.de, options, showRule:null};
-}
-function genTrueFalse(pool, asSwipe){
-  const word = pickOne(pool);
-  const isTrue = Math.random()<0.5;
-  let shown = word.de;
-  if(!isTrue){
-    const other = pickOne(pool.filter(w=>w.de!==word.de));
-    if(other) shown = other.de;
-  }
-  return {type: asSwipe?'swipe':'trueFalse', lat:word.lat, shownDe:shown, answer:isTrue, showRule:null};
-}
-function genMatch(pool){
-  const items = pick(pool, Math.min(4, pool.length));
-  return {type:'match', items, showRule:null};
-}
-function genGapFromRule(sentPool, pool, ruleId){
-  let candidates = sentPool.filter(s => s.gapWord && s.rule===ruleId);
-  if(!candidates.length) candidates = sentPool.filter(s=>s.gapWord);
-  if(!candidates.length) return null;
-  const s = pickOne(candidates);
-  const target = s.gapWord;
-  const tokens = stripPunct(s.lat).split(' ');
-  const idx = tokens.findIndex(t => t.toLowerCase()===target.toLowerCase());
-  const normLat = (l) => l.split('/')[0].trim();
-  const prepPool = pool.filter(w => w.info && w.info.indexOf('Präp')>=0 && w.lat.indexOf('/')<0 && normLat(w.lat).toLowerCase()!==target.toLowerCase());
-  let distractors = pick(prepPool, 3).map(w=>normLat(w.lat));
-  if(distractors.length<3){
-    const rest = pick(pool.filter(w=>w.lat.toLowerCase()!==target.toLowerCase()), 3-distractors.length).map(w=>w.lat);
-    distractors = distractors.concat(rest);
-  }
-  distractors = [...new Set(distractors)].filter(d=>d.toLowerCase()!==target.toLowerCase()).slice(0,3);
-  while(distractors.length<3){
-    const filler = pickOne(pool.filter(w=>w.lat.toLowerCase()!==target.toLowerCase() && !distractors.includes(w.lat)));
-    if(!filler) break;
-    distractors.push(filler.lat);
-  }
-  const options = shuffle([target, ...distractors]);
-  const display = tokens.map((t,i)=> i===idx ? '___' : t).join(' ');
-  return {type:'gap', sentenceDisplay:display, sentenceDe:s.de, correct:target, options, showRule:s.rule||null};
-}
-function genSpotlight(sentPool, ruleId){
-  let candidates = sentPool.filter(s => s.gapWord && (!ruleId || s.rule===ruleId));
-  if(!candidates.length) candidates = sentPool.filter(s=>s.gapWord);
-  if(!candidates.length) return null;
-  const s = pickOne(candidates);
-  const tokens = stripPunct(s.lat).split(' ');
-  const idx = tokens.findIndex(t => t.toLowerCase()===s.gapWord.toLowerCase());
-  return {type:'spotlight', tokens, targetIdx:idx, prompt:'Tippe auf die Präposition.', sentenceDe:s.de, showRule:s.rule||null};
-}
-
-function genRuleExample(sentPool, ruleId){
-  const candidates = sentPool.filter(s=>s.rule===ruleId);
-  if(!candidates.length) return null;
-  const s=pickOne(candidates);
-  return {type:'ruleExample', sentence:s.lat, sentenceDe:s.de, showRule:ruleId};
-}
-function genPuzzle(sentPool){
-  const candidates = sentPool.filter(s=>s.puzzle);
-  if(!candidates.length) return null;
-  const s = pickOne(candidates);
-  const tokens = stripPunct(s.lat).split(' ');
-  const subject = tokens[0];
-  const rest = tokens.slice(1);
-  return {type:'puzzle', subject, rest, full:tokens, de:s.de, showRule:s.rule||null};
-}
-
-function buildBlockQueue(blockIdx){
-  const pool = cumulativePool(blockIdx);
-  const sentPool = sentencesUpTo(blockIdx);
-  const blockDef = LEKTION.blocks[blockIdx];
-  let q = [];
-
-  (blockDef.newRules||[]).forEach((ruleId, i)=>{
-    let item;
-    if(ruleId==='PARARE_INF') item=genRuleExample(sentPool, ruleId);
-    else item=(i%2===0) ? genGapFromRule(sentPool, pool, ruleId) : genSpotlight(sentPool, ruleId);
-    if(item) q.push(item);
+  if(q.input){
+    wrap.innerHTML='<form><label for="formAnswer">Deine Form</label><input id="formAnswer" autocomplete="off" autocapitalize="none" spellcheck="false" required><button class="start-btn learn" type="submit">Antwort prüfen</button></form>';
+    wrap.querySelector("form").onsubmit=e=>{e.preventDefault();const value=wrap.querySelector("input").value;if(value.trim()) submit(value,normalizeAnswer(value)===normalizeAnswer(q.options[q.correct]));};
+  }else q.options.forEach((option,i)=>{
+    const btn=document.createElement("button");btn.type="button";btn.className="option-btn";btn.textContent=option;
+    btn.onclick=()=>submit(option,i===q.correct);wrap.appendChild(btn);
   });
-
-  q.push(genMatch(pool));
-  q.push(genQuickQuiz(pool));
-  q.push(genQuickQuiz(pool));
-  q.push(genTrueFalse(pool, blockIdx%2===0));
-  const puzzle = genPuzzle(sentPool);
-  if(puzzle) q.push(puzzle);
-  q.push(genTrueFalse(pool, blockIdx%2!==0));
-
-  return shuffle(q);
-}
-function buildFinalQueue(){
-  const blockIdx = LEKTION.blocks.length-1;
-  const pool = cumulativePool(blockIdx);
-  const sentPool = sentencesUpTo(blockIdx);
-  let q = [];
-  q.push(genMatch(pool));
-  q.push(genQuickQuiz(pool));
-  q.push(genQuickQuiz(pool));
-  q.push(genTrueFalse(pool,false));
-  q.push(genTrueFalse(pool,true));
-  const p1 = genPuzzle(sentPool); if(p1) q.push(p1);
-  const p2 = genPuzzle(sentPool); if(p2) q.push(p2);
-  Object.keys(LEKTION.rules).forEach((rid,i)=>{
-    let item;
-    if(rid==='PARARE_INF') item=genRuleExample(sentPool,rid);
-    else item=(i%2===0)?genGapFromRule(sentPool,pool,rid):genSpotlight(sentPool,rid);
-    if(item) q.push(item);
-  });
-  return shuffle(q);
+  document.getElementById("nextBtn").onclick=()=>{if(!run.answered)return;run.current++;renderQuestion();window.scrollTo({top:0,behavior:"smooth"});};
 }
 
-/* ---------- Rendering ---------- */
-function headerHtml(){
-  const totalBlocks = LEKTION.blocks.length;
-  const dots = LEKTION.blocks.map((b,i)=>{
-    let cls='dot';
-    if(i<state.blockIdx || state.phase==='end') cls+=' done';
-    else if(i===state.blockIdx) cls+=' active';
-    return '<div class="'+cls+'"></div>';
-  }).join('');
-  let pct = 0;
-  if(state.phase==='end') pct=100;
-  else {
-    const blockShare = 100/totalBlocks;
-    const withinBlock = state.phase==='quiz' && state.queue.length ? (state.qIdx/state.queue.length) : 0;
-    pct = state.blockIdx*blockShare + withinBlock*blockShare;
-  }
-  return '<header>'+
-    '<div class="h-top"><div class="h-title">'+LEKTION.title+'<small>'+LEKTION.subtitle+'</small></div>'+
-    '<a class="h-home" href="../index.html" aria-label="Zurück zur Übersicht">🏛️</a></div>'+
-    '<div class="dots">'+dots+'</div>'+
-    '<div class="progress-track"><div class="progress-fill" style="width:'+pct+'%"></div></div>'+
-    '</header>';
-}
+/* =====================================================
+   FEEDBACK
+===================================================== */
 
-function render(){
-  let body = '';
-  if(state.phase==='vocab') body = renderVocab();
-  else if(state.phase==='quiz') body = renderQuiz();
-  else body = renderEnd();
-  app.innerHTML = headerHtml() + body + '<footer class="nav">Magistrella · '+LEKTION.id+'</footer>';
-  attachHandlers();
-}
+function showFeedback(
+  card,
+  q,
+  ok
+){
 
-function renderVocab(){
-  const b = LEKTION.blocks[state.blockIdx];
-  const cards = b.vocab.map(v=>
-    '<div class="vocab-card"><div><span class="vocab-lat">'+v.lat+'</span>'+
-    (v.info?('<span class="vocab-info">'+v.info+'</span>'):'')+'</div>'+
-    '<div class="vocab-de">'+v.de+'</div></div>'
-  ).join('');
-  return '<div class="card">'+
-    '<div class="vocab-intro"><h2>'+b.name+'</h2><p>Präg dir diese Wörter ein, dann geht’s zu den Übungen.</p></div>'+
-    cards+
-    '<button class="btn" id="startQuizBtn">Weiter zu den Übungen</button>'+
-    '</div>';
-}
+  const feedback=
+    card.querySelector(
+      "#feedback"
+    );
 
-function renderQuiz(){
-  const q = state.queue[state.qIdx];
-  let inner = '';
-  if(q.type==='quickQuiz'){
-    inner = '<div class="q-label">Was bedeutet …?</div>'+
-      '<div class="q-main">'+q.lat+'</div>'+
-      (q.info?('<div class="q-info">'+q.info+'</div>'):'')+
-      '<div class="opt-grid">'+q.options.map((o,i)=>'<button class="opt-btn" data-i="'+i+'">'+o+'</button>').join('')+'</div>';
-  } else if(q.type==='trueFalse'){
-    inner = '<div class="q-label">Stimmt das?</div>'+
-      '<div class="q-main">'+q.lat+'</div>'+
-      '<div class="q-info">bedeutet: „'+q.shownDe+'"</div>'+
-      '<div class="tf-row"><button class="tf-btn true" data-v="true">Richtig</button>'+
-      '<button class="tf-btn false" data-v="false">Falsch</button></div>';
-  } else if(q.type==='swipe'){
-    inner = '<div class="q-label">Wische oder tippe</div>'+
-      '<div class="swipe-wrap"><div class="swipe-card" id="swCard">'+
-      '<span class="sw-lat">'+q.lat+'</span><span class="sw-de">„'+q.shownDe+'"</span></div></div>'+
-      '<div class="swipe-hint"><span>⟵ Falsch</span><span>Richtig ⟶</span></div>'+
-      '<div class="tf-row"><button class="tf-btn false" data-v="false">Falsch</button>'+
-      '<button class="tf-btn true" data-v="true">Richtig</button></div>';
-  } else if(q.type==='match'){
-    const lats = shuffle(q.items.map((it,i)=>({i,txt:it.lat})));
-    const des = shuffle(q.items.map((it,i)=>({i,txt:it.de})));
-    inner = '<div class="q-label">Finde die Paare</div>'+
-      '<div class="match-grid"><div class="match-col" id="matchLat">'+
-      lats.map(x=>'<button type="button" class="match-item" data-i="'+x.i+'" data-side="lat">'+x.txt+'</button>').join('')+
-      '</div><div class="match-col" id="matchDe">'+
-      des.map(x=>'<button type="button" class="match-item" data-i="'+x.i+'" data-side="de">'+x.txt+'</button>').join('')+
-      '</div></div>';
-  } else if(q.type==='gap'){
-    inner = '<div class="q-label">Ergänze den Satz</div>'+
-      '<div class="q-sentence">'+q.sentenceDisplay+'</div>'+
-      '<div class="q-info">„'+q.sentenceDe+'"</div>'+
-      '<div class="opt-grid">'+q.options.map((o,i)=>'<button class="opt-btn" data-i="'+i+'">'+o+'</button>').join('')+'</div>';
-  } else if(q.type==='spotlight'){
-    inner = '<div class="q-label">'+q.prompt+'</div>'+
-      '<div class="q-sentence">'+q.tokens.map((t,i)=>'<button type="button" class="word-token" data-i="'+i+'">'+t+'</button>').join(' ')+'</div>'+
-      '<div class="q-info">„'+q.sentenceDe+'"</div>';
-  } else if(q.type==='ruleExample'){
-    inner = '<div class="q-label">Neue Konstruktion</div>'+
-      '<div class="q-sentence">'+q.sentence+'</div>'+
-      '<div class="q-info">„'+q.sentenceDe+'“</div>'+
-      '<button class="btn" id="ruleUnderstoodBtn">Regel zeigen</button>';
-  } else if(q.type==='puzzle'){
-    inner = '<div class="q-label">Baue den vollständigen Satz in der richtigen Reihenfolge — tippe ein gelegtes Wort an, um es zurückzunehmen</div>'+
-      '<div class="puzzle-target" id="puzTarget"></div>'+
-      '<div class="puzzle-bank" id="puzBank"></div>'+
-      '<div style="display:flex;gap:10px;margin-top:12px;">'+
-      '<button class="btn secondary" id="puzReset" style="margin-top:0;flex:1;">Zurücksetzen</button>'+
-      '<button class="btn" id="puzCheck" style="margin-top:0;flex:1;display:none;">Prüfen</button>'+
-      '</div>'+
-      '<div class="q-info" style="margin-top:10px;">„'+q.de+'"</div>';
-  }
-  return '<div class="card">'+inner+'<div class="feedback" id="fb"></div><div id="ruleContainer"></div>'+
-    '<button class="btn secondary" id="nextBtn" style="display:none;">Weiter</button></div>';
-}
 
-function renderEnd(){
-  const pct = state.total ? Math.round(100*state.correct/state.total) : 100;
-  const isLast = state.blockIdx >= LEKTION.blocks.length-1;
-  return '<div class="card end-wrap">'+
-    '<h2>'+LEKTION.title+' geschafft!</h2>'+
-    '<div class="end-score">'+state.correct+' / '+state.total+'</div>'+
-    '<div class="affirm">'+affirm()+'</div>'+
-    '<p style="color:var(--text-dim);font-size:0.85rem;">Du hast '+pct+'% richtig beantwortet.</p>'+
-    '<button class="btn" id="restartBtn">Nochmal üben</button>'+
-    '<a class="btn secondary" href="../index.html" style="text-decoration:none;display:block;">Zurück zur Übersicht</a>'+
-    '</div>';
-}
+  feedback.className=
+    "feedback "+
+    (
+      ok
+      ?
+      "correct"
+      :
+      "wrong"
+    );
 
-/* ---------- Interaction ---------- */
-function markStreak(isCorrect){
-  state.total++;
-  if(isCorrect){ state.correct++; state.streak++; if(state.streak%3===0) confetti(false); }
-  else { state.streak = 0; }
-}
-function showFeedback(isCorrect){
-  const q = state.queue[state.qIdx];
-  const fb = document.getElementById('fb');
-  const rc = document.getElementById('ruleContainer');
 
-  fb.className = 'feedback ' + (isCorrect?'ok':'bad');
+  feedback.innerHTML=`
 
-  if(isCorrect){
-    fb.textContent = affirm();
-  } else if(q.type==='puzzle'){
-    fb.textContent = 'Noch nicht richtig. Hier siehst du die richtige Lösung und die passende Regel.';
-  } else {
-    fb.textContent = 'Noch nicht richtig. Schau dir die Lösung noch einmal an.';
-  }
-
-  if(rc){
-    rc.innerHTML = '';
-
-    if(!isCorrect && q.type==='puzzle'){
-      const solution = q.full.join(' ') + '.';
-      let html =
-        '<div class="rule-card">'+
-          '<div class="rt">Richtige Lösung</div>'+
-          '<div class="rx" style="font-size:1.05rem;color:var(--gold-light);">'+solution+'</div>'+
-          '<div class="rx" style="margin-top:6px;">„'+q.de+'“</div>'+
-        '</div>';
-
-      if(q.showRule && LEKTION.rules[q.showRule]){
-        html +=
-          '<div class="rule-card">'+
-            '<div class="rt">'+LEKTION.rules[q.showRule].title+'</div>'+
-            '<div class="rx">'+LEKTION.rules[q.showRule].text+'</div>'+
-          '</div>';
+    <div class="feedback-title">
+      ${
+        ok
+        ?
+        "Richtig."
+        :
+        "Noch nicht richtig."
       }
-      rc.innerHTML = html;
-    } else if(q.showRule && q.type!=='quickQuiz' && q.type!=='puzzle'){
-      rc.innerHTML =
-        '<div class="rule-card">'+
-          '<div class="rt">'+LEKTION.rules[q.showRule].title+'</div>'+
-          '<div class="rx">'+LEKTION.rules[q.showRule].text+'</div>'+
-        '</div>';
-    }
-  }
+    </div>
 
-  const nb = document.getElementById('nextBtn');
-  if(nb) nb.style.display = 'block';
-}
-function nextQuestion(){
-  state.qIdx++;
-  state.answered = false;
-  if(state.qIdx >= state.queue.length){
-    if(state.blockIdx < LEKTION.blocks.length-1){
-      state.blockIdx++;
-      state.phase = 'vocab';
-    } else if(state.queue.__final){
-      state.phase = 'end';
-      confetti(true);
-    } else {
-      const fq = buildFinalQueue();
-      fq.__final = true;
-      state.queue = fq;
-      state.qIdx = 0;
-      state.phase = 'quiz';
-    }
-  }
-  render();
+    <div>
+      ${
+        ok
+        ?
+        q.success
+        :
+        escapeHTML(q.options[q.correct])+". "+q.success+" "+q.wrong
+      }
+    </div>
+
+  `;
+
+
+  card
+    .querySelector(
+      "#nextBtn"
+    )
+    .classList.add(
+      "visible"
+    );
+
 }
 
-function attachSwipeDrag(card, onResolve){
-  let startX=0, dx=0, dragging=false;
-  const onDown = (e)=>{ if(state.answered) return; dragging=true; startX=(e.touches?e.touches[0].clientX:e.clientX); card.style.transition='none'; };
-  const onMove = (e)=>{ if(!dragging) return; const x=(e.touches?e.touches[0].clientX:e.clientX); dx=x-startX; card.style.transform='translateX('+dx+'px) rotate('+(dx/15)+'deg)'; };
-  const onUp = ()=>{
-    if(!dragging) return; dragging=false; card.style.transition='transform .3s';
-    if(Math.abs(dx)>70 && !state.answered){
-      const guess = dx>0;
-      card.style.transform='translateX('+(dx>0?400:-400)+'px) rotate('+(dx/8)+'deg)';
-      document.removeEventListener('mousemove', onMove);
-      document.removeEventListener('mouseup', onUp);
-      onResolve(guess);
-    } else {
-      card.style.transform='translateX(0) rotate(0)';
+
+/* =====================================================
+   DIAGNOSE
+===================================================== */
+
+function completeFullSession(){
+  const run=currentSession;
+  if(run.completed) return lastFullResult;
+  const stats=Object.values(run.skillStats);
+  if(run.current!==run.total || stats.reduce((n,s)=>n+s.attempts,0)!==run.total || stats.reduce((n,s)=>n+s.correct,0)!==run.score || run.wrongAnswers.length!==run.total-run.score) throw new Error("Unvollständige Trainingsdiagnose");
+  const completedAt=new Date().toISOString();
+  const result=JSON.parse(JSON.stringify({id:globalThis.crypto?.randomUUID?.() || completedAt+"-"+Math.random().toString(36).slice(2),lesson:"L03",startedAt:run.startedAt,completedAt,correct:run.score,total:run.total,percentage:Math.round(run.score/run.total*100),skillStats:run.skillStats,wrongAnswers:run.wrongAnswers}));
+  run.completed=true;lastFullResult=result;
+  // Re-read to retain completed runs from another open tab when possible.
+  const existing=readHistory();
+  history=[...existing,...history.filter(r=>!existing.some(e=>e.id===r.id)),result];
+  writeStored(HISTORY_KEY,JSON.stringify(history));
+  const best=Math.max(Number(readStored(BEST_KEY))||0,...history.map(r=>r.percentage));
+  writeStored(BEST_KEY,String(best));
+  return result;
+}
+function buildDiagnosis(result){
+  const rows=Object.entries(result.skillStats).map(([skill,s])=>`<div class="skill-result ${s.correct===s.attempts?'good':'weak'}"><span>${escapeHTML(SKILL_INFO[skill].name)}</span><span class="skill-score">${s.correct===s.attempts?'✓':'Üben'} · ${s.correct}/${s.attempts}</span></div>`).join('');
+  const errors=result.wrongAnswers.map(e=>`<article class="correction"><strong>${escapeHTML(SKILL_INFO[e.skill].name)}</strong><p>${escapeHTML(e.prompt)}</p><p>${escapeHTML(e.sentence)}</p><p>Deine Antwort: ${escapeHTML(e.answer)}</p><p><strong>Richtig: ${escapeHTML(e.correctAnswer)}</strong></p><p>${escapeHTML(e.explanation)}</p></article>`).join('');
+  const grammar=[...new Set(result.wrongAnswers.flatMap(e=>e.question.reviewKeys || []))];
+  const cards=grammar.map(index=>`<article class="review-card"><div class="review-head"><h3>${TEACHING[index].title.replace(/^\d+\. /,'')}</h3></div><div class="review-body">${TEACHING[index].body}</div></article>`).join('');
+  return `<section class="result-section"><h2>Deine Diagnose</h2><p>Alle ${result.total} Antworten aus diesem Training.</p>${rows}${errors?'<h3 class="review-heading">Deine Antworten verbessern</h3>'+errors:'<p class="mastered-box">✓ Alle Antworten richtig!</p>'}${cards?'<h3 class="review-heading">Diese Regeln helfen dir weiter</h3>'+cards:''}</section>`;
+}
+function historyHTML(){
+  if(!history.length)return '';
+  const recent=history.slice().sort((a,b)=>Date.parse(b.completedAt)-Date.parse(a.completedAt));
+  const best=Math.max(Number(readStored(BEST_KEY))||0,...history.map(r=>r.percentage));
+  return `<section class="result-section"><h2>Dein Verlauf</h2><p>Letztes Training: <strong>${recent[0].percentage} %</strong><br>Bestwert: <strong>${best} %</strong><br>Vollständige Trainings: <strong>${history.length}</strong></p><ul class="history-list">${recent.map(r=>`<li>${escapeHTML(new Date(r.completedAt).toLocaleString('de-DE',{dateStyle:'short',timeStyle:'short'}))} · <strong>${r.correct}/${r.total} · ${r.percentage} %</strong></li>`).join('')}</ul></section>`;
+}
+function showCompletion(){
+  if(activeSession().type==='practice'){
+    practiceSession.completed=true;
+    renderFullResult(`Übungsrunde beendet: ${practiceSession.score}/${practiceSession.total} richtig. Dein vollständiges Ergebnis bleibt unverändert.`);
+  }else{completeFullSession();renderFullResult();}
+}
+function renderFullResult(practiceMessage=''){
+  const r=lastFullResult;if(!r)return;
+  document.getElementById('mainContent').style.display='none';
+  document.getElementById('progressLabel').textContent='Fertig';
+  const screen=document.getElementById('completionScreen');screen.classList.add('visible');
+  screen.innerHTML=`${practiceMessage?`<p class="training-intro" role="status">${escapeHTML(practiceMessage)}</p>`:''}<section class="result-section completion-main"><h2>Dieses Training</h2><div class="completion-title">${r.percentage===100?'PERFECTUM!':'L03 geschafft!'}</div><div class="completion-score">${r.correct} / ${r.total}<br>${r.percentage} %</div><p>Personalformen · Imperativ · Vokativ</p><p>100 % gilt für diesen Durchlauf. Dabei wurde nur ein Teil des gesamten Lernwortschatzes geprüft.</p><div id="resultPreview"></div><div class="result-actions"><button class="start-btn learn" id="shareResult">Ergebnis teilen</button><button class="start-btn training" id="saveResult">Bild speichern</button></div><p id="shareStatus" role="status"></p></section>${buildDiagnosis(r)}<section class="result-section"><h2>Wie möchtest du weiterlernen?</h2><div class="result-actions">${r.wrongAnswers.length?'<button class="start-btn learn" id="practiceErrors">Nur meine Fehler trainieren</button>':''}<button class="start-btn training" id="restartFull">Alles noch einmal trainieren</button></div><a class="home-btn" href="../index.html">← Zurück zur Übersicht</a></section>${historyHTML()}${storageMessage?`<p role="status">${escapeHTML(storageMessage)}</p>`:''}`;
+  const preview=createShareCanvas(r);preview.className='result-preview';preview.setAttribute('role','img');preview.setAttribute('aria-label',`Magistrella L03: ${r.correct} von ${r.total}, ${r.percentage} Prozent`);document.getElementById('resultPreview').appendChild(preview);
+  document.getElementById('restartFull').onclick=startTraining;
+  if(r.wrongAnswers.length)document.getElementById('practiceErrors').onclick=startPractice;
+  document.getElementById('shareResult').onclick=()=>shareResult(r);
+  document.getElementById('saveResult').onclick=()=>saveResult(r);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+// Local Canvas only: no learner data, external artwork, fonts or requests.
+function createShareCanvas(result){
+  const canvas=document.createElement('canvas');canvas.width=1080;canvas.height=1080;
+  const ctx=canvas.getContext('2d');if(!ctx)throw new Error('Canvas nicht verfügbar');
+  ctx.fillStyle='#1A1208';ctx.fillRect(0,0,1080,1080);
+  ctx.strokeStyle='#C9A84C';ctx.lineWidth=3;ctx.strokeRect(40,40,1000,1000);ctx.strokeRect(54,54,972,972);
+  ctx.textAlign='center';ctx.fillStyle='#E8C96A';
+  ctx.font='bold 58px Georgia, serif';ctx.fillText('MAGISTRELLA',540,170);
+  ctx.fillStyle='#F5EDD6';ctx.font='32px sans-serif';ctx.fillText('Latein-Training',540,230);
+  ctx.font='bold 52px Georgia, serif';ctx.fillText('L03 geschafft!',540,350);
+  ctx.fillStyle='#E8C96A';ctx.font='bold 130px sans-serif';ctx.fillText(`${result.correct} / ${result.total}`,540,535);
+  ctx.font='bold 100px sans-serif';ctx.fillText(`${result.percentage} %`,540,675);
+  if(result.percentage===100){ctx.font='bold 36px Georgia, serif';ctx.fillText('PERFECTUM!',540,760);}
+  ctx.fillStyle='#F5EDD6';ctx.font='30px sans-serif';ctx.fillText('Personalformen · Imperativ · Vokativ',540,860);
+  ctx.font='28px sans-serif';ctx.fillText(new Date(result.completedAt).toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric'}),540,945);
+  return canvas;
+}
+function shareBlob(r){return new Promise((resolve,reject)=>{try{createShareCanvas(r).toBlob(blob=>blob?resolve(blob):reject(new Error('PNG konnte nicht erstellt werden')),'image/png');}catch(e){reject(e);}});}
+function downloadBlob(blob,r){
+  const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`Magistrella-L03-${r.completedAt.slice(0,10)}.png`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
+}
+async function saveResult(r){try{downloadBlob(await shareBlob(r),r);document.getElementById('shareStatus').textContent='Dein Ergebnisbild wurde zum Speichern bereitgestellt.';}catch{document.getElementById('shareStatus').textContent='Das Bild konnte nicht erstellt werden. Bitte versuche es erneut.';}}
+async function shareResult(r){
+  try{
+    const blob=await shareBlob(r);
+    const file=typeof File==='function'?new File([blob],'Magistrella-L03.png',{type:'image/png'}):null;
+    if(file && navigator.share && navigator.canShare?.({files:[file]})){
+      try{await navigator.share({files:[file],title:'Magistrella · L03'});return;}catch(e){if(e.name==='AbortError')return;}
     }
-    dx=0;
-  };
-  card.addEventListener('mousedown', onDown);
-  card.addEventListener('touchstart', onDown, {passive:true});
-  card.addEventListener('touchmove', onMove, {passive:true});
-  card.addEventListener('touchend', onUp);
-  document.addEventListener('mousemove', onMove);
-  document.addEventListener('mouseup', onUp);
+    downloadBlob(blob,r);document.getElementById('shareStatus').textContent='Teilen ist hier nicht verfügbar. Dein Bild wurde zum Speichern bereitgestellt.';
+  }catch{document.getElementById('shareStatus').textContent='Bitte nutze „Bild speichern“ oder versuche es erneut.';}
 }
 
-function attachHandlers(){
-  const startBtn = document.getElementById('startQuizBtn');
-  if(startBtn){
-    startBtn.onclick = ()=>{
-      state.queue = buildBlockQueue(state.blockIdx);
-      state.qIdx = 0;
-      state.answered = false;
-      state.phase = 'quiz';
-      render();
-    };
-  }
-  const restartBtn = document.getElementById('restartBtn');
-  if(restartBtn){
-    restartBtn.onclick = ()=>{
-      state.blockIdx=0; state.phase='vocab'; state.queue=[]; state.qIdx=0;
-      state.correct=0; state.total=0; state.streak=0; state.answered=false;
-      render();
-    };
-  }
-  const nextBtn = document.getElementById('nextBtn');
-  if(nextBtn){ nextBtn.onclick = nextQuestion; }
 
-  if(state.phase!=='quiz') return;
-  const q = state.queue[state.qIdx];
 
-  if(q.type==='ruleExample'){
-    const rb=document.getElementById('ruleUnderstoodBtn');
-    if(rb){
-      rb.onclick=()=>{
-        if(state.answered)return;
-        state.answered=true;
-        const rc=document.getElementById('ruleContainer');
-        if(rc && q.showRule){
-          rc.innerHTML='<div class="rule-card"><div class="rt">'+LEKTION.rules[q.showRule].title+'</div><div class="rx">'+LEKTION.rules[q.showRule].text+'</div></div>';
-        }
-        rb.style.display='none';
-        const nb=document.getElementById('nextBtn');
-        if(nb) nb.style.display='block';
-      };
-    }
-  }
 
-  if(q.type==='quickQuiz' || q.type==='gap'){
-    document.querySelectorAll('.opt-btn').forEach(btn=>{
-      btn.onclick = ()=>{
-        if(state.answered) return; state.answered = true;
-        const val = btn.textContent;
-        const isCorrect = val === q.correct;
-        document.querySelectorAll('.opt-btn').forEach(b=>{
-          if(b.textContent===q.correct) b.classList.add('correct');
-          else if(b===btn) b.classList.add('wrong');
-        });
-        markStreak(isCorrect);
-        showFeedback(isCorrect);
-      };
-    });
-  }
-  if(q.type==='trueFalse' || q.type==='swipe'){
-    document.querySelectorAll('.tf-btn').forEach(btn=>{
-      btn.onclick = ()=>{
-        if(state.answered) return; state.answered = true;
-        const val = btn.getAttribute('data-v')==='true';
-        const isCorrect = val === q.answer;
-        markStreak(isCorrect);
-        showFeedback(isCorrect);
-      };
-    });
-    if(q.type==='swipe'){
-      const card = document.getElementById('swCard');
-      attachSwipeDrag(card, (guess)=>{
-        state.answered = true;
-        const isCorrect = guess === q.answer;
-        markStreak(isCorrect);
-        showFeedback(isCorrect);
-      });
-    }
-  }
-  if(q.type==='match'){
-    let selLat=null, selDe=null, matchedCount=0;
-    const total = q.items.length;
-    document.querySelectorAll('.match-item').forEach(el=>{
-      el.onclick = ()=>{
-        if(el.classList.contains('matched')) return;
-        const side = el.getAttribute('data-side');
-        const idx = el.getAttribute('data-i');
-        if(side==='lat'){
-          document.querySelectorAll('[data-side="lat"]').forEach(e=>e.classList.remove('sel'));
-          el.classList.add('sel'); selLat = {idx, el};
-        } else {
-          document.querySelectorAll('[data-side="de"]').forEach(e=>e.classList.remove('sel'));
-          el.classList.add('sel'); selDe = {idx, el};
-        }
-        if(selLat && selDe){
-          if(selLat.idx === selDe.idx){
-            selLat.el.classList.remove('sel'); selDe.el.classList.remove('sel');
-            selLat.el.classList.add('matched'); selDe.el.classList.add('matched');
-            matchedCount++;
-            selLat=null; selDe=null;
-            if(matchedCount===total){
-              markStreak(true);
-              showFeedback(true);
-            }
-          } else {
-            selLat.el.classList.add('wrongflash'); selDe.el.classList.add('wrongflash');
-            setTimeout(()=>{
-              selLat.el.classList.remove('sel','wrongflash');
-              selDe.el.classList.remove('sel','wrongflash');
-              selLat=null; selDe=null;
-            }, 500);
-          }
-        }
-      };
-    });
-  }
-  if(q.type==='spotlight'){
-    document.querySelectorAll('.word-token').forEach(el=>{
-      el.onclick = ()=>{
-        if(state.answered) return; state.answered = true;
-        const i = parseInt(el.getAttribute('data-i'));
-        const isCorrect = i === q.targetIdx;
-        document.querySelectorAll('.word-token').forEach(t=>{
-          const ti = parseInt(t.getAttribute('data-i'));
-          if(ti===q.targetIdx) t.style.color='var(--ok)';
-          else if(t===el) t.style.color='var(--bad)';
-        });
-        markStreak(isCorrect);
-        showFeedback(isCorrect);
-      };
-    });
-  }
-  if(q.type==='puzzle'){
-    const bank = document.getElementById('puzBank');
-    const target = document.getElementById('puzTarget');
-    const checkBtn = document.getElementById('puzCheck');
-    const resetBtn = document.getElementById('puzReset');
-    const order = shuffle(q.full.map((w,i)=>i));
-    let placed = [];
-    function draw(){
-      bank.innerHTML = order.filter(i=>!placed.includes(i)).map(i=>'<button type="button" class="tok" data-i="'+i+'">'+q.full[i]+'</button>').join('');
-      target.innerHTML = placed.map((i,pos)=>'<button type="button" class="tok" data-pos="'+pos+'">'+q.full[i]+'</button>').join('');
-      checkBtn.style.display = (!state.answered && placed.length===q.full.length) ? 'block' : 'none';
-      if(state.answered) return;
-      bank.querySelectorAll('.tok').forEach(el=>{
-        el.onclick = ()=>{
-          if(state.answered) return;
-          placed.push(parseInt(el.getAttribute('data-i')));
-          draw();
-        };
-      });
-      target.querySelectorAll('.tok').forEach(el=>{
-        el.onclick = ()=>{
-          if(state.answered) return;
-          const pos = parseInt(el.getAttribute('data-pos'));
-          placed.splice(pos,1);
-          draw();
-        };
-      });
-    }
-    checkBtn.onclick = ()=>{
-      if(state.answered || placed.length!==q.full.length) return;
-      state.answered = true;
-      const isCorrect = placed.length===q.full.length && placed.every((tokenIndex,pos)=>tokenIndex===pos);
-      markStreak(isCorrect);
-      showFeedback(isCorrect);
-      checkBtn.style.display = 'none';
-      resetBtn.style.display = 'none';
-    };
-    resetBtn.onclick = ()=>{
-      if(state.answered) return;
-      placed = [];
-      draw();
-    };
-    draw();
-  }
-}
-
-/* init */
-render();
-})();
-
+renderIntro();
 </script>
 </body>
 </html>
