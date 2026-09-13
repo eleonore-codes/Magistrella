@@ -1874,6 +1874,64 @@ const TEACHING = [
    FRAGEN
 ===================================================== */
 
+// Ergänzungen nach den Grammatikseiten 95–96. Die Diagnose verwendet dieselben
+// Lernkarten; ihre Reihenfolge bleibt für gespeicherte reviewKeys unverändert.
+const GRAMMAR_NOTES = {
+  subjectPredicate:`
+    <p>Das <strong>Subjekt</strong> heißt auch Satzgegenstand. Das <strong>Prädikat</strong> ist die Satzaussage: Es sagt, was geschieht oder was über das Subjekt ausgesagt wird.</p>
+    <table class="rule-table"><tr><th>Subjekt: Wer oder was?</th><th>Prädikat: Was wird ausgesagt?</th><th>Deutsch</th></tr>
+      <tr><td>Servus</td><td>rīdet.</td><td>Der Sklave lacht.</td></tr>
+      <tr><td>Servī</td><td>rīdent.</td><td>Die Sklaven lachen.</td></tr>
+    </table><p>Das ist ein einfaches <strong>Satzmodell</strong>. Subjekt und Prädikat passen in der Zahl zusammen: Singular mit Singular, Plural mit Plural. Diese Übereinstimmung heißt <strong>Kongruenz</strong>.</p>`,
+  object:`
+    <p>Der <strong>Akkusativ</strong> ist der <strong>4. Fall</strong>. Als Akkusativobjekt nennt er die Person oder Sache, auf die sich die Handlung richtet. Das Objekt ergänzt das Prädikat.</p>
+    <div class="teach-example"><div class="latin">Populus senātōrem exspectat.</div><div class="german">Das Volk erwartet den Senator.</div></div>
+    <table class="rule-table"><tr><th>Satzglied</th><th>Latein</th><th>Frage und Antwort</th></tr>
+      <tr><td>Subjekt</td><td>Populus</td><td>Wer erwartet? – Das Volk.</td></tr>
+      <tr><td>Prädikat</td><td>exspectat</td><td>Was wird ausgesagt? – Es erwartet.</td></tr>
+      <tr><td>Akkusativobjekt</td><td>senātōrem</td><td>Wen erwartet das Volk? – Den Senator.</td></tr>
+    </table>
+    <p><strong>Transitive Verben</strong> können ein Akkusativobjekt haben: „Ich sehe jemanden.“ Verben ohne Akkusativobjekt nennt man <strong>intransitiv</strong>, zum Beispiel „Ich laufe.“</p>
+    <p>Das ist eine Hilfe zum Verstehen. Ein Akkusativ ist nicht automatisch ein Objekt: Er kann auch zu einer Präposition gehören.</p>`,
+  adverbial:`
+    <p>Eine <strong>Adverbiale</strong> heißt auch Umstandsbestimmung. Sie erklärt das Geschehen genauer, zum Beispiel durch eine Angabe zu Ort, Zeit oder Grund.</p>
+    <div class="teach-example"><div class="latin">Senātor ad forum properat.</div><div class="german">Der Senator eilt zum Forum.</div></div>
+    <table class="rule-table"><tr><th>Satzglied</th><th>Latein</th><th>Deutsch / Frage</th></tr>
+      <tr><td>Subjekt</td><td>Senātor</td><td>der Senator – Wer eilt?</td></tr>
+      <tr><td>Prädikat</td><td>properat</td><td>eilt – Was wird ausgesagt?</td></tr>
+      <tr><td>Adverbiale</td><td>ad forum</td><td>zum Forum – Wohin eilt er?</td></tr>
+    </table>
+    <p><strong>ad forum</strong> ist ein Präpositionsausdruck: <strong>ad</strong> ist die Präposition (das Verhältniswort), <strong>forum</strong> das zugehörige Substantiv im Akkusativ. Die ganze Wortgruppe bildet hier die Adverbiale.</p>
+    <div class="mini-rule">Kasus und Satzglied sind zwei verschiedene Dinge: <strong>forum</strong> steht im Akkusativ; <strong>ad forum</strong> ist hier eine Adverbiale und kein Akkusativobjekt.</div>`,
+  adverbs:`
+    <p>Eine Adverbiale kann auch aus einem einzelnen <strong>Adverb</strong> bestehen. Ein Adverb ist eine Wortart; Adverbiale bezeichnet seine Aufgabe im Satz.</p>
+    <table class="rule-table"><tr><th>Adverb</th><th>Deutsch</th><th>Was gibt es an?</th></tr>
+      <tr><td>hīc</td><td>hier</td><td>Ort: Wo?</td></tr>
+      <tr><td>nunc</td><td>jetzt</td><td>Zeit: Wann?</td></tr>
+      <tr><td>subitō</td><td>plötzlich</td><td>Wie geschieht etwas?</td></tr>
+    </table><p><strong>Senātor hīc stat.</strong> = Der Senator steht hier. Das Wort <strong>hīc</strong> ist in diesem Satz die Adverbiale.</p>`
+};
+TEACHING[1].body += GRAMMAR_NOTES.subjectPredicate;
+TEACHING[2].body += GRAMMAR_NOTES.object;
+TEACHING[8].body += GRAMMAR_NOTES.adverbial;
+TEACHING[9].body += GRAMMAR_NOTES.adverbs;
+TEACHING[10].body += GRAMMAR_NOTES.subjectPredicate;
+
+// Die vier Akkusativmuster ergänzen jeweils die passende vorhandene Formenkarte.
+[
+  [3,'serv','am','serv','ās','die/eine Sklavin','die Sklavinnen'],
+  [4,'serv','um','serv','ōs','den/einen Sklaven','die Sklaven'],
+  [5,'fūrt','um','fūrt','a','den/einen Diebstahl','die Diebstähle'],
+  [6,'victōr','em','victōr','ēs','den/einen Sieger','die Sieger']
+].forEach(([index,sgStem,sgEnd,plStem,plEnd,deSg,dePl])=>{
+  TEACHING[index].body += `<table class="rule-table"><tr><th>Akkusativ Singular</th><th>Deutsch</th><th>Akkusativ Plural</th><th>Deutsch</th></tr><tr><td>${sgStem}<strong>${sgEnd}</strong></td><td>${deSg}</td><td>${plStem}<strong>${plEnd}</strong></td><td>${dePl}</td></tr></table>`;
+});
+TEACHING[5].body += `<p>Bei den <strong>Neutra der o-Deklination</strong>, die du hier lernst, steht im Singular <strong>-um</strong>, im Plural <strong>-a</strong>. Nominativ und Akkusativ sind jeweils gleich. Das lateinische <strong>fūrtum</strong> ist neutrum, obwohl es auf Deutsch „der Diebstahl“ heißt.</p>`;
+
+function learningTipsHTML(){
+  return `<details class="teach-card"><summary class="teach-head" style="cursor:pointer;min-height:48px"><strong>Lerntipps: So kannst du üben</strong></summary><div class="teach-body"><p><strong>Lesen und sprechen:</strong> Lies ein Wort mit seiner Bedeutung und sprich es laut aus, wenn das für dich passt.</p><p><strong>Schreiben, zeichnen, erklären:</strong> Schreibe schwierige Wörter auf, zeichne ein passendes Bild oder erkläre jemandem eine Regel an einem Beispiel.</p><p><strong>Kleine Portionen:</strong> Teile beispielsweise zehn neue Wörter in zwei Gruppen zu je fünf Wörtern. Mache dazwischen eine kurze Pause und wiederhole die erste Gruppe später noch einmal.</p></div></details>`;
+}
+
 function makeQuestion(
   theme,
   prompt,
@@ -2655,7 +2713,7 @@ function renderIntro(){
   document.getElementById('mainContent').innerHTML=`
     <div class="lesson-intro"><div class="lesson-kicker">Magistrella · L02</div><h1>Nominativ, Akkusativ und Satzglieder</h1><p>In L01 hast du gelernt, dass lateinische Wörter ihre Endung verändern. Jetzt lernst du, welche Aufgabe ein Wort im Satz hat.</p><div class="lesson-goals"><div class="goal-chip">Nominativ & Akkusativ</div><div class="goal-chip">Akkusativ Singular & Plural</div><div class="goal-chip">Objekt & Adverbiale</div><div class="goal-chip">ad · per · ante</div><div class="goal-chip">Kongruenz</div><div class="goal-chip">Latein sinnvoll übersetzen</div></div></div>
     <section class="start-choice"><h2>Wie möchtest du starten?</h2><div class="start-buttons"><button class="start-btn learn" id="learnBtn">Regeln lernen<small>Alle Erklärungen Schritt für Schritt</small></button><button class="start-btn training" id="trainingBtn">Direkt zum Training<small>Regeln überspringen und Wissen testen</small></button></div></section>
-    ${vocabularyHTML()}${historyHTML()}`;
+    ${vocabularyHTML()}${learningTipsHTML()}${historyHTML()}`;
   document.getElementById('learnBtn').onclick=()=>{renderTeaching(0);window.scrollTo({top:0,behavior:'smooth'});};
   document.getElementById('trainingBtn').onclick=startTraining;
 }
