@@ -1351,6 +1351,63 @@ function distractors(
    LERNKARTEN
 ===================================================== */
 
+// Ergänzende Erklärungen nach den hochgeladenen Grammatikseiten 89–90.
+// Gemeinsame Bausteine halten Lernweg und gezielte Regelwiederholung konsistent.
+const GRAMMAR_NOTES = {
+  nominative:`
+    <p><strong>Substantive</strong> heißen auch Nomen oder Hauptwörter. Sie bezeichnen zum Beispiel Personen, Tiere oder Sachen.</p>
+    <p><strong>Numerus</strong> bedeutet Zahl: Singular ist die Einzahl, Plural die Mehrzahl.</p>
+    <p>Ein <strong>Kasus</strong> ist ein Fall. In L01 betrachten wir bei den Substantiven den <strong>Nominativ</strong>, den ersten Fall. Mit ihm kann ein Wort das Subjekt eines Satzes bilden: Wer oder was handelt?</p>
+    <div class="teach-example"><div class="latin">Servus clāmat. / Servī clāmant.</div><div class="german">Der Sklave schreit. / Die Sklaven schreien.</div></div>
+    <p>Wer schreit? <strong>servus</strong> beziehungsweise <strong>servī</strong>. Beide stehen hier im Nominativ – einmal Singular, einmal Plural.</p>`,
+  nounPatterns:`
+    <p><strong>Deklinieren</strong> heißt: die Form eines Substantivs verändern. Die Formen gehören zu verschiedenen Fällen und können Einzahl oder Mehrzahl ausdrücken. Hier übst du zunächst nur den Nominativ.</p>
+    <p>Eine <strong>Deklinationsklasse</strong> ist eine Formenfamilie. Die a-Deklination heißt auch <strong>1. Deklination</strong>, die o-Deklination auch <strong>2. Deklination</strong>.</p>
+    <table class="rule-table"><tr><th>Formenfamilie</th><th>Nom. Singular</th><th>Nom. Plural</th><th>Deutsch: Einzahl → Mehrzahl</th></tr>
+      <tr><td>a-Deklination</td><td>serv<strong>a</strong></td><td>serv<strong>ae</strong></td><td>die Sklavin → die Sklavinnen</td></tr>
+      <tr><td>o-Deklination, maskulin</td><td>serv<strong>us</strong></td><td>serv<strong>ī</strong></td><td>der Sklave → die Sklaven</td></tr>
+      <tr><td>o-Deklination, neutrum</td><td>fūrt<strong>um</strong></td><td>fūrt<strong>a</strong></td><td>der Diebstahl → die Diebstähle</td></tr>
+      <tr><td>3. Deklination</td><td>victor</td><td>victōr<strong>ēs</strong></td><td>der Sieger → die Sieger</td></tr>
+    </table>
+    <p>Das sind vier Muster in drei Deklinationsklassen: <strong>servus</strong> und <strong>fūrtum</strong> gehören beide zur o-Deklination.</p>
+    <p>Bei den Personenwörtern, die du hier lernst, lautet der Nominativ Plural häufig auf <strong>-ēs</strong>. Das gilt nicht für alle Wörter der 3. Deklination.</p>`,
+  sameEnding:`
+    <div class="mini-rule">Die Endung <strong>-a</strong> allein reicht nicht aus!</div>
+    <table class="rule-table"><tr><th>Form</th><th>Deutsch</th><th>Nominativ Singular</th><th>Numerus der Form</th></tr>
+      <tr><td>serv<strong>a</strong></td><td>die Sklavin</td><td>serva</td><td>Singular</td></tr>
+      <tr><td>fūrt<strong>a</strong></td><td>die Diebstähle</td><td>fūrtum</td><td>Plural</td></tr>
+    </table><p>Beide Formen enden auf -a. Prüfe deshalb, wie das Wort im <strong>Nominativ Singular</strong> heißt und zu welcher Formenfamilie es gehört.</p>`,
+  gender:`
+    <p>Die lateinischen Bezeichnungen sind <strong>masculinum (m)</strong> = maskulin, <strong>femininum (f)</strong> = feminin und <strong>neutrum (n)</strong> = sächlich. Die Mehrzahl von Genus heißt <strong>Genera</strong>.</p>
+    <p>Latein hat keinen Artikel wie „der“, „die“ oder „das“. Je nach Satz kann <strong>servus</strong> deshalb „der Sklave“ oder „ein Sklave“ heißen.</p>
+    <p>Der deutsche Artikel verrät dir nicht sicher das lateinische Genus: <strong>fūrtum</strong> ist lateinisch neutrum, auf Deutsch heißt es „der Diebstahl“. <strong>populus</strong> ist lateinisch maskulin, auf Deutsch „das Volk“.</p>`,
+  verbParts:`
+    <p><strong>Verben</strong> heißen auch Zeitwörter. Ihre Formen zu verändern nennt man <strong>konjugieren</strong>. In L01 übst du die <strong>3. Person Präsens</strong>: er/sie/es handelt oder sie handeln. Präsens bedeutet Gegenwart.</p>
+    <p>Am <strong>Wortstamm</strong> erkennst du die Formenfamilie. Die <strong>Personalendung</strong> zeigt hier Einzahl oder Mehrzahl. Die Trennstriche in der Tabelle zeigen die Bausteine; beim Schreiben lässt du sie weg.</p>
+    <table class="rule-table"><tr><th>Klasse</th><th>3. Person Singular</th><th>Deutsch</th><th>3. Person Plural</th><th>Deutsch</th></tr>
+      <tr><td>ā-Konjugation</td><td>clāma-<strong>t</strong></td><td>er/sie/es schreit</td><td>clāma-<strong>nt</strong></td><td>sie schreien</td></tr>
+      <tr><td>ē-Konjugation</td><td>rīde-<strong>t</strong></td><td>er/sie/es lacht</td><td>rīde-<strong>nt</strong></td><td>sie lachen</td></tr>
+      <tr><td>ī-Konjugation</td><td>veni-<strong>t</strong></td><td>er/sie/es kommt</td><td>veni-<strong>u</strong>-<strong>nt</strong></td><td>sie kommen</td></tr>
+      <tr><td>Hilfsverb esse</td><td>es-<strong>t</strong></td><td>er/sie/es ist</td><td>s-<strong>u</strong>-<strong>nt</strong></td><td>sie sind</td></tr>
+    </table>
+    <div class="mini-rule">In diesen Präsensformen: Singular <strong>-t</strong>, Plural <strong>-nt</strong>. Bei <strong>veniunt</strong> steht vor -nt zusätzlich ein <strong>u</strong>.</div>
+    <p><strong>est</strong> und <strong>sunt</strong> gehören zu <strong>esse</strong>. Dieses Hilfsverb gehört zu keiner der drei hier erklärten Konjugationsklassen.</p>`,
+  infinitiveParts:`
+    <p>Im Vokabelheft lernst du ein Verb mit seinem <strong>Infinitiv Präsens</strong>. Diese Grundform legt noch keine handelnde Person fest.</p>
+    <table class="rule-table"><tr><th>Klasse</th><th>Infinitiv mit Bausteinen</th><th>Deutsch</th></tr>
+      <tr><td>ā-Konjugation</td><td>clāmā-<strong>re</strong></td><td>(zu) schreien</td></tr>
+      <tr><td>ē-Konjugation</td><td>rīdē-<strong>re</strong></td><td>(zu) lachen</td></tr>
+      <tr><td>ī-Konjugation</td><td>venī-<strong>re</strong></td><td>(zu) kommen</td></tr>
+      <tr><td>Hilfsverb</td><td>es-<strong>se</strong></td><td>(zu) sein</td></tr>
+    </table><p>Die Infinitive der drei hier gezeigten Klassen enden auf <strong>-re</strong>. Die besondere Grundform von est und sunt lautet <strong>esse</strong>.</p>
+    <p>Ob du im Deutschen „zu“ brauchst, hängt vom Satz ab: <strong>venīre</strong> = kommen; <strong>venīre cōgitat</strong> = er/sie beabsichtigt zu kommen; <strong>venīre dēbet</strong> = er/sie muss kommen.</p>`
+};
+SKILL_INFO.number.review += GRAMMAR_NOTES.nominative + GRAMMAR_NOTES.sameEnding;
+SKILL_INFO.declension.review += GRAMMAR_NOTES.nounPatterns + GRAMMAR_NOTES.sameEnding;
+SKILL_INFO.genus.review += GRAMMAR_NOTES.gender;
+SKILL_INFO.verbNumber.review += GRAMMAR_NOTES.verbParts;
+SKILL_INFO.infinitive.review += GRAMMAR_NOTES.infinitiveParts;
+
 const TEACHING = [
 
 {
@@ -1613,6 +1670,11 @@ const TEACHING = [
 /* =====================================================
    FRAGEN
 ===================================================== */
+
+// Noun cards have their own bodies; verb/genus cards already use the shared reviews.
+TEACHING[0].body += GRAMMAR_NOTES.nominative;
+TEACHING[1].body += GRAMMAR_NOTES.nounPatterns;
+TEACHING[3].body += GRAMMAR_NOTES.sameEnding;
 
 function makeQuestion(
   skill,
