@@ -1,0 +1,84 @@
+<!doctype html><html lang="de"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#19140e"><title>L01 · Vokabeln üben · Magistrella</title>
+<style>
+:root{color-scheme:dark;--gold:#e7c66a;--paper:#fff5df;--ink:#221b12}*{box-sizing:border-box}body{margin:0;background:#19140e;color:#f5ead0;font:18px/1.65 system-ui,Arial,sans-serif}main{max-width:920px;margin:auto;padding:20px}h1,h2,h3{line-height:1.25;color:var(--gold)}h1{font-size:clamp(1.7rem,5vw,2.5rem)}a{color:var(--gold)}button,input,textarea{font:inherit}button{padding:13px 18px;min-height:48px;border:1px solid var(--gold);border-radius:12px;background:#3b2e1c;color:#fff5df;cursor:pointer}button:hover,button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}button:disabled{opacity:.65;cursor:default}.primary{background:var(--gold);color:var(--ink);font-weight:700}.grid,.actions{display:flex;flex-wrap:wrap;gap:12px}.grid>*{flex:1 1 230px}.card{border:1px solid #77613a;border-radius:18px;padding:22px;margin:20px 0;background:#251e15}.paper{background:var(--paper);color:var(--ink);padding:20px;border-radius:12px;margin:18px 0}.paper h3{color:var(--ink)}.good{border-left:7px solid #28733b}.bad{border-left:7px solid #b33232}.options{display:grid;gap:12px}.options button{text-align:left}input,textarea{width:100%;padding:13px;border:2px solid #947c4a;border-radius:8px;background:#fff9ec;color:#221b12}textarea{min-height:145px}small,.muted{font-size:.88rem;color:#d1c29e}.paper small{color:#594b33}.scroll{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.95rem}th,td{padding:12px;text-align:left;border-bottom:1px solid #746345}caption{text-align:left;font-weight:bold;margin:8px 0}progress{width:100%;height:18px;accent-color:var(--gold)}canvas{width:100%;max-width:520px;height:auto;display:block;margin:20px auto}.sentence{font-size:1.4rem;line-height:1.65}summary{cursor:pointer;padding:12px}footer{margin-top:40px;color:#b4a483}button small{display:block}p{overflow-wrap:anywhere}.pill{display:inline-block;border:1px solid #867144;padding:3px 10px;border-radius:20px;margin-right:6px}@media(max-width:450px){main{padding:12px}.card{padding:16px}th,td{padding:9px}.actions button{width:100%}}
+
+/* Explicit colors keep controls and information readable on both surfaces. */
+.paper h1,.paper h2,.paper h3,.paper a{color:#221b12}
+button,button:disabled{background:#3b2e1c;color:#fff5df;opacity:1}
+button.primary{background:#e7c66a;color:#221b12}
+button:disabled{border-color:#b4a483;cursor:default}
+button small,.primary small{color:inherit}
+.paper p,.paper strong{color:#221b12}
+.milestones{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin:15px 0}
+.milestones span{height:22px;border:2px solid #e7c66a;border-radius:3px;background:#19140e}
+.milestones .filled{background:#e7c66a}
+</style><main><nav><a href="../index.html">← Magistrella-Übersicht</a></nav><div id="app"></div><footer>Offline nutzbar · Ergebnisse nur in diesem Browser · Keine Konten · Teilen nur auf deinen Wunsch</footer></main><script>
+const WORDS=[{"lat":"serva","de":"die Sklavin / Dienerin"},{"lat":"domina","de":"die Herrin / Dame"},{"lat":"victōria","de":"der Sieg"},{"lat":"servus","de":"der Sklave / Diener"},{"lat":"dominus","de":"der Herr"},{"lat":"equus","de":"das Pferd"},{"lat":"populus","de":"das Volk"},{"lat":"frūmentum","de":"das Getreide"},{"lat":"fūrtum","de":"der Diebstahl"},{"lat":"mercātor","de":"der Kaufmann / Händler"},{"lat":"victor","de":"der Sieger"},{"lat":"clāmor","de":"der Lärm / das Geschrei"},{"lat":"cōgitāre","de":"denken / nachdenken / beabsichtigen"},{"lat":"venīre","de":"kommen"},{"lat":"stāre","de":"stehen / dastehen"},{"lat":"spectāre","de":"anschauen / betrachten / zuschauen"},{"lat":"clāmāre","de":"laut rufen / schreien"},{"lat":"tacēre","de":"schweigen"},{"lat":"vidēre","de":"sehen"},{"lat":"gaudēre","de":"sich freuen"},{"lat":"rīdēre","de":"lachen / auslachen"},{"lat":"rogāre","de":"fragen / bitten (um)"},{"lat":"amāre","de":"lieben / gernhaben"},{"lat":"esse","de":"sein / sich befinden"},{"lat":"adesse","de":"da sein / helfen"},{"lat":"dēbēre","de":"müssen / sollen / schulden"},{"lat":"ubi?","de":"wo?"},{"lat":"nōn","de":"nicht"},{"lat":"et","de":"und / auch"},{"lat":"sed","de":"aber / sondern"},{"lat":"nunc","de":"jetzt / nun"},{"lat":"etiam","de":"auch / sogar"},{"lat":"undique","de":"von allen Seiten / von überallher"},{"lat":"quis?","de":"wer?"},{"lat":"hīc","de":"hier"},{"lat":"ibi","de":"dort"},{"lat":"cūr?","de":"warum?"}]; const app=document.getElementById("app");
+
+const KEY='magistrella-l01-vocabulary-v1';
+const norm=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let warning='',state=load(),current=null,answered=false,round=0;
+function blank(){return {version:1,total:0,correct:0,recent:[],words:WORDS.map(()=>({tries:[0,0],right:[0,0],streak:[0,0],last:-10})),first:shuffle(WORDS.map((_,i)=>({i,dir:i%2})))};}
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s&&s.version===1&&s.words?.length===37&&s.words.every(w=>['tries','right','streak'].every(k=>Array.isArray(w[k])&&w[k].length===2&&w[k].every(n=>Number.isInteger(n)&&n>=0)))&&Array.isArray(s.first)&&s.first.every(q=>Number.isInteger(q.i)&&q.i>=0&&q.i<37&&[0,1].includes(q.dir))&&Array.isArray(s.recent)&&Number.isInteger(s.total)&&Number.isInteger(s.correct))return s;}catch{warning='Speichern ist hier möglicherweise nicht verfügbar.';}return blank();}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch{warning='Dein Fortschritt bleibt nur bis zum Schließen dieser Seite erhalten.';}}
+const secure=w=>w.streak.every(n=>n>=2);
+function weight(w,dir){return 1+4*Math.max(0,w.tries[dir]-w.right[dir])+3*(2-Math.min(2,w.streak[dir]))+Math.min(5,(state.total-w.last)/8);}
+function choose(){if(state.first.length)return state.first[0];let pool=[];state.words.forEach((w,i)=>{for(let dir=0;dir<2;dir++)if(w.streak[dir]<2)pool.push({i,dir,w:weight(w,dir)});});if(!pool.length)return null;let spaced=pool.filter(q=>!state.recent.includes(q.i));if(spaced.length)pool=spaced;let r=Math.random()*pool.reduce((n,q)=>n+q.w,0);for(const q of pool){r-=q.w;if(r<0)return {i:q.i,dir:q.dir};}return pool.at(-1);}
+function meanings(s){return s.split(/[,/;]/).map(norm).map(s=>s.replace(/^(die|der|das) /,'')).filter(Boolean);}
+function options(q){const w=WORDS[q.i],answer=q.dir?w.lat:w.de;const pool=WORDS.filter((x,i)=>i!==q.i&&norm(x.lat)!==norm(w.lat)&&!meanings(x.de).some(m=>meanings(w.de).includes(m)));return shuffle([answer,...shuffle([...new Set(pool.map(x=>q.dir?x.lat:x.de))]).filter(s=>norm(s)!==norm(answer)).slice(0,3)]);}
+function record(value){if(answered||!current)return false;answered=true;const {i,dir}=current,w=state.words[i],ok=value===(dir?WORDS[i].lat:WORDS[i].de);w.tries[dir]++;if(ok){w.right[dir]++;w.streak[dir]++;state.correct++;}else w.streak[dir]=0;w.last=state.total;state.total++;state.recent=[...state.recent,i].slice(-3);if(state.first.length)state.first.shift();round++;save();return ok;}
+function stats(){const seen=state.words.filter(w=>w.tries[0]+w.tries[1]>0).length,mastered=state.words.filter(secure).length;return `<p><strong>${seen}/37 gesehen · ${mastered}/37 sicher erkannt</strong><br>${state.correct}/${state.total} Antworten richtig</p><progress value="${mastered}" max="37" aria-label="Sicher erkannte Wörter"></progress><p><button type="button" onclick="showAchievement()">Erfolgskarte ansehen und teilen</button></p>`;}
+function overview(){current=null;app.innerHTML=`<h1>Alle 37 L01-Vokabeln üben</h1><p>Tippe die passende Übersetzung an. Wir wechseln zwischen Latein → Deutsch und Deutsch → Latein.</p><div class="paper"><p>Zuerst kommt jedes Wort einmal in zufälliger Reihenfolge. Danach werden falsch erkannte Wörter häufiger wiederholt – möglichst mit mindestens drei anderen Wörtern dazwischen.</p><p><strong>„Sicher erkannt“</strong> heißt hier: in jeder Richtung zweimal hintereinander richtig. Das prüft Wiedererkennen, nicht freies Abrufen oder Rechtschreibung.</p></div>${stats()}<button class="primary" id="start">${state.total?'Weiterüben':'Starten'}</button> <a href="l01.html">Zur Lektion L01</a><details><summary>Mein Wortschatz-Fortschritt</summary><div class="scroll"><table><thead><tr><th>Latein</th><th>Deutsch</th><th>Latein → Deutsch</th><th>Deutsch → Latein</th><th>Status</th></tr></thead><tbody>${WORDS.map((v,i)=>{let w=state.words[i];return `<tr><td>${esc(v.lat)}</td><td>${esc(v.de)}</td><td>${w.right[0]}/${w.tries[0]}</td><td>${w.right[1]}/${w.tries[1]}</td><td>${secure(w)?'✓ Sicher erkannt':w.tries[0]+w.tries[1]?'↻ Weiter üben':'Noch nicht gefragt'}</td></tr>`;}).join('')}</tbody></table></div><p>Die Brüche zeigen richtige Antworten / Versuche.</p></details><div class="paper"><h2>Auch ohne Bildschirm üben</h2><p>Decke die Lösung ab und sage sie zuerst laut. Schreibe danach einige Wörter aus dem Gedächtnis aufs Papier und vergleiche sie mit der Vorlage. Übe unsichere Wörter später noch einmal statt alles lange am Stück.</p></div><p role="status">${esc(warning)}</p>`;app.querySelector('#start').onclick=()=>{round=0;next();};}
+function next(){current=choose();answered=false;if(!current){app.innerHTML=`<h1>Alle 37 Wörter sicher erkannt!</h1>${stats()}<div class="paper"><p>✓ Du hast jedes Wort in beiden Richtungen zweimal hintereinander richtig erkannt. Prüfe jetzt auf Papier, ob du es auch ohne Auswahl abrufen und schreiben kannst.</p></div><button id="again">Neue Wiederholungsrunde starten</button> <button id="overview">Zur Wortschatzübersicht</button>`;app.querySelector('#again').onclick=()=>{state.words.forEach(w=>w.streak=[0,0]);state.first=shuffle(WORDS.map((_,i)=>({i,dir:i%2})));save();round=0;next();};app.querySelector('#overview').onclick=overview;return;}
+const q=current,v=WORDS[q.i];app.innerHTML=`<p>Antwort ${round+1} dieser Runde · ${q.dir?'Deutsch → Latein':'Latein → Deutsch'}</p>${stats()}<h1>${esc(q.dir?v.de:v.lat)}</h1><div class="options" id="options"></div><div id="feedback" aria-live="polite"></div><p><button id="pause">Pause / Fortschritt ansehen</button></p>`;for(const o of options(q)){const b=document.createElement('button');b.textContent=o;b.onclick=()=>{if(answered)return;const ok=record(o);app.querySelectorAll('#options button').forEach(x=>x.disabled=true);app.querySelector('#feedback').innerHTML=`<div class="paper ${ok?'good':'bad'}"><strong>${ok?'✓ Richtig':'↻ Noch unsicher'}</strong><p>${esc(v.lat)} = ${esc(v.de)}</p>${!ok?'<p>Schau dir das Wortpaar kurz an. Es kommt später wieder.</p>':''}</div><button id="next" class="primary">${round%10===0?'Kurze Pause / Zwischenstand':'Nächstes Wort'}</button><p role="status">${esc(warning)}</p>`;app.querySelector('#next').onclick=()=>round%10===0?overview():next();};app.querySelector('#options').appendChild(b);}app.querySelector('#pause').onclick=overview;window.scrollTo(0,0);}
+
+function achievementData(){
+ const seen=state.words.filter(w=>w.tries[0]+w.tries[1]>0).length;
+ const mastered=state.words.filter(secure).length;
+ return {seen,mastered,total:state.total,correct:state.correct,percent:Math.round(mastered/WORDS.length*100),steps:Math.floor(mastered/WORDS.length*10),accuracy:state.total?Math.round(state.correct/state.total*100):null,date:new Date().toLocaleDateString('de-DE')};
+}
+function achievementCanvas(d){
+ const c=document.createElement('canvas');c.width=1080;c.height=1080;
+ const x=c.getContext('2d');if(!x)throw Error('Canvas nicht verfügbar');
+ x.fillStyle='#19140e';x.fillRect(0,0,1080,1080);x.strokeStyle='#e7c66a';x.lineWidth=4;x.strokeRect(36,36,1008,1008);x.textAlign='center';
+ function line(text,y,size,color='#fff5df'){x.fillStyle=color;x.font='bold '+size+'px sans-serif';x.fillText(text,540,y);}
+ line('MAGISTRELLA',125,54,'#e7c66a');line('L01 · Meine Vokabel-Lernleistung',205,38);
+ line(d.mastered+' / 37 Wörter',340,76,'#e7c66a');line('sicher erkannt · '+d.percent+' %',405,43);
+ for(let i=0;i<10;i++){x.fillStyle=i<d.steps?'#e7c66a':'#19140e';x.fillRect(90+i*91,455,78,35);x.strokeStyle='#e7c66a';x.strokeRect(90+i*91,455,78,35);}
+ line('10 Felder · jedes Feld = 10 %',535,26);
+ line(d.seen+' / 37 Wörter bereits geübt',620,34);
+ line(d.correct+' / '+d.total+' Antworten richtig'+(d.accuracy===null?'':' · '+d.accuracy+' %'),685,32);
+ line('Sicher: je Richtung zweimal hintereinander richtig.',765,25);
+ line('Wiedererkennen ist noch kein Rechtschreibtest.',805,25);
+ line('Cotīdiē discimus. – Wir lernen jeden Tag.',905,30,'#e7c66a');line(d.date,974,26);
+ return c;
+}
+function showAchievement(){
+ const d=achievementData();
+ app.innerHTML=`<h1>Meine Erfolgskarte</h1><div class="paper"><h2>${d.mastered} von 37 Wörtern sicher erkannt · ${d.percent} %</h2><p>${d.seen} von 37 Wörtern bereits geübt.</p><p>${d.correct} von ${d.total} Antworten richtig${d.accuracy===null?'':` · Trefferquote ${d.accuracy} %`}.</p><p>Der Lernfortschritt zählt sicher erkannte Wörter. Die Trefferquote zählt alle bisherigen Antworten.</p></div><div class="milestones" role="img" aria-label="${d.steps} von 10 Fortschrittsfeldern erreicht">${Array.from({length:10},(_,i)=>`<span class="${i<d.steps?'filled':''}"></span>`).join('')}</div><p>Jedes volle Feld entspricht 10 %. Erreicht: ${d.steps*10} % als volle Stufe; genauer Fortschritt: ${d.percent} %.</p><div id="achievementImage"></div><div class="actions"><button id="shareAchievement" class="primary">Erfolgskarte teilen</button><button id="saveAchievement">Bild speichern</button><button id="backAchievement">Zurück zum Training</button></div><p id="shareStatus" role="status"></p>`;
+ try{app.querySelector('#achievementImage').appendChild(achievementCanvas(d));}catch{app.querySelector('#shareStatus').textContent='Die Bildvorschau ist hier nicht verfügbar. Deine Lernzahlen bleiben sichtbar.';}
+ app.querySelector('#backAchievement').onclick=overview;
+ app.querySelector('#shareAchievement').onclick=()=>exportAchievement(d,true);
+ app.querySelector('#saveAchievement').onclick=()=>exportAchievement(d,false);
+ window.scrollTo(0,0);
+}
+async function exportAchievement(d,share){
+ const status=app.querySelector('#shareStatus');
+ try{
+  const blob=await new Promise((resolve,reject)=>achievementCanvas(d).toBlob(b=>b?resolve(b):reject(Error('PNG fehlgeschlagen')),'image/png'));
+  if(share&&typeof File==='function'){
+   const file=new File([blob],'Magistrella-L01-Vokabeln.png',{type:'image/png'});
+   if(navigator.share&&navigator.canShare?.({files:[file]})){
+    try{await navigator.share({files:[file],title:'Meine L01-Lernleistung'});status.textContent='Erfolgskarte geteilt.';return;}catch(e){if(e.name==='AbortError')return;}
+   }
+  }
+  const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Magistrella-L01-Vokabeln.png';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
+  status.textContent='Deine Erfolgskarte wurde als PNG zum Speichern bereitgestellt.';
+ }catch{status.textContent='Das Bild konnte nicht erstellt werden. Dein Lernfortschritt bleibt erhalten.';}
+}
+
+overview();
+
+</script></html>
