@@ -2384,7 +2384,7 @@ function renderIntro(){
 
   `;
 
-  main.insertAdjacentHTML("beforeend",vocabularyHTML()+historyHTML());
+  main.insertAdjacentHTML("beforeend",'<section class="start-choice"><h2>Für den Vokabeltest üben</h2><a class="start-btn learn" href="l01-vokabeln.html">Alle 37 Vokabeln trainieren<small>Nur antippen · beide Richtungen · unsichere Wörter häufiger</small></a></section>'+vocabularyHTML()+historyHTML());
 
   document.getElementById(
     "learnBtn"
