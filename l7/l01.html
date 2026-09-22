@@ -684,6 +684,33 @@ body > #mainContent, .completion {max-width:820px;margin:auto;}
 input{display:block;width:100%;min-height:48px;font:inherit;margin:12px 0;padding:10px;border:2px solid var(--gold);border-radius:10px;}
 .history-list{list-style:none;}.history-list li{padding:12px 0;border-bottom:1px solid var(--gold-dark);}
 .rule-table{display:block;overflow-x:auto;font-size:14px;}
+
+/* Gut lesbarer Einstieg ins Vokabeltraining, auch auf kleinen Bildschirmen. */
+.vocab-start h2{margin-bottom:16px;}
+.vocab-start .vocab-link{
+  display:block;
+  width:100%;
+  box-sizing:border-box;
+  padding:18px 20px;
+  background:#f3d884;
+  color:#201b13;
+  text-decoration:none;
+  font-size:20px;
+  line-height:1.5;
+  text-align:left;
+}
+.vocab-start .vocab-link small{
+  display:block;
+  margin-top:8px;
+  color:#201b13;
+  font-size:16px;
+  font-weight:600;
+  line-height:1.6;
+  opacity:1;
+}
+.vocab-start .vocab-link:hover{background:#ffe6a0;}
+.vocab-start .vocab-link:focus-visible{outline:3px solid #fff;outline-offset:4px;}
+
 </style>
 </head>
 
@@ -2384,7 +2411,7 @@ function renderIntro(){
 
   `;
 
-  main.insertAdjacentHTML("beforeend",'<section class="start-choice"><h2>Für den Vokabeltest üben</h2><a class="start-btn learn" href="l01-vokabeln.html">Alle 37 Vokabeln trainieren<small>Nur antippen · beide Richtungen · unsichere Wörter häufiger</small></a></section>'+vocabularyHTML()+historyHTML());
+  main.insertAdjacentHTML("beforeend",'<section class="start-choice vocab-start"><h2>Für den Vokabeltest üben</h2><a class="start-btn learn vocab-link" href="l01-vokabeln.html">Alle 37 Vokabeln trainieren<small>Nur antippen · beide Richtungen · unsichere Wörter häufiger</small></a></section>'+vocabularyHTML()+historyHTML());
 
   document.getElementById(
     "learnBtn"
